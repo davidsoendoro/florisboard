@@ -1,0 +1,10 @@
+{
+  "type": "extension",
+  "name": "kobold_clipboard_cursor_row",
+  "label": "Kobold Clipboard Cursor Row",
+  "authors": [ "kokatto" ],
+  "direction": "ltr",
+  "arrangement": [
+    []
+  ]
+}

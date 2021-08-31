@@ -12,8 +12,10 @@
     ],
     [
       { "code": -201, "label": "view_characters", "type": "system_gui" },
-      { "code":   44, "label": "," },
-      { "code": -205, "label": "view_numeric_advanced", "type": "system_gui" },
+      { "code":   44, "label": ",", "popup": {
+        "main": { "code": -213, "label": "switch_to_media_context", "type": "system_gui" }
+      }  },
+      { "code": -213, "label": "switch_to_media_context", "type": "system_gui" },
       { "code":   32, "label": "space" },
       { "code":   46, "label": ".", "popup": {
         "main": { "code": 8230, "label": "…" }

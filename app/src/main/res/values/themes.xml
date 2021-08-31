@@ -38,7 +38,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        
+
         <item name="colorSuccess">@color/colorSuccess</item>
         <item name="textColorSuccess">@color/textColorSuccess</item>
         <item name="colorWarning">@color/colorWarning</item>

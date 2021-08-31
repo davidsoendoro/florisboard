@@ -36,8 +36,8 @@ import dev.patrickgold.florisboard.settings.ThemeManagerActivity
  */
 class ThemeSelectorPreference : Preference, SharedPreferences.OnSharedPreferenceChangeListener {
     private var defaultValue: String = when (key) {
-        Preferences.Theme.DAY_THEME_REF -> "assets:ime/theme/floris_day.json"
-        Preferences.Theme.NIGHT_THEME_REF -> "assets:ime/theme/floris_night.json"
+        Preferences.Theme.DAY_THEME_REF -> "assets:ime/theme/kobold.json"
+        Preferences.Theme.NIGHT_THEME_REF -> "assets:ime/theme/kobold_night.json"
         else -> ""
     }
     private var dialog: AlertDialog? = null

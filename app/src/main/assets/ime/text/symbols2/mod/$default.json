@@ -20,7 +20,7 @@
           { "code":10216, "label": "⟨" }
         ]
       } },
-      { "code": -205, "label": "view_numeric_advanced", "type": "system_gui" },
+      { "code": -213, "label": "switch_to_media_context", "type": "system_gui" },
       { "code":   32, "label": "space" },
       { "code":   62, "label": ">", "popup": {
         "relevant": [

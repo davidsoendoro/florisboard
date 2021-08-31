@@ -135,6 +135,9 @@ dependencies {
     implementation("com.jakewharton.timber", "timber", "4.7.1")
     implementation("com.nambimobile.widgets", "expandable-fab", "1.0.2")
     implementation("androidx.room", "room-runtime", "2.2.6")
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
     kapt("androidx.room", "room-compiler","2.2.6")
 
     testImplementation(kotlin("test"))

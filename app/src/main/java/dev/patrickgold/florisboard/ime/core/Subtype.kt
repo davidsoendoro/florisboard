@@ -168,10 +168,10 @@ data class SubtypeLayoutMap(
         private const val DELIMITER =                   ","
 
         private const val CHARACTERS_DEFAULT =          "qwerty"
-        private const val SYMBOLS_DEFAULT =             "western"
-        private const val SYMBOLS2_DEFAULT =            "western"
+        private const val SYMBOLS_DEFAULT =             "kobold_western"
+        private const val SYMBOLS2_DEFAULT =            "kobold_western"
         private const val NUMERIC_DEFAULT =             "western_arabic"
-        private const val NUMERIC_ADVANCED_DEFAULT =    "western_arabic"
+        private const val NUMERIC_ADVANCED_DEFAULT =    "kobold_western_arabic"
         private const val NUMERIC_ROW_DEFAULT =         "western_arabic"
         private const val PHONE_DEFAULT =               "telpad"
         private const val PHONE2_DEFAULT =              "telpad"

@@ -529,7 +529,7 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
         florisboard.inputFeedbackManager.keyPress()
         when (quickActionId) {
             R.id.quick_action_toggle -> {
-                activeState.isQuickActionsVisible = !activeState.isQuickActionsVisible
+//                activeState.isQuickActionsVisible = !activeState.isQuickActionsVisible
                 smartbarView?.updateKeyboardState(activeState)
                 return
             }
