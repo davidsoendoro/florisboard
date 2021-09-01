@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kokatto.kobold.identity.KeyboardIdentityMainMenu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/kobold_mainmenu"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Main Menu"/>
+
+</com.kokatto.kobold.identity.KeyboardIdentityMainMenu>

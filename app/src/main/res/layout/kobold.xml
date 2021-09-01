@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.kokatto.kobold.identity.KeyboardIdentityHeader
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text_input"
+    android:id="@+id/kobold"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include android:id="@+id/smartbar" layout="@layout/smartbar"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Keyboard Lapak"/>
+
+    <Button
+        android:id="@+id/kobold_button_close_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:onClick="onButtonClicked"/>
 
     <dev.patrickgold.florisboard.common.FlorisViewFlipper
-        android:id="@+id/text_view_flipper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardView
-            android:id="@+id/main_keyboard_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <include android:id="@+id/kobold_login" layout="@layout/kobold_login"/>
 
@@ -24,4 +28,4 @@
 
     </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
-</LinearLayout>
+</com.kokatto.kobold.identity.KeyboardIdentityHeader>

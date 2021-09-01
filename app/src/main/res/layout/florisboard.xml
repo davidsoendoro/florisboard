@@ -60,6 +60,8 @@
 
             <include android:id="@+id/clipboard" layout="@layout/clipboard_layout"/>
 
+            <include android:id="@+id/kobold" layout="@layout/kobold"/>
+
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
         <dev.patrickgold.florisboard.ime.onehanded.OneHandedPanel
