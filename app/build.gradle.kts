@@ -62,6 +62,10 @@ android {
                 }
             }
         }
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildFeatures {

@@ -4,14 +4,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 
 class KeyboardIdentityHeader: LinearLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
-    var closeMenuButton: Button? = null
+    var closeMenuButton: ImageView? = null
         private set
 
     constructor(context: Context) : this(context, null)

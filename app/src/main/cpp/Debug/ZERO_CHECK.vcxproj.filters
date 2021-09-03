@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="B:\Git\kobold-android\app\src\main\cpp\Debug\CMakeFiles\b7a1fce40bb1ddc9af41377f9e7dda09\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{DE50DC9A-3CE1-3028-B630-5C11958AFD4D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

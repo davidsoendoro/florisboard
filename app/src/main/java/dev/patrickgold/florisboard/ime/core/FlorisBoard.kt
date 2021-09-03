@@ -807,11 +807,11 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     }
 
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {
-        val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.text_view_flipper)
+        val koboldMainmenuViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
+
         when (type) {
             R.id.text_input -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 0
-                textViewFlipper?.displayedChild = 0
                 if (forceSwitchToCharacters) {
                     textInputManager.inputEventDispatcher.send(InputKeyEvent.downUp(TextKeyData.VIEW_CHARACTERS))
                 }
@@ -822,16 +822,19 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             R.id.clip_input -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 2
             }
-            R.id.kobold_login -> {
-                uiBinding?.mainViewFlipper?.displayedChild = 0
-                textViewFlipper?.displayedChild = 1
-            }
-            R.id.kobold_mainmenu -> {
-                uiBinding?.mainViewFlipper?.displayedChild = 0
-                textViewFlipper?.displayedChild = 2
-            }
             R.id.kobold -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 3
+                // has login or not check
+                // to login page
+                koboldMainmenuViewFlipper?.displayedChild = 0
+            }
+            R.id.kobold_login -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 3
+                koboldMainmenuViewFlipper?.displayedChild = 0
+            }
+            R.id.kobold_mainmenu -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 3
+                koboldMainmenuViewFlipper?.displayedChild = 1
             }
         }
         textInputManager.isGlidePostEffect = false

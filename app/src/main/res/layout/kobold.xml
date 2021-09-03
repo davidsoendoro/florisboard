@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kokatto.kobold.identity.KeyboardIdentityHeader
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kokatto.kobold.identity.KeyboardIdentityHeader xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/kobold"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Keyboard Lapak"/>
+        android:background="@color/banner"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/kobold_button_close_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="X"
-        android:onClick="onButtonClicked"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Keyboard Lapak" />
+
+        <ImageView
+            android:id="@+id/kobold_button_close_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClicked"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_cross_svg"
+            android:contentDescription="close button"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <dev.patrickgold.florisboard.common.FlorisViewFlipper
+        android:id="@+id/kobold_mainmenu_view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/inputView_baseHeight"
+        app:layout_constraintTop_toBottomOf="@id/kobold_button_close_menu">
 
-        <include android:id="@+id/kobold_login" layout="@layout/kobold_login"/>
+        <include
+            android:id="@+id/kobold_login"
+            layout="@layout/kobold_login" />
 
-        <include android:id="@+id/kobold_mainmenu" layout="@layout/kobold_mainmenu"/>
-
+        <include
+            android:id="@+id/kobold_mainmenu"
+            layout="@layout/kobold_mainmenu" />
     </dev.patrickgold.florisboard.common.FlorisViewFlipper>
-
 </com.kokatto.kobold.identity.KeyboardIdentityHeader>

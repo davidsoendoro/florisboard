@@ -17,8 +17,13 @@
     <color name="ic_app_icon_beta_background">@color/ic_app_icon_background</color>
     <color name="ic_app_icon_debug_background">@color/ic_app_icon_background</color>
 
+    <color name="bukalapakBrandColor">#E31E52</color>
+
     <color name="cardViewBackgroundColor">#FFFFFF</color><!-- White -->
     <color name="navigationBarColor">#000000</color><!-- Black -->
     <color name="toolbarForegroundColor">#000000</color><!-- Black -->
-    <color name="windowBackground">#FAFAFA</color><!-- Gray 50 -->
+
+    <color name="windowBackground">#FAFAFA</color>
+    <color name="background">#141414</color>
+    <color name="banner">#2E2E2E</color><!-- Gray 50 -->
 </resources>
