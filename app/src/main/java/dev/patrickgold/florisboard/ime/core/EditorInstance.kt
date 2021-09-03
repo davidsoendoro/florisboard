@@ -26,6 +26,7 @@ import android.view.KeyCharacterMap
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputContentInfoCompat
@@ -68,6 +69,8 @@ class EditorInstance private constructor(
     var isPhantomSpaceActive: Boolean = false
         private set
     private var wasPhantomSpaceActiveLastUpdate: Boolean = false
+
+    var activeEditText: AppCompatEditText? = null
 
     companion object {
         fun default(): EditorInstance {
@@ -187,13 +190,22 @@ class EditorInstance private constructor(
         return if (text.length != 1) {
             Pair(ic.commitText(text, 1), text)
         } else {
-            ic.beginBatchEdit()
-            ic.finishComposingText()
             val previous = getTextBeforeCursor(composer.toRead)
             val (rm, finalText) = composer.getActions(previous, text[0])
-            if (rm != 0) ic.deleteSurroundingText(rm, 0)
-            ic.commitText(finalText, 1)
-            ic.endBatchEdit()
+            if (activeEditText == null) {
+                ic.beginBatchEdit()
+                ic.finishComposingText()
+                if (rm != 0) ic.deleteSurroundingText(rm, 0)
+                ic.commitText(finalText, 1)
+                ic.endBatchEdit()
+            } else {
+                activeEditText?.let { _activeEditText ->
+                    _activeEditText.append(finalText)
+                    _activeEditText.text?.let { editTextContent ->
+                        _activeEditText.setSelection(editTextContent.length)
+                    }
+                }
+            }
             Pair(true, finalText)
         }
     }
@@ -601,39 +613,53 @@ class EditorInstance private constructor(
     }
 
     private fun sendDownKeyEvent(eventTime: Long, keyEventCode: Int, metaState: Int): Boolean {
-        val ic = inputConnection ?: return false
-        return ic.sendKeyEvent(
-            KeyEvent(
-                eventTime,
-                eventTime,
-                KeyEvent.ACTION_DOWN,
-                keyEventCode,
-                0,
-                metaState,
-                KeyCharacterMap.VIRTUAL_KEYBOARD,
-                0,
-                KeyEvent.FLAG_SOFT_KEYBOARD or KeyEvent.FLAG_KEEP_TOUCH_MODE,
-                InputDevice.SOURCE_KEYBOARD
-            )
+        val keyEvent = KeyEvent(
+            eventTime,
+            eventTime,
+            KeyEvent.ACTION_DOWN,
+            keyEventCode,
+            0,
+            metaState,
+            KeyCharacterMap.VIRTUAL_KEYBOARD,
+            0,
+            KeyEvent.FLAG_SOFT_KEYBOARD or KeyEvent.FLAG_KEEP_TOUCH_MODE,
+            InputDevice.SOURCE_KEYBOARD
         )
+
+        if (activeEditText == null) {
+            val ic = inputConnection ?: return false
+            return ic.sendKeyEvent(keyEvent)
+        } else {
+            activeEditText?.let { _activeEditText ->
+                _activeEditText.dispatchKeyEvent(keyEvent)
+            }
+            return true
+        }
     }
 
     private fun sendUpKeyEvent(eventTime: Long, keyEventCode: Int, metaState: Int): Boolean {
-        val ic = inputConnection ?: return false
-        return ic.sendKeyEvent(
-            KeyEvent(
-                eventTime,
-                SystemClock.uptimeMillis(),
-                KeyEvent.ACTION_UP,
-                keyEventCode,
-                0,
-                metaState,
-                KeyCharacterMap.VIRTUAL_KEYBOARD,
-                0,
-                KeyEvent.FLAG_SOFT_KEYBOARD or KeyEvent.FLAG_KEEP_TOUCH_MODE,
-                InputDevice.SOURCE_KEYBOARD
-            )
+        val keyEvent = KeyEvent(
+            eventTime,
+            SystemClock.uptimeMillis(),
+            KeyEvent.ACTION_UP,
+            keyEventCode,
+            0,
+            metaState,
+            KeyCharacterMap.VIRTUAL_KEYBOARD,
+            0,
+            KeyEvent.FLAG_SOFT_KEYBOARD or KeyEvent.FLAG_KEEP_TOUCH_MODE,
+            InputDevice.SOURCE_KEYBOARD
         )
+
+        if (activeEditText == null) {
+            val ic = inputConnection ?: return false
+            return ic.sendKeyEvent(keyEvent)
+        } else {
+            activeEditText?.let { _activeEditText ->
+                _activeEditText.dispatchKeyEvent(keyEvent)
+            }
+            return true
+        }
     }
 
     /**
