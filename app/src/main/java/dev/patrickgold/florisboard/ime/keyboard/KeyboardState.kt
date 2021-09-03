@@ -90,6 +90,7 @@ class KeyboardState private constructor(var value: ULong, var maskOfInterest: UL
         const val F_IS_QUICK_ACTIONS_VISIBLE: ULong =       0x00010000u
         const val F_IS_SHOWING_INLINE_SUGGESTIONS: ULong =  0x00020000u
         const val F_IS_COMPOSING_ENABLED: ULong =           0x00040000u
+        const val F_IS_MAIN_MENU_VISIBLE: ULong =           0x00080000u
 
         const val STATE_ALL_ZERO: ULong =                   0uL
 
@@ -219,6 +220,10 @@ class KeyboardState private constructor(var value: ULong, var maskOfInterest: UL
     var isQuickActionsVisible: Boolean
         get() = getFlag(F_IS_QUICK_ACTIONS_VISIBLE)
         set(v) { setFlag(F_IS_QUICK_ACTIONS_VISIBLE, v) }
+
+    var isMainMenuVisible: Boolean
+        get() = getFlag(F_IS_MAIN_MENU_VISIBLE)
+        set(v) { setFlag(F_IS_MAIN_MENU_VISIBLE, v) }
 
     var isShowingInlineSuggestions: Boolean
         get() = getFlag(F_IS_SHOWING_INLINE_SUGGESTIONS)

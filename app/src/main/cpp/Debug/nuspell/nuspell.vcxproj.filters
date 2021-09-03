@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\aff_data.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\checker.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\suggester.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\dictionary.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\utils.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\aff_data.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\checker.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\suggester.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\dictionary.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\unicode.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\utils.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\structures.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="B:\Git\kobold-android\app\src\main\cpp\nuspell\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{EFBEB928-36F0-3C57-94E2-66D2BF9833C1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{961EC9B3-B725-3C5E-B1F8-A0FDA1BC06D5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -378,6 +378,7 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
         isManualSelectionModeStart = false
         isManualSelectionModeEnd = false
         activeState.isQuickActionsVisible = false
+        activeState.isMainMenuVisible = false
         setActiveKeyboard(mode, florisboard.activeSubtype, updateState)
     }
 
@@ -529,8 +530,14 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
         florisboard.inputFeedbackManager.keyPress()
         when (quickActionId) {
             R.id.quick_action_toggle -> {
-                activeState.isQuickActionsVisible = !activeState.isQuickActionsVisible
-                smartbarView?.updateKeyboardState(activeState)
+                florisboard.setActiveInput(R.id.kobold)
+//                activeState.isMainMenuVisible = !activeState.isMainMenuVisible
+//                if (activeState.isMainMenuVisible) {
+//                    // Check if user has logged in
+//                    florisboard.setActiveInput(R.id.kobold)
+//                } else {
+//                    florisboard.setActiveInput(R.id.text_input)
+//                }
                 return
             }
             R.id.quick_action_switch_to_editing_context -> {

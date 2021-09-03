@@ -1,0 +1,7 @@
+B:/Git/kobold-android/app/src/main/cpp/Debug/CMakeFiles/florisboard-native.dir
+B:/Git/kobold-android/app/src/main/cpp/Debug/CMakeFiles/ALL_BUILD.dir
+B:/Git/kobold-android/app/src/main/cpp/Debug/CMakeFiles/ZERO_CHECK.dir
+B:/Git/kobold-android/app/src/main/cpp/Debug/nuspell/CMakeFiles/nuspell.dir
+B:/Git/kobold-android/app/src/main/cpp/Debug/utils/CMakeFiles/utils.dir
+B:/Git/kobold-android/app/src/main/cpp/Debug/ime/nlp/CMakeFiles/ime-nlp.dir
+B:/Git/kobold-android/app/src/main/cpp/Debug/ime/spelling/CMakeFiles/ime-spelling.dir

@@ -309,7 +309,7 @@ class LayoutManager {
                 modifier = LTN(LayoutType.SYMBOLS2_MOD, "\$default")
             }
             KeyboardMode.SMARTBAR_CLIPBOARD_CURSOR_ROW -> {
-                extension = LTN(LayoutType.EXTENSION, "clipboard_cursor_row")
+                extension = LTN(LayoutType.EXTENSION, "kobold_clipboard_cursor_row")
             }
             KeyboardMode.SMARTBAR_NUMBER_ROW -> {
                 extension = LTN(LayoutType.NUMERIC_ROW, subtype.layoutMap.numericRow)

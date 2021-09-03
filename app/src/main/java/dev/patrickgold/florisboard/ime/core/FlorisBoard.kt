@@ -51,8 +51,10 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.get
 import androidx.lifecycle.*
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.crashutility.CrashUtility
 import dev.patrickgold.florisboard.debug.*
 import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
@@ -805,6 +807,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     }
 
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {
+        val koboldMainmenuViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
+
         when (type) {
             R.id.text_input -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 0
@@ -817,6 +821,20 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             }
             R.id.clip_input -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 2
+            }
+            R.id.kobold -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 3
+                // has login or not check
+                // to login page
+                koboldMainmenuViewFlipper?.displayedChild = 0
+            }
+            R.id.kobold_login -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 3
+                koboldMainmenuViewFlipper?.displayedChild = 0
+            }
+            R.id.kobold_mainmenu -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 3
+                koboldMainmenuViewFlipper?.displayedChild = 1
             }
         }
         textInputManager.isGlidePostEffect = false

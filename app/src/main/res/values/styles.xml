@@ -8,6 +8,18 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="SmartbarBLQuickAction" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/smartbar_button_margin</item>
+        <item name="android:background">@drawable/shape_oval</item>
+        <item name="android:backgroundTint">#E31E52</item>
+        <item name="android:padding">@dimen/smartbar_button_padding</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:tint">#E31E52</item>
+        <item name="android:buttonTint">#E31E52</item>
+    </style>
+
     <style name="SmartbarQuickAction" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
@@ -17,6 +29,10 @@
         <item name="android:padding">@dimen/smartbar_button_padding</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:tint">#000000</item>
+    </style>
+
+    <style name="SmartbarBLQuickAction.Toggle">
+        <item name="android:autoMirrored">true</item>
     </style>
 
     <style name="SmartbarQuickAction.Toggle">
