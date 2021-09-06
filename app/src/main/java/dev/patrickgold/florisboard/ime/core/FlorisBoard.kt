@@ -810,10 +810,12 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {
         val koboldMainmenuViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
+        val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
 
         when (type) {
             R.id.text_input -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 0
+                textViewFlipper?.displayedChild = 0
                 if (forceSwitchToCharacters) {
                     textInputManager.inputEventDispatcher.send(InputKeyEvent.downUp(TextKeyData.VIEW_CHARACTERS))
                 }
@@ -839,7 +841,6 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 koboldMainmenuViewFlipper?.displayedChild = 2
             }
             R.id.kobold_editor -> {
-                val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
                 uiBinding?.mainViewFlipper?.displayedChild = 0
                 textViewFlipper?.displayedChild = 1
 

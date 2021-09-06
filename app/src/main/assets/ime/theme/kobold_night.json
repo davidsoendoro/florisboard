@@ -32,8 +32,8 @@
       "foregroundPressed": "#FFFFFF"
     },
     "key:shift:capslock": {
-      "foreground": "@window/colorAccent",
-      "foregroundPressed": "@window/colorAccent"
+      "foreground": "@window/colorPrimary",
+      "foregroundPressed": "@window/colorPrimary"
     },
     "media": {
       "foreground": "@window/textColor",

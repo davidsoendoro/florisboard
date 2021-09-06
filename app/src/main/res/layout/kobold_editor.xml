@@ -25,17 +25,18 @@
                 android:layout_height="wrap_content"
                 android:importantForAutofill="no"
                 android:inputType="textCapSentences"
-                android:backgroundTint="@android:color/white"/>
+                android:backgroundTint="@android:color/white"
+                android:paddingBottom="5dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <ImageView
             android:id="@+id/kobold_button_close_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:text="X"
-            android:onClick="onButtonClicked"/>
+            android:src="@drawable/ic_cross_svg"
+            android:contentDescription="close button"/>
 
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatEditText
@@ -16,7 +17,7 @@ import kotlin.math.roundToInt
 class KeyboardEditor: LinearLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
-    var closeMenuButton: Button? = null
+    var closeMenuButton: ImageView? = null
         private set
     var editTextEditor: AppCompatEditText? = null
         private set
@@ -31,11 +32,24 @@ class KeyboardEditor: LinearLayout {
         editTextEditor = findViewById(R.id.kobold_edittext_editor)
 
         closeMenuButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+        editTextEditor?.let { editor -> editor.setOnFocusChangeListener { v, hasFocus -> onEditTextFocusChanged(v, hasFocus) } }
     }
 
     private fun onButtonClicked(view: View) {
         when (view.id) {
             R.id.kobold_button_close_menu -> florisboard?.setActiveInput(R.id.text_input)
+        }
+    }
+
+    private fun onEditTextFocusChanged(view: View, hasFocus: Boolean) {
+        when (view.id) {
+            R.id.kobold_edittext_editor -> {
+                if (hasFocus) {
+                    florisboard?.activeEditorInstance?.activeEditText = editTextEditor
+                } else {
+                    florisboard?.activeEditorInstance?.activeEditText = null
+                }
+            }
         }
     }
 
