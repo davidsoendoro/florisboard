@@ -23,10 +23,10 @@ class KeyboardIdentityMainMenu: LinearLayout {
         super.onAttachedToWindow()
 
         backButton = findViewById(R.id.back_button)
-        backButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+        backButton?.let { button -> button.setOnClickListener { onBackButtonClicked(button) } }
     }
 
-    private fun onButtonClicked(view: View) {
+    private fun onBackButtonClicked(view: View) {
         when (view.id) {
             R.id.back_button -> florisboard?.setActiveInput(R.id.text_input)
         }

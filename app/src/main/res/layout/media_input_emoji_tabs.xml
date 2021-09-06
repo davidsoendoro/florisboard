@@ -5,6 +5,7 @@
     android:id="@+id/media_input_emoji_tabs"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/black"
     app:tabIndicator="@drawable/media_tab_indicator"
     app:tabIndicatorColor="?colorAccent"
     app:tabIndicatorFullWidth="false"
