@@ -42,7 +42,7 @@
         app:title="@string/pref__theme__night">
 
         <dev.patrickgold.florisboard.settings.components.ThemeSelectorPreference
-            android:defaultValue="assets:ime/theme/floris_night.json"
+            android:defaultValue="assets:ime/theme/kobold_night.json"
             app:key="theme__night_theme_ref"
             app:icon="@drawable/ic_dark_mode"
             app:title="@string/pref__theme__any_theme__label"/>

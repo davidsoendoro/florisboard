@@ -2,7 +2,7 @@
   "$type": "dev.patrickgold.florisboard.ime.theme.Theme",
   "name": "kobold_night",
   "label": "Kobold Night",
-  "authors": [ "kokatto_night" ],
+  "authors": [ "kokatto" ],
   "isNightTheme": true,
   "attributes": {
     "window": {

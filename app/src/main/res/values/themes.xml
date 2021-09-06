@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="KeyboardThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="KeyboardThemeBase" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -34,7 +34,7 @@
         <item name="android:drawableTint">@color/toolbarForegroundColor</item>
     </style>
 
-    <style name="SettingsTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="SettingsTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -55,6 +55,6 @@
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
     </style>
 
-    <style name="CrashDialogTheme" parent="Theme.AppCompat.DayNight"/>
+    <style name="CrashDialogTheme" parent="Theme.MaterialComponents.DayNight"/>
 
 </resources>

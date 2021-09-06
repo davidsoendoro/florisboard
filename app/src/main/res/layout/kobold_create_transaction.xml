@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kokatto.kobold.transaction.KeyboardBuyerDetail
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/kobold_create_transaction"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Buyer Details"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/kobold_buyer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:hint="Numeric"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+
+    <Spinner
+        android:hint="Selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/kobold_text_area"
+        android:hint="Text Area"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:inputType="text|textMultiLine"
+        android:gravity="top"/>
+
+</com.kokatto.kobold.transaction.KeyboardBuyerDetail>

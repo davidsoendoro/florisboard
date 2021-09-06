@@ -49,3 +49,4 @@ crowdin.properties
 
 # Build
 /app/beta
+/app/debug

@@ -45,10 +45,12 @@ import android.view.inputmethod.InlineSuggestionsResponse
 import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.get
@@ -826,15 +828,24 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 uiBinding?.mainViewFlipper?.displayedChild = 3
                 // has login or not check
                 // to login page
-                koboldMainmenuViewFlipper?.displayedChild = 0
+                koboldMainmenuViewFlipper?.displayedChild = 1
             }
             R.id.kobold_login -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 3
-                koboldMainmenuViewFlipper?.displayedChild = 0
+                koboldMainmenuViewFlipper?.displayedChild = 1
             }
             R.id.kobold_mainmenu -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 3
-                koboldMainmenuViewFlipper?.displayedChild = 1
+                koboldMainmenuViewFlipper?.displayedChild = 2
+            }
+            R.id.kobold_editor -> {
+                val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
+                uiBinding?.mainViewFlipper?.displayedChild = 0
+                textViewFlipper?.displayedChild = 1
+
+                val editTextEditor = textViewFlipper?.findViewById<AppCompatEditText>(R.id.kobold_edittext_editor)
+                editTextEditor?.requestFocus()
+                florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor
             }
         }
         textInputManager.isGlidePostEffect = false

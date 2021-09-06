@@ -22,10 +22,10 @@ class KeyboardIdentityLogin: LinearLayout {
         super.onAttachedToWindow()
 
         loginButton = findViewById(R.id.login_button)
-        loginButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+        loginButton?.let { button -> button.setOnClickListener { onLoginButtonClicked(button) } }
     }
 
-    private fun onButtonClicked(view: View) {
+    private fun onLoginButtonClicked(view: View) {
         when (view.id) {
             R.id.login_button -> florisboard?.setActiveInput(R.id.kobold_mainmenu)
         }
