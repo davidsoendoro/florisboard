@@ -62,6 +62,10 @@
 
             <include android:id="@+id/kobold" layout="@layout/kobold"/>
 
+            <include android:id="@+id/kobold_menu_chat_template" layout="@layout/kobold_menu_chat_template"/>
+
+            <include android:id="@+id/kobold_menu_create_chat_template" layout="@layout/kobold_menu_create_chat_template"/>
+
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
         <dev.patrickgold.florisboard.ime.onehanded.OneHandedPanel
