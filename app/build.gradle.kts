@@ -6,6 +6,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("/home/dxsn/Documents/Kokatto/kobold_keystore.jks")
+            storePassword = "k0katt0s3cr3t"
+            keyAlias = "key-kobold"
+            keyPassword = "k0katt0s3cr3t"
+        }
+    }
     compileSdk = 30
     buildToolsVersion = "30.0.3"
     ndkVersion = "22.1.7171670"
@@ -88,7 +96,7 @@ android {
 
             resValue("mipmap", "floris_app_icon", "@mipmap/ic_app_icon_debug")
             resValue("mipmap", "floris_app_icon_round", "@mipmap/ic_app_icon_debug_round")
-            resValue("string", "floris_app_name", "FlorisBoard Debug")
+            resValue("string", "floris_app_name", "Kobold Debug")
         }
 
         create("beta") // Needed because by default the "beta" BuildType does not exist
@@ -99,7 +107,7 @@ android {
 
             resValue("mipmap", "floris_app_icon", "@mipmap/ic_app_icon_beta")
             resValue("mipmap", "floris_app_icon_round", "@mipmap/ic_app_icon_beta_round")
-            resValue("string", "floris_app_name", "FlorisBoard Beta")
+            resValue("string", "floris_app_name", "Kobold Beta")
         }
 
         named("release").configure {

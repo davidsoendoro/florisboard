@@ -15,6 +15,10 @@ import java.util.*
 
 @RunWith(MockitoJUnitRunner.Silent::class)
 class SubtypeManagerTest {
+    @Test
+    fun testSubtypesGetter() {
+    }
+
     // TODO: rewrite this test, this is miles outdated
     /*@Mock private lateinit var context: Context
     @Mock private lateinit var assetManager: AssetManager

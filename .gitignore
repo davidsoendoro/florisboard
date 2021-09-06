@@ -46,3 +46,6 @@ crowdin.properties
 
 # AndroidX Room schema JSONs
 /app/schemas/
+
+# Build
+/app/beta
