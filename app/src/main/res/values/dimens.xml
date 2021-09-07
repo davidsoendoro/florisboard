@@ -85,4 +85,7 @@
     <integer name="gesture_velocity_threshold_normal">1900</integer>
     <integer name="gesture_velocity_threshold_fast">2350</integer>
     <integer name="gesture_velocity_threshold_very_fast">2800</integer>
+
+    <dimen name="kobold_margin_16px">16dp</dimen>
+    <dimen name="kobold_margin_24px">24dp</dimen>
 </resources>

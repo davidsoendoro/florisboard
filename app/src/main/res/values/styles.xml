@@ -63,19 +63,60 @@
         <item name="cardBackgroundColor">@color/cardViewBackgroundColor</item>
         <item name="cardCornerRadius">4dp</item>
     </style>
+
     <style name="SettingsCardView.Clickable">
         <item name="android:foreground">?selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
+
     <style name="SettingsCardView.Clickable.Success">
         <item name="cardBackgroundColor">?colorSuccess</item>
     </style>
+
     <style name="SettingsCardView.Clickable.Warning">
         <item name="cardBackgroundColor">?colorWarning</item>
     </style>
+
     <style name="SettingsCardView.Clickable.Error">
         <item name="cardBackgroundColor">?colorError</item>
+    </style>
+
+    <!--  Main Settings  -->
+    <style name="kobold_welcome_title">
+        <item name="android:textSize">
+            24sp
+        </item>
+        <item name="android:textColor">
+            #141414
+        </item>
+    </style>
+
+    <style name="kobold_welcome_desc">
+        <item name="android:textSize">
+            16sp
+        </item>
+        <item name="android:textColor">
+            #3D3D3D
+        </item>
+    </style>
+
+    <style name="kobold_welcome_feature1_title">
+        <item name="android:textSize">
+            14sp
+        </item>
+        <item name="android:textColor">
+            #3D3D3D
+        </item>
+    </style>
+
+    <style name="kobold_welcome_feature1_desc">
+        <item name="android:textSize">
+            12sp
+        </item>
+        <item name="android:textColor">
+            #3D3D3D
+        </item>
     </style>
 
 </resources>

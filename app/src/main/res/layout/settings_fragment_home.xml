@@ -3,23 +3,103 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingVertical="8dp">
+    android:paddingVertical="8dp"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/kobold_welcome_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/kobold_margin_24px"
+        android:layout_marginEnd="@dimen/kobold_margin_24px"
+        android:gravity="center_horizontal|top"
+        android:lineSpacingExtra="0sp"
+        android:text="@string/kobold_welcome_title"
+        android:textAppearance="@style/kobold_welcome_title" />
+
+    <TextView
+        android:id="@+id/kobold_welcome_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/kobold_margin_24px"
+        android:layout_marginEnd="@dimen/kobold_margin_24px"
+        android:gravity="center_horizontal|top"
+        android:lineSpacingExtra="1sp"
+        android:text="@string/kobold_welcome_desc"
+        android:textAppearance="@style/kobold_welcome_desc"
+        android:translationY="-0.62sp" />
+
+    <ImageView
+        android:id="@+id/kobold_image_teaser"
+        android:layout_width="match_parent"
+        android:layout_height="243dp"
+        android:layout_marginTop="@dimen/kobold_margin_24px"
+        android:foregroundGravity="center_horizontal"
+        android:src="@drawable/kobold_image_teaser" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        android:layout_marginEnd="@dimen/kobold_margin_16px"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kobold_welcome_feature1_title"
+                    android:textAppearance="@style/kobold_welcome_feature1_title"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kobold_welcome_feature1_desc"
+                    android:textAppearance="@style/kobold_welcome_feature1_desc"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </LinearLayout>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ime_not_enabled_card"
-        style="@style/SettingsCardView.Clickable.Error">
+        style="@style/SettingsCardView.Clickable"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings__home__ime_not_enabled"
+            android:text="@string/kobold_activate"
             android:textColor="?textColorError"/>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ime_not_selected_card"
-        style="@style/SettingsCardView.Clickable.Warning">
+        style="@style/SettingsCardView.Clickable.Warning"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

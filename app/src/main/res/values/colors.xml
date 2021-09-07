@@ -24,6 +24,7 @@
     <color name="toolbarForegroundColor">#000000</color><!-- Black -->
 
     <color name="windowBackground">#FAFAFA</color>
-    <color name="background">#141414</color>
+    <color name="background">#FFFFFF</color>
+    <color name="backgroundDark">#141414</color>
     <color name="banner">#2E2E2E</color><!-- Gray 50 -->
 </resources>
