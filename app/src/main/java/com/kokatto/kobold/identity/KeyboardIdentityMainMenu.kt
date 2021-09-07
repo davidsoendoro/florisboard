@@ -19,16 +19,23 @@ class KeyboardIdentityMainMenu: LinearLayout {
     var backButton: TextView? = null
         private set
 
+    var chatTemplateButton: LinearLayout? = null
+    private set
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
         backButton = findViewById(R.id.back_button)
         backButton?.let { button -> button.setOnClickListener { onBackButtonClicked(button) } }
+
+        chatTemplateButton = findViewById(R.id.chat_template_button)
+        chatTemplateButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
     }
 
     private fun onBackButtonClicked(view: View) {
         when (view.id) {
             R.id.back_button -> florisboard?.setActiveInput(R.id.text_input)
+            R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
         }
     }
 }
