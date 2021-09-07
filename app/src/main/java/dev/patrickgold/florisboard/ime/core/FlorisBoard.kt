@@ -848,6 +848,13 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 editTextEditor?.requestFocus()
                 florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor
             }
+            //menu chat template
+            R.id.kobold_menu_chat_template -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 4
+            }
+            R.id.kobold_menu_create_chat_template -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 5
+            }
         }
         textInputManager.isGlidePostEffect = false
     }

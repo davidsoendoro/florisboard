@@ -27,4 +27,5 @@
     <color name="background">#FFFFFF</color>
     <color name="backgroundDark">#141414</color>
     <color name="banner">#2E2E2E</color><!-- Gray 50 -->
+    <color name="textColorDark">#1c1c1c</color><!-- Gray 50 -->
 </resources>
