@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FlorisBoard</string>
     <string name="key__phone_pause" comment="Label for the Pause key in the telephone keyboard layout">Pauzeren</string>
     <string name="key__phone_wait" comment="Label for the Wait key in the telephone keyboard layout">Wacht</string>
     <string name="key_popup__threedots_alt" comment="Content description for the three-dots icon in a key popup">Doorlooppuntjes-symbool. Geeft aan dat meer letters gebruikt kunnen worden door de toets langer in te drukken, wanneer zichtbaar.</string>

@@ -1,4 +1,4 @@
-rootProject.name = "FlorisBoard"
+rootProject.name = "Kobold"
 
 include(":app")
 

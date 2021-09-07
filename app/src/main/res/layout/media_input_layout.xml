@@ -41,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:background="@drawable/button_transparent_bg_on_press"
             app:tabIndicator="@drawable/media_tab_indicator"
             app:tabIndicatorColor="?colorPrimary"
             app:tabIndicatorFullWidth="false"
@@ -62,11 +63,11 @@
                 android:text="@string/media__tab__emoticons_label"
                 android:contentDescription="@string/media__tab__emoticons"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/media__tab__kaomoji_label"
-                android:contentDescription="@string/media__tab__kaomoji"/>
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/media__tab__kaomoji_label"-->
+<!--                android:contentDescription="@string/media__tab__kaomoji"/>-->
 
         </com.google.android.material.tabs.TabLayout>
 

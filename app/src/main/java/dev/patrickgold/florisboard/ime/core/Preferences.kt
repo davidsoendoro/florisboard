@@ -621,13 +621,13 @@ class Preferences(
             get() =  ThemeMode.fromString(prefs.getPref(MODE, ThemeMode.FOLLOW_SYSTEM.toString()))
             set(v) = prefs.setPref(MODE, v)
         var dayThemeRef: String
-            get() =  prefs.getPref(DAY_THEME_REF, "assets:ime/theme/floris_day.json")
+            get() =  prefs.getPref(DAY_THEME_REF, "assets:ime/theme/kobold_day.json")
             set(v) = prefs.setPref(DAY_THEME_REF, v)
         var dayThemeAdaptToApp: Boolean
             get() =  prefs.getPref(DAY_THEME_ADAPT_TO_APP, false)
             set(v) = prefs.setPref(DAY_THEME_ADAPT_TO_APP, v)
         var nightThemeRef: String
-            get() =  prefs.getPref(NIGHT_THEME_REF, "assets:ime/theme/floris_night.json")
+            get() =  prefs.getPref(NIGHT_THEME_REF, "assets:ime/theme/kobold_night.json")
             set(v) = prefs.setPref(NIGHT_THEME_REF, v)
         var nightThemeAdaptToApp: Boolean
             get() =  prefs.getPref(NIGHT_THEME_ADAPT_TO_APP, false)

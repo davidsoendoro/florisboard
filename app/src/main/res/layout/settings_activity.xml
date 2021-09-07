@@ -30,6 +30,7 @@
         app:itemIconTint="@drawable/bottom_nav_bar_color_selector"
         app:itemTextColor="@drawable/bottom_nav_bar_color_selector"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/settings_navigation" />
+        app:menu="@menu/settings_navigation"
+        android:visibility="gone" />
 
 </LinearLayout>
