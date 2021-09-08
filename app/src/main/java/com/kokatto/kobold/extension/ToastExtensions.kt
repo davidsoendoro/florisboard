@@ -17,15 +17,15 @@ fun Context.showToast(message: String?, duration: Int? = null) {
     this.createToast(message, duration).show()
 }
 
-fun Context.showCustomToast(message: String?, duration: Int? = null) {
-    this.createCustomToast(message, duration).show()
-}
+//fun Context.showCustomToast(message: String?, duration: Int? = null) {
+//    this.createCustomToast(message, duration).show()
+//}
 
-fun Context.createCustomToast(message: String?, duration: Int? = null): Toast {
-    val inflater: LayoutInflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val layout: View = inflater.inflate(R.layout.custom_toast, )
-    return Toast.makeText(this, message, duration ?: Toast.LENGTH_SHORT)
-}
+//fun Context.createCustomToast(message: String?, duration: Int? = null): Toast {
+//    val inflater: LayoutInflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//    val layout: View = inflater.inflate(R.layout.custom_toast, )
+//    return Toast.makeText(this, message, duration ?: Toast.LENGTH_SHORT)
+//}
 
 fun Context.createToast(message: String?, duration: Int? = null): Toast {
     return Toast.makeText(this, message, duration ?: Toast.LENGTH_SHORT)
