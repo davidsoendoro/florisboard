@@ -27,4 +27,11 @@
     <color name="background">#141414</color>
     <color name="banner">#2E2E2E</color>
     <color name="textColorDark">#1c1c1c</color><!-- Gray 50 -->
+
+    <color name="text_primary">#141414</color>
+    <color name="text_secondary">#3D3D3D</color>
+    <color name="text_inverse">#FFFFFF</color>
+    <color name="stroke_primary">#2464F2</color>
+    <color name="primary_50">#2464F2</color>
+
 </resources>
