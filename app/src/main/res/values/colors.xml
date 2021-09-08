@@ -26,5 +26,11 @@
     <color name="windowBackground">#FAFAFA</color>
     <color name="background">#141414</color>
     <color name="banner">#2E2E2E</color>
-    <color name="textColorDark">#1c1c1c</color><!-- Gray 50 -->
+    <color name="textColorDark">#1c1c1c</color>
+
+    <color name="blue_text">#2B4AC7</color>
+    <color name="gray_1">#D6D6D6</color>
+    <color name="text_secondary">#B6B6B6</color>
+    <color name="text_color_white">#FFFFFF</color>
+    <color name="custom_toast_black">#000000</color><!-- Gray 50 -->
 </resources>

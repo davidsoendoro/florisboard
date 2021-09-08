@@ -541,5 +541,15 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="buat_template">Buat Template</string>
+    <string name="buat_transaksi">Buat Transaksi</string>
+    <string name="template_chat">Template Chat</string>
+    <string name="status_pesanan">Status Pesanan</string>
+    <string name="cek_ongkir">Cek Ongkir</string>
+    <string name="kembali">Kembali</string>
+    <string name="nama_template">Nama Template</string>
+    <string name="isi_pesan">Isi Pesan</string>
+    <string name="pilih_template">Pilih Template</string>
+    <string name="simpan_template">Simpan Template</string>
 
 </resources>

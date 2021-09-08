@@ -40,7 +40,7 @@
     <dev.patrickgold.florisboard.common.FlorisViewFlipper
         android:id="@+id/kobold_mainmenu_view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/inputView_baseHeight"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@id/kobold_button_close_menu">
 
         <ScrollView

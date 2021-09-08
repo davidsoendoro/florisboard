@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Buat Transaksi"
+                    android:text="@string/buat_transaksi"
                     android:textSize="12dp" />
 
             </LinearLayout>
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Status Pesanan"
+                    android:text="@string/status_pesanan"
                     android:textSize="12dp" />
 
             </LinearLayout>
@@ -116,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Template Chat"
+                    android:text="@string/template_chat"
                     android:textSize="12dp" />
 
             </LinearLayout>
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Cek Ongkir"
+                    android:text="@string/cek_ongkir"
                     android:textSize="12dp" />
 
             </LinearLayout>

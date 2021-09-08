@@ -10,48 +10,194 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:background="#F7F7F7"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/increase_form_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginEnd="12dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_create_template" />
+                android:src="@drawable/ic_arrow_increase_minor" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Perluas Tampilan"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
-                android:textColor="#2B4AC7"/>
+                android:layout_marginStart="10dp"
+                android:text="Perluas Tampilan"
+                android:textColor="@color/blue_text" />
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/gray_1"
+        app:layout_constraintBottom_toTopOf="@id/footer_layout"
+        app:layout_constraintTop_toBottomOf="@id/title_layout">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/inputView_baseHeight"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#F7F7F7">
+        android:paddingVertical="24dp"
+        android:paddingHorizontal="12dp">
 
-        <EditText
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Pilih Template"/>
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            android:layout_marginTop="8dp"
+            app:strokeColor="@color/banner"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pilih_template"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"/>
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            android:layout_marginTop="8dp"
+            app:strokeColor="@color/banner"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nama_template"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            android:layout_marginTop="8dp"
+            app:strokeColor="@color/banner"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/isi_pesan"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="120dp"
+                    android:background="@android:color/transparent"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardViewBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/banner"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/kembali"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawableLeft="@drawable/ic_keyboard_arrow_left" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/simpan_template"
+            android:layout_marginEnd="12dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.kokatto.kobold.chattemplate.KeyboardCreateChatTemplate>
