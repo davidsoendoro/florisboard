@@ -16,15 +16,24 @@
 
 package dev.patrickgold.florisboard.setup
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.databinding.SetupFragmentMakeDefaultBinding
+import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
 
 class MakeDefaultFragment : Fragment(), SetupActivity.EventListener {
@@ -42,7 +51,13 @@ class MakeDefaultFragment : Fragment(), SetupActivity.EventListener {
         savedInstanceState: Bundle?
     ): View {
         binding = SetupFragmentMakeDefaultBinding.inflate(inflater, container, false)
-        binding.switchKeyboardButton.setOnClickListener {
+        binding.koboldGuideLanguageInput.setOnClickListener {
+            val intent = Intent()
+            intent.action = Settings.ACTION_INPUT_METHOD_SETTINGS
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            startActivity(intent)
+        }
+        binding.koboldGuidePickKeyboard.setOnClickListener {
             registerImeChangeReceiver()
             (activity as SetupActivity).imm.showInputMethodPicker()
         }
@@ -50,11 +65,36 @@ class MakeDefaultFragment : Fragment(), SetupActivity.EventListener {
         return binding.root
     }
 
-    private fun updateState() {
-        val isImeSelected = checkIfImeIsSelected(requireContext())
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun applyFinishButtonDesign(view: CardView) {
+        val image = view.findViewById<ImageView>(R.id.kobold_guide_image)
+        val text = view.findViewById<TextView>(R.id.kobold_guide_text)
+        val drawable = resources.getDrawable(R.drawable.ic_kobold_guide_done, null)
 
-        (activity as SetupActivity).changePositiveButtonState(isImeSelected)
-        binding.textAfterEnabled.isVisible = isImeSelected
+        image.setImageDrawable(drawable)
+        text.text = resources.getText(R.string.kobold_guide_finish)
+        text.setTextColor(resources.getColor(R.color.textColorDark, null))
+
+        view.background = resources.getDrawable(R.drawable.bg_button_done, null)
+        view.setOnClickListener {  }
+    }
+
+    private fun updateState() {
+        val isKoboldActive = checkIfImeIsEnabled(requireContext())
+        if (isKoboldActive) {
+            applyFinishButtonDesign(binding.koboldGuideLanguageInput)
+        }
+
+        val isImeSelected = checkIfImeIsSelected(requireContext())
+        if (isImeSelected) {
+            applyFinishButtonDesign(binding.koboldGuidePickKeyboard)
+        }
+
+//        (activity as SetupActivity).changePositiveButtonState(isImeSelected)
+//        binding.textAfterEnabled.isVisible = isImeSelected
+
+        val actionBar = (requireActivity() as? AppCompatActivity)?.supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onResume() {

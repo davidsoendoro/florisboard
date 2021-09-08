@@ -552,4 +552,11 @@
     <string name="kobold_activate">Aktifkan</string>
     <string name="kobold_setup_title">Cara Mengaktifkan Keyboard</string>
 
+    <string name="kobold_guide1_text">Geser tombol pada pilihan Keyboard lapak lalu klik OK.</string>
+    <string name="kobold_guide_language_input">Bahasa &amp; Masukan</string>
+    <string name="kobold_guide2_text">Pilih Keyboard Lapak pada menu Pilih Keyboard.</string>
+    <string name="kobold_guide_pick_keyboard">Pilih Keyboard</string>
+    <string name="kobold_guide3_text">Keyboard Lapak kamu sudah siap digunakan.</string>
+    <string name="kobold_guide_finish">Selesai</string>
+
 </resources>
