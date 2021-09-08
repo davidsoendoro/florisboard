@@ -68,7 +68,7 @@ class SetupActivity : AppCompatActivity() {
         adapter = ViewPagerAdapter(this)
         adapter.addFragment(WelcomeFragment(), resources.getString(R.string.setup__welcome__title))
         adapter.addFragment(EnableImeFragment(), resources.getString(R.string.setup__enable_ime__title))
-        adapter.addFragment(MakeDefaultFragment(), resources.getString(R.string.setup__make_default__title))
+        adapter.addFragment(MakeDefaultFragment(), resources.getString(R.string.kobold_setup_title))
         adapter.addFragment(FinishFragment(), resources.getString(R.string.setup__finish__title))
         binding.viewPager.isUserInputEnabled = false
         binding.viewPager.adapter = adapter

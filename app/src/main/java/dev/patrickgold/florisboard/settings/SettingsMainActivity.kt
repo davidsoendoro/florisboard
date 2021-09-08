@@ -90,10 +90,11 @@ class SettingsMainActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings__navigation__home -> {
-                supportActionBar?.title = String.format(
-                    resources.getString(R.string.settings__home__title),
-                    resources.getString(R.string.app_name)
-                )
+                supportActionBar?.hide()
+//                supportActionBar?.title = String.format(
+//                    resources.getString(R.string.settings__home__title),
+//                    resources.getString(R.string.app_name)
+//                )
                 loadFragment(HomeFragment())
                 true
             }

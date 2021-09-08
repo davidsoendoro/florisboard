@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 
@@ -26,13 +25,13 @@ class KeyboardIdentityMainMenu: LinearLayout {
         super.onAttachedToWindow()
 
         backButton = findViewById(R.id.back_button)
-        backButton?.let { button -> button.setOnClickListener { onBackButtonClicked(button) } }
+        backButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
 
         chatTemplateButton = findViewById(R.id.chat_template_button)
         chatTemplateButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
     }
 
-    private fun onBackButtonClicked(view: View) {
+    private fun onButtonClicked(view: View) {
         when (view.id) {
             R.id.back_button -> florisboard?.setActiveInput(R.id.text_input)
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
