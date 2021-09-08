@@ -39,6 +39,9 @@ class HomeFragment : SettingsMainActivity.SettingsFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = SettingsFragmentHomeBinding.inflate(inflater, container, false)
+        binding.koboldMainClose.setOnClickListener {
+            activity?.finish()
+        }
         binding.imeNotEnabledCard.setOnClickListener {
             Intent(context, SetupActivity::class.java).apply {
                 putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.ENABLE_IME)

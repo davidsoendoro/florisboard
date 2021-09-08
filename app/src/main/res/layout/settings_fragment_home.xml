@@ -3,8 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingVertical="8dp"
-    android:background="@color/background">
+    android:paddingVertical="8dp">
+
+    <ImageView
+        android:id="@+id/kobold_main_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        android:layout_marginTop="@dimen/kobold_margin_16px"
+        android:layout_marginBottom="@dimen/kobold_margin_24px"
+        android:src="@drawable/kobold_main_close"
+        android:layout_gravity="start"/>
 
     <TextView
         android:id="@+id/kobold_welcome_title"
@@ -32,10 +41,11 @@
     <ImageView
         android:id="@+id/kobold_image_teaser"
         android:layout_width="match_parent"
-        android:layout_height="243dp"
+        android:layout_height="162dp"
         android:layout_marginTop="@dimen/kobold_margin_24px"
+        android:layout_marginBottom="@dimen/kobold_margin_32px"
         android:foregroundGravity="center_horizontal"
-        android:src="@drawable/kobold_image_teaser" />
+        android:src="@drawable/kobold_main_screenshot" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,15 +57,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/kobold_margin_24px"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/kobold_main_feature1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/kobold_margin_16px"
                 android:orientation="vertical">
 
                 <TextView
@@ -79,33 +92,80 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/kobold_main_feature2" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/kobold_margin_16px"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kobold_welcome_feature2_title"
+                    android:textAppearance="@style/kobold_welcome_feature1_title"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kobold_welcome_feature2_desc"
+                    android:textAppearance="@style/kobold_welcome_feature1_desc"/>
+
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_32px"
+        android:layout_marginBottom="@dimen/kobold_margin_12px"
+        android:text="@string/kobold_media_text"
+        android:textAppearance="@style/kobold_media_text"
+        android:gravity="center_horizontal"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="@dimen/kobold_margin_24px"
+        android:src="@drawable/kobold_main_media"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ime_not_enabled_card"
-        style="@style/SettingsCardView.Clickable"
-        android:visibility="gone">
+        style="@style/SettingsCardView.Clickable.Info"
+        android:layout_width="match_parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+            android:layout_margin="@dimen/kobold_margin_12px"
             android:text="@string/kobold_activate"
-            android:textColor="?textColorError"/>
+            android:textStyle="bold"
+            android:textColor="@color/textColor"
+            android:textSize="16sp"/>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ime_not_selected_card"
-        style="@style/SettingsCardView.Clickable.Warning"
+        style="@style/SettingsCardView.Clickable.Info"
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings__home__ime_not_selected"
-            android:textColor="?textColorWarning"/>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_horizontal"
+            android:layout_margin="@dimen/kobold_margin_12px"
+            android:text="@string/kobold_activate"
+            android:textStyle="bold"
+            android:textColor="@color/textColor"
+            android:textSize="16sp"/>
 
     </androidx.cardview.widget.CardView>
 

@@ -546,6 +546,10 @@
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>
     <string name="kobold_welcome_feature1_title">1 keyboard banyak kelebihan</string>
     <string name="kobold_welcome_feature1_desc">Buat transaksi, cek ongkir, ngetik balasan otomatis dan banyak lainnya di keyboard langsung.</string>
+    <string name="kobold_welcome_feature2_title">Tanpa pindah aplikasi</string>
+    <string name="kobold_welcome_feature2_desc">Semua kelebihannya bisa dilakukan tanpa pindah aplikasi. Cukup ketika kamu berinteraksi dengan pembeli.</string>
+    <string name="kobold_media_text">Dapat digunakan di</string>
     <string name="kobold_activate">Aktifkan</string>
+    <string name="kobold_setup_title">Cara Mengaktifkan Keyboard</string>
 
 </resources>
