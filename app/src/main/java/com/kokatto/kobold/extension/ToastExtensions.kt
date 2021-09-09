@@ -1,10 +1,13 @@
 package com.kokatto.kobold.extension
 
 import android.content.Context
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import dev.patrickgold.florisboard.R
 
@@ -16,16 +19,6 @@ fun Context.showToastLong(message: String?) {
 fun Context.showToast(message: String?, duration: Int? = null) {
     this.createToast(message, duration).show()
 }
-
-//fun Context.showCustomToast(message: String?, duration: Int? = null) {
-//    this.createCustomToast(message, duration).show()
-//}
-
-//fun Context.createCustomToast(message: String?, duration: Int? = null): Toast {
-//    val inflater: LayoutInflater = this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//    val layout: View = inflater.inflate(R.layout.custom_toast, )
-//    return Toast.makeText(this, message, duration ?: Toast.LENGTH_SHORT)
-//}
 
 fun Context.createToast(message: String?, duration: Int? = null): Toast {
     return Toast.makeText(this, message, duration ?: Toast.LENGTH_SHORT)
