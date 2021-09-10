@@ -87,6 +87,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.kokatto.kobold.template.TemplateActivity"
+            android:icon="@mipmap/floris_app_icon"
+            android:label="Our Kobold"
+            android:launchMode="singleTask"
+            android:roundIcon="@mipmap/floris_app_icon_round">
+        </activity>
+
         <!-- User Dictionary Manager Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.UdmActivity"

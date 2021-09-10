@@ -561,6 +561,17 @@
     <string name="kobold_media_text">Dapat digunakan di</string>
     <string name="kobold_activate">Aktifkan</string>
     <string name="kobold_setup_title">Cara Mengaktifkan Keyboard</string>
+    <string name="kobold_setup_pop_warning">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
+    <string name="kobold_setup_pop_warning_action">Aktifin Keyboard Ajaib</string>
+
+    <string name="kobold_template_input_toolbar_title">Buat Template</string>
+    <string name="kobold_template_input_label_template">Pilih Template</string>
+    <string name="kobold_template_input_label_title">Judul Template</string>
+    <string name="kobold_template_input_label_content">Isi Pesan</string>
+    <string name="kobold_template_delete_confirm_title">Hapus template ini?</string>
+    <string name="kobold_template_delete_confirm_desc">Jika dihapus, maka data yang sudah diisn akan hilang.</string>
+    <string name="kobold_template_delete_button_ok">Batalkan Transaksi</string>
+    <string name="kobold_template_delete_button_cancel">Tidak, Lanjutkan</string>
 
     <string name="kobold_guide1_text">Geser tombol pada pilihan Keyboard lapak lalu klik OK.</string>
     <string name="kobold_guide_language_input">Bahasa &amp; Masukan</string>
