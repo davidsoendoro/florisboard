@@ -26,6 +26,7 @@ class KeyboardIdentityLogin: LinearLayout {
     }
 
     private fun onLoginButtonClicked(view: View) {
+        florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
             R.id.login_button -> florisboard?.setActiveInput(R.id.kobold_mainmenu)
         }

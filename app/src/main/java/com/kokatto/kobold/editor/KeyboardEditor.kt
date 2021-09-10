@@ -31,7 +31,7 @@ class KeyboardEditor: LinearLayout {
         closeMenuButton = findViewById(R.id.kobold_button_close_menu)
         editTextEditor = findViewById(R.id.kobold_edittext_editor)
 
-        closeMenuButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+//        closeMenuButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
         editTextEditor?.let { editor -> editor.setOnFocusChangeListener { v, hasFocus -> onEditTextFocusChanged(v, hasFocus) } }
     }
 

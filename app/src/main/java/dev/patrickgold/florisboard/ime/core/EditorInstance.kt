@@ -21,6 +21,7 @@ import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.os.Build
 import android.os.SystemClock
+import android.text.InputType
 import android.view.InputDevice
 import android.view.KeyCharacterMap
 import android.view.KeyEvent

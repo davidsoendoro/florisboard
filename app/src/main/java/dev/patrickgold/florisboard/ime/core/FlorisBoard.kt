@@ -30,6 +30,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.text.InputType
 import android.util.Size
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -47,6 +48,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
@@ -806,6 +808,26 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         textInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
         mediaInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
         clipInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
+    }
+
+    fun openEditor(destination: Int, editorInputType: Int = 0, callback: (result: String) -> Unit) {
+        val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
+
+        uiBinding?.mainViewFlipper?.displayedChild = 0
+        textViewFlipper?.displayedChild = 1
+
+        val editTextEditor = textViewFlipper?.findViewById<AppCompatEditText>(R.id.kobold_edittext_editor)
+        editTextEditor?.inputType = editorInputType
+        editTextEditor?.requestFocus()
+        florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor
+
+        val editTextFinishButton = textViewFlipper?.findViewById<ImageView>(R.id.kobold_button_close_menu)
+        editTextFinishButton?.setOnClickListener {
+            val result = editTextEditor?.text.toString()
+            callback(result)
+            editTextEditor?.setText("")
+            setActiveInput(destination)
+        }
     }
 
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {

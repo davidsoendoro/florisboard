@@ -5,7 +5,8 @@
     android:id="@+id/kobold_editor"
     android:layout_width="match_parent"
     android:layout_height="@dimen/smartbar_height"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/editorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:importantForAutofill="no"
-                android:inputType="textCapSentences"
+                android:inputType="textMultiLine|textCapSentences|textFilter"
+                android:lines="20"
                 android:backgroundTint="@android:color/white"
                 android:paddingBottom="5dp"/>
 
@@ -35,8 +37,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:src="@drawable/ic_cross_svg"
-            android:contentDescription="close button"/>
+            android:padding="@dimen/kobold_margin_12px"
+            android:src="@drawable/ic_done"/>
 
     </LinearLayout>
 
