@@ -551,7 +551,6 @@
     <string name="isi_pesan">Isi Pesan</string>
     <string name="pilih_template">Pilih Template</string>
     <string name="simpan_template">Simpan Template</string>
-    <string name="template_chat">Template Chat</string>
     <string name="chat_template_unavailable_title">Belum ada Template Chat</string>
     <string name="chat_template_unavailable_text">Semua template yang kamu buat akan muncul di sini</string>
     <string name="judul_template">Judul Template</string>
