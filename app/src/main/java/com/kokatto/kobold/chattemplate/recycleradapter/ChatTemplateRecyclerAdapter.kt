@@ -4,16 +4,33 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.kokatto.kobold.extension.setMargins
 import dev.patrickgold.florisboard.R
 
-class ChatTemplateRecyclerAdapter(): RecyclerView.Adapter<ChatTemplateRecyclerAdapter.ViewHolder>() {
+class ChatTemplateRecyclerAdapter(
+    val onClick: OnClick
+): RecyclerView.Adapter<ChatTemplateRecyclerAdapter.ViewHolder>() {
+
+    interface OnClick {
+        fun onClicked(index: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return(ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_chat_template, parent, false)))
     }
 
     override fun onBindViewHolder(holder: ChatTemplateRecyclerAdapter.ViewHolder, position: Int) {
+//        if (position == itemCount - 1) {
+//            holder.layout.setMargins(
+//                bottom = 100
+//            )
+//        } else {
+//            holder.layout.setMargins(
+//                bottom = 0
+//            )
+//        }
         holder.bindViewHolder(position)
     }
 
@@ -22,8 +39,12 @@ class ChatTemplateRecyclerAdapter(): RecyclerView.Adapter<ChatTemplateRecyclerAd
     }
 
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item){
-        fun bindViewHolder(index: Int) {
+        val layout = item.findViewById<CardView>(R.id.main_layout)
 
+        fun bindViewHolder(index: Int) {
+            layout.setOnClickListener {
+                onClick.onClicked(index)
+            }
         }
     }
 }

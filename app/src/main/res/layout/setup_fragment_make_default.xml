@@ -6,22 +6,172 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_24px"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setup__make_default__text_before_switch"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="@dimen/kobold_margin_36px">
 
-        <Button
-            android:id="@+id/switch_keyboard_button"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/kobold_margin_12px">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/kobold_guide_1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_12px"
+                    android:text="@string/kobold_guide1_text"
+                    android:textAppearance="@style/kobold_guide_text"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/kobold_guide_language_input"
+                    style="@style/SettingsCardView.Clickable.Info"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/kobold_margin_12px"
+                    android:layout_margin="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/kobold_guide_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/kobold_margin_8px"
+                            android:src="@drawable/ic_kobold_settings"/>
+                        <TextView
+                            android:id="@+id/kobold_guide_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/kobold_guide_language_input"
+                            android:textStyle="bold"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/setup__make_default__text_switch_button"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="@dimen/kobold_margin_36px">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/kobold_margin_12px">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/kobold_guide_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_12px"
+                    android:text="@string/kobold_guide2_text"
+                    android:textAppearance="@style/kobold_guide_text"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/kobold_guide_pick_keyboard"
+                    style="@style/SettingsCardView.Clickable.Info"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/kobold_margin_12px"
+                    android:layout_margin="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@id/kobold_guide_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/kobold_margin_8px"
+                            android:src="@drawable/ic_kobold_settings"/>
+                        <TextView
+                            android:id="@id/kobold_guide_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/kobold_guide_pick_keyboard"
+                            android:textStyle="bold"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/kobold_margin_12px">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/kobold_guide_3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_12px"
+                    android:text="@string/kobold_guide3_text"
+                    android:textAppearance="@style/kobold_guide_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_after_enabled"

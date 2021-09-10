@@ -22,8 +22,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.databinding.SettingsFragmentHomeBinding
+import dev.patrickgold.florisboard.settings.ACTIVATE_KEYBOARD_REQUEST
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import dev.patrickgold.florisboard.settings.spelling.SpellingActivity
 import dev.patrickgold.florisboard.setup.SetupActivity
@@ -32,6 +34,14 @@ import dev.patrickgold.florisboard.util.checkIfImeIsSelected
 
 class HomeFragment : SettingsMainActivity.SettingsFragment() {
     private lateinit var binding: SettingsFragmentHomeBinding
+
+    var resultActivateLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        context?.let { context ->
+            if (checkIfImeIsEnabled(context)) {
+                activity?.finish()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,14 +54,14 @@ class HomeFragment : SettingsMainActivity.SettingsFragment() {
         }
         binding.imeNotEnabledCard.setOnClickListener {
             Intent(context, SetupActivity::class.java).apply {
-                putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.ENABLE_IME)
-                startActivity(this)
+                putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.MAKE_DEFAULT)
+                resultActivateLauncher.launch(this)
             }
         }
         binding.imeNotSelectedCard.setOnClickListener {
             Intent(context, SetupActivity::class.java).apply {
                 putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.MAKE_DEFAULT)
-                startActivity(this)
+                resultActivateLauncher.launch(this)
             }
         }
         binding.repoUrlCard.setOnClickListener {

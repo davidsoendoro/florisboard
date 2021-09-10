@@ -19,6 +19,7 @@ package dev.patrickgold.florisboard.setup
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,7 @@ import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.databinding.SetupActivityBinding
 import dev.patrickgold.florisboard.ime.core.Preferences
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
+import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
 class SetupActivity : AppCompatActivity() {
     companion object {
@@ -66,8 +68,8 @@ class SetupActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         adapter = ViewPagerAdapter(this)
-        adapter.addFragment(WelcomeFragment(), resources.getString(R.string.setup__welcome__title))
-        adapter.addFragment(EnableImeFragment(), resources.getString(R.string.setup__enable_ime__title))
+//        adapter.addFragment(WelcomeFragment(), resources.getString(R.string.setup__welcome__title))
+//        adapter.addFragment(EnableImeFragment(), resources.getString(R.string.setup__enable_ime__title))
         adapter.addFragment(MakeDefaultFragment(), resources.getString(R.string.kobold_setup_title))
         adapter.addFragment(FinishFragment(), resources.getString(R.string.setup__finish__title))
         binding.viewPager.isUserInputEnabled = false
@@ -120,6 +122,16 @@ class SetupActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> false
+        }
+    }
+
     private fun launchSettingsAndSetFinishFlag() {
         Intent(this, SettingsMainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
@@ -153,7 +165,7 @@ class SetupActivity : AppCompatActivity() {
     object Step {
         const val WELCOME =         0
         const val ENABLE_IME =      1
-        const val MAKE_DEFAULT =    2
+        const val MAKE_DEFAULT =    0
         const val FINISH =          3
     }
 

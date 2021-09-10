@@ -541,6 +541,26 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="buat_template">Buat Template</string>
+    <string name="buat_transaksi">Buat Transaksi</string>
+    <string name="template_chat">Template Chat</string>
+    <string name="status_pesanan">Status Pesanan</string>
+    <string name="cek_ongkir">Cek Ongkir</string>
+    <string name="kembali">Kembali</string>
+    <string name="nama_template">Nama Template</string>
+    <string name="isi_pesan">Isi Pesan</string>
+    <string name="pilih_template">Pilih Template</string>
+    <string name="simpan_template">Simpan Template</string>
+    <string name="chat_template_unavailable_title">Belum ada Template Chat</string>
+    <string name="chat_template_unavailable_text">Semua template yang kamu buat akan muncul di sini</string>
+    <string name="judul_template">Judul Template</string>
+    <string name="simpan">Simpan</string>
+    <string name="detail_template">Detail Template</string>
+    <string name="no_internet_title">Halaman tidak dapat dimuat</string>
+    <string name="no_internet_content">Maaf, ada kesalahan dalam memuat halaman.\n Silahkan coba lagi ya.</string>
+    <string name="muat_ulang">Muat ulang</string>
+    <string name="chat_template_not_found_title">Template tidak ditemukan</string>
+    <string name="chat_template_not_found_content">Coba urutkan dengan data yang lain.</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>
@@ -551,5 +571,24 @@
     <string name="kobold_media_text">Dapat digunakan di</string>
     <string name="kobold_activate">Aktifkan</string>
     <string name="kobold_setup_title">Cara Mengaktifkan Keyboard</string>
+    <string name="kobold_setup_pop_warning">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
+    <string name="kobold_setup_pop_warning_action">Aktifin Keyboard Ajaib</string>
 
+    <string name="kobold_template_input_toolbar_title">Buat Template</string>
+    <string name="kobold_template_input_label_template">Pilih Template</string>
+    <string name="kobold_template_input_label_title">Judul Template</string>
+    <string name="kobold_template_input_label_content">Isi Pesan</string>
+    <string name="kobold_template_delete_confirm_title">Hapus template ini?</string>
+    <string name="kobold_template_delete_confirm_desc">Jika dihapus, maka data yang sudah diisn akan hilang.</string>
+    <string name="kobold_template_delete_button_ok">Batalkan Transaksi</string>
+    <string name="kobold_template_delete_button_cancel">Tidak, Lanjutkan</string>
+
+    <string name="kobold_guide1_text">Geser tombol pada pilihan Keyboard lapak lalu klik OK.</string>
+    <string name="kobold_guide_language_input">Bahasa &amp; Masukan</string>
+    <string name="kobold_guide2_text">Pilih Keyboard Lapak pada menu Pilih Keyboard.</string>
+    <string name="kobold_guide_pick_keyboard">Pilih Keyboard</string>
+    <string name="kobold_guide3_text">Keyboard Lapak kamu sudah siap digunakan.</string>
+    <string name="kobold_guide_finish">Selesai</string>
+
+    <string name="kobold_label_content">Isi Pesan</string>
 </resources>

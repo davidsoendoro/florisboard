@@ -27,6 +27,28 @@
     <color name="background">#FFFFFF</color>
     <color name="backgroundDark">#141414</color>
     <color name="banner">#2E2E2E</color>
+    <color name="backButtonShadow">#E0E0E0</color>
+
     <color name="textColor">#FFFFFF</color>
     <color name="textColorDark">#1c1c1c</color>
+    <color name="editorBackground">#F7F7F7</color>
+
+    <color name="blue_text">#2B4AC7</color>
+    <color name="gray_1">#D6D6D6</color>
+    <color name="text_subtitle">#B6B6B6</color>
+    <color name="text_color_white">#FFFFFF</color>
+
+    <color name="text_primary">#141414</color>
+    <color name="text_secondary">#3D3D3D</color>
+    <color name="text_inverse">#FFFFFF</color>
+    <color name="stroke_primary">#2464F2</color>
+    <color name="primary_50">#2464F2</color>
+
+    <color name="custom_toast_black">#000000</color>
+    <color name="icon_white">#F7F7F7</color>
+    <color name="colorPrimary80">#123279</color>
+    <color name="colorPrimary50">#2464F2</color>
+    <color name="icon_black">#2E2E2E</color>
+    <color name="search_box_background">#F2F2F2</color>
+    <color name="border">#EBEBEB</color><!-- Gray 50 -->
 </resources>

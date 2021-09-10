@@ -7,6 +7,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
+import dev.patrickgold.florisboard.ime.text.key.KeyCode
+import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 
 class KeyboardIdentityMainMenu: LinearLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
@@ -32,6 +34,7 @@ class KeyboardIdentityMainMenu: LinearLayout {
     }
 
     private fun onButtonClicked(view: View) {
+        florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
             R.id.back_button -> florisboard?.setActiveInput(R.id.text_input)
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)

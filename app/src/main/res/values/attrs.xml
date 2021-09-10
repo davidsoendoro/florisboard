@@ -44,4 +44,8 @@
         <attr name="textColorError" format="reference|color"/>
     </declare-styleable>
 
+    <declare-styleable name="KoboldEditText">
+        <attr name="label" format="string"/>
+        <attr name="android:inputType"/>
+    </declare-styleable>
 </resources>

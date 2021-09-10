@@ -7,4 +7,5 @@
     android:background="@color/colorPrimary"
     android:elevation="4dp"
     android:theme="@style/SettingsToolbarTheme"
+    app:contentInsetStartWithNavigation="0dp"
     app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"/>

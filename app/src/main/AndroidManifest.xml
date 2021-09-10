@@ -82,8 +82,20 @@
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+<!--                <action android:name="android.intent.action.MAIN"/>-->
 <!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.kokatto.kobold.template.TemplateActivity"
+            android:icon="@mipmap/floris_app_icon"
+            android:label="Our Kobold"
+            android:launchMode="singleTask"
+            android:roundIcon="@mipmap/floris_app_icon_round">
+            <intent-filter>
+<!--                <action android:name="android.intent.action.MAIN"/>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 

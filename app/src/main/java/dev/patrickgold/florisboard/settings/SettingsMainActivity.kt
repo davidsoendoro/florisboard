@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -35,15 +36,18 @@ import dev.patrickgold.florisboard.ime.core.Preferences
 import dev.patrickgold.florisboard.ime.core.SubtypeManager
 import dev.patrickgold.florisboard.ime.text.layout.LayoutManager
 import dev.patrickgold.florisboard.settings.fragments.*
+import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.AppVersionUtils
 import dev.patrickgold.florisboard.util.PackageManagerUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
 internal const val FRAGMENT_TAG = "FRAGMENT_TAG"
 private const val PREF_RES_ID = "PREF_RES_ID"
 private const val SELECTED_ITEM_ID = "SELECTED_ITEM_ID"
 private const val ADVANCED_REQ_CODE = 0x145F
+const val ACTIVATE_KEYBOARD_REQUEST = 0x146F
 
 class SettingsMainActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
@@ -55,6 +59,11 @@ class SettingsMainActivity : AppCompatActivity(),
     private val prefs get() = Preferences.default()
     val subtypeManager: SubtypeManager get() = SubtypeManager.default()
 
+    var resultActivateLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (checkIfImeIsEnabled(this)) {
+            finish()
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutManager = LayoutManager()
 
@@ -80,6 +89,14 @@ class SettingsMainActivity : AppCompatActivity(),
             savedInstanceState?.getInt(SELECTED_ITEM_ID) ?: R.id.settings__navigation__home
 
         AppVersionUtils.updateVersionOnInstallAndLastUse(this, prefs)
+
+        if (checkIfImeIsEnabled(this)) {
+            Intent(this, SetupActivity::class.java).apply {
+                flags = flags or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.MAKE_DEFAULT)
+                resultActivateLauncher.launch(this)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -191,6 +208,7 @@ class SettingsMainActivity : AppCompatActivity(),
 
     override fun onResume() {
         prefs.shared.registerOnSharedPreferenceChangeListener(this)
+
         super.onResume()
     }
 
@@ -236,6 +254,7 @@ class SettingsMainActivity : AppCompatActivity(),
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             listView.isFocusable = false
             listView.isNestedScrollingEnabled = false
+
             super.onViewCreated(view, savedInstanceState)
         }
     }

@@ -6,14 +6,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        getByName("debug") {
-            storeFile = file("/home/dxsn/Documents/Kokatto/kobold_keystore.jks")
-            storePassword = "k0katt0s3cr3t"
-            keyAlias = "key-kobold"
-            keyPassword = "k0katt0s3cr3t"
-        }
-    }
     compileSdk = 30
     buildToolsVersion = "30.0.3"
     ndkVersion = "22.1.7171670"

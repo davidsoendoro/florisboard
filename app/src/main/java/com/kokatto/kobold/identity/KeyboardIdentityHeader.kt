@@ -10,6 +10,8 @@ import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
+import dev.patrickgold.florisboard.ime.text.key.KeyCode
+import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 
 class KeyboardIdentityHeader: LinearLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
@@ -29,6 +31,7 @@ class KeyboardIdentityHeader: LinearLayout {
     }
 
     private fun onButtonClicked(view: View, event: MotionEvent?): Boolean {
+        florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
         when (view.id) {
             R.id.kobold_button_close_menu -> florisboard?.setActiveInput(R.id.text_input)
         }
