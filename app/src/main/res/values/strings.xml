@@ -551,6 +551,17 @@
     <string name="isi_pesan">Isi Pesan</string>
     <string name="pilih_template">Pilih Template</string>
     <string name="simpan_template">Simpan Template</string>
+    <string name="template_chat">Template Chat</string>
+    <string name="chat_template_unavailable_title">Belum ada Template Chat</string>
+    <string name="chat_template_unavailable_text">Semua template yang kamu buat akan muncul di sini</string>
+    <string name="judul_template">Judul Template</string>
+    <string name="simpan">Simpan</string>
+    <string name="detail_template">Detail Template</string>
+    <string name="no_internet_title">Halaman tidak dapat dimuat</string>
+    <string name="no_internet_content">Maaf, ada kesalahan dalam memuat halaman.\n Silahkan coba lagi ya.</string>
+    <string name="muat_ulang">Muat ulang</string>
+    <string name="chat_template_not_found_title">Template tidak ditemukan</string>
+    <string name="chat_template_not_found_content">Coba urutkan dengan data yang lain.</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>

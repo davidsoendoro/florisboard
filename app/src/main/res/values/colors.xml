@@ -37,7 +37,6 @@
     <color name="gray_1">#D6D6D6</color>
     <color name="text_subtitle">#B6B6B6</color>
     <color name="text_color_white">#FFFFFF</color>
-    <color name="custom_toast_black">#000000</color><!-- Gray 50 -->
 
     <color name="text_primary">#141414</color>
     <color name="text_secondary">#3D3D3D</color>
@@ -45,5 +44,11 @@
     <color name="stroke_primary">#2464F2</color>
     <color name="primary_50">#2464F2</color>
 
->>>>>>> f1d5aece34302db5fb38ac401d11f15d8e75913b
+    <color name="custom_toast_black">#000000</color>
+    <color name="icon_white">#F7F7F7</color>
+    <color name="colorPrimary80">#123279</color>
+    <color name="colorPrimary50">#2464F2</color>
+    <color name="icon_black">#2E2E2E</color>
+    <color name="search_box_background">#F2F2F2</color>
+    <color name="border">#EBEBEB</color><!-- Gray 50 -->
 </resources>
