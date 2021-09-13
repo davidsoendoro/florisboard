@@ -9,13 +9,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.chattemplate.recycleradapter.ChatTemplateRecyclerAdapter
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
-import dev.patrickgold.florisboard.util.getActivity
 
 class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
     constructor(context: Context) : this(context, null)
@@ -23,7 +21,7 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
-    private var adapter :ChatTemplateRecyclerAdapter? = null
+    private var adapter : ChatTemplateRecyclerAdapter? = null
 
     private var messageSnackbar: Snackbar? = null
 

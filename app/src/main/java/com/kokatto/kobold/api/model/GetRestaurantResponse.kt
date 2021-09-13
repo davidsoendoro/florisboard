@@ -1,11 +1,11 @@
 package com.kokatto.kobold.api.model
 
-import Hours
+//import Hours
 
 data class GetRestaurantResponse(
     val address: String,
     val description: String,
-    val hours: Hours,
+    val hours: String,
     val id: Int,
     val logo: String,
     val name: String,

@@ -7,7 +7,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.kokatto.kobold.api.Network
+import com.kokatto.kobold.extension.set
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.persistance.AppPersistence
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
@@ -25,6 +27,7 @@ class KeyboardIdentityLogin : LinearLayout {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private var loginViewModel: LoginViewModel? = LoginViewModel()
+    private var appPersistence: AppPersistence? = AppPersistence
 
     var loginButton: CardView? = null
         private set
@@ -34,6 +37,8 @@ class KeyboardIdentityLogin : LinearLayout {
 
         loginButton = findViewById(R.id.login_button)
         loginButton?.let { button -> button.setOnClickListener { onLoginButtonClicked(button) } }
+
+        appPersistence?.private()?.set("test", "hahahahahaha")
     }
 
     override fun onViewRemoved(child: View?) {
@@ -44,16 +49,17 @@ class KeyboardIdentityLogin : LinearLayout {
     }
 
     private fun onLoginButtonClicked(view: View) {
-        loginViewModel!!.getRestaurant(
-            onSuccess = {
-                showToast("YAY")
-                        loginButton?.findViewById<TextView>(R.id.login_button_text)?.text = "HAHAHA"
-            },
-            onError = {
-                showToast("NAY")
-            }
-        )
-
+        showToast(appPersistence?.private()?.getString("test", ""))
+//        loginViewModel!!.getRestaurant(
+//            onSuccess = {
+//                showToast("YAY")
+//                        loginButton?.findViewById<TextView>(R.id.login_button_text)?.text = "HAHAHA"
+//            },
+//            onError = {
+//                showToast("NAY")
+//            }
+//        )
+//
         florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
             R.id.login_button -> florisboard?.setActiveInput(R.id.kobold_mainmenu)
