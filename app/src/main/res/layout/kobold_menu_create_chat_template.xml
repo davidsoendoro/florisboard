@@ -70,7 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="@dimen/kobold_margin_8px"
-            app:label="@string/nama_template"/>
+            app:label="@string/nama_template"
+            android:inputType="textMultiLine|textCapSentences|textFilter"/>
 
         <com.kokatto.kobold.uicomponent.KoboldEditText
             android:id="@+id/kobold_template_name_content"

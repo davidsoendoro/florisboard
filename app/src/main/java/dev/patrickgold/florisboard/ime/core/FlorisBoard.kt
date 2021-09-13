@@ -58,6 +58,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.get
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputLayout
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.crashutility.CrashUtility
@@ -100,6 +101,7 @@ import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
 import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.uicomponent.KoboldEditText
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
@@ -815,23 +817,27 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         clipInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
     }
 
-    fun openEditor(destination: Int, editorInputType: Int = 0, callback: (result: String) -> Unit) {
+    fun openEditor(destination: Int, editorInputType: Int = 0, label: String = "", callback: (result: String) -> Unit) {
         val textViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
 
         uiBinding?.mainViewFlipper?.displayedChild = 0
         textViewFlipper?.displayedChild = 1
 
-        val editTextEditor = textViewFlipper?.findViewById<AppCompatEditText>(R.id.kobold_edittext_editor)
-        editTextEditor?.inputType = editorInputType
-        editTextEditor?.requestFocus()
-        florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor
+//        val textInputLayout = textViewFlipper?.findViewById<TextInputLayout>(R.id.attr_name_label)
+//        textInputLayout?.hint = label
+        val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
+        editTextEditor?.label?.text = label
+        editTextEditor?.editable?.inputType = editorInputType
+        editTextEditor?.editable?.requestFocus()
+        florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
 
         val editTextFinishButton = textViewFlipper?.findViewById<ImageView>(R.id.kobold_button_close_menu)
         editTextFinishButton?.setOnClickListener {
-            val result = editTextEditor?.text.toString()
+            inputFeedbackManager.keyPress()
+            val result = editTextEditor?.editable?.text.toString()
             callback(result)
-            editTextEditor?.setText("")
+            editTextEditor?.editable?.setText("")
             setActiveInput(destination)
         }
     }
@@ -848,7 +854,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         val footerLayout = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options_footer_layout)
         val backButton = footerLayout?.findViewById<View>(R.id.back_button)
         backButton?.setOnClickListener {
-            inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
+            inputFeedbackManager.keyPress(TextKeyData(code = KeyCode.CANCEL))
             setActiveInput(destination)
         }
     }
@@ -886,14 +892,6 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             R.id.kobold_mainmenu -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 3
                 koboldMainmenuViewFlipper?.displayedChild = 2
-            }
-            R.id.kobold_editor -> {
-                uiBinding?.mainViewFlipper?.displayedChild = 0
-                textViewFlipper?.displayedChild = 1
-
-                val editTextEditor = textViewFlipper?.findViewById<AppCompatEditText>(R.id.kobold_edittext_editor)
-                editTextEditor?.requestFocus()
-                florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor
             }
             R.id.kobold_spinner -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 7

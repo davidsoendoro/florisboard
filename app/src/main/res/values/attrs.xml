@@ -49,6 +49,7 @@
         <attr name="android:text" format="string"/>
         <attr name="android:inputType"/>
         <attr name="android:entries" />
+        <attr name="editable" format="boolean"/>
     </declare-styleable>
 
 </resources>

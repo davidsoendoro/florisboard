@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
 import com.google.android.material.card.MaterialCardView
 
 class KoboldEditText: MaterialCardView {
@@ -19,6 +21,7 @@ class KoboldEditText: MaterialCardView {
         val labelText: String? = a.getString(R.styleable.KoboldEditText_label)
         val textValue: String? = a.getString(R.styleable.KoboldEditText_android_text)
         val inputType: Int = a.getType(R.styleable.KoboldEditText_android_inputType)
+        val isEditable: Boolean = a.getBoolean(R.styleable.KoboldEditText_editable, false)
 //        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
         label.text = labelText
@@ -26,11 +29,20 @@ class KoboldEditText: MaterialCardView {
         this.inputType = inputType
 //        this.entries = entries
 
+        if (isEditable) {
+            editText.visibility = View.GONE
+            editable.visibility = View.VISIBLE
+        } else {
+            editText.visibility = View.VISIBLE
+            editable.visibility = View.GONE
+        }
+
         a.recycle();
     }
 
     val label: TextView
     val editText: TextView
+    val editable: AppCompatEditText
     var inputType: Int = 0
     var entries = arrayOf<CharSequence>()
 
@@ -41,5 +53,6 @@ class KoboldEditText: MaterialCardView {
         val layout = findViewById<LinearLayout>(R.id.kobold_edittext_layout)
         label = layout.findViewById(R.id.kobold_edittext_label)
         editText = layout.findViewById(R.id.kobold_edittext_text)
+        editable = layout.findViewById(R.id.kobold_edittext_editable)
     }
 }

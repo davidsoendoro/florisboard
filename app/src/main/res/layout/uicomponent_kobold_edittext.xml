@@ -15,9 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingVertical="6dp"
-        android:paddingHorizontal="@dimen/kobold_margin_12px"
-        android:clickable="false"
-        android:focusable="false">
+        android:paddingHorizontal="@dimen/kobold_margin_12px">
 
         <TextView
             android:id="@+id/kobold_edittext_label"
@@ -39,6 +37,17 @@
             android:textColor="@color/textColorDark"
             android:clickable="false"
             android:focusable="false"
+            android:textSize="8pt"
+            tools:text="Lorem ipsum dolor sit amet" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/kobold_edittext_editable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@color/textColorDark"
+            android:visibility="gone"
+            android:textSize="8pt"
             tools:text="Lorem ipsum dolor sit amet" />
 
     </LinearLayout>

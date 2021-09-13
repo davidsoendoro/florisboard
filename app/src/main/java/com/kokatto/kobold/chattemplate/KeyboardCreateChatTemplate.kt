@@ -67,14 +67,21 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
         koboldTemplateNameInput?.setOnClickListener {
             val inputType = koboldTemplateNameInput?.inputType ?: 0
             florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.openEditor(R.id.kobold_menu_create_chat_template, inputType) { result ->
+            florisboard?.openEditor(
+                R.id.kobold_menu_create_chat_template, inputType,
+                koboldTemplateNameInput?.label?.text.toString()
+            ) { result ->
                 koboldTemplateNameInput?.editText?.text = result
             }
         }
         koboldTemplateContent?.setOnClickListener {
             val inputType = koboldTemplateContent?.inputType ?: 0
             florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.openEditor(R.id.kobold_menu_create_chat_template, inputType) { result ->
+            florisboard?.openEditor(
+                R.id.kobold_menu_create_chat_template,
+                inputType,
+                koboldTemplateContent?.label?.text.toString()
+            ) { result ->
                 koboldTemplateContent?.editText?.text = result
             }
         }

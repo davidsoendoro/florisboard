@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatEditText
+import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.clip.provider.ClipboardItem
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
@@ -29,7 +30,7 @@ class KeyboardEditor: LinearLayout {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         closeMenuButton = findViewById(R.id.kobold_button_close_menu)
-        editTextEditor = findViewById(R.id.kobold_edittext_editor)
+        editTextEditor = findViewById<KoboldEditText>(R.id.kobold_edittext_input)?.editable
 
 //        closeMenuButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
         editTextEditor?.let { editor -> editor.setOnFocusChangeListener { v, hasFocus -> onEditTextFocusChanged(v, hasFocus) } }
@@ -43,7 +44,7 @@ class KeyboardEditor: LinearLayout {
 
     private fun onEditTextFocusChanged(view: View, hasFocus: Boolean) {
         when (view.id) {
-            R.id.kobold_edittext_editor -> {
+            R.id.kobold_edittext_input -> {
                 if (hasFocus) {
                     florisboard?.activeEditorInstance?.activeEditText = editTextEditor
                 } else {
