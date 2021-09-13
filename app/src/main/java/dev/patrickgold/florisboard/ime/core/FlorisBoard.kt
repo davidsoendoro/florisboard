@@ -57,6 +57,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.get
 import androidx.lifecycle.*
+import androidx.recyclerview.widget.RecyclerView
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.crashutility.CrashUtility
@@ -98,6 +99,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
+import com.kokatto.kobold.extension.vertical
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
@@ -618,7 +620,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         // Rebuild the UI if the theme has changed from day to night or vice versa to prevent
         //  theme glitches with scrollbars and hints of buttons in the media UI. If the UI must be
         //  rebuild, quit this method, as it will be called again by the newly created UI.
-        val newThemeIsNightMode =  theme.isNightTheme
+        val newThemeIsNightMode = theme.isNightTheme
         if (currentThemeIsNight != newThemeIsNightMode) {
             currentThemeResId = getDayNightBaseThemeId(newThemeIsNightMode)
             currentThemeIsNight = newThemeIsNightMode
@@ -675,7 +677,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             }
             eel.findViewWithType(Button::class)?.let { btn ->
                 btn.background = ContextCompat.getDrawable(this, R.drawable.shape_rect_rounded)?.also { d ->
-                    DrawableCompat.setTint(d, theme.getAttr(Theme.Attr.EXTRACT_ACTION_BUTTON_BACKGROUND).toSolidColor().color)
+                    DrawableCompat.setTint(
+                        d,
+                        theme.getAttr(Theme.Attr.EXTRACT_ACTION_BUTTON_BACKGROUND).toSolidColor().color
+                    )
                 }
                 btn.setTextColor(theme.getAttr(Theme.Attr.EXTRACT_ACTION_BUTTON_FOREGROUND).toSolidColor().color)
             }
@@ -747,8 +752,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         requestHideSelf(0)
         val i = Intent(this, SetupActivity::class.java)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                  Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
-                  Intent.FLAG_ACTIVITY_CLEAR_TOP
+            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
         applicationContext.startActivity(i)
     }
 
@@ -759,7 +764,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         return subtypeManager.subtypes.size > 1
     }
 
-    fun switchToPrevKeyboard(){
+    fun switchToPrevKeyboard() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 switchToPreviousInputMethod()
@@ -775,7 +780,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun switchToNextKeyboard(){
+    fun switchToNextKeyboard() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 switchToNextInputMethod(false)
@@ -811,7 +816,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     }
 
     fun openEditor(destination: Int, editorInputType: Int = 0, callback: (result: String) -> Unit) {
-        val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
+        val textViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
 
         uiBinding?.mainViewFlipper?.displayedChild = 0
         textViewFlipper?.displayedChild = 1
@@ -830,9 +836,28 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
+    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>)
+    {
+        uiBinding?.mainViewFlipper?.displayedChild = 7
+
+        val spinnerOptions = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options)
+        val recyclerViewSpinner = spinnerOptions?.findViewById<RecyclerView>(R.id.spinner_options_recycler_view)
+        recyclerViewSpinner?.adapter = spinnerAdapter
+        recyclerViewSpinner?.vertical()
+
+        val footerLayout = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options_footer_layout)
+        val backButton = footerLayout?.findViewById<View>(R.id.back_button)
+        backButton?.setOnClickListener {
+            inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
+            setActiveInput(destination)
+        }
+    }
+
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {
-        val koboldMainmenuViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
-        val textViewFlipper = uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
+        val koboldMainmenuViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
+        val textViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
 
         when (type) {
             R.id.text_input -> {
@@ -870,6 +895,9 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 editTextEditor?.requestFocus()
                 florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor
             }
+            R.id.kobold_spinner -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 7
+            }
             //menu chat template
             R.id.kobold_menu_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 4
@@ -883,7 +911,11 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
     fun toggleOneHandedMode(isRight: Boolean) {
         prefs.keyboard.oneHandedMode = when (prefs.keyboard.oneHandedMode) {
-            OneHandedMode.OFF -> if (isRight) { OneHandedMode.END } else { OneHandedMode.START }
+            OneHandedMode.OFF -> if (isRight) {
+                OneHandedMode.END
+            } else {
+                OneHandedMode.START
+            }
             else -> OneHandedMode.OFF
         }
         updateOneHandedPanelVisibility()
@@ -989,13 +1021,20 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         @SerialName("defaultSubtypes")
         val defaultSubtypes: List<DefaultSubtype> = listOf()
     ) {
-        @Transient var currencySetNames: List<String> = listOf()
-        @Transient var currencySetLabels: List<String> = listOf()
-        @Transient var composerNames: List<String> = listOf()
-        @Transient var composerLabels: List<String> = listOf()
-        @Transient val composerFromName: Map<String, Composer> = composers.map { it.name to it }.toMap()
-        @Transient var defaultSubtypesLanguageCodes: List<String> = listOf()
-        @Transient var defaultSubtypesLanguageNames: List<String> = listOf()
+        @Transient
+        var currencySetNames: List<String> = listOf()
+        @Transient
+        var currencySetLabels: List<String> = listOf()
+        @Transient
+        var composerNames: List<String> = listOf()
+        @Transient
+        var composerLabels: List<String> = listOf()
+        @Transient
+        val composerFromName: Map<String, Composer> = composers.map { it.name to it }.toMap()
+        @Transient
+        var defaultSubtypesLanguageCodes: List<String> = listOf()
+        @Transient
+        var defaultSubtypesLanguageNames: List<String> = listOf()
 
         init {
             val tmpComposerList = composers.map { Pair(it.name, it.label) }.toMutableList()

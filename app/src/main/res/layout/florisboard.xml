@@ -68,6 +68,8 @@
 
             <include android:id="@+id/kobold_editor" layout="@layout/kobold_editor"/>
 
+            <include android:id="@+id/kobold_spinner" layout="@layout/kobold_spinner_editor"/>
+
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
         <dev.patrickgold.florisboard.ime.onehanded.OneHandedPanel

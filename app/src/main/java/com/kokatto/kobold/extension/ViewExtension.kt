@@ -1,7 +1,9 @@
 package com.kokatto.kobold.extension
 
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 
 fun View.setMargins(
     left: Int? = null,
@@ -36,4 +38,9 @@ fun View.padding(
         bottom ?: this.paddingBottom
     )
 
+}
+
+fun View.addRipple() = with(TypedValue()) {
+    context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
+    foreground = AppCompatResources.getDrawable(context, resourceId)
 }

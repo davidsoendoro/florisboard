@@ -46,6 +46,9 @@
 
     <declare-styleable name="KoboldEditText">
         <attr name="label" format="string"/>
+        <attr name="android:text" format="string"/>
         <attr name="android:inputType"/>
+        <attr name="android:entries" />
     </declare-styleable>
+
 </resources>

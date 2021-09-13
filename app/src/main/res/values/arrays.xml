@@ -195,4 +195,13 @@
         <item>dynamic</item>
         <item>dynamic_scrollable</item>
     </string-array>
+
+    <string-array name="kobold_pick_template_values">
+        <item>Pesan Pembuka</item>
+        <item>Form Pesanan</item>
+        <item>Ucapan Terima Kasih</item>
+        <item>Ketersediaan Barang</item>
+        <item>Cek Barang</item>
+        <item>Custom</item>
+    </string-array>
 </resources>

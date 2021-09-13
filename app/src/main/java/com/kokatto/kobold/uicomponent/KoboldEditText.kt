@@ -15,10 +15,16 @@ class KoboldEditText: MaterialCardView {
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         val a: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.KoboldEditText, defStyleAttr, 0)
+
         val labelText: String? = a.getString(R.styleable.KoboldEditText_label)
+        val textValue: String? = a.getString(R.styleable.KoboldEditText_android_text)
         val inputType: Int = a.getType(R.styleable.KoboldEditText_android_inputType)
+//        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
+
         label.text = labelText
+        editText.text = textValue
         this.inputType = inputType
+//        this.entries = entries
 
         a.recycle();
     }
@@ -26,6 +32,7 @@ class KoboldEditText: MaterialCardView {
     val label: TextView
     val editText: TextView
     var inputType: Int = 0
+    var entries = arrayOf<CharSequence>()
 
     init {
         LayoutInflater.from(context)

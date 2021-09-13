@@ -26,6 +26,7 @@
     <color name="windowBackground">#FAFAFA</color>
     <color name="background">#FFFFFF</color>
     <color name="backgroundDark">#141414</color>
+    <color name="backgroundSelected">#F7F8FA</color>
     <color name="banner">#2E2E2E</color>
     <color name="backButtonShadow">#E0E0E0</color>
 
@@ -36,6 +37,7 @@
     <color name="blue_text">#2B4AC7</color>
     <color name="gray_1">#D6D6D6</color>
     <color name="text_subtitle">#B6B6B6</color>
+    <color name="text_subdued">#8D8D8D</color>
     <color name="text_color_white">#FFFFFF</color>
 
     <color name="text_primary">#141414</color>
@@ -51,4 +53,5 @@
     <color name="icon_black">#2E2E2E</color>
     <color name="search_box_background">#F2F2F2</color>
     <color name="border">#EBEBEB</color><!-- Gray 50 -->
+    <color name="ic_done_blue">#4F78E8</color>
 </resources>

@@ -93,4 +93,5 @@
     <dimen name="kobold_margin_24px">24dp</dimen>
     <dimen name="kobold_margin_32px">32dp</dimen>
     <dimen name="kobold_margin_36px">36dp</dimen>
+    <dimen name="kobold_item_42px">42dp</dimen>
 </resources>
