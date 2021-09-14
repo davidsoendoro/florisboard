@@ -23,8 +23,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.SettingsFragmentHomeBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SettingsFragmentHomeBinding
 import dev.patrickgold.florisboard.settings.ACTIVATE_KEYBOARD_REQUEST
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import dev.patrickgold.florisboard.settings.spelling.SpellingActivity

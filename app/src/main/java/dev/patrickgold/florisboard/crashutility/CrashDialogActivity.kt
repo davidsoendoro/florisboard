@@ -22,9 +22,9 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import dev.patrickgold.florisboard.BuildConfig
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.CrashDialogBinding
+import com.kokatto.kobold.BuildConfig
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.CrashDialogBinding
 import dev.patrickgold.florisboard.debug.*
 import dev.patrickgold.florisboard.ime.core.Preferences
 

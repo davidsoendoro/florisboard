@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatEditText
 import com.kokatto.kobold.uicomponent.KoboldEditText
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.clip.provider.ClipboardItem
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import kotlin.math.roundToInt

@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import com.kokatto.kobold.extension.addRipple
 
 class SpinnerEditorItem(val label: String) {

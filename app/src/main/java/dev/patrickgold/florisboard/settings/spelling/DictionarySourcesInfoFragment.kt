@@ -23,8 +23,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dev.patrickgold.florisboard.databinding.ListItemBinding
-import dev.patrickgold.florisboard.databinding.SpellingSheetDictionarySourcesInfoBinding
+import com.kokatto.kobold.databinding.ListItemBinding
+import com.kokatto.kobold.databinding.SpellingSheetDictionarySourcesInfoBinding
 import dev.patrickgold.florisboard.ime.spelling.SpellingManager
 
 class DictionarySourcesInfoFragment : BottomSheetDialogFragment() {

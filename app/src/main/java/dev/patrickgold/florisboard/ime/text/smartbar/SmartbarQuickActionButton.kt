@@ -18,7 +18,7 @@ package dev.patrickgold.florisboard.ime.text.smartbar
 
 import android.content.Context
 import android.util.AttributeSet
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeManager
 

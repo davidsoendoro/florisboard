@@ -30,8 +30,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.SettingsActivityBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SettingsActivityBinding
 import dev.patrickgold.florisboard.ime.core.Preferences
 import dev.patrickgold.florisboard.ime.core.SubtypeManager
 import dev.patrickgold.florisboard.ime.text.layout.LayoutManager

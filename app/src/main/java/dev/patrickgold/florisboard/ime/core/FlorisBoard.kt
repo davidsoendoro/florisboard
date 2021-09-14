@@ -59,7 +59,7 @@ import androidx.core.view.get
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.crashutility.CrashUtility
 import dev.patrickgold.florisboard.debug.*
@@ -82,7 +82,7 @@ import dev.patrickgold.florisboard.ime.theme.ThemeManager
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.AppVersionUtils
 import dev.patrickgold.florisboard.common.ViewUtils
-import dev.patrickgold.florisboard.databinding.FlorisboardBinding
+import com.kokatto.kobold.databinding.FlorisboardBinding
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
 import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState

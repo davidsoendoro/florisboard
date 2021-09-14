@@ -31,9 +31,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.ThemeEditorAttrDialogBinding
-import dev.patrickgold.florisboard.databinding.ThemeEditorAttrViewBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.ThemeEditorAttrDialogBinding
+import com.kokatto.kobold.databinding.ThemeEditorAttrViewBinding
 import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeValue
 import dev.patrickgold.florisboard.common.ViewUtils

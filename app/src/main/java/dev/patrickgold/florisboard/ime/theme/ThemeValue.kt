@@ -19,7 +19,7 @@ package dev.patrickgold.florisboard.ime.theme
 import android.content.Context
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind

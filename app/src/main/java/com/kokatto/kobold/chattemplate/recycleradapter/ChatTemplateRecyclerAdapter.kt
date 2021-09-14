@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.extension.setMargins
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 
 class ChatTemplateRecyclerAdapter(
     val onClick: OnClick

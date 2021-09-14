@@ -28,8 +28,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.SpellingFragmentManageDictionariesBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SpellingFragmentManageDictionariesBinding
 import dev.patrickgold.florisboard.ime.spelling.SpellingDict
 import dev.patrickgold.florisboard.ime.spelling.SpellingManager
 import dev.patrickgold.florisboard.res.AssetManager

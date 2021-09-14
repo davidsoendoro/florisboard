@@ -23,7 +23,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.core.Preferences
 import dev.patrickgold.florisboard.ime.theme.Theme

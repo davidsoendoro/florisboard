@@ -23,7 +23,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.google.android.material.tabs.TabLayout
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeManager

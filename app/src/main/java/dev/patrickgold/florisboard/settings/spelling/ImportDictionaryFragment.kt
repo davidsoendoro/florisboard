@@ -23,10 +23,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.FlorisActivity
 import dev.patrickgold.florisboard.common.ViewUtils
-import dev.patrickgold.florisboard.databinding.SpellingSheetImportDictionaryBinding
+import com.kokatto.kobold.databinding.SpellingSheetImportDictionaryBinding
 import dev.patrickgold.florisboard.ime.spelling.SpellingConfig
 import dev.patrickgold.florisboard.ime.spelling.SpellingManager
 import dev.patrickgold.florisboard.res.AssetManager

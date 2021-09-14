@@ -5,7 +5,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import androidx.room.Room
-import dev.patrickgold.florisboard.BuildConfig
+import com.kokatto.kobold.BuildConfig
 import dev.patrickgold.florisboard.debug.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

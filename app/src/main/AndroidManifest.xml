@@ -15,7 +15,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.patrickgold.florisboard">
+    package="com.kokatto.kobold">
 
     <!-- Permission needed to vibrate if the user has key press vibration enabled -->
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -82,7 +82,7 @@
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round">
             <intent-filter>
-<!--                <action android:name="android.intent.action.MAIN"/>-->
+                <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

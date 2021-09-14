@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.chattemplate.recycleradapter.ChatTemplateRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData

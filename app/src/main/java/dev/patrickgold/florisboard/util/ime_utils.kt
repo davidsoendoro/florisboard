@@ -2,7 +2,7 @@ package dev.patrickgold.florisboard.util
 
 import android.content.Context
 import android.provider.Settings
-import dev.patrickgold.florisboard.BuildConfig
+import com.kokatto.kobold.BuildConfig
 import dev.patrickgold.florisboard.debug.flogInfo
 
 private const val IME_ID: String = "dev.patrickgold.florisboard/.FlorisImeService"

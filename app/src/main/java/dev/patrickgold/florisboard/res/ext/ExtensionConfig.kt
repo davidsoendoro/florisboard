@@ -16,7 +16,7 @@
 
 package dev.patrickgold.florisboard.res.ext
 
-import dev.patrickgold.florisboard.BuildConfig
+import com.kokatto.kobold.BuildConfig
 
 /**
  * Interface for an `extension.json` file, which serves as a configuration of an extension

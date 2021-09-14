@@ -24,7 +24,7 @@ import android.graphics.drawable.PaintDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.animation.AccelerateInterpolator
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.Pointer
 import dev.patrickgold.florisboard.common.PointerMap
 import dev.patrickgold.florisboard.common.ViewUtils

@@ -19,7 +19,7 @@ package dev.patrickgold.florisboard.ime.text.gestures
 import android.content.Context
 import android.view.MotionEvent
 import android.view.VelocityTracker
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.debug.LogTopic
 import dev.patrickgold.florisboard.debug.flogDebug
 import dev.patrickgold.florisboard.common.Pointer

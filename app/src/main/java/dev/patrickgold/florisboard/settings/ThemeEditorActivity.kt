@@ -28,10 +28,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import androidx.core.view.forEach
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.ThemeEditorActivityBinding
-import dev.patrickgold.florisboard.databinding.ThemeEditorGroupViewBinding
-import dev.patrickgold.florisboard.databinding.ThemeEditorMetaDialogBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.ThemeEditorActivityBinding
+import com.kokatto.kobold.databinding.ThemeEditorGroupViewBinding
+import com.kokatto.kobold.databinding.ThemeEditorMetaDialogBinding
 import dev.patrickgold.florisboard.ime.core.Subtype
 import dev.patrickgold.florisboard.ime.keyboard.ComputingEvaluator
 import dev.patrickgold.florisboard.ime.keyboard.DefaultComputingEvaluator

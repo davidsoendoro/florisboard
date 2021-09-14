@@ -1,6 +1,6 @@
 package com.kokatto.kobold.uicomponent
 
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
@@ -22,12 +22,12 @@ class KoboldEditText: MaterialCardView {
         val textValue: String? = a.getString(R.styleable.KoboldEditText_android_text)
         val inputType: Int = a.getType(R.styleable.KoboldEditText_android_inputType)
         val isEditable: Boolean = a.getBoolean(R.styleable.KoboldEditText_editable, false)
-//        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
+        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
         label.text = labelText
         editText.text = textValue
         this.inputType = inputType
-//        this.entries = entries
+        this.entries = entries
 
         if (isEditable) {
             editText.visibility = View.GONE

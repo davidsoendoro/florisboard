@@ -24,11 +24,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatSpinner
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.FlorisLocale
-import dev.patrickgold.florisboard.databinding.ListItemBinding
-import dev.patrickgold.florisboard.databinding.SettingsFragmentTypingBinding
-import dev.patrickgold.florisboard.databinding.SettingsFragmentTypingSubtypeDialogBinding
+import com.kokatto.kobold.databinding.ListItemBinding
+import com.kokatto.kobold.databinding.SettingsFragmentTypingBinding
+import com.kokatto.kobold.databinding.SettingsFragmentTypingSubtypeDialogBinding
 import dev.patrickgold.florisboard.ime.core.Subtype
 import dev.patrickgold.florisboard.ime.core.SubtypeLayoutMap
 import dev.patrickgold.florisboard.ime.text.layout.LayoutManager

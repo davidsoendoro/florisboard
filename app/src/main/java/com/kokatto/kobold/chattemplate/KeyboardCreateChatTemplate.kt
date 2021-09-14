@@ -13,7 +13,7 @@ import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.uicomponent.KoboldEditText
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
