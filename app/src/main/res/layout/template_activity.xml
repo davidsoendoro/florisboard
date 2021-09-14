@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
@@ -30,10 +31,9 @@
                 <Button
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    app:backgroundTint="@null"
                     android:background="@drawable/shape_ellipse_134"
                     android:drawableBottom="@drawable/ic_keyboard_white_yellow"
-                    />
+                    app:backgroundTint="@null" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,15 +47,15 @@
                         android:text="@string/kobold_setup_pop_warning"
                         android:textAppearance="@style/kobold_keyboard_pop_warning" />
 
-                  <Button
-                      android:id="@+id/popup_keyboard_active_button"
-                      style="@style/Widget.MaterialComponents.Button.TextButton"
-                      android:paddingStart="0dp"
-                      android:gravity="left|center_vertical"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="@string/kobold_setup_pop_warning_action"
-                      android:textAppearance="@style/kobold_keyboard_pop_button"/>
+                    <Button
+                        android:id="@+id/popup_keyboard_active_button"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:paddingStart="0dp"
+                        android:text="@string/kobold_setup_pop_warning_action"
+                        android:textAppearance="@style/kobold_keyboard_pop_button" />
 
                 </LinearLayout>
 
@@ -69,7 +69,13 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/template_fragment_container_view"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_template_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_chat_template" />
 
 </LinearLayout>

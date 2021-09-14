@@ -2,16 +2,10 @@ package com.kokatto.kobold.chattemplate
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.RecyclerView
-import com.kokatto.kobold.chattemplate.recycleradapter.ChatTemplateRecyclerAdapter
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard

@@ -4,6 +4,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import android.widget.TextView
 
 fun View.setMargins(
     left: Int? = null,
@@ -30,14 +31,16 @@ fun View.padding(
     right: Int? = null,
     bottom: Int? = null
 ) {
-
     this.setPadding(
         left ?: this.paddingStart,
         top ?: this.paddingTop,
         right ?: this.paddingEnd,
         bottom ?: this.paddingBottom
     )
+}
 
+fun View.findTextViewId(id: Int): TextView {
+    return this.findViewById(id)
 }
 
 fun View.addRipple() = with(TypedValue()) {
