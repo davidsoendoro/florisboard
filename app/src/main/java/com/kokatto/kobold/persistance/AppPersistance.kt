@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object AppPersistence {
-    private lateinit var _private : SharedPreferences
+    private lateinit var thePrivate : SharedPreferences
 
     fun init(context: Context) {
-        _private = context.getSharedPreferences("private", Context.MODE_PRIVATE)
+        thePrivate = context.getSharedPreferences("private", Context.MODE_PRIVATE)
     }
 
-    fun private() = _private
+    fun private() = thePrivate
 }

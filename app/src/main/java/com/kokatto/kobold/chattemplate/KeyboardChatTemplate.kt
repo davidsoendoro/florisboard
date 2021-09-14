@@ -8,9 +8,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.chattemplate.recycleradapter.ChatTemplateRecyclerAdapter
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.response.PaginatedAutoTextResponse
+import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
@@ -21,7 +23,11 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
+
+    private var chatTemplateList: ArrayList<PaginatedAutoTextResponse.Content> = arrayListOf()
     private var adapter : ChatTemplateRecyclerAdapter? = null
+
+    private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
     private var messageSnackbar: Snackbar? = null
 
@@ -42,15 +48,24 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
         }
 
-        adapter = ChatTemplateRecyclerAdapter(this)
+        adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
+
+        chatTemplateViewModel?.getChatTemplateList(
+            onSuccess = { it ->
+                chatTemplateList.addAll(it.data.contents)
+                adapter?.notifyItemRangeChanged(0, it.data.contents.size)
+            },
+            onError = {
+                showToast(it)
+            }
+        )
         chatTemplateRecycler.adapter = adapter
         chatTemplateRecycler.vertical()
     }
 
-    override fun onClicked(index: Int) {
-        Snackbar.make(this, "Halo haloo", Snackbar.LENGTH_LONG).show()
-
-//        florisboard?.setActiveInput(R.id.text_input)
+    override fun onClicked(data: PaginatedAutoTextResponse.Content) {
+        florisboard?.inputFeedbackManager?.keyPress()
+        florisboard?.textInputManager?.activeEditorInstance?.commitText(data.content)
     }
 
 }

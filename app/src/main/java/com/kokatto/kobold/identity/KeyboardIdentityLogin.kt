@@ -34,8 +34,6 @@ class KeyboardIdentityLogin : LinearLayout {
 
         loginButton = findViewById(R.id.login_button)
         loginButton?.let { button -> button.setOnClickListener { onLoginButtonClicked(button) } }
-
-        appPersistence?.private()?.set("test", "hahahahahaha")
     }
 
     override fun onViewRemoved(child: View?) {
@@ -46,7 +44,7 @@ class KeyboardIdentityLogin : LinearLayout {
     }
 
     private fun onLoginButtonClicked(view: View) {
-        showToast(appPersistence?.private()?.getString("test", ""))
+//        showToast(appPersistence?.private()?.getString("test", ""))
 //        loginViewModel!!.getRestaurant(
 //            onSuccess = {
 //                showToast("YAY")
