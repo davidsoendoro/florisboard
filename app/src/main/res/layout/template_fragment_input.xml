@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:background="@color/icon_white"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/back_button"
