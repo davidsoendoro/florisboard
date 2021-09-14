@@ -5,17 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.kokatto.kobold.api.model.response.PaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.R
 
 class ChatTemplateRecyclerAdapter(
-    val dataList: ArrayList<PaginatedAutoTextResponse.Content>,
+    val dataList: ArrayList<AutoTextModel>,
     val onClick: OnClick
 ): RecyclerView.Adapter<ChatTemplateRecyclerAdapter.ViewHolder>() {
 
     interface OnClick {
-        fun onClicked(data: PaginatedAutoTextResponse.Content)
+        fun onClicked(data: AutoTextModel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,7 +46,7 @@ class ChatTemplateRecyclerAdapter(
         private val contentText = item.findTextViewId(R.id.content_text)
         private val categoryText = item.findTextViewId(R.id.category_text)
 
-        fun bindViewHolder(data: PaginatedAutoTextResponse.Content) {
+        fun bindViewHolder(data: AutoTextModel) {
             titleText.text = data.title
             contentText.text = data.content
             categoryText.text = data.template
