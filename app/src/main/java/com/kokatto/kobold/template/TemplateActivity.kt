@@ -11,7 +11,8 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.kokatto.kobold.R
 import androidx.recyclerview.widget.RecyclerView
-import com.kokatto.kobold.api.model.response.PaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
@@ -24,7 +25,7 @@ class TemplateActivity : AppCompatActivity(), ChatTemplateRecyclerAdapter.OnClic
     private var activeButton: Button? = null
     private var warningLayout: LinearLayout? = null
 
-    private var chatTemplateList: ArrayList<PaginatedAutoTextResponse.Content> = arrayListOf()
+    private var chatTemplateList: ArrayList<AutoTextModel> = arrayListOf()
     private var chatTemplateRecyclerAdapter: ChatTemplateRecyclerAdapter? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
@@ -88,7 +89,7 @@ class TemplateActivity : AppCompatActivity(), ChatTemplateRecyclerAdapter.OnClic
     }
 
 //    on chat template data clicked
-    override fun onClicked(data: PaginatedAutoTextResponse.Content) {
+    override fun onClicked(data: AutoTextModel) {
         showToast(data.toString())
     }
 

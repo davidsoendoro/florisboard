@@ -15,23 +15,24 @@ import kotlinx.coroutines.launch
 class LoginViewModel {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
-    fun getRestaurant(
-        onSuccess: (String) -> Unit,
-        onError: (String) -> Unit
-    ) {
-        scope.launch {
-            delay(5000)
-
-            val response = Network.identityApi.getRestaurant()
-            response.onSuccess {
-                onSuccess.invoke(this.data.toString())
-            }.onError {
-                onError.invoke(this.message())
-            }.onException {
-                onError.invoke(this.message?:"Unknown Error")
-            }
-        }
-    }
+//    fun login(
+//        onSuccess: (String) -> Unit,
+//        onError: (String) -> Unit
+//    ) {
+//        scope.launch {
+//            delay(5000)
+//
+//            val response = Network.authenticationApi.login(
+//            )
+//            response.onSuccess {
+//                onSuccess.invoke(this.data.toString())
+//            }.onError {
+//                onError.invoke(this.message())
+//            }.onException {
+//                onError.invoke(this.message?:"Unknown Error")
+//            }
+//        }
+//    }
 
     fun onDestroy() {
         scope.cancel()

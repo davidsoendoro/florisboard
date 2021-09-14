@@ -7,12 +7,14 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+private const val baseUrl: String = "https://xnuhystuwl.execute-api.ap-southeast-1.amazonaws.com/dev/"
+
 internal inline fun <reified T> createNetwork(
     okHttpClient: OkHttpClient.Builder,
     gson: Gson
 ): T {
     val retrofit = Retrofit.Builder()
-        .baseUrl(Test)
+        .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(CoroutinesResponseCallAdapterFactory.create())
 

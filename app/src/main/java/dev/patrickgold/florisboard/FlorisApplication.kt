@@ -23,6 +23,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import androidx.core.os.UserManagerCompat
+import com.kokatto.kobold.api.Network
+import com.kokatto.kobold.persistance.AppPersistence
 import com.kokatto.kobold.BuildConfig
 import dev.patrickgold.florisboard.common.NativeStr
 import dev.patrickgold.florisboard.common.toNativeStr
@@ -88,6 +90,9 @@ class FlorisApplication : Application() {
         if(!UserManagerCompat.isUserUnlocked(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             registerReceiver(BootComplete(), IntentFilter(Intent.ACTION_USER_UNLOCKED))
         }
+
+//        initialize app persistance for shared preference
+        AppPersistence.init(this)
     }
 
     fun initICU(): Boolean {

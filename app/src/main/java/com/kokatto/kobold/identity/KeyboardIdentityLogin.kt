@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.Network
+import com.kokatto.kobold.extension.get
 import com.kokatto.kobold.extension.set
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.persistance.AppPersistence
@@ -24,7 +25,6 @@ class KeyboardIdentityLogin : LinearLayout {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private var loginViewModel: LoginViewModel? = LoginViewModel()
-    private var appPersistence: AppPersistence? = AppPersistence
 
     var loginButton: CardView? = null
         private set
@@ -35,7 +35,7 @@ class KeyboardIdentityLogin : LinearLayout {
         loginButton = findViewById(R.id.login_button)
         loginButton?.let { button -> button.setOnClickListener { onLoginButtonClicked(button) } }
 
-        appPersistence?.private()?.set("test", "hahahahahaha")
+        AppPersistence.test = "hahahahahaha"
     }
 
     override fun onViewRemoved(child: View?) {
@@ -46,7 +46,7 @@ class KeyboardIdentityLogin : LinearLayout {
     }
 
     private fun onLoginButtonClicked(view: View) {
-        showToast(appPersistence?.private()?.getString("test", ""))
+        showToast(AppPersistence.private()["test"])
 //        loginViewModel!!.getRestaurant(
 //            onSuccess = {
 //                showToast("YAY")

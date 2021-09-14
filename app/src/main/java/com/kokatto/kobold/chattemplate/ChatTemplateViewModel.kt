@@ -1,7 +1,7 @@
 package com.kokatto.kobold.chattemplate
 
 import com.kokatto.kobold.api.Network
-import com.kokatto.kobold.api.model.response.PaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -10,14 +10,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ChatTemplateViewModel {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
     fun getChatTemplateList(
-        onSuccess: (PaginatedAutoTextResponse) -> Unit,
+        onSuccess: (GetPaginatedAutoTextResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
