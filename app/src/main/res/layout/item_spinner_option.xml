@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kobold_spinner_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/kobold_item_42px"
+    android:background="?android:attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/kobold_spinner_item_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/kobold_margin_8px"
+        android:layout_marginStart="@dimen/kobold_margin_24px"
+        android:layout_marginTop="@dimen/kobold_margin_4px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textColorDark"
+        tools:text="Pesan Pembuka"/>
+
+    <ImageView
+        android:id="@+id/kobold_spinner_item_checklist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/kobold_margin_8px"
+        android:layout_marginEnd="@dimen/kobold_margin_16px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_done"
+        app:tint="@color/ic_done_blue"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

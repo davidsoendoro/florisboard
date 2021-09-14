@@ -3,9 +3,13 @@ package com.kokatto.kobold.template
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import com.kokatto.kobold.R
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
@@ -13,7 +17,6 @@ import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
-import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 

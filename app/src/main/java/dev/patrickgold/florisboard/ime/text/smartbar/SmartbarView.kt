@@ -28,8 +28,8 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.SmartbarBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SmartbarBinding
 import dev.patrickgold.florisboard.debug.*
 import dev.patrickgold.florisboard.ime.clip.provider.ClipboardItem
 import dev.patrickgold.florisboard.ime.core.FlorisBoard

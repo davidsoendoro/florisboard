@@ -591,4 +591,6 @@
     <string name="kobold_guide_finish">Selesai</string>
 
     <string name="kobold_label_content">Isi Pesan</string>
+    <string name="kobold_pick_template">Pilih Template</string>
+    <string name="kobold_template_pick_greetings">Pesan Pembuka</string>
 </resources>

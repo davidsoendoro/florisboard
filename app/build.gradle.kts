@@ -1,5 +1,7 @@
 plugins {
     id("com.android.application") version "7.0.0"
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     kotlin("android") version "1.5.20"
     kotlin("kapt") version "1.5.20"
     kotlin("plugin.serialization") version "1.5.20"
@@ -21,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "dev.patrickgold.florisboard"
+        applicationId = "com.kokatto.kobold"
         minSdk = 23
         targetSdk = 30
         versionCode = 52
@@ -80,7 +82,7 @@ android {
 
     buildTypes {
         named("debug").configure {
-            applicationIdSuffix = ".debug"
+//            applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
 
             isDebuggable = true
@@ -93,7 +95,7 @@ android {
 
         create("beta") // Needed because by default the "beta" BuildType does not exist
         named("beta").configure {
-            applicationIdSuffix = ".beta"
+//            applicationIdSuffix = ".beta"
             versionNameSuffix = "-beta09"
             proguardFiles.add(getDefaultProguardFile("proguard-android-optimize.txt"))
 
@@ -158,4 +160,8 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext", "junit", "1.1.2")
     androidTestImplementation("androidx.test.espresso", "espresso-core", "3.3.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:28.4.0"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 }

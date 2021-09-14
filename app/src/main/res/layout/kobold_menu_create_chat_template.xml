@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.kokatto.kobold.chattemplate.KeyboardCreateChatTemplate
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,43 +56,23 @@
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/kobold_margin_12px">
 
-        <com.google.android.material.card.MaterialCardView
+        <com.kokatto.kobold.uicomponent.KoboldEditText
+            android:id="@+id/kobold_template_select_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="0dp"
-            app:strokeWidth="1dp"
+            android:layout_height="54dp"
             android:layout_marginTop="@dimen/kobold_margin_8px"
-            app:strokeColor="@color/banner"
-            app:cardCornerRadius="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pilih_template"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="10sp"/>
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+            android:text="@string/kobold_template_pick_greetings"
+            android:entries="@array/kobold_pick_template_values"
+            app:label="@string/pilih_template"
+            app:showChevron="true"/>
 
         <com.kokatto.kobold.uicomponent.KoboldEditText
             android:id="@+id/kobold_template_name_input"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="@dimen/kobold_margin_8px"
-            app:label="@string/nama_template"/>
+            app:label="@string/nama_template"
+            android:inputType="textMultiLine|textCapSentences|textFilter"/>
 
         <com.kokatto.kobold.uicomponent.KoboldEditText
             android:id="@+id/kobold_template_name_content"

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "833607094252",
+    "project_id": "kobold-4390b",
+    "storage_bucket": "kobold-4390b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833607094252:android:e61dca78943f57f3aa3ac9",
+        "android_client_info": {
+          "package_name": "com.kokatto.kobold"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833607094252-kotr8icr2de4rnhoghk8kvrusfksnh83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArjHC6DDbxsmRukCsyFG0zgxFK20Y61PA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833607094252-kotr8icr2de4rnhoghk8kvrusfksnh83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

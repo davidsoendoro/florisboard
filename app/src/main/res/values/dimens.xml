@@ -47,7 +47,7 @@
     <dimen name="one_handed_button_width">@dimen/one_handed_width</dimen>
     <dimen name="one_handed_button_height">@dimen/one_handed_width</dimen>
 
-    <dimen name="smartbar_height">52dp</dimen>
+    <dimen name="smartbar_height">54dp</dimen>
     <dimen name="smartbar_radius">20dp</dimen>
     <dimen name="smartbar_button_margin">4dp</dimen>
     <dimen name="smartbar_button_padding">6dp</dimen>
@@ -93,4 +93,5 @@
     <dimen name="kobold_margin_24px">24dp</dimen>
     <dimen name="kobold_margin_32px">32dp</dimen>
     <dimen name="kobold_margin_36px">36dp</dimen>
+    <dimen name="kobold_item_42px">42dp</dimen>
 </resources>

@@ -5,9 +5,9 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import dev.patrickgold.florisboard.BuildConfig
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.FlorisboardBinding
+import com.kokatto.kobold.BuildConfig
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.FlorisboardBinding
 import dev.patrickgold.florisboard.ime.clip.provider.ClipboardItem
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.core.InputKeyEvent

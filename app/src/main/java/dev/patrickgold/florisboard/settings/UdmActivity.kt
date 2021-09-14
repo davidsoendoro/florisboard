@@ -31,9 +31,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.UdmActivityBinding
-import dev.patrickgold.florisboard.databinding.UdmEntryDialogBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.UdmActivityBinding
+import com.kokatto.kobold.databinding.UdmEntryDialogBinding
 import dev.patrickgold.florisboard.common.FlorisActivity
 import dev.patrickgold.florisboard.common.FlorisLocale
 import dev.patrickgold.florisboard.ime.dictionary.DictionaryManager

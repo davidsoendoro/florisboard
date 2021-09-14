@@ -18,7 +18,7 @@ package dev.patrickgold.florisboard.ime.theme
 
 import android.content.Context
 import android.graphics.Color
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.res.Asset
 import kotlinx.serialization.Serializable
 

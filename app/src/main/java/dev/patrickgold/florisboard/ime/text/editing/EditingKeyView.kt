@@ -28,7 +28,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageButton
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.core.InputKeyEvent
 import dev.patrickgold.florisboard.ime.core.Preferences
