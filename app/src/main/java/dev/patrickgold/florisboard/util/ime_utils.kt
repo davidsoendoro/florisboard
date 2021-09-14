@@ -5,11 +5,11 @@ import android.provider.Settings
 import com.kokatto.kobold.BuildConfig
 import dev.patrickgold.florisboard.debug.flogInfo
 
-private const val IME_ID: String = "dev.patrickgold.florisboard/.FlorisImeService"
+private const val IME_ID: String = "com.kokatto.kobold/.FlorisImeService"
 private const val IME_ID_BETA: String =
-    "dev.patrickgold.florisboard.beta/dev.patrickgold.florisboard.FlorisImeService"
+    "com.kokatto.kobold/dev.patrickgold.florisboard.FlorisImeService"
 private const val IME_ID_DEBUG: String =
-    "dev.patrickgold.florisboard.debug/dev.patrickgold.florisboard.FlorisImeService"
+    "com.kokatto.kobold/dev.patrickgold.florisboard.FlorisImeService"
 
 fun checkIfImeIsEnabled(context: Context): Boolean {
     val activeImeIds = Settings.Secure.getString(

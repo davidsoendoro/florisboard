@@ -61,9 +61,10 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="@dimen/kobold_margin_8px"
-            app:label="@string/pilih_template"
             android:text="@string/kobold_template_pick_greetings"
-            android:entries="@array/kobold_pick_template_values"/>
+            android:entries="@array/kobold_pick_template_values"
+            app:label="@string/pilih_template"
+            app:showChevron="true"/>
 
         <com.kokatto.kobold.uicomponent.KoboldEditText
             android:id="@+id/kobold_template_name_input"
