@@ -23,6 +23,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import androidx.core.os.UserManagerCompat
+import com.kokatto.kobold.BuildConfig
 import dev.patrickgold.florisboard.common.NativeStr
 import dev.patrickgold.florisboard.common.toNativeStr
 import dev.patrickgold.florisboard.crashutility.CrashUtility
@@ -70,7 +71,7 @@ class FlorisApplication : Application() {
                 flogOutputs = Flog.OUTPUT_CONSOLE
             )
             initICU()
-            CrashUtility.install(this)
+//            CrashUtility.install(this)
             val prefs = Preferences.initDefault(this)
             val assetManager = AssetManager.init(this)
             SpellingManager.init(this, FlorisRef.assets("ime/spelling/config.json"))
@@ -79,7 +80,7 @@ class FlorisApplication : Application() {
             ThemeManager.init(this, assetManager)
             prefs.initDefaultPreferences()
         } catch (e: Exception) {
-            CrashUtility.stageException(e)
+//            CrashUtility.stageException(e)
             return
         }
 
@@ -116,7 +117,7 @@ class FlorisApplication : Application() {
     }
 
     fun init() {
-        CrashUtility.install(this)
+//        CrashUtility.install(this)
         val prefs = Preferences.initDefault(this)
         val assetManager = AssetManager.init(this)
         SubtypeManager.init(this)

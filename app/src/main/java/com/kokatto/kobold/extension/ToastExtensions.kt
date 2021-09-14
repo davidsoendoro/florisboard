@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 
 
 fun Context.showToastLong(message: String?) {

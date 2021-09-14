@@ -22,9 +22,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.isVisible
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.FlorisActivity
-import dev.patrickgold.florisboard.databinding.SpellingActivityBinding
+import com.kokatto.kobold.databinding.SpellingActivityBinding
 import dev.patrickgold.florisboard.res.AssetManager
 import dev.patrickgold.florisboard.ime.spelling.SpellingManager
 

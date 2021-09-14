@@ -26,8 +26,8 @@ import android.os.Bundle
 import android.os.Process
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import dev.patrickgold.florisboard.BuildConfig
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.BuildConfig
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.debug.*
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import java.io.File

@@ -13,30 +13,43 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/attr_name_label"
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"-->
+<!--            android:id="@+id/attr_name_label"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="0.8"-->
+<!--            android:hint="@string/settings__theme_editor__name_label"-->
+<!--            android:visibility="gone">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/kobold_edittext_editor"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:importantForAutofill="no"-->
+<!--                android:inputType="textMultiLine|textCapSentences|textFilter"-->
+<!--                android:lines="20"-->
+<!--                android:backgroundTint="@android:color/white"-->
+<!--                android:paddingBottom="5dp"/>-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <com.kokatto.kobold.uicomponent.KoboldEditText
+            android:id="@+id/kobold_edittext_input"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:hint="@string/settings__theme_editor__name_label">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/kobold_edittext_editor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine|textCapSentences|textFilter"
-                android:lines="20"
-                android:backgroundTint="@android:color/white"
-                android:paddingBottom="5dp"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_weight="0.85"
+            android:layout_marginVertical="@dimen/kobold_margin_4px"
+            android:layout_marginHorizontal="@dimen/kobold_margin_4px"
+            app:label="@string/pilih_template"
+            app:editable="true"
+            />
 
         <ImageView
             android:id="@+id/kobold_button_close_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:padding="@dimen/kobold_margin_12px"
             android:src="@drawable/ic_done"/>
 

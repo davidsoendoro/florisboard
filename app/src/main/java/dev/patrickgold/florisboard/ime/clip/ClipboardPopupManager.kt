@@ -7,7 +7,7 @@ import android.view.View.VISIBLE
 import android.widget.LinearLayout
 import android.widget.Space
 import android.widget.TextView
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.popup.PopupLayerView
 import kotlin.math.max

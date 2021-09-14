@@ -24,10 +24,10 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.IdRes
 import androidx.core.view.forEach
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.ThemeEditorAttrViewBinding
-import dev.patrickgold.florisboard.databinding.ThemeEditorGroupDialogBinding
-import dev.patrickgold.florisboard.databinding.ThemeEditorGroupViewBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.ThemeEditorAttrViewBinding
+import com.kokatto.kobold.databinding.ThemeEditorGroupDialogBinding
+import com.kokatto.kobold.databinding.ThemeEditorGroupViewBinding
 import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeValue
 import dev.patrickgold.florisboard.settings.ThemeEditorActivity

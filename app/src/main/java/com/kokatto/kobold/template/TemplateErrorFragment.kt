@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 
 class TemplateErrorFragment : Fragment(R.layout.template_fragment_error) {
     private var reloadButton: Button? = null

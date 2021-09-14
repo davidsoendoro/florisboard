@@ -21,7 +21,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.core.os.UserManagerCompat
 import androidx.preference.PreferenceManager
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
 import dev.patrickgold.florisboard.ime.text.gestures.DistanceThreshold

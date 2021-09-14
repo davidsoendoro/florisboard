@@ -21,8 +21,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import com.google.android.material.tabs.TabLayout
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.FlorisboardBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.FlorisboardBinding
 import dev.patrickgold.florisboard.debug.LogTopic
 import dev.patrickgold.florisboard.debug.flogInfo
 import dev.patrickgold.florisboard.ime.core.EditorInstance

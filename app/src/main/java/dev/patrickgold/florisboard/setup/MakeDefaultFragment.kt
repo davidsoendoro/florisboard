@@ -31,8 +31,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.SetupFragmentMakeDefaultBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SetupFragmentMakeDefaultBinding
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
 

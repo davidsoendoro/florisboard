@@ -29,8 +29,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.AboutActivityBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.AboutActivityBinding
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.util.AppVersionUtils
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected

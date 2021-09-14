@@ -6,14 +6,11 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.kokatto.kobold.R
 import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.extension.set
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.persistance.AppPersistence
-import com.skydoves.sandwich.onError
-import com.skydoves.sandwich.onException
-import com.skydoves.sandwich.onSuccess
-import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

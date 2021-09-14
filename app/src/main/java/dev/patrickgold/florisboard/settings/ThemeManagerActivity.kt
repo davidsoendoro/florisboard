@@ -30,10 +30,10 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.FlorisActivity
 import dev.patrickgold.florisboard.common.ViewUtils
-import dev.patrickgold.florisboard.databinding.ThemeManagerActivityBinding
+import com.kokatto.kobold.databinding.ThemeManagerActivityBinding
 import dev.patrickgold.florisboard.debug.LogTopic
 import dev.patrickgold.florisboard.debug.flogError
 import dev.patrickgold.florisboard.ime.core.Preferences

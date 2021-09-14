@@ -21,8 +21,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.AdvancedActivityBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.AdvancedActivityBinding
 import dev.patrickgold.florisboard.ime.core.Preferences
 import dev.patrickgold.florisboard.util.PackageManagerUtils
 

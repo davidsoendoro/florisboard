@@ -7,7 +7,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.api.model.response.PaginatedAutoTextResponse
 import com.kokatto.kobold.extension.findTextViewId
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 
 class ChatTemplateRecyclerAdapter(
     val dataList: ArrayList<PaginatedAutoTextResponse.Content>,

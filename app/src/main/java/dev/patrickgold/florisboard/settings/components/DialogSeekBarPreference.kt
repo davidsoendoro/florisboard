@@ -25,8 +25,8 @@ import androidx.preference.Preference
 import androidx.preference.Preference.OnPreferenceChangeListener
 import androidx.preference.Preference.OnPreferenceClickListener
 import androidx.preference.PreferenceManager
-import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.databinding.SeekBarDialogBinding
+import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SeekBarDialogBinding
 
 /**
  * Custom preference which represents a seek bar which shows the current value in the summary. The

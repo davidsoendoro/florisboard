@@ -1,7 +1,9 @@
 package com.kokatto.kobold.extension
 
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import android.widget.TextView
 
 fun View.setMargins(
@@ -39,4 +41,9 @@ fun View.padding(
 
 fun View.findTextViewId(id: Int): TextView {
     return this.findViewById(id)
+}
+
+fun View.addRipple() = with(TypedValue()) {
+    context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
+    foreground = AppCompatResources.getDrawable(context, resourceId)
 }

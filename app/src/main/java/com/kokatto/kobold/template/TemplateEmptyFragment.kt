@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 
 class TemplateEmptyFragment : Fragment(R.layout.template_fragment_empty) {
     private var createButton: Button? = null

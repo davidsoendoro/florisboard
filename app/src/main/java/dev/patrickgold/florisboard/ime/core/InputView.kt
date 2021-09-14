@@ -27,7 +27,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.widget.LinearLayout
-import dev.patrickgold.florisboard.R
+import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
 import dev.patrickgold.florisboard.ime.text.key.KeyVariation
 import dev.patrickgold.florisboard.ime.text.keyboard.KeyboardMode
