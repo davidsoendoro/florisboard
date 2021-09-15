@@ -1,5 +1,6 @@
 package com.kokatto.kobold.template
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
+import java.lang.ClassCastException
 import kotlinx.coroutines.InternalCoroutinesApi
 import timber.log.Timber
 import java.util.*
@@ -26,6 +28,8 @@ import kotlin.collections.ArrayList
 
 class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list), ChatTemplateRecyclerAdapter.OnClick {
 
+    var templateActivityListener: TemplateActivityListener? = null
+
     private var chatTemplateList: ArrayList<AutoTextModel> = arrayListOf()
     private var chatTemplateRecyclerAdapter: ChatTemplateRecyclerAdapter? = null
 
@@ -33,6 +37,15 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
 
     private val isLoadingChatTemplate = AtomicBoolean(true)
     private val isLastChatTemplate = AtomicBoolean(false)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            templateActivityListener = context as TemplateActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
+        }
+    }
 
     private var autoTextDatabase: AutoTextDatabase? = null
 
@@ -108,10 +121,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
     private fun onCreateClicked(view: View) {
         when (view.id) {
             R.id.create_template_button -> {
-                Intent(requireContext(), TemplateActivityInput::class.java).apply {
-                    putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_CREATE)
-                    startActivity(this)
-                }
+                templateActivityListener?.openCreateTemplate()
             }
         }
     }

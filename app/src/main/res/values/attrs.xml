@@ -51,6 +51,7 @@
         <attr name="android:entries" />
         <attr name="editable" format="boolean"/>
         <attr name="showChevron" format="boolean"/>
+        <attr name="maxAllowedCharacters" format="integer"/>
     </declare-styleable>
 
 </resources>

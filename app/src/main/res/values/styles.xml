@@ -198,12 +198,14 @@
         <item name="android:padding">@dimen/smartbar_button_padding</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:tint">#000000</item>
->>>>>>> f1d5aece34302db5fb38ac401d11f15d8e75913b
+    </style>
+
+    <style name="BlueButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/kobold_button_blue</item>
     </style>
 
     <style name="error_edit_text">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#E60505</item>
     </style>
-
 </resources>

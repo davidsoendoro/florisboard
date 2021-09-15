@@ -2,6 +2,7 @@ package com.kokatto.kobold.chattemplate
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
@@ -11,6 +12,8 @@ import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
+import android.os.ResultReceiver
+
 
 class KeyboardCreateChatTemplate : ConstraintLayout {
     constructor(context: Context) : this(context, null)
@@ -19,9 +22,11 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
 
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
+    private var koboldExpandView: TextView? = null
     private var koboldTemplatePickInput: KoboldEditText? = null
     private var koboldTemplateNameInput: KoboldEditText? = null
     private var koboldTemplateContent: KoboldEditText? = null
+    private var saveButton: Button? = null
 
     private var selectedOption = SpinnerEditorItem("Pesan Pembuka")
     private var pickTemplateOptions = arrayOf(
@@ -36,13 +41,23 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         val backButton: TextView = findViewById(R.id.back_button)
+        koboldExpandView = findViewById(R.id.kobold_createtemplate_expand_view)
         koboldTemplatePickInput = findViewById(R.id.kobold_template_select_input)
         koboldTemplateNameInput = findViewById(R.id.kobold_template_name_input)
         koboldTemplateContent = findViewById(R.id.kobold_template_name_content)
+        saveButton = findViewById(R.id.save_button)
 
         backButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
+        }
+        koboldExpandView?.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+
+            val pickInput = koboldTemplatePickInput?.editText?.text.toString()
+            val nameInput = koboldTemplatePickInput?.editText?.text.toString()
+            val content = koboldTemplatePickInput?.editText?.text.toString()
+            florisboard?.launchExpandView(pickInput, nameInput, content)
         }
         koboldTemplatePickInput?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -66,6 +81,7 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
                 koboldTemplateNameInput?.label?.text.toString()
             ) { result ->
                 koboldTemplateNameInput?.editText?.text = result
+                invalidateSaveButton()
             }
         }
         koboldTemplateContent?.setOnClickListener {
@@ -77,7 +93,22 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
                 koboldTemplateContent?.label?.text.toString()
             ) { result ->
                 koboldTemplateContent?.editText?.text = result
+                invalidateSaveButton()
             }
         }
+
+        saveButton?.setOnClickListener {
+
+        }
+    }
+
+    fun invalidateSaveButton() {
+        var isInputValid = false
+        koboldTemplateNameInput?.let { templateNameInput ->
+            koboldTemplateContent?.let { templateContent ->
+                isInputValid = templateNameInput.isInputValid() && templateContent.isInputValid()
+            }
+        }
+        saveButton?.isEnabled = isInputValid
     }
 }
