@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.UserManagerCompat
 import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.persistance.AppPersistence
@@ -60,6 +61,7 @@ class FlorisApplication : Application() {
     }
 
     override fun onCreate() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate()
         try {
             if (BuildConfig.DEBUG) {

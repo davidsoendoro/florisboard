@@ -561,6 +561,9 @@
     <string name="muat_ulang">Muat ulang</string>
     <string name="chat_template_not_found_title">Template tidak ditemukan</string>
     <string name="chat_template_not_found_content">Coba urutkan dengan data yang lain.</string>
+    <string name="template_delete_success">Template berhasil dihapus.</string>
+    <string name="template_create_success">Template berhasil dibuat.</string>
+    <string name="template_text_error_length">Melebihi karakter yang tersedia</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>
@@ -579,7 +582,7 @@
     <string name="kobold_template_input_label_title">Judul Template</string>
     <string name="kobold_template_input_label_content">Isi Pesan</string>
     <string name="kobold_template_delete_confirm_title">Hapus template ini?</string>
-    <string name="kobold_template_delete_confirm_desc">Jika dihapus, maka data yang sudah diisn akan hilang.</string>
+    <string name="kobold_template_delete_confirm_desc">Jika dihapus, maka data yang sudah diisi akan hilang.</string>
     <string name="kobold_template_delete_button_ok">Batalkan Transaksi</string>
     <string name="kobold_template_delete_button_cancel">Tidak, Lanjutkan</string>
 
@@ -593,4 +596,6 @@
     <string name="kobold_label_content">Isi Pesan</string>
     <string name="kobold_pick_template">Pilih Template</string>
     <string name="kobold_template_pick_greetings">Pesan Pembuka</string>
+    <string name="error_toomanychars">Melebihi karakter yang tersedia</string>
+    <string name="kobold_createchat_expand_view">Perluas Tampilan</string>
 </resources>

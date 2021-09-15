@@ -1,137 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kokatto.kobold.chattemplate.KeyboardCreateChatTemplate
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kokatto.kobold.chattemplate.KeyboardCreateChatTemplate xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/title_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F7F7F7"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/increase_form_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_arrow_increase_minor" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:text="Perluas Tampilan"
-                android:textColor="@color/blue_text" />
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/editorBackground"
         app:layout_constraintBottom_toTopOf="@id/footer_layout"
-        app:layout_constraintTop_toBottomOf="@id/title_layout">
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/kobold_margin_12px">
-
-        <com.kokatto.kobold.uicomponent.KoboldEditText
-            android:id="@+id/kobold_template_select_input"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="@dimen/kobold_margin_8px"
-            android:text="@string/kobold_template_pick_greetings"
-            android:entries="@array/kobold_pick_template_values"
-            app:label="@string/pilih_template"
-            app:showChevron="true"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/kobold_margin_12px">
 
-        <com.kokatto.kobold.uicomponent.KoboldEditText
-            android:id="@+id/kobold_template_name_input"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="@dimen/kobold_margin_8px"
-            app:label="@string/nama_template"
-            android:inputType="textMultiLine|textCapSentences|textFilter"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F7F7F7"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.kokatto.kobold.uicomponent.KoboldEditText
-            android:id="@+id/kobold_template_name_content"
-            android:layout_width="match_parent"
-            android:layout_height="116dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="@dimen/kobold_margin_12px"
-            app:label="@string/kobold_label_content"
-            android:inputType="textMultiLine|textCapSentences|textFilter"/>
+                <LinearLayout
+                    android:id="@+id/increase_form_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/kobold_createtemplate_expand_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/kobold_createchat_expand_view"
+                        android:textColor="@color/blue_text"
+                        android:drawableStart="@drawable/ic_arrow_increase_minor"
+                        android:drawableLeft="@drawable/ic_arrow_increase_minor"
+                        app:drawableStartCompat="@drawable/ic_arrow_increase_minor"
+                        app:drawableLeftCompat="@drawable/ic_arrow_increase_minor"
+                        android:drawablePadding="@dimen/kobold_margin_8px"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.kokatto.kobold.uicomponent.KoboldEditText
+                android:id="@+id/kobold_template_select_input"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="@dimen/kobold_margin_8px"
+                android:entries="@array/kobold_pick_template_values"
+                android:text="@string/kobold_template_pick_greetings"
+                app:label="@string/pilih_template"
+                app:showChevron="true" />
+
+            <com.kokatto.kobold.uicomponent.KoboldEditText
+                android:id="@+id/kobold_template_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="@dimen/kobold_margin_8px"
+                android:inputType="textMultiLine|textCapSentences|textFilter"
+                app:label="@string/nama_template"
+                app:maxAllowedCharacters="50"/>
+
+            <com.kokatto.kobold.uicomponent.KoboldEditText
+                android:id="@+id/kobold_template_name_content"
+                android:layout_width="match_parent"
+                android:layout_height="116dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="@dimen/kobold_margin_12px"
+                android:inputType="textMultiLine|textCapSentences|textFilter"
+                app:label="@string/kobold_label_content"
+                app:maxAllowedCharacters="1000"/>
+
+        </LinearLayout>
 
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/footer_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/footer_height"
         android:background="@color/cardViewBackgroundColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/gray_1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:drawableStart="@drawable/ic_keyboard_arrow_left"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="@string/kembali"
-            android:textSize="14sp"
             android:textColor="@color/textColorDark"
-            app:layout_constraintTop_toBottomOf="@id/line"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="14sp"
             app:drawableLeftCompat="@drawable/ic_keyboard_arrow_left"
             app:drawableStartCompat="@drawable/ic_keyboard_arrow_left"
-            android:drawableStart="@drawable/ic_keyboard_arrow_left"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:layout_marginEnd="12dp"
+            style="@style/BlueButton"
+            android:textColor="@color/textColor"
             android:paddingHorizontal="@dimen/kobold_margin_12px"
-            android:textAllCaps="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/simpan_template"
-            android:layout_marginEnd="12dp"/>
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

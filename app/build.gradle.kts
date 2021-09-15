@@ -162,6 +162,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext", "junit", "1.1.2")
     androidTestImplementation("androidx.test.espresso", "espresso-core", "3.3.0")
 
+    implementation("com.github.skydoves:needs:1.1.2")
+
     implementation(platform("com.google.firebase:firebase-bom:28.4.0"))
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")

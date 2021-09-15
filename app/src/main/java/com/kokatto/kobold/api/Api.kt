@@ -74,11 +74,12 @@ interface ChatTemplateApi {
 //    @RequiredAuth
     @PATCH(autoTextUrl + "update/{id}")
     suspend fun updateAutotextById(
-    @Path("id") autoTextId: String
+    @Path("id") autoTextId: String,
+    @Body updateAutoTextRequest: AutoTextModel
     ): ApiResponse<GetAutoTextResponse>
 
 //    @RequiredAuth
-    @PATCH(autoTextUrl + "detail/{id}")
+    @PATCH(autoTextUrl + "delete/{id}")
     suspend fun deleteAutotextById(
         @Path("id") autoTextId: String
     ): ApiResponse<GetAutoTextResponse>

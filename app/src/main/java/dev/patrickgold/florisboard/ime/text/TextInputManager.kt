@@ -84,7 +84,7 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
     private val florisboard get() = FlorisBoard.getInstance()
     private val prefs get() = Preferences.default()
     val symbolsWithSpaceAfter: List<String>
-    private val activeEditorInstance: EditorInstance
+    val activeEditorInstance: EditorInstance
         get() = florisboard.activeEditorInstance
 
     lateinit var layoutManager: LayoutManager

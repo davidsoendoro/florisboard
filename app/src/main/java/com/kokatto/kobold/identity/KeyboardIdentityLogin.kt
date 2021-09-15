@@ -46,7 +46,7 @@ class KeyboardIdentityLogin : LinearLayout {
     }
 
     private fun onLoginButtonClicked(view: View) {
-        showToast(AppPersistence.private()["test"])
+//        showToast(appPersistence?.private()?.getString("test", ""))
 //        loginViewModel!!.getRestaurant(
 //            onSuccess = {
 //                showToast("YAY")

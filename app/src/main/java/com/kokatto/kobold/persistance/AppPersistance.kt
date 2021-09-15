@@ -7,22 +7,23 @@ import com.kokatto.kobold.extension.get
 import com.kokatto.kobold.extension.set
 
 object AppPersistence {
-    private lateinit var _private: SharedPreferences
+    private lateinit var thePrivate : SharedPreferences
+
     var test: String
-        get() = _private["test"] ?: ""
+        get() = thePrivate["test"] ?: ""
         set(value) {
-            _private["test"] = value
+            thePrivate["test"] = value
         }
 
     var token: String
-        get() = _private["applicationToken"] ?: ""
+        get() = thePrivate["applicationToken"] ?: ""
         set(value) {
-            _private["applicationToken"] = value
+            thePrivate["applicationToken"] = value
         }
 
     fun init(context: Application) {
-        _private = context.getSharedPreferences("private", Context.MODE_PRIVATE)
+        thePrivate = context.getSharedPreferences("private", Context.MODE_PRIVATE)
     }
 
-    fun private() = _private
+    fun private() = thePrivate
 }
