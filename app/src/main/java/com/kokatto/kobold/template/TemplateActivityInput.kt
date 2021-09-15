@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
-import com.google.android.material.textfield.TextInputLayout
 
 
 class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickListener {
@@ -43,7 +43,6 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private var buttonDelete: ImageView? = null
     private var extraStateInput: Int? = -1
     private var extraId: String? = ""
-    private var isEdited: Boolean? = false
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -71,7 +70,6 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
 
         textInputTitleError?.isVisible = false
         textInputContentError?.isVisible = false
-
 
         textInputTemplate?.addTextChangedListener(object : TextWatcher {
 
@@ -144,30 +142,30 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         })
 
         extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
+        extraId = intent.getStringExtra(EXTRA_ID)
+
+        val extraTemplate = intent.getStringExtra(EXTRA_TEMPLATE)
+        val extraTitle = intent.getStringExtra(EXTRA_TITLE)
+        val extraContent = intent.getStringExtra(EXTRA_CONTENT)
+        markButtonSaveDisable(true)
 
         if (extraStateInput!! >= 0) {
-            extraId = intent.getStringExtra(EXTRA_ID)
-            val extraTemplate = intent.getStringExtra(EXTRA_TEMPLATE)
-            val extraTitle = intent.getStringExtra(EXTRA_TITLE)
-            val extraContent = intent.getStringExtra(EXTRA_CONTENT)
-
             titleText?.text = resources.getString(R.string.detail_template)
-            textInputTemplate?.setText(extraTemplate)
-            textInputTitle?.setText(extraTitle)
-            textInputContent?.setText(extraContent)
-
             buttonDelete?.isVisible = true
-
-            buttonSave?.isEnabled = false
-            buttonSave?.isAllCaps = false
-            buttonSave?.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_10))
-            buttonSave?.setTextColor(ContextCompat.getColor(this, R.color.text_color_white))
-
+            setEditTextValue(extraTemplate, extraTitle, extraContent)
         } else {
             titleText?.text = resources.getString(R.string.buat_template)
             buttonDelete?.isVisible = false
-        }
 
+            // accepted form expand view or button create
+            if (extraTemplate == null || extraTemplate == "") {
+                setEditTextValue("Pesan Pembuka", "", "")
+            } else {
+                setEditTextValue(extraTemplate, extraTitle, extraContent)
+                // Allow to save
+                markButtonSaveDisable(false)
+            }
+        }
     }
 
     override fun onItemClick(item: String?) {
@@ -221,8 +219,9 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 super.onBackPressed()
             }
             R.id.choose_template_edittext -> {
-                val modalSheetView = TemplateDialogActionBottom.newInstance()
-                modalSheetView.show(supportFragmentManager, TemplateDialogActionBottom.TAG)
+                // val modalSheetView = TemplateDialogActionBottom.newInstance()
+                val modalSheetView = textInputTemplate?.text.toString().let { TemplateDialogSelection.newInstance(it) }
+                modalSheetView.show(supportFragmentManager, TemplateDialogSelection.TAG)
             }
             R.id.delete_button -> {
                 val modalSheetView = extraId?.let { TemplateDialogDelete.newInstance(it) }
@@ -243,6 +242,12 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             buttonSave?.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_50))
             buttonSave?.setTextColor(ContextCompat.getColor(this, R.color.text_color_white))
         }
+    }
+
+    private fun setEditTextValue(template: String?, title: String?, content: String?) {
+        textInputTemplate?.setText(template)
+        textInputTitle?.setText(title)
+        textInputContent?.setText(content)
     }
 
 
