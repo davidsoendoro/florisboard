@@ -105,7 +105,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if(s.length > 50 ) {
+                if (s.length > 50) {
                     textInputTitleLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
                     textInputTitleError?.isVisible = true
                     markButtonSaveDisable(true)
@@ -131,7 +131,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                if(s.length > 1000 ) {
+                if (s.length > 1000) {
                     textInputContentLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
                     textInputContentError?.isVisible = true
                     markButtonSaveDisable(true)
@@ -177,37 +177,44 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private fun onClicked(view: View) {
         when (view.id) {
             R.id.create_template_button -> {
+                extraId?.let { _extraId ->
+                    if (extraStateInput!! >= 0) {
+                        val model = AutoTextModel(
+                            _id = _extraId,
+                            template = textInputTemplate?.text.toString(),
+                            title = textInputTitle?.text.toString(),
+                            content = textInputContent?.text.toString()
+                        )
 
-                var model = AutoTextModel()
-                model.template = textInputTemplate?.text.toString()
-                model.title = textInputTitle?.text.toString()
-                model.content = textInputContent?.text.toString()
+                        chatTemplateViewModel?.updateAutotextById(
+                            _extraId,
+                            model,
+                            onSuccess = {
+                                super.finish()
+                                showToast(resources.getString(R.string.template_create_success))
+                            },
+                            onError = {
+                                showToast(it)
+                            }
+                        )
+                    } else {
+                        val model = AutoTextModel(
+                            template = textInputTemplate?.text.toString(),
+                            title = textInputTitle?.text.toString(),
+                            content = textInputContent?.text.toString()
+                        )
 
-                if (extraStateInput!! >= 0) {
-                    model._id = extraId
-                    chatTemplateViewModel?.updateAutotextById(
-                        extraId!!,
-                        model,
-                        onSuccess = { it ->
-                            super.finish()
-                            showToast(resources.getString(R.string.template_create_success))
-                        },
-                        onError = {
-                            showToast(it)
-                        }
-                    )
-                } else {
-                    model._id = null
-                    chatTemplateViewModel?.createChatTemplate(
-                        model,
-                        onSuccess = { it ->
-                            super.finish()
-                            showToast(resources.getString(R.string.template_create_success))
-                        },
-                        onError = {
-                            showToast(it)
-                        }
-                    )
+                        chatTemplateViewModel?.createChatTemplate(
+                            model,
+                            onSuccess = {
+                                super.finish()
+                                showToast(resources.getString(R.string.template_create_success))
+                            },
+                            onError = {
+                                showToast(it)
+                            }
+                        )
+                    }
                 }
             }
             R.id.back_button -> {
