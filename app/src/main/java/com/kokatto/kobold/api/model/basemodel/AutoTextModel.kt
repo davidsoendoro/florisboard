@@ -1,6 +1,5 @@
 package com.kokatto.kobold.api.model.basemodel
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
