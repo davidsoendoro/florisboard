@@ -36,19 +36,18 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_arrow_increase_minor" />
-
                     <TextView
+                        android:id="@+id/kobold_createtemplate_expand_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:text="Perluas Tampilan"
-                        android:textColor="@color/blue_text" />
+                        android:text="@string/kobold_createchat_expand_view"
+                        android:textColor="@color/blue_text"
+                        android:drawableStart="@drawable/ic_arrow_increase_minor"
+                        android:drawableLeft="@drawable/ic_arrow_increase_minor"
+                        app:drawableStartCompat="@drawable/ic_arrow_increase_minor"
+                        app:drawableLeftCompat="@drawable/ic_arrow_increase_minor"
+                        android:drawablePadding="@dimen/kobold_margin_8px"/>
 
                 </LinearLayout>
 
@@ -70,7 +69,8 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="@dimen/kobold_margin_8px"
                 android:inputType="textMultiLine|textCapSentences|textFilter"
-                app:label="@string/nama_template" />
+                app:label="@string/nama_template"
+                app:maxAllowedCharacters="50"/>
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
                 android:id="@+id/kobold_template_name_content"
@@ -79,7 +79,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="@dimen/kobold_margin_12px"
                 android:inputType="textMultiLine|textCapSentences|textFilter"
-                app:label="@string/kobold_label_content" />
+                app:label="@string/kobold_label_content"
+                app:maxAllowedCharacters="1000"/>
 
         </LinearLayout>
 
@@ -123,7 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:background="@color/colorPrimary"
+            style="@style/BlueButton"
+            android:textColor="@color/textColor"
             android:paddingHorizontal="@dimen/kobold_margin_12px"
             android:text="@string/simpan_template"
             android:textAllCaps="false"

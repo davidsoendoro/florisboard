@@ -101,6 +101,7 @@ import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
 import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.uicomponent.KoboldEditText
 
 /**
@@ -753,6 +754,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     fun launchSettings() {
         requestHideSelf(0)
         val i = Intent(this, SetupActivity::class.java)
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+        applicationContext.startActivity(i)
+    }
+
+    fun launchExpandView() {
+        requestHideSelf(0)
+        val i = Intent(this, TemplateActivity::class.java)
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
             Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
             Intent.FLAG_ACTIVITY_CLEAR_TOP

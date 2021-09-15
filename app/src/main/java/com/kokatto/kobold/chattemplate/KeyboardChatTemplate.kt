@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.response.PaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
@@ -24,8 +25,8 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
 
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
-    private var chatTemplateList: ArrayList<PaginatedAutoTextResponse.Content> = arrayListOf()
-    private var adapter : ChatTemplateRecyclerAdapter? = null
+    private var chatTemplateList: ArrayList<AutoTextModel> = arrayListOf()
+    private var adapter: ChatTemplateRecyclerAdapter? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -63,9 +64,9 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
         chatTemplateRecycler.vertical()
     }
 
-    override fun onClicked(data: PaginatedAutoTextResponse.Content) {
+    override fun onClicked(data: AutoTextModel) {
         florisboard?.inputFeedbackManager?.keyPress()
-        florisboard?.textInputManager?.activeEditorInstance?.commitText(data.content)
+        florisboard?.textInputManager?.activeEditorInstance?.commitText(data.content.toString())
     }
 
 }

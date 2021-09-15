@@ -24,10 +24,9 @@ class TemplateActivity : AppCompatActivity() {
         activeButton = findViewById(R.id.popup_keyboard_active_button)
         warningLayout = findViewById(R.id.layout_active_keyboard)
 
-
         activeButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
 
-//        check if data is available or not
+        // check if data is available or not
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
@@ -42,7 +41,6 @@ class TemplateActivity : AppCompatActivity() {
         }
 
     }
-
 
     private fun onButtonClicked(view: View) {
         when (view.id) {
