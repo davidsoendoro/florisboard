@@ -9,7 +9,8 @@ data class GetPaginatedAutoTextResponse(
 ) {
     data class Data(
         val contents: List<AutoTextModel>,
-        val page: String,
+        val page: Int,
+        val totalPages: Int,
         val totalRecord: Int
     )
 }

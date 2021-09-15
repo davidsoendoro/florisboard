@@ -13,25 +13,32 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 class ChatTemplateViewModel() {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
 
     fun getChatTemplateList(
-        page: Int,
+        page: Int = 1,
         pageSize: Int = 10,
+        onLoading: (Boolean) -> Unit,
         onSuccess: (GetPaginatedAutoTextResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
 //            delay(5000)
+            onLoading.invoke(true)
             val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize)
             response.onSuccess {
+                onLoading.invoke(false)
                 onSuccess.invoke(this.data)
             }.onError {
+                onLoading.invoke(false)
                 onError.invoke(this.message())
             }.onException {
+                onLoading.invoke(false)
                 onError.invoke(this.message ?: "Unknown Error")
             }
         }
