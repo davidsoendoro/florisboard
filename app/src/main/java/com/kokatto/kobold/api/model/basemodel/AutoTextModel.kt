@@ -1,6 +1,6 @@
 package com.kokatto.kobold.api.model.basemodel
 
-data class AutoTextModel(
+data class AutoTextModel (
     val _id: String? = "",
     val content: String? = "",
     val template: String? = "",
