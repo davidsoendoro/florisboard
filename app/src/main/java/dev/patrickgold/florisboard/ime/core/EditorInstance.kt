@@ -193,13 +193,15 @@ class EditorInstance private constructor(
         } else {
             val previous = getTextBeforeCursor(composer.toRead)
             val (rm, finalText) = composer.getActions(previous, text[0])
+            ic.beginBatchEdit()
+            ic.finishComposingText()
+            if (rm != 0) ic.deleteSurroundingText(rm, 0)
             if (activeEditText == null) {
-                ic.beginBatchEdit()
-                ic.finishComposingText()
-                if (rm != 0) ic.deleteSurroundingText(rm, 0)
                 ic.commitText(finalText, 1)
-                ic.endBatchEdit()
             } else {
+                if (activeEditText?.inputType?.and(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES) != 0) {
+
+                }
                 activeEditText?.let { _activeEditText ->
                     _activeEditText.append(finalText)
                     _activeEditText.text?.let { editTextContent ->
@@ -207,6 +209,7 @@ class EditorInstance private constructor(
                     }
                 }
             }
+            ic.endBatchEdit()
             Pair(true, finalText)
         }
     }
@@ -546,6 +549,12 @@ class EditorInstance private constructor(
         } else {
             commitText("\n")
         }
+    }
+
+    fun performRawEnter(): Boolean {
+        isPhantomSpaceActive = false
+        wasPhantomSpaceActiveLastUpdate = false
+        return sendDownUpKeyEvent(KeyEvent.KEYCODE_ENTER)
     }
 
     /**

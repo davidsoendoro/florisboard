@@ -17,6 +17,7 @@
 package dev.patrickgold.florisboard.ime.text
 
 import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
 import com.kokatto.kobold.BuildConfig
@@ -594,19 +595,25 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
      * Handles a [KeyCode.ENTER] event.
      */
     private fun handleEnter() {
-        if (activeState.imeOptions.flagNoEnterAction) {
-            activeEditorInstance.performEnter()
-        } else {
-            when (activeState.imeOptions.enterAction) {
-                ImeOptions.EnterAction.DONE,
-                ImeOptions.EnterAction.GO,
-                ImeOptions.EnterAction.NEXT,
-                ImeOptions.EnterAction.PREVIOUS,
-                ImeOptions.EnterAction.SEARCH,
-                ImeOptions.EnterAction.SEND -> {
-                    activeEditorInstance.performEnterAction(activeState.imeOptions.enterAction)
+        when {
+            activeEditorInstance.activeEditText != null -> {
+                activeEditorInstance.performRawEnter()
+            }
+            activeState.imeOptions.flagNoEnterAction -> {
+                activeEditorInstance.performEnter()
+            }
+            else -> {
+                when (activeState.imeOptions.enterAction) {
+                    ImeOptions.EnterAction.DONE,
+                    ImeOptions.EnterAction.GO,
+                    ImeOptions.EnterAction.NEXT,
+                    ImeOptions.EnterAction.PREVIOUS,
+                    ImeOptions.EnterAction.SEARCH,
+                    ImeOptions.EnterAction.SEND -> {
+                        activeEditorInstance.performEnterAction(activeState.imeOptions.enterAction)
+                    }
+                    else -> activeEditorInstance.performEnter()
                 }
-                else -> activeEditorInstance.performEnter()
             }
         }
         isGlidePostEffect = false
