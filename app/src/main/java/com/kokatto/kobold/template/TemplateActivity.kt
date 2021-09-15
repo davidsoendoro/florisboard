@@ -61,7 +61,7 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         val templateContentValue = intent.getStringExtra(FromKeyboardRequest.templateContentKey)
 
         if (templateNameInputValue != null || templatePickInputValue != null || templateContentValue != null) {
-            openCreateTemplate()
+            openCreateTemplate(templatePickInputValue,templateNameInputValue,templateContentValue)
         }
     }
 
