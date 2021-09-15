@@ -14,7 +14,7 @@
             android:id="@+id/title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/icon_white"
+            android:background="@color/colorWhite"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="visible">
@@ -67,6 +67,7 @@
             android:paddingVertical="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_layout"
+            android:background="@color/colorWhite"
             tools:listitem="@layout/item_chat_template">
 
             <TextView
@@ -97,6 +98,7 @@
                 android:textSize="14sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/title_template_textinputlayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -106,6 +108,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/title_template_edittext_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/template_text_error_length"
+                    android:textAppearance="@style/error_edit_text"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -116,6 +126,7 @@
                 android:textSize="14sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/content_template_textinputlayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -127,6 +138,14 @@
                     android:minHeight="216dp"
                     android:textSize="14sp"
                     android:gravity="top"/>
+
+                <TextView
+                    android:id="@+id/content_template_edittext_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/template_text_error_length"
+                    android:textAppearance="@style/error_edit_text"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
 
