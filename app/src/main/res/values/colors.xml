@@ -62,4 +62,6 @@
     <color name="text_error_red">#E50505</color>
     <color name="kobold_blue_button">#2464F2</color>
     <color name="kobold_blue_button_disabled">#B6CBFB</color>
+    <color name="page_background">#FFFFFF</color>
+    <color name="item_border">#EBEBEB</color>
 </resources>
