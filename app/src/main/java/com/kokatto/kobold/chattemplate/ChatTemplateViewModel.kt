@@ -73,13 +73,13 @@ class ChatTemplateViewModel {
     }
 
     fun updateAutotextById(
-        autoTextModel: AutoTextModel,
+        id: String,
         onSuccess: (GetAutoTextResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
 //            delay(5000)
-            val response = Network.chatTemplateApi.updateAutotextById(autoTextModel)
+            val response = Network.chatTemplateApi.updateAutotextById(id)
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {
