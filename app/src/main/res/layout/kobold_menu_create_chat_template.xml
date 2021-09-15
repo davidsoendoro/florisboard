@@ -68,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="@dimen/kobold_margin_8px"
-                android:inputType="textMultiLine|textCapSentences|textFilter"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionDone"
                 app:label="@string/nama_template"
                 app:maxAllowedCharacters="50"/>
 
@@ -78,7 +79,7 @@
                 android:layout_height="116dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="@dimen/kobold_margin_12px"
-                android:inputType="textMultiLine|textCapSentences|textFilter"
+                android:inputType="textMultiLine|textCapSentences"
                 app:label="@string/kobold_label_content"
                 app:maxAllowedCharacters="1000"/>
 

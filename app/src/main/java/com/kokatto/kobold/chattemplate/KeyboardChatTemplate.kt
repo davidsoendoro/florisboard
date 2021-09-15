@@ -1,7 +1,9 @@
 package com.kokatto.kobold.chattemplate
 
 import android.content.Context
+import android.graphics.Canvas
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,7 +24,7 @@ import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
+class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -31,6 +33,8 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
 
     private var chatTemplateList: ArrayList<AutoTextModel> = arrayListOf()
     private var adapter: ChatTemplateRecyclerAdapter? = null
+
+    private var chatTemplateRecycler: RecyclerView? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -44,8 +48,7 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
         val searchButton: ImageView = findViewById(R.id.search_button)
         val backButton: TextView = findViewById(R.id.back_button)
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
-        val chatTemplateRecycler: RecyclerView = findViewById(R.id.chat_template_recycler)
-        val bottomLoading = findViewById<LinearLayout>(R.id.bottom_loading)
+        chatTemplateRecycler = findViewById(R.id.chat_template_recycler)
 
         createTemplateButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -58,6 +61,21 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
         }
 
         adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
+        chatTemplateRecycler?.adapter = adapter
+
+        loadChatTemplate()
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        if (visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
+            adapter?.dataList?.clear()
+            loadChatTemplate()
+        }
+        super.onVisibilityChanged(changedView, visibility)
+    }
+
+    fun loadChatTemplate() {
+        florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
 
         chatTemplateViewModel?.getChatTemplateList(
             onLoading = {
@@ -72,41 +90,44 @@ class KeyboardChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClic
                 showToast(it)
             }
         )
-        chatTemplateRecycler.adapter = adapter
-        chatTemplateRecycler.vertical()
 
-        DovesRecyclerViewPaginator(
-            recyclerView = chatTemplateRecycler,
-            isLoading = { isLoadingChatTemplate.get() },
-            loadMore = { it ->
-                bottomLoading.isVisible = true
-                chatTemplateViewModel?.getChatTemplateList(
-                    page = it,
-                    onLoading = {
-                        Timber.e(it.toString())
-                        isLoadingChatTemplate.set(it)
-                    },
-                    onSuccess = { it ->
-                        isLastChatTemplate.set(it.data.totalPages <= it.data.page)
+        chatTemplateRecycler?.let {
+            val bottomLoading = findViewById<LinearLayout>(R.id.bottom_loading)
 
-                        isLoadingChatTemplate.set(false)
-                        val initialSize = chatTemplateList.size
-                        chatTemplateList.addAll(it.data.contents)
-                        val finalSize = chatTemplateList.size
-                        adapter?.notifyItemRangeChanged(initialSize, finalSize)
+            DovesRecyclerViewPaginator(
+                recyclerView = it,
+                isLoading = { isLoadingChatTemplate.get() },
+                loadMore = { loadMoreData ->
+                    bottomLoading.isVisible = true
+                    chatTemplateViewModel?.getChatTemplateList(
+                        page = loadMoreData + 1,
+                        onLoading = { loadData ->
+                            Timber.e(loadData.toString())
+                            isLoadingChatTemplate.set(loadData)
+                        },
+                        onSuccess = { successData ->
+                            isLastChatTemplate.set(successData.data.totalPages <= successData.data.page)
 
-                        bottomLoading.isVisible = false
-                    },
-                    onError = {
-                        showToast(it)
-                        bottomLoading.isVisible = false
-                    }
-                )
-            },
-            onLast = { isLastChatTemplate.get() }
-        ).run {
-            threshold = 3
+                            isLoadingChatTemplate.set(false)
+                            val initialSize = chatTemplateList.size
+                            chatTemplateList.addAll(successData.data.contents)
+                            val finalSize = chatTemplateList.size
+                            adapter?.notifyItemRangeChanged(initialSize, finalSize)
+
+                            bottomLoading.isVisible = false
+                        },
+                        onError = { errorMessage ->
+                            showToast(errorMessage)
+                            bottomLoading.isVisible = false
+                        }
+                    )
+                },
+                onLast = { isLastChatTemplate.get() }
+            ).run {
+                threshold = 3
+            }
         }
+        chatTemplateRecycler?.vertical()
     }
 
     override fun onClicked(data: AutoTextModel) {
