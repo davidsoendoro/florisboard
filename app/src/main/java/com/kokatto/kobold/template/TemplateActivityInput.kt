@@ -1,16 +1,20 @@
 package com.kokatto.kobold.template
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
-import dev.patrickgold.florisboard.setup.SetupActivity
 
 class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickListener {
 
@@ -23,6 +27,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         const val EXTRA_STATE_CREATE = -1
         const val EXTRA_STATE_EDIT = 1
     }
+
     private var titleText: TextView? = null
     private var textInputTemplate: TextInputEditText? = null
     private var textInputTitle: TextInputEditText? = null
@@ -30,6 +35,11 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private var buttonSave: Button? = null
     private var buttonBack: ImageView? = null
     private var buttonDelete: ImageView? = null
+    private var extraStateInput: Int? = -1
+    private var extraId: String? = ""
+    private var isEdited: Boolean? = false
+
+    private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,22 +59,83 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         buttonDelete?.let { button -> button.setOnClickListener { onClicked(button) } }
         textInputTemplate?.let { textInput -> textInput.setOnClickListener { onClicked(textInput) } }
 
-        val extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
+        textInputTemplate?.addTextChangedListener(object : TextWatcher {
 
-        if (extraStateInput >= 0) {
-            val extraId = intent.getStringExtra(EXTRA_ID)
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                markButtonSaveDisable(false)
+            }
+        })
+
+        textInputTitle?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                markButtonSaveDisable(false)
+            }
+        })
+
+        textInputContent?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                markButtonSaveDisable(false)
+            }
+        })
+
+
+        extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
+
+        if (extraStateInput!! >= 0) {
+            extraId = intent.getStringExtra(EXTRA_ID)
             val extraTemplate = intent.getStringExtra(EXTRA_TEMPLATE)
             val extraTitle = intent.getStringExtra(EXTRA_TITLE)
             val extraContent = intent.getStringExtra(EXTRA_CONTENT)
 
-            titleText?.setText(resources.getString(R.string.detail_template))
+            titleText?.text = resources.getString(R.string.detail_template)
             textInputTemplate?.setText(extraTemplate)
             textInputTitle?.setText(extraTitle)
             textInputContent?.setText(extraContent)
 
             buttonDelete?.isVisible = true
+
+            buttonSave?.isEnabled = false
+            buttonSave?.isAllCaps = false
+            buttonSave?.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_10))
+            buttonSave?.setTextColor(ContextCompat.getColor(this, R.color.text_color_white))
+
         } else {
-            titleText?.setText(resources.getString(R.string.buat_template))
+            titleText?.text = resources.getString(R.string.buat_template)
             buttonDelete?.isVisible = false
         }
 
@@ -77,8 +148,38 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private fun onClicked(view: View) {
         when (view.id) {
             R.id.create_template_button -> {
-                super.finish()
-                showToast(resources.getString(R.string.template_create_success))
+
+                var model = AutoTextModel()
+                model.template = textInputTemplate?.text.toString()
+                model.title = textInputTitle?.text.toString()
+                model.content = textInputContent?.text.toString()
+
+                if (extraStateInput!! >= 0) {
+                    model._id = extraId
+                    chatTemplateViewModel?.updateAutotextById(
+                        extraId!!,
+                        model,
+                        onSuccess = { it ->
+                            super.finish()
+                            showToast(resources.getString(R.string.template_create_success))
+                        },
+                        onError = {
+                            showToast(it)
+                        }
+                    )
+                } else {
+                    model._id = null
+                    chatTemplateViewModel?.createChatTemplate(
+                        model,
+                        onSuccess = { it ->
+                            super.finish()
+                            showToast(resources.getString(R.string.template_create_success))
+                        },
+                        onError = {
+                            showToast(it)
+                        }
+                    )
+                }
             }
             R.id.back_button -> {
                 super.onBackPressed()
@@ -88,10 +189,25 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 modalSheetView.show(supportFragmentManager, TemplateDialogActionBottom.TAG)
             }
             R.id.delete_button -> {
-                val modalSheetView = TemplateDialogDelete.newInstance()
-                modalSheetView.show(supportFragmentManager, TemplateDialogDelete.TAG)
+                val modalSheetView = extraId?.let { TemplateDialogDelete.newInstance(it) }
+                modalSheetView?.show(supportFragmentManager, TemplateDialogDelete.TAG)
             }
         }
+    }
+
+    fun markButtonSaveDisable(isDisable: Boolean) {
+        if (isDisable) {
+            buttonSave?.isAllCaps = false
+            buttonSave?.isEnabled = false
+            buttonSave?.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_10))
+            buttonSave?.setTextColor(ContextCompat.getColor(this, R.color.text_color_white))
+        } else {
+            buttonSave?.isAllCaps = false
+            buttonSave?.isEnabled = true
+            buttonSave?.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_50))
+            buttonSave?.setTextColor(ContextCompat.getColor(this, R.color.text_color_white))
+        }
+
     }
 
 }
