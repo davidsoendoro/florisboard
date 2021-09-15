@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
+import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
+import java.util.concurrent.atomic.AtomicBoolean
 
 class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list), ChatTemplateRecyclerAdapter.OnClick {
 
@@ -21,14 +23,19 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
+    private val isLoadingChatTemplate = AtomicBoolean(true)
+    private val isLastChatTemplate = AtomicBoolean(false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var getPaginatedPage: Int = 1
 
         val chatTemplateRecycler = view.findViewById<RecyclerView>(R.id.chat_template_recycler)
         val btnCreate = view.findViewById<CardView>(R.id.create_template_button)
 
         if (chatTemplateRecyclerAdapter == null) {
             chatTemplateViewModel?.getChatTemplateList(
+                page = getPaginatedPage,
                 onSuccess = { it ->
                     chatTemplateList.addAll(it.data.contents)
                     chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
@@ -40,6 +47,27 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
             chatTemplateRecyclerAdapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
             chatTemplateRecycler.adapter = chatTemplateRecyclerAdapter
             chatTemplateRecycler.vertical()
+
+//            DovesRecyclerViewPaginator(
+//                recyclerView = chatTemplateRecycler,
+//                isLoading = { isLoadingChatTemplate.get() },
+//                loadMore = {
+//                    getPaginatedPage++
+//                    chatTemplateViewModel?.getChatTemplateList(
+//                        page = getPaginatedPage,
+//                        onSuccess = { it ->
+//                            chatTemplateList.addAll(it.data.contents)
+//                            chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+//                        },
+//                        onError = {
+//                            showToast(it)
+//                        }
+//                    )
+//                },
+//                onLast = { isLastChatTemplate.get() }
+//            ).run {
+//                threshold = 3
+//            }
         }
 
         btnCreate?.let { button -> button.setOnClickListener { onCreateClicked(button) } }

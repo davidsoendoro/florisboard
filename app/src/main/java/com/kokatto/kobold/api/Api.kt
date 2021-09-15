@@ -50,8 +50,8 @@ interface ChatTemplateApi {
 //    @RequiredAuth
     @GET(autoTextUrl + "filter")
     suspend fun getPaginatedChatTemplateList(
-        @Query("page") page: Int = 0,
-        @Query("pageSize") pageSize: Int = 10
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
     ): ApiResponse<GetPaginatedAutoTextResponse>
 
 //    @RequiredAuth
