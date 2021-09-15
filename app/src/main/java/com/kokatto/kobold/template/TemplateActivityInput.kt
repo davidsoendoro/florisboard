@@ -23,7 +23,6 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         const val EXTRA_STATE_CREATE = -1
         const val EXTRA_STATE_EDIT = 1
     }
-
     private var titleText: TextView? = null
     private var textInputTemplate: TextInputEditText? = null
     private var textInputTitle: TextInputEditText? = null
@@ -78,8 +77,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private fun onClicked(view: View) {
         when (view.id) {
             R.id.create_template_button -> {
-                super.onBackPressed()
-                showToast("Template Berhasil Dibuat")
+                super.finish()
+                showToast(resources.getString(R.string.template_create_success))
             }
             R.id.back_button -> {
                 super.onBackPressed()

@@ -46,6 +46,7 @@ class TemplateActivitySearch : AppCompatActivity() {
     }
 
     private fun performSearch() {
+
         showToast("search test")
     }
 
