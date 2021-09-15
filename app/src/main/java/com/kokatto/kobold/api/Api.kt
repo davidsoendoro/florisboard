@@ -50,8 +50,8 @@ interface ChatTemplateApi {
 //    @RequiredAuth
     @GET(autoTextUrl + "filter")
     suspend fun getPaginatedChatTemplateList(
-        @Query("page") page: Int = 0,
-        @Query("pageSize") pageSize: Int = 10
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
     ): ApiResponse<GetPaginatedAutoTextResponse>
 
 //    @RequiredAuth
@@ -74,11 +74,12 @@ interface ChatTemplateApi {
 //    @RequiredAuth
     @PATCH(autoTextUrl + "update/{id}")
     suspend fun updateAutotextById(
-        @Body createAutoTextRequest: AutoTextModel
+    @Path("id") autoTextId: String,
+    @Body updateAutoTextRequest: AutoTextModel
     ): ApiResponse<GetAutoTextResponse>
 
 //    @RequiredAuth
-    @PATCH(autoTextUrl + "detail/{id}")
+    @PATCH(autoTextUrl + "delete/{id}")
     suspend fun deleteAutotextById(
         @Path("id") autoTextId: String
     ): ApiResponse<GetAutoTextResponse>

@@ -1,6 +1,8 @@
 package com.kokatto.kobold.chattemplate
 
 import com.kokatto.kobold.api.Network
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
@@ -16,18 +18,93 @@ class ChatTemplateViewModel {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
     fun getChatTemplateList(
+        page: Int,
+        pageSize: Int = 10,
         onSuccess: (GetPaginatedAutoTextResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
 //            delay(5000)
-            val response = Network.chatTemplateApi.getPaginatedChatTemplateList()
+            val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize)
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {
                 onError.invoke(this.message())
             }.onException {
-                onError.invoke(this.message?:"Unknown Error")
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun createChatTemplate(
+        createAutoTextRequest: AutoTextModel,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.chatTemplateApi.postCreateAutoText(createAutoTextRequest)
+            response.onSuccess {
+                onSuccess.invoke(this.data.statusMessage)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun findAutotextById(
+        id: String,
+        onSuccess: (GetAutoTextResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.chatTemplateApi.findAutotextById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun updateAutotextById(
+        id: String,
+        requestBody: AutoTextModel,
+        onSuccess: (GetAutoTextResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.chatTemplateApi.updateAutotextById(id, requestBody)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun deleteAutotextById(
+        id: String,
+        onSuccess: (GetAutoTextResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.chatTemplateApi.deleteAutotextById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
             }
         }
     }
@@ -36,3 +113,5 @@ class ChatTemplateViewModel {
         scope.cancel()
     }
 }
+
+
