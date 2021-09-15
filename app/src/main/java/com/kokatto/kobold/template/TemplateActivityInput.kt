@@ -15,6 +15,8 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
+import com.google.android.material.textfield.TextInputLayout
+
 
 class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickListener {
 
@@ -31,7 +33,11 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private var titleText: TextView? = null
     private var textInputTemplate: TextInputEditText? = null
     private var textInputTitle: TextInputEditText? = null
+    private var textInputTitleLayout: TextInputLayout? = null
+    private var textInputTitleError: TextView? = null
     private var textInputContent: TextInputEditText? = null
+    private var textInputContentLayout: TextInputLayout? = null
+    private var textInputContentError: TextView? = null
     private var buttonSave: Button? = null
     private var buttonBack: ImageView? = null
     private var buttonDelete: ImageView? = null
@@ -48,7 +54,11 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         textInputTemplate = findViewById(R.id.choose_template_edittext)
         textInputTemplate?.isFocusable = false
         textInputTitle = findViewById(R.id.title_template_edittext)
+        textInputTitleLayout = findViewById(R.id.title_template_textinputlayout)
+        textInputTitleError = findViewById(R.id.title_template_edittext_error)
         textInputContent = findViewById(R.id.content_template_edittext)
+        textInputContentLayout = findViewById(R.id.content_template_textinputlayout)
+        textInputContentError = findViewById(R.id.content_template_edittext_error)
         buttonSave = findViewById(R.id.create_template_button)
         buttonBack = findViewById(R.id.back_button)
         titleText = findViewById(R.id.title_text)
@@ -58,6 +68,10 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         buttonBack?.let { button -> button.setOnClickListener { onClicked(button) } }
         buttonDelete?.let { button -> button.setOnClickListener { onClicked(button) } }
         textInputTemplate?.let { textInput -> textInput.setOnClickListener { onClicked(textInput) } }
+
+        textInputTitleError?.isVisible = false
+        textInputContentError?.isVisible = false
+
 
         textInputTemplate?.addTextChangedListener(object : TextWatcher {
 
@@ -91,7 +105,15 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                markButtonSaveDisable(false)
+                if(s.length > 50 ) {
+                    textInputTitleLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
+                    textInputTitleError?.isVisible = true
+                    markButtonSaveDisable(true)
+                } else {
+                    textInputTitleLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault)
+                    textInputTitleError?.isVisible = false
+                    markButtonSaveDisable(false)
+                }
             }
         })
 
@@ -109,10 +131,17 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 s: CharSequence, start: Int,
                 before: Int, count: Int
             ) {
-                markButtonSaveDisable(false)
+                if(s.length > 1000 ) {
+                    textInputContentLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
+                    textInputContentError?.isVisible = true
+                    markButtonSaveDisable(true)
+                } else {
+                    textInputContentLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault)
+                    textInputContentError?.isVisible = false
+                    markButtonSaveDisable(false)
+                }
             }
         })
-
 
         extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
 
@@ -207,7 +236,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             buttonSave?.setBackgroundColor(ContextCompat.getColor(this, R.color.primary_50))
             buttonSave?.setTextColor(ContextCompat.getColor(this, R.color.text_color_white))
         }
-
     }
+
 
 }

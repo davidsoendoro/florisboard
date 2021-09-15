@@ -201,4 +201,9 @@
 >>>>>>> f1d5aece34302db5fb38ac401d11f15d8e75913b
     </style>
 
+    <style name="error_edit_text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#E60505</item>
+    </style>
+
 </resources>
