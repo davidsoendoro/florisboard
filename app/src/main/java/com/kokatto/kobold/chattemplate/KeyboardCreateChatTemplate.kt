@@ -53,7 +53,11 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
         }
         koboldExpandView?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.launchExpandView()
+
+            val pickInput = koboldTemplatePickInput?.editText?.text.toString()
+            val nameInput = koboldTemplatePickInput?.editText?.text.toString()
+            val content = koboldTemplatePickInput?.editText?.text.toString()
+            florisboard?.launchExpandView(pickInput, nameInput, content)
         }
         koboldTemplatePickInput?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()

@@ -760,9 +760,13 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         applicationContext.startActivity(i)
     }
 
-    fun launchExpandView() {
+    fun launchExpandView(pickInput: String, nameInput: String, content: String) {
         requestHideSelf(0)
-        val i = Intent(this, TemplateActivity::class.java)
+        val i = Intent(this, TemplateActivity::class.java).apply {
+            putExtra(TemplateActivity.FromKeyboardRequest.templatePickInputKey, pickInput)
+            putExtra(TemplateActivity.FromKeyboardRequest.templateNameInputKey, nameInput)
+            putExtra(TemplateActivity.FromKeyboardRequest.templateContentKey, content)
+        }
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
             Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
             Intent.FLAG_ACTIVITY_CLEAR_TOP

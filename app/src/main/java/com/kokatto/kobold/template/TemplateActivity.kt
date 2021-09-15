@@ -14,7 +14,13 @@ import com.kokatto.kobold.extension.showToast
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
-class TemplateActivity : AppCompatActivity(){
+class TemplateActivity : AppCompatActivity() {
+
+    object FromKeyboardRequest {
+        val templatePickInputKey = "TEMPLATE_PICK_KEY"
+        val templateNameInputKey = "TEMPLATE_NAME_KEY"
+        val templateContentKey = "TEMPLATE_CONTENT_KEY"
+    }
 
     private var activeButton: Button? = null
     private var searchButton: ImageView? = null

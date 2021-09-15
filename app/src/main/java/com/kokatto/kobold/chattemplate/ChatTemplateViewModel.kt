@@ -18,7 +18,7 @@ class ChatTemplateViewModel {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
     fun getChatTemplateList(
-        page: Int,
+        page: Int = 1,
         pageSize: Int = 10,
         onSuccess: (GetPaginatedAutoTextResponse) -> Unit,
         onError: (String) -> Unit
