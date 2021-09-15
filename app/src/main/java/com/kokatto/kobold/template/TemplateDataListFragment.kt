@@ -1,6 +1,7 @@
 package com.kokatto.kobold.template
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import kotlinx.coroutines.InternalCoroutinesApi
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
@@ -44,9 +46,10 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
             chatTemplateViewModel?.getChatTemplateList(
                 page = getPaginatedPage,
                 onSuccess = { it ->
+                    isLoadingChatTemplate.set(false)
                     chatTemplateList.addAll(it.data.contents)
                     //contoh insert data
-                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
+//                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
                     chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
                 },
                 onError = {
@@ -56,27 +59,28 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
             chatTemplateRecyclerAdapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
             chatTemplateRecycler.adapter = chatTemplateRecyclerAdapter
             chatTemplateRecycler.vertical()
+        }
 
-            DovesRecyclerViewPaginator(
-                recyclerView = chatTemplateRecycler,
-                isLoading = { isLoadingChatTemplate.get() },
-                loadMore = {
-                    getPaginatedPage++
-                    chatTemplateViewModel?.getChatTemplateList(
-                        page = getPaginatedPage,
-                        onSuccess = { it ->
-                            chatTemplateList.addAll(it.data.contents)
-                            chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
-                        },
-                        onError = {
-                            showToast(it)
-                        }
-                    )
-                },
-                onLast = { isLastChatTemplate.get() }
-            ).run {
-                threshold = 3
-            }
+        DovesRecyclerViewPaginator(
+            recyclerView = chatTemplateRecycler,
+            isLoading = { isLoadingChatTemplate.get() },
+            loadMore = {
+                chatTemplateViewModel?.getChatTemplateList(
+                    page = it,
+                    onSuccess = { it ->
+                        isLoadingChatTemplate.set(false)
+                        chatTemplateList.addAll(it.data.contents)
+
+                        chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+                    },
+                    onError = {
+                        showToast(it)
+                    }
+                )
+            },
+            onLast = { isLastChatTemplate.get() }
+        ).run {
+            threshold = 3
         }
 
         btnCreate?.let { button -> button.setOnClickListener { onCreateClicked(button) } }

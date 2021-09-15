@@ -14,8 +14,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class ChatTemplateViewModel {
+class ChatTemplateViewModel() {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
+
 
     fun getChatTemplateList(
         page: Int,
@@ -34,6 +35,7 @@ class ChatTemplateViewModel {
                 onError.invoke(this.message ?: "Unknown Error")
             }
         }
+
     }
 
     fun createChatTemplate(
