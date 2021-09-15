@@ -151,7 +151,8 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.github.skydoves:sandwich:1.2.0")
 
-    kapt("androidx.room", "room-compiler","2.2.6")
+    implementation ("androidx.room:room-runtime:2.3.0")
+    kapt("androidx.room", "room-compiler","2.3.0")
 
     testImplementation(kotlin("test"))
     testImplementation("androidx.test", "core", "1.3.0")

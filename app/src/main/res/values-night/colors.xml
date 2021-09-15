@@ -7,4 +7,9 @@
 
 <!--    <color name="background">#141414</color>-->
     <color name="banner">#2E2E2E</color>
+
+<!--    text-->
+<!--    <color name="text_primary">#FFFFFF</color>-->
+<!--    <color name="text_subdued">#FFFFFF</color>-->
+<!--    <color name="text_secondary">#FFFFFF</color>-->
 </resources>
