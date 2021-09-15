@@ -12,9 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 
 class ChatTemplateViewModel() {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
@@ -23,14 +22,16 @@ class ChatTemplateViewModel() {
     fun getChatTemplateList(
         page: Int = 1,
         pageSize: Int = 10,
+        search: String = "",
         onLoading: (Boolean) -> Unit,
         onSuccess: (GetPaginatedAutoTextResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
 //            delay(5000)
+
             onLoading.invoke(true)
-            val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize)
+            val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize, search)
             response.onSuccess {
                 onLoading.invoke(false)
                 onSuccess.invoke(this.data)

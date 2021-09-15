@@ -35,6 +35,10 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
+    private var chatTemplateRecycler: RecyclerView? = null
+    private var bottomLoading: LinearLayout? = null
+    private var fullscreenLoading: LinearLayout? = null
+
     private val isLoadingChatTemplate = AtomicBoolean(true)
     private val isLastChatTemplate = AtomicBoolean(false)
 
@@ -53,62 +57,65 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
         super.onViewCreated(view, savedInstanceState)
         autoTextDatabase = AutoTextDatabase.getInstance(requireContext())
 
-        val chatTemplateRecycler = view.findViewById<RecyclerView>(R.id.chat_template_recycler)
+        chatTemplateRecycler = view.findViewById<RecyclerView>(R.id.chat_template_recycler)
         val btnCreate = view.findViewById<CardView>(R.id.create_template_button)
-        val bottomLoading = view.findViewById<LinearLayout>(R.id.bottom_loading)
-        val fullscreenLoading = view.findViewById<LinearLayout>(R.id.fullcreen_loading)
+        bottomLoading = view.findViewById<LinearLayout>(R.id.bottom_loading)
+        fullscreenLoading = view.findViewById<LinearLayout>(R.id.fullcreen_loading)
 
         if (chatTemplateRecyclerAdapter == null) {
-            chatTemplateViewModel?.getChatTemplateList(
-                onLoading = {
-                    Timber.e(it.toString())
-                    isLoadingChatTemplate.set(it)
-                },
-                onSuccess = { it ->
-                    chatTemplateList.addAll(it.data.contents)
-                    fullscreenLoading.isVisible = false
-                    chatTemplateRecycler.isVisible = true
-                    //contoh insert data
-//                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
-                    chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
-                },
-                onError = {
-                    showToast(it)
-                    fullscreenLoading.isVisible = false
-                    chatTemplateRecycler.isVisible = true
-                }
-            )
+            getChatTemplateList(1)
+//            chatTemplateViewModel?.getChatTemplateList(
+//                onLoading = {
+//                    Timber.e(it.toString())
+//                    isLoadingChatTemplate.set(it)
+//                },
+//                onSuccess = { it ->
+//                    chatTemplateList.addAll(it.data.contents)
+//                    fullscreenLoading.isVisible = false
+//                    chatTemplateRecycler.isVisible = true
+//                    //contoh insert data
+////                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
+//                    chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+//                },
+//                onError = {
+//                    showToast(it)
+//                    fullscreenLoading.isVisible = false
+//                    chatTemplateRecycler.isVisible = true
+//                }
+//            )
             chatTemplateRecyclerAdapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
-            chatTemplateRecycler.adapter = chatTemplateRecyclerAdapter
-            chatTemplateRecycler.vertical()
+            chatTemplateRecycler!!.adapter = chatTemplateRecyclerAdapter
+            chatTemplateRecycler!!.vertical()
         }
 
         DovesRecyclerViewPaginator(
-            recyclerView = chatTemplateRecycler,
+            recyclerView = chatTemplateRecycler!!,
             isLoading = { isLoadingChatTemplate.get() },
             loadMore = {
-                bottomLoading.isVisible = true
-                chatTemplateViewModel?.getChatTemplateList(
-                    page = it + 1,
-                    onLoading = {
-                        Timber.e(it.toString())
-                        isLoadingChatTemplate.set(it)
-                    },
-                    onSuccess = { it ->
-                        isLastChatTemplate.set(it.data.totalPages <= it.data.page)
-                        Timber.e("isLastChatTemplate " + isLastChatTemplate.get().toString())
-
-                        isLoadingChatTemplate.set(false)
-                        chatTemplateList.addAll(it.data.contents)
-                        chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
-
-                        bottomLoading.isVisible = false
-                    },
-                    onError = {
-                        showToast(it)
-                        bottomLoading.isVisible = false
-                    }
-                )
+                bottomLoading!!.isVisible = true
+                showToast(it.toString())
+                getChatTemplateList(it + 1)
+//                chatTemplateViewModel?.getChatTemplateList(
+//                    page = it + 1,
+//                    onLoading = {
+//                        Timber.e(it.toString())
+//                        isLoadingChatTemplate.set(it)
+//                    },
+//                    onSuccess = { it ->
+//                        isLastChatTemplate.set(it.data.totalPages <= it.data.page)
+//                        Timber.e("isLastChatTemplate " + isLastChatTemplate.get().toString())
+//
+//                        isLoadingChatTemplate.set(false)
+//                        chatTemplateList.addAll(it.data.contents)
+//                        chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+//
+//                        bottomLoading.isVisible = false
+//                    },
+//                    onError = {
+//                        showToast(it)
+//                        bottomLoading.isVisible = false
+//                    }
+//                )
             },
             onLast = { isLastChatTemplate.get() }
         ).run {
@@ -116,6 +123,37 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
         }
 
         btnCreate?.let { button -> button.setOnClickListener { onCreateClicked(button) } }
+    }
+
+    private fun getChatTemplateList(page: Int = 1) {
+        chatTemplateViewModel?.getChatTemplateList(
+            page = page,
+            onLoading = {
+                Timber.e(it.toString())
+                isLoadingChatTemplate.set(it)
+            },
+            onSuccess = { it ->
+                chatTemplateList.addAll(it.data.contents)
+                isLastChatTemplate.set(it.data.totalPages <= it.data.page)
+//                if first page
+                if (page == 1) {
+                    fullscreenLoading!!.isVisible = false
+                    chatTemplateRecycler!!.isVisible = true
+                } else {
+                    isLoadingChatTemplate.set(false)
+
+                    bottomLoading!!.isVisible = false
+                }
+                //contoh insert data
+//                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
+                chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+            },
+            onError = {
+                showToast(it)
+                fullscreenLoading!!.isVisible = false
+                chatTemplateRecycler!!.isVisible = true
+            }
+        )
     }
 
     private fun onCreateClicked(view: View) {

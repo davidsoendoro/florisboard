@@ -1,7 +1,5 @@
 package com.kokatto.kobold.api
 
-import com.kokatto.kobold.api.annotation.RequiredAuth
-import com.kokatto.kobold.api.model.GetRestaurantResponse
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
@@ -14,7 +12,6 @@ import com.kokatto.kobold.api.model.response.PostTokenRefreshResponse
 import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -50,9 +47,10 @@ interface ChatTemplateApi {
 //    @RequiredAuth
     @GET(autoTextUrl + "filter")
     suspend fun getPaginatedChatTemplateList(
-        @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int
-    ): ApiResponse<GetPaginatedAutoTextResponse>
+    @Query("page") page: Int,
+    @Query("pageSize") pageSize: Int,
+    @Query("search") search: String
+): ApiResponse<GetPaginatedAutoTextResponse>
 
 //    @RequiredAuth
     @GET(autoTextUrl + "standard")
