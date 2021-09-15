@@ -74,7 +74,7 @@ interface ChatTemplateApi {
 //    @RequiredAuth
     @PATCH(autoTextUrl + "update/{id}")
     suspend fun updateAutotextById(
-        @Body createAutoTextRequest: AutoTextModel
+    @Path("id") autoTextId: String
     ): ApiResponse<GetAutoTextResponse>
 
 //    @RequiredAuth
