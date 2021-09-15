@@ -89,7 +89,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
             loadMore = {
                 bottomLoading.isVisible = true
                 chatTemplateViewModel?.getChatTemplateList(
-                    page = it,
+                    page = it + 1,
                     onLoading = {
                         Timber.e(it.toString())
                         isLoadingChatTemplate.set(it)
