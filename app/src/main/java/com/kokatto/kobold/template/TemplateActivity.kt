@@ -14,7 +14,11 @@ import com.kokatto.kobold.extension.showToast
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
-class TemplateActivity : AppCompatActivity() {
+interface TemplateActivityListener {
+    fun openCreateTemplate(pickInput: String? = null, nameInput: String? = null, content: String? = null)
+}
+
+class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
 
     object FromKeyboardRequest {
         val templatePickInputKey = "TEMPLATE_PICK_KEY"
@@ -50,6 +54,15 @@ class TemplateActivity : AppCompatActivity() {
         } else {
             warningLayout?.let { layout -> layout.visibility = View.VISIBLE }
         }
+
+        // Check if this is from expand view
+        val templatePickInputValue = intent.getStringExtra(FromKeyboardRequest.templatePickInputKey)
+        val templateNameInputValue = intent.getStringExtra(FromKeyboardRequest.templateNameInputKey)
+        val templateContentValue = intent.getStringExtra(FromKeyboardRequest.templateContentKey)
+
+        if (templateNameInputValue != null || templatePickInputValue != null || templateContentValue != null) {
+            openCreateTemplate()
+        }
     }
 
     private fun onButtonClicked(view: View) {
@@ -66,6 +79,22 @@ class TemplateActivity : AppCompatActivity() {
                     startActivity(this)
                 }
             }
+        }
+    }
+
+    override fun openCreateTemplate(pickInput: String?, nameInput: String?, content: String?) {
+        Intent(this, TemplateActivityInput::class.java).apply {
+            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_CREATE)
+            pickInput?.let { _pickInput ->
+                putExtra(TemplateActivityInput.EXTRA_TEMPLATE, _pickInput)
+            }
+            nameInput?.let { _nameInput ->
+                putExtra(TemplateActivityInput.EXTRA_TITLE, _nameInput)
+            }
+            content?.let { _content ->
+                putExtra(TemplateActivityInput.EXTRA_CONTENT, _content)
+            }
+            startActivity(this)
         }
     }
 }
