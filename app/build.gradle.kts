@@ -154,6 +154,8 @@ dependencies {
     implementation ("androidx.room:room-runtime:2.3.0")
     kapt("androidx.room", "room-compiler","2.3.0")
 
+    implementation ("androidx.core:core-ktx:1.6.0")
+
     testImplementation(kotlin("test"))
     testImplementation("androidx.test", "core", "1.3.0")
     testImplementation("org.mockito", "mockito-inline", "3.7.7")
