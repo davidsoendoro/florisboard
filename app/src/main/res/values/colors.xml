@@ -39,12 +39,16 @@
     <color name="text_subtitle">#B6B6B6</color>
     <color name="text_subdued">#8D8D8D</color>
     <color name="text_color_white">#FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
 
     <color name="text_primary">#141414</color>
     <color name="text_secondary">#3D3D3D</color>
     <color name="text_inverse">#FFFFFF</color>
     <color name="stroke_primary">#2464F2</color>
     <color name="primary_50">#2464F2</color>
+    <color name="primary_10">#B6CBFB</color>
+    <color name="colorEditTextError">#EC0C0C</color>
+    <color name="colorEditTextDefault">#D6D6D6</color>
 
     <color name="custom_toast_black">#000000</color>
     <color name="icon_white">#F7F7F7</color>

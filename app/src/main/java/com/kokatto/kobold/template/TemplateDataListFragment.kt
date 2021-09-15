@@ -1,5 +1,6 @@
 package com.kokatto.kobold.template
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,8 +8,6 @@ import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
@@ -109,15 +108,10 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
     private fun onCreateClicked(view: View) {
         when (view.id) {
             R.id.create_template_button -> {
-                val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction
-                    .setReorderingAllowed(true)
-                    .replace(
-                        R.id.template_fragment_container_view,
-                        TemplateInputFragment()
-                    )
-                    .commit()
+                Intent(requireContext(), TemplateActivityInput::class.java).apply {
+                    putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_CREATE)
+                    startActivity(this)
+                }
             }
         }
     }
@@ -128,7 +122,14 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
     }
 
     override fun onClicked(data: AutoTextModel) {
-        showToast(data.toString())
+        Intent(requireContext(), TemplateActivityInput::class.java).apply {
+            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_EDIT)
+            putExtra(TemplateActivityInput.EXTRA_ID, data._id)
+            putExtra(TemplateActivityInput.EXTRA_TEMPLATE, data.template)
+            putExtra(TemplateActivityInput.EXTRA_TITLE, data.title)
+            putExtra(TemplateActivityInput.EXTRA_CONTENT, data.content)
+            startActivity(this)
+        }
     }
 
 }
