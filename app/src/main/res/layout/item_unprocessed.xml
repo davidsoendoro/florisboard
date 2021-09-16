@@ -55,26 +55,16 @@
 
         <TextView
             android:id="@+id/phone_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:maxLines="1"
             android:text="081241233123"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/media_img"
-            app:layout_constraintEnd_toStartOf="@id/document_buttom"
             app:layout_constraintStart_toEndOf="@id/dot_text"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/document_buttom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:src="@drawable/ic_document"
-            app:layout_constraintBottom_toBottomOf="@id/media_img"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/media_img" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/total_price_text"
