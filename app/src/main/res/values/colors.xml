@@ -64,4 +64,5 @@
     <color name="kobold_blue_button_disabled">#B6CBFB</color>
     <color name="page_background">#FFFFFF</color>
     <color name="item_border">#EBEBEB</color>
+    <color name="textBlack">#141414</color>
 </resources>
