@@ -130,4 +130,9 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
             .replace(binding.templateFragmentContainerView.id, fragment, FRAGMENT_TAG)
             .commit()
     }
+
+    override fun onResume() {
+        super.onResume()
+        openDataListFragment()
+    }
 }

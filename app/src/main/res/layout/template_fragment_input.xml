@@ -122,7 +122,8 @@
                         android:maxLines="1"
                         android:lines="1"
                         android:singleLine="true"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        />
 
                     <TextView
                         android:id="@+id/title_template_edittext_error"

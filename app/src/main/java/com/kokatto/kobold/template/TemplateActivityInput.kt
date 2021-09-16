@@ -1,8 +1,6 @@
 package com.kokatto.kobold.template
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -10,12 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
+import java.util.concurrent.atomic.AtomicInteger
 
 
 class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickListener {
@@ -33,16 +33,15 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private var titleText: TextView? = null
     private var textInputTemplate: TextInputEditText? = null
     private var textInputTitle: TextInputEditText? = null
-    private var textInputTitleLayout: TextInputLayout? = null
-    private var textInputTitleError: TextView? = null
     private var textInputContent: TextInputEditText? = null
-    private var textInputContentLayout: TextInputLayout? = null
-    private var textInputContentError: TextView? = null
     private var buttonSave: Button? = null
     private var buttonBack: ImageView? = null
     private var buttonDelete: ImageView? = null
     private var extraStateInput: Int? = -1
     private var extraId: String? = ""
+    private val maxTitleLength = AtomicInteger(50)
+    private val maxContentLength = AtomicInteger(1000)
+
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -53,11 +52,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         textInputTemplate = findViewById(R.id.choose_template_edittext)
         textInputTemplate?.isFocusable = false
         textInputTitle = findViewById(R.id.title_template_edittext)
-        textInputTitleLayout = findViewById(R.id.title_template_textinputlayout)
-        textInputTitleError = findViewById(R.id.title_template_edittext_error)
         textInputContent = findViewById(R.id.content_template_edittext)
-        textInputContentLayout = findViewById(R.id.content_template_textinputlayout)
-        textInputContentError = findViewById(R.id.content_template_edittext_error)
         buttonSave = findViewById(R.id.create_template_button)
         buttonBack = findViewById(R.id.back_button)
         titleText = findViewById(R.id.title_text)
@@ -68,78 +63,43 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         buttonDelete?.let { button -> button.setOnClickListener { onClicked(button) } }
         textInputTemplate?.let { textInput -> textInput.setOnClickListener { onClicked(textInput) } }
 
-        textInputTitleError?.isVisible = false
-        textInputContentError?.isVisible = false
+        // textInputTitleError?.isVisible = false
+        // textInputContentError?.isVisible = false
 
-        textInputTemplate?.addTextChangedListener(object : TextWatcher {
+        textInputTitle?.addTextChangedListener { text ->
+            val textInputLayout = findViewById<TextInputLayout>(R.id.title_template_textinputlayout)
+            val textInputError = findViewById<TextView>(R.id.title_template_edittext_error)
 
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                markButtonSaveDisable(false)
-            }
-        })
-
-        textInputTitle?.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                if (s.length > 50) {
-                    textInputTitleLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
-                    textInputTitleError?.isVisible = true
-                    markButtonSaveDisable(true)
+            text?.let { _text ->
+                if (_text.length > maxTitleLength.toInt()) {
+                    textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextError, null)
+                    textInputError.visibility = View.VISIBLE
+                    validateInput()
                 } else {
-                    textInputTitleLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault)
-                    textInputTitleError?.isVisible = false
-                    markButtonSaveDisable(false)
+                    textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault, null)
+                    textInputError.visibility = View.GONE
+                    validateInput()
                 }
             }
-        })
+        }
 
-        textInputContent?.addTextChangedListener(object : TextWatcher {
+        textInputContent?.addTextChangedListener { text ->
+            val textInputLayout = findViewById<TextInputLayout>(R.id.content_template_textinputlayout)
+            val textInputError = findViewById<TextView>(R.id.content_template_edittext_error)
 
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                if (s.length > 1000) {
-                    textInputContentLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
-                    textInputContentError?.isVisible = true
-                    markButtonSaveDisable(true)
+            text?.let { _text ->
+                if (_text.length > maxContentLength.toInt()) {
+                    textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextError, null)
+                    textInputLayout.isErrorEnabled = true
+                    textInputError.visibility = View.VISIBLE
+                    validateInput()
                 } else {
-                    textInputContentLayout?.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault)
-                    textInputContentError?.isVisible = false
-                    markButtonSaveDisable(false)
+                    textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault, null)
+                    textInputError.visibility = View.GONE
+                    validateInput()
                 }
             }
-        })
+        }
 
         extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
         extraId = intent.getStringExtra(EXTRA_ID)
@@ -154,12 +114,14 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             buttonDelete?.isVisible = true
             setEditTextValue(extraTemplate, extraTitle, extraContent)
         } else {
+            extraId = "NEW"
             titleText?.text = resources.getString(R.string.buat_template)
             buttonDelete?.isVisible = false
 
             // accepted form expand view or button create
             if (extraTemplate == null || extraTemplate == "") {
                 setEditTextValue("Pesan Pembuka", "", "")
+                markButtonSaveDisable(true)
             } else {
                 setEditTextValue(extraTemplate, extraTitle, extraContent)
                 // Allow to save
@@ -167,6 +129,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             }
         }
     }
+
 
     override fun onItemClick(item: String?) {
         textInputTemplate?.setText(item)
@@ -176,6 +139,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         when (view.id) {
             R.id.create_template_button -> {
                 extraId?.let { _extraId ->
+
                     if (extraStateInput!! >= 0) {
                         val model = AutoTextModel(
                             _id = _extraId,
@@ -250,5 +214,23 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         textInputContent?.setText(content)
     }
 
+    fun validateInput() {
+        var titleLength = 0
+        var contentLength = 0
+        textInputTitle?.let { text ->
+            titleLength = text.length()
+        }
+
+        textInputContent?.let { text ->
+            contentLength = text.length()
+        }
+
+
+        if (titleLength < maxTitleLength.toInt() && contentLength < maxContentLength.toInt()) {
+            markButtonSaveDisable(false)
+        } else {
+            markButtonSaveDisable(true)
+        }
+    }
 
 }
