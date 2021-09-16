@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/text_input"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,15 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include android:id="@+id/smartbar" layout="@layout/smartbar"/>
+        <include
+            android:id="@+id/smartbar"
+            layout="@layout/smartbar" />
 
-        <include android:id="@id/kobold_editor" layout="@layout/kobold_editor"/>
+        <include
+            android:id="@id/kobold_editor"
+            layout="@layout/kobold_editor" />
 
     </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
-    <dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardView
-        android:id="@+id/main_keyboard_view"
+    <dev.patrickgold.florisboard.common.FlorisViewFlipper
+        android:id="@+id/kobold_keyboard_flipper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardView
+            android:id="@+id/main_keyboard_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/kobold_search_result"
+            layout="@layout/kobold_search_result" />
+
+    </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
 </LinearLayout>

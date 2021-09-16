@@ -1,30 +1,23 @@
 package com.kokatto.kobold.chattemplate
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
-import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
-import dev.patrickgold.florisboard.ime.text.key.KeyCode
-import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
+class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -41,27 +34,11 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
     private val isLoadingChatTemplate = AtomicBoolean(true)
     private val isLastChatTemplate = AtomicBoolean(false)
 
-    private var messageSnackbar: Snackbar? = null
+    var query: String = ""
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        val searchButton: ImageView = findViewById(R.id.search_button)
-        val backButton: TextView = findViewById(R.id.back_button)
-        val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
-        chatTemplateRecycler = findViewById(R.id.chat_template_recycler)
-
-        searchButton.setOnClickListener {
-            florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.openSearchEditor()
-        }
-        createTemplateButton.setOnClickListener {
-            florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.setActiveInput(R.id.kobold_menu_create_chat_template)
-        }
-        backButton.setOnClickListener {
-            florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
-            florisboard?.setActiveInput(R.id.kobold_mainmenu)
-        }
+        chatTemplateRecycler = findViewById(R.id.kobold_searchtemplate_searchresult)
 
         adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
         chatTemplateRecycler?.adapter = adapter
@@ -70,7 +47,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        if (visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
+        if (visibility == View.VISIBLE) {
             adapter?.dataList?.clear()
             loadChatTemplate()
         }
@@ -78,9 +55,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
     }
 
     fun loadChatTemplate() {
-        florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
-
         chatTemplateViewModel?.getChatTemplateList(
+            search = query,
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingChatTemplate.set(it)
@@ -104,6 +80,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                     bottomLoading.isVisible = true
                     chatTemplateViewModel?.getChatTemplateList(
                         page = loadMoreData + 1,
+                        search = query,
                         onLoading = { loadData ->
                             Timber.e(loadData.toString())
                             isLoadingChatTemplate.set(loadData)
@@ -135,7 +112,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
 
     override fun onClicked(data: AutoTextModel) {
         florisboard?.inputFeedbackManager?.keyPress()
-        florisboard?.textInputManager?.activeEditorInstance?.commitText(data.content.toString())
+        florisboard?.activeEditorInstance?.commitText(data.content.toString())
+        florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
     }
-
 }

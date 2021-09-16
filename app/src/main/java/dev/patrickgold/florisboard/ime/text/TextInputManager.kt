@@ -599,9 +599,9 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
             activeEditorInstance.activeEditText != null -> {
                 activeEditorInstance.performRawEnter()
             }
-            activeState.imeOptions.flagNoEnterAction -> {
-                activeEditorInstance.performEnter()
-            }
+//            activeState.imeOptions.flagNoEnterAction -> {
+//                activeEditorInstance.performEnter()
+//            }
             else -> {
                 when (activeState.imeOptions.enterAction) {
                     ImeOptions.EnterAction.DONE,

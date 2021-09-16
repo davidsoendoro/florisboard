@@ -23,18 +23,14 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.inputmethodservice.ExtractEditText
 import android.inputmethodservice.InputMethodService
-import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.text.InputType
 import android.util.Size
 import android.view.ContextThemeWrapper
 import android.view.Gravity
-import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -47,26 +43,22 @@ import android.view.inputmethod.InlineSuggestionsResponse
 import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
-import androidx.appcompat.widget.AppCompatEditText
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.get
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.crashutility.CrashUtility
 import dev.patrickgold.florisboard.debug.*
 import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
-import dev.patrickgold.florisboard.ime.keyboard.KeyData
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -104,6 +96,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.uicomponent.KoboldEditText
+import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
@@ -833,7 +826,55 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         clipInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
     }
 
+    fun openSearchEditor() {
+        val keyboardViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+
+        keyboardViewFlipper?.displayedChild = 0
+
+        val textViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
+
+        uiBinding?.mainViewFlipper?.displayedChild = 0
+        textViewFlipper?.displayedChild = 1
+
+        val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
+        editTextEditor?.label?.text = "Cari template"
+        editTextEditor?.editable?.requestFocus()
+        editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
+        florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
+
+        val onEditCommitted = {
+            val result = editTextEditor?.editable?.text.toString()
+
+            val searchPage = keyboardViewFlipper?.findViewById<KeyboardSearchChatTemplate>(R.id.kobold_search_result)
+            searchPage?.query = result
+
+            keyboardViewFlipper?.displayedChild = 1
+        }
+
+        editTextEditor?.editable?.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                onEditCommitted()
+                true
+            } else {
+                false
+            }
+        }
+
+        val editTextFinishButton = textViewFlipper?.findViewById<ImageView>(R.id.kobold_button_close_menu)
+        editTextFinishButton?.setOnClickListener {
+            inputFeedbackManager.keyPress()
+            onEditCommitted()
+        }
+    }
+
     fun openEditor(destination: Int, imeOptions: Int = 0, editorInputType: Int = 0, label: String = "", value: String = "", callback: (result: String) -> Unit) {
+        val keyboardViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+
+        keyboardViewFlipper?.displayedChild = 0
+
         val textViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
 
@@ -851,11 +892,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
         florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
 
+        val onEditCommitted = {
+            val result = editTextEditor?.editable?.text.toString()
+            callback(result)
+            setActiveInput(destination)
+        }
+
         editTextEditor?.editable?.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && editorInputType.and(InputType.TYPE_TEXT_FLAG_MULTI_LINE) == 0) {
-                val result = editTextEditor.editable.text.toString()
-                callback(result)
-                setActiveInput(destination)
+                onEditCommitted()
                 true
             } else {
                 false
@@ -865,10 +910,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         val editTextFinishButton = textViewFlipper?.findViewById<ImageView>(R.id.kobold_button_close_menu)
         editTextFinishButton?.setOnClickListener {
             inputFeedbackManager.keyPress()
-            val result = editTextEditor?.editable?.text.toString()
-            callback(result)
+            onEditCommitted()
             editTextEditor?.editable?.setText("")
-            setActiveInput(destination)
         }
     }
 
@@ -902,6 +945,11 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 if (forceSwitchToCharacters) {
                     textInputManager.inputEventDispatcher.send(InputKeyEvent.downUp(TextKeyData.VIEW_CHARACTERS))
                 }
+
+                val keyboardViewFlipper =
+                    uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+
+                keyboardViewFlipper?.displayedChild = 0
             }
             R.id.media_input -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 1
