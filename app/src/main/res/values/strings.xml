@@ -598,4 +598,5 @@
     <string name="kobold_template_pick_greetings">Pesan Pembuka</string>
     <string name="error_toomanychars">Melebihi karakter yang tersedia</string>
     <string name="kobold_createchat_expand_view">Perluas Tampilan</string>
+    <string name="create_transaction_title">Transaksi</string>
 </resources>
