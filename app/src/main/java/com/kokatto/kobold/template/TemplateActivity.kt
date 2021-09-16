@@ -7,15 +7,22 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.kokatto.kobold.R
+import com.kokatto.kobold.databinding.SettingsActivityBinding
+import com.kokatto.kobold.databinding.TemplateActivityBinding
 import com.kokatto.kobold.extension.showToast
+import dev.patrickgold.florisboard.settings.FRAGMENT_TAG
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
 interface TemplateActivityListener {
     fun openCreateTemplate(pickInput: String? = null, nameInput: String? = null, content: String? = null)
+    fun openErrorFragment()
+    fun openEmptyFragment()
+    fun openDataListFragment()
 }
 
 class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
@@ -29,10 +36,14 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
     private var activeButton: Button? = null
     private var searchButton: ImageView? = null
     private var warningLayout: LinearLayout? = null
+    lateinit var binding: TemplateActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.template_activity)
+        // setContentView(R.layout.template_activity)
+
+        binding = TemplateActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         activeButton = findViewById(R.id.popup_keyboard_active_button)
         searchButton = findViewById(R.id.search_button)
@@ -43,10 +54,13 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
 
         // check if data is available or not
         if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<TemplateDataListFragment>(R.id.template_fragment_container_view)
-            }
+            loadFragment(TemplateDataListFragment())
+//            supportFragmentManager.commit {
+//                setReorderingAllowed(true)
+//                add<TemplateDataListFragment>(R.id.template_fragment_container_view)
+//                add<TemplateEmptyFragment>(R.id.template_fragment_container_view)
+//                add<TemplateErrorFragment>(R.id.template_fragment_container_view)
+//            }
         }
 
         if (checkIfImeIsEnabled(this)) {
@@ -96,5 +110,24 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
             }
             startActivity(this)
         }
+    }
+
+    override fun openErrorFragment() {
+        loadFragment(TemplateErrorFragment())
+    }
+
+    override fun openEmptyFragment() {
+        loadFragment(TemplateEmptyFragment())
+    }
+
+    override fun openDataListFragment() {
+        loadFragment(TemplateDataListFragment())
+    }
+
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(binding.templateFragmentContainerView.id, fragment, FRAGMENT_TAG)
+            .commit()
     }
 }
