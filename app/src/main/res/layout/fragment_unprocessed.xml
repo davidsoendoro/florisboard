@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -30,12 +30,14 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/unprocessed_recycler"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp"
         android:paddingBottom="100dp"
         android:clipToPadding="false"
+        android:visibility="gone"
+        tools:visibility="visible"
         tools:listitem="@layout/item_unprocessed" />
 
     <LinearLayout
