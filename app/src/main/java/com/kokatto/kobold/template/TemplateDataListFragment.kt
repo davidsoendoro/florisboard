@@ -89,27 +89,6 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
                 bottomLoading!!.isVisible = true
                 showToast(it.toString())
                 getChatTemplateList(it + 1)
-//                chatTemplateViewModel?.getChatTemplateList(
-//                    page = it + 1,
-//                    onLoading = {
-//                        Timber.e(it.toString())
-//                        isLoadingChatTemplate.set(it)
-//                    },
-//                    onSuccess = { it ->
-//                        isLastChatTemplate.set(it.data.totalPages <= it.data.page)
-//                        Timber.e("isLastChatTemplate " + isLastChatTemplate.get().toString())
-//
-//                        isLoadingChatTemplate.set(false)
-//                        chatTemplateList.addAll(it.data.contents)
-//                        chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
-//
-//                        bottomLoading.isVisible = false
-//                    },
-//                    onError = {
-//                        showToast(it)
-//                        bottomLoading.isVisible = false
-//                    }
-//                )
             },
             onLast = { isLastChatTemplate.get() }
         ).run {
