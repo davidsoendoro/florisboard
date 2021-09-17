@@ -97,6 +97,7 @@ import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
+import dev.patrickgold.florisboard.ime.keyboard.InputAttributes
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
@@ -351,6 +352,22 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     override fun updateFullscreenMode() {
         super.updateFullscreenMode()
         updateSoftInputWindowLayoutParameters()
+
+        val koboldMainmenuViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
+        val textViewFlipper =
+            uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
+
+        if (koboldMainmenuViewFlipper?.displayedChild == 0 && textViewFlipper?.displayedChild != 0) {
+            inputFeedbackManager.keyPress()
+            florisboardInstance?.activeEditorInstance?.activeEditText = null
+            textViewFlipper?.displayedChild = 0
+        } else if (koboldMainmenuViewFlipper?.displayedChild != 0) {
+            inputFeedbackManager.keyPress()
+            florisboardInstance?.activeEditorInstance?.activeEditText = null
+            setActiveInput(R.id.text_input)
+            textViewFlipper?.displayedChild = 0
+        }
     }
 
     override fun onUpdateExtractingVisibility(ei: EditorInfo?) {
@@ -860,6 +877,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             } else {
                 false
             }
+        }
+
+        editTextEditor?.editable?.setOnClickListener {
+            keyboardViewFlipper?.displayedChild = 0
         }
 
         val editTextFinishButton = textViewFlipper?.findViewById<ImageView>(R.id.kobold_button_close_menu)

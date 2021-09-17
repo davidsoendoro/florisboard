@@ -17,7 +17,7 @@
         app:title="@string/pref__theme__day">
 
         <dev.patrickgold.florisboard.settings.components.ThemeSelectorPreference
-            android:defaultValue="assets:ime/theme/floris_day.json"
+            android:defaultValue="assets:ime/theme/kobold.json"
             app:key="theme__day_theme_ref"
             app:icon="@drawable/ic_light_mode"
             app:title="@string/pref__theme__any_theme__label"/>

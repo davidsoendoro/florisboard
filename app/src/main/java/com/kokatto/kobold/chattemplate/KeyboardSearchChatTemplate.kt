@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
     private var chatTemplateList: ArrayList<AutoTextModel> = arrayListOf()
     private var adapter: ChatTemplateRecyclerAdapter? = null
 
+    private var textViewResultCount: TextView? = null
     private var chatTemplateRecycler: RecyclerView? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
@@ -38,6 +40,7 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        textViewResultCount = findViewById(R.id.kobold_searchtemplate_resultcount)
         chatTemplateRecycler = findViewById(R.id.kobold_searchtemplate_searchresult)
 
         adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
@@ -62,6 +65,9 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
                 isLoadingChatTemplate.set(it)
             },
             onSuccess = { it ->
+                val totalRecord = it.data.totalRecord
+                textViewResultCount?.text = String.format("%d hasil ditemukan", totalRecord)
+
                 chatTemplateList.addAll(it.data.contents)
                 adapter?.notifyItemRangeChanged(0, it.data.contents.size)
             },
@@ -114,5 +120,6 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
         florisboard?.inputFeedbackManager?.keyPress()
         florisboard?.activeEditorInstance?.commitText(data.content.toString())
         florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
+        florisboard?.activeEditorInstance?.activeEditText = null
     }
 }

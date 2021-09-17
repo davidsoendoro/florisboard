@@ -621,7 +621,7 @@ class Preferences(
             get() =  ThemeMode.fromString(prefs.getPref(MODE, ThemeMode.FOLLOW_SYSTEM.toString()))
             set(v) = prefs.setPref(MODE, v)
         var dayThemeRef: String
-            get() =  prefs.getPref(DAY_THEME_REF, "assets:ime/theme/kobold_day.json")
+            get() =  prefs.getPref(DAY_THEME_REF, "assets:ime/theme/kobold.json")
             set(v) = prefs.setPref(DAY_THEME_REF, v)
         var dayThemeAdaptToApp: Boolean
             get() =  prefs.getPref(DAY_THEME_ADAPT_TO_APP, false)

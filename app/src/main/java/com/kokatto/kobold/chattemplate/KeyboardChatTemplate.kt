@@ -127,7 +127,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                 },
                 onLast = { isLastChatTemplate.get() }
             ).run {
-                threshold = 3
+                threshold = 0
             }
         }
         chatTemplateRecycler?.vertical()

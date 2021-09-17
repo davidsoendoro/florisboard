@@ -12,7 +12,7 @@
       "navigationBarColor": "@keyboard/background",
       "navigationBarLight": "true",
       "semiTransparentColor": "#20000000",
-      "textColor": "#000000"
+      "textColor": "#FFFFFF"
     },
     "keyboard": {
       "background": "#141414"
