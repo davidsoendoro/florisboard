@@ -21,9 +21,9 @@
 
     <color name="cardViewBackgroundColor">#FFFFFF</color><!-- White -->
     <color name="navigationBarColor">#000000</color><!-- Black -->
-    <color name="toolbarForegroundColor">#000000</color><!-- Black -->
+    <color name="toolbarForegroundColor">#FFFFFF</color><!-- Black -->
 
-    <color name="windowBackground">#FAFAFA</color>
+    <color name="windowBackground">#303030</color>
     <color name="background">#FAFAFA</color>
     <color name="backgroundDark">#141414</color>
     <color name="backgroundSelected">#F7F8FA</color>

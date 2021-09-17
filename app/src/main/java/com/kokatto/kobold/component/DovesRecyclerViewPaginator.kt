@@ -29,7 +29,7 @@ class DovesRecyclerViewPaginator(
             val visibleItemCount = it.childCount
             val totalItemCount = it.itemCount
             val lastVisibleItemPosition = when (it) {
-                is LinearLayoutManager -> it.findLastVisibleItemPosition()
+                is LinearLayoutManager -> it.findLastCompletelyVisibleItemPosition()
                 is GridLayoutManager -> it.findLastVisibleItemPosition()
                 is StaggeredGridLayoutManager -> findLastVisibleItemPosition(it.findLastVisibleItemPositions(null))
                 else -> return

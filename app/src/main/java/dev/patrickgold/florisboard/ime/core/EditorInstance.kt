@@ -199,9 +199,7 @@ class EditorInstance private constructor(
             if (activeEditText == null) {
                 ic.commitText(finalText, 1)
             } else {
-                if (activeEditText?.inputType?.and(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES) != 0) {
-
-                }
+                ic.requestCursorUpdates(InputConnection.CURSOR_UPDATE_IMMEDIATE)
                 activeEditText?.let { _activeEditText ->
                     _activeEditText.append(finalText)
                     _activeEditText.text?.let { editTextContent ->
