@@ -25,7 +25,8 @@ class KoboldEditText: ConstraintLayout {
 
         val labelText: String? = a.getString(R.styleable.KoboldEditText_label)
         val textValue: String? = a.getString(R.styleable.KoboldEditText_android_text)
-        val inputType: Int = a.getType(R.styleable.KoboldEditText_android_inputType)
+        val imeOptions: Int = a.getInt(R.styleable.KoboldEditText_android_imeOptions, 0)
+        val inputType: Int = a.getInt(R.styleable.KoboldEditText_android_inputType, 0)
         val isEditable: Boolean = a.getBoolean(R.styleable.KoboldEditText_editable, false)
         val showChevron: Boolean = a.getBoolean(R.styleable.KoboldEditText_showChevron, false)
         val maxAllowedCharacters: Int = a.getInt(R.styleable.KoboldEditText_maxAllowedCharacters, 0)
@@ -33,6 +34,7 @@ class KoboldEditText: ConstraintLayout {
 
         label.text = labelText
         editText.text = textValue
+        this.imeOptions = imeOptions
         this.inputType = inputType
         this.maxAllowedCharacters = maxAllowedCharacters
 //        this.entries = entries
@@ -59,6 +61,7 @@ class KoboldEditText: ConstraintLayout {
     val editable: AppCompatEditText
     val chevronRight: ImageView
     val errorText: TextView
+    var imeOptions: Int = 0
     var inputType: Int = 0
     var maxAllowedCharacters: Int = 0
 

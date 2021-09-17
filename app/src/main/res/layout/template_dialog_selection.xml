@@ -10,7 +10,6 @@
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/icon_white"
         android:orientation="horizontal"
         android:visibility="visible"
         >
@@ -43,79 +42,79 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/btn0"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <TextView
+        android:id="@+id/txt0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="20dp"
+        android:paddingRight="20dp"
         android:text="Pesan Pembuka"
         android:textAllCaps="false"
         android:textAppearance="@style/kobold_template_selection"
         android:gravity="left|center_vertical"/>
 
-    <Button
-        android:id="@+id/btn1"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <TextView
+        android:id="@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="20dp"
+        android:paddingRight="20dp"
         android:text="Form Pesanan"
         android:textAllCaps="false"
         android:textAppearance="@style/kobold_template_selection"
         android:gravity="left|center_vertical"/>
 
-    <Button
-        android:id="@+id/btn2"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <TextView
+        android:id="@+id/txt2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="20dp"
+        android:paddingRight="20dp"
         android:text="Ucapan Terima Kasih"
         android:textAllCaps="false"
         android:textAppearance="@style/kobold_template_selection"
         android:gravity="left|center_vertical"/>
 
-    <Button
-        android:id="@+id/btn3"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <TextView
+        android:id="@+id/txt3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="20dp"
+        android:paddingRight="20dp"
         android:text="Ketersediaan Barang"
         android:textAllCaps="false"
         android:textAppearance="@style/kobold_template_selection"
         android:gravity="left|center_vertical"/>
 
-    <Button
-        android:id="@+id/btn4"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <TextView
+        android:id="@+id/txt4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="20dp"
+        android:paddingRight="20dp"
         android:text="Cek Barang"
         android:textAllCaps="false"
         android:textAppearance="@style/kobold_template_selection"
         android:gravity="left|center_vertical"/>
 
-    <Button
-        android:id="@+id/btn5"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <TextView
+        android:id="@+id/txt5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="20dp"
+        android:paddingRight="20dp"
         android:text="Custom"
         android:textAllCaps="false"
         android:textAppearance="@style/kobold_template_selection"

@@ -35,6 +35,7 @@ import android.util.Size
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -171,6 +172,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     private var isWindowShown: Boolean = false
 
     private var responseState = ResponseState.RESET
+    var koboldState = KoboldState.NORMAL
     private var pendingResponse: Runnable? = null
     private val handler: Handler = Handler(Looper.getMainLooper())
 
@@ -831,7 +833,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         clipInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
     }
 
-    fun openEditor(destination: Int, editorInputType: Int = 0, label: String = "", callback: (result: String) -> Unit) {
+    fun openEditor(destination: Int, imeOptions: Int = 0, editorInputType: Int = 0, label: String = "", value: String = "", callback: (result: String) -> Unit) {
         val textViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_text_editor_flipper)
 
@@ -842,9 +844,23 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 //        textInputLayout?.hint = label
         val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
         editTextEditor?.label?.text = label
+        editTextEditor?.editable?.setText(value)
+        editTextEditor?.editable?.imeOptions = imeOptions
         editTextEditor?.editable?.inputType = editorInputType
         editTextEditor?.editable?.requestFocus()
+        editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
         florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
+
+        editTextEditor?.editable?.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && editorInputType.and(InputType.TYPE_TEXT_FLAG_MULTI_LINE) == 0) {
+                val result = editTextEditor.editable.text.toString()
+                callback(result)
+                setActiveInput(destination)
+                true
+            } else {
+                false
+            }
+        }
 
         val editTextFinishButton = textViewFlipper?.findViewById<ImageView>(R.id.kobold_button_close_menu)
         editTextFinishButton?.setOnClickListener {
@@ -913,6 +929,9 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             //menu chat template
             R.id.kobold_menu_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 4
+                if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
+                    uiBinding?.mainViewFlipper?.invalidate()
+                }
             }
             R.id.kobold_menu_create_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 5
@@ -1006,6 +1025,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
     private enum class ResponseState {
         RESET, RECEIVE_RESPONSE, START_INPUT
+    }
+
+    enum class KoboldState {
+        NORMAL, TEMPLATE_LIST_RELOAD
     }
 
     /**

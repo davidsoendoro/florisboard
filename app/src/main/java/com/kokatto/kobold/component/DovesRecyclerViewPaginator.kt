@@ -18,6 +18,7 @@ class DovesRecyclerViewPaginator(
     var endWithAuto = false
 
     init {
+        resetCurrentPage()
         recyclerView.addOnScrollListener(this)
     }
 
