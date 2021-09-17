@@ -10,8 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
@@ -30,7 +28,7 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
     private var buttonBack: ImageView? = null
     private var buttonClear: ImageView? = null
     private var searchResultFound: LinearLayout? = null
-    private var searchResultNotFound: LinearLayout? = null
+    private var searchResultNotFoundLayout: LinearLayout? = null
     private var searchEdittext: EditText? = null
     private var chatTemplateRecycler: RecyclerView? = null
     private var bottomLoading: LinearLayout? = null
@@ -54,7 +52,7 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
         buttonClear = findViewById(R.id.clear_button)
         searchEdittext = findViewById(R.id.search_edittext)
         searchResultFound = findViewById(R.id.search_result_found_layout)
-        searchResultNotFound = findViewById(R.id.search_result_not_found)
+        searchResultNotFoundLayout = findViewById(R.id.search_result_not_found_layout)
 
         buttonBack?.let { button -> button.setOnClickListener { onClicked(button) } }
         buttonClear?.let { button -> button.setOnClickListener { onClicked(button) } }
@@ -100,7 +98,7 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
     private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
         when (view.id) {
             R.id.search_edittext -> {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
                     chatTemplateList.clear()
 
                     chatTemplateRecycler?.isVisible = false
@@ -125,6 +123,14 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
             },
             onSuccess = { it ->
                 chatTemplateList.addAll(it.data.contents)
+                if(chatTemplateList.size == 0){
+                    searchResultNotFoundLayout?.isVisible = true
+                    fullscreenLoading?.isVisible = false
+                    return@getChatTemplateList
+                }
+                else
+                    searchResultNotFoundLayout?.isVisible = false
+
                 isLastChatTemplate.set(it.data.totalPages <= it.data.page)
 //                if first page
                 if (page == 1) {
