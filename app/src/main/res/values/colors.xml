@@ -42,6 +42,7 @@
     <color name="colorWhite">#FFFFFF</color>
 
     <color name="text_primary">#141414</color>
+    <color name="text_disabled">#B6B6B6</color>
     <color name="text_secondary">#3D3D3D</color>
     <color name="text_inverse">#FFFFFF</color>
     <color name="stroke_primary">#2464F2</color>
@@ -64,5 +65,6 @@
     <color name="kobold_blue_button_disabled">#B6CBFB</color>
     <color name="page_background">#E0E0E0</color>
     <color name="item_border">#EBEBEB</color>
+    <color name="washedout_background">#F7F7F7</color>
     <color name="textBlack">#141414</color>
 </resources>
