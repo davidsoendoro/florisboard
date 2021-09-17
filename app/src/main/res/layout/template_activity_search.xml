@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +60,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:imeOptions="actionSearch"
+                    android:maxLines="1"
                     android:paddingStart="@dimen/kobold_margin_8px" />
 
                 <ImageView
@@ -91,10 +93,10 @@
         android:layout_gravity="center|center_vertical"
         android:gravity="center|center_vertical"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -111,17 +113,18 @@
         android:id="@+id/chat_template_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="20dp"
+        android:clipToPadding="false"
+        android:paddingVertical="10dp"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line"
-        tools:listitem="@layout/item_chat_template" />
+        tools:listitem="@layout/item_chat_template"
+        tools:visibility="visible" />
 
 
     <!--        search result not found-->
     <LinearLayout
-        android:id="@+id/search_result_not_found"
+        android:id="@+id/search_result_not_found_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -31,15 +30,13 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat_template_recycler"
+        android:id="@+id/unprocessed_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:paddingTop="10dp"
         android:paddingBottom="100dp"
         android:clipToPadding="false"
-        tools:visibility="visible"
-        tools:listitem="@layout/item_chat_template" />
+        tools:listitem="@layout/item_unprocessed" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/create_template_button"
@@ -63,7 +60,7 @@
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
-            android:text="@string/buat_template"
+            android:text="@string/buat_transaksi"
             android:textColor="@color/text_color_white" />
 
     </androidx.cardview.widget.CardView>
@@ -91,4 +88,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

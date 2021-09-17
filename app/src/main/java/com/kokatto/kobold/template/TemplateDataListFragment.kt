@@ -3,7 +3,6 @@ package com.kokatto.kobold.template
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -12,19 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
-import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
-import java.lang.ClassCastException
-import kotlinx.coroutines.InternalCoroutinesApi
 import timber.log.Timber
-import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.collections.ArrayList
 
 class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list), ChatTemplateRecyclerAdapter.OnClick {
 
@@ -133,23 +127,30 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
                 isLoadingChatTemplate.set(it)
             },
             onSuccess = { it ->
-                chatTemplateList.addAll(it.data.contents)
-                isLastChatTemplate.set(it.data.totalPages <= it.data.page)
-//                if first page
-                if (page == 1) {
-                    fullscreenLoading!!.isVisible = false
-                    chatTemplateRecycler!!.isVisible = true
-                } else {
-                    isLoadingChatTemplate.set(false)
 
-                    bottomLoading!!.isVisible = false
-                }
-                //contoh insert data
+                // State if Empty
+                if (it.data.totalRecord <= 0) {
+                    templateActivityListener?.openEmptyFragment()
+                } else {
+                    chatTemplateList.addAll(it.data.contents)
+                    isLastChatTemplate.set(it.data.totalPages <= it.data.page)
+//                if first page
+                    if (page == 1) {
+                        fullscreenLoading!!.isVisible = false
+                        chatTemplateRecycler!!.isVisible = true
+                    } else {
+                        isLoadingChatTemplate.set(false)
+
+                        bottomLoading!!.isVisible = false
+                    }
+                    //contoh insert data
 //                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
-                chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+                    chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+                }
             },
             onError = {
                 showToast(it)
+                templateActivityListener?.openErrorFragment()
                 fullscreenLoading!!.isVisible = false
                 chatTemplateRecycler!!.isVisible = true
             }

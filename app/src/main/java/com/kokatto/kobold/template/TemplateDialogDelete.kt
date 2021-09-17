@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
@@ -29,6 +31,7 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
     private var buttonConfirm: Button? = null
     private var buttonCancel: Button? = null
     private var argID: String? = null
+    private var buttonConfirmLoading: ProgressBar? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -52,6 +55,8 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         buttonConfirm = view.findViewById(R.id.confirm_button)
         buttonCancel = view.findViewById(R.id.cancel_button)
+        buttonConfirmLoading = view.findViewById(R.id.confirm_button_loading)
+        buttonConfirmLoading?.isVisible = false
 
         buttonConfirm?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
         buttonCancel?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
@@ -60,13 +65,22 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
     private fun onButtonClicked(view: View) {
         when (view.id) {
             R.id.confirm_button -> {
+                buttonConfirm?.isVisible = false
+                buttonCancel?.isVisible = false
+                buttonConfirmLoading?.isVisible = true
                 chatTemplateViewModel?.deleteAutotextById(
                     argID!!,
                     onSuccess = { it ->
                         requireActivity().finish()
                         showToast(resources.getString(R.string.template_delete_success))
+                        buttonConfirm?.isVisible = true
+                        buttonCancel?.isVisible = true
+                        buttonConfirmLoading?.isVisible = false
                     },
                     onError = {
+                        buttonConfirm?.isVisible = true
+                        buttonCancel?.isVisible = true
+                        buttonConfirmLoading?.isVisible = false
                         showToast(it)
                     }
                 )

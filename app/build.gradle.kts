@@ -151,8 +151,12 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.github.skydoves:sandwich:1.2.0")
 
+    //room database
     implementation ("androidx.room:room-runtime:2.3.0")
     kapt("androidx.room", "room-compiler","2.3.0")
+
+    //tab layout
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
 
     implementation ("androidx.core:core-ktx:1.6.0")
 
