@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.UnprocessedRecyclerAdapter
+import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.PaidRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class PaidFragment: Fragment(R.layout.fragment_paid) , UnprocessedRecyclerAdapter.OnClick {
+class PaidFragment: Fragment(R.layout.fragment_paid) , PaidRecyclerAdapter.OnClick {
 
-    private var paidRecyclerAdapter: UnprocessedRecyclerAdapter? = null
+    private var paidRecyclerAdapter: PaidRecyclerAdapter? = null
     private var paidRecycler: RecyclerView? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
@@ -38,7 +38,7 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , UnprocessedRecyclerAdapte
 
         getPaidTransactionList()
 
-        paidRecyclerAdapter = UnprocessedRecyclerAdapter(transactionList, this)
+        paidRecyclerAdapter = PaidRecyclerAdapter(transactionList, this)
 
         DovesRecyclerViewPaginator(
             recyclerView = paidRecycler!!,
