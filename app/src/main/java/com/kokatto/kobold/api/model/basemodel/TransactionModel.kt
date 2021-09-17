@@ -11,5 +11,6 @@ data class TransactionModel(
     val notes: String,
     val payingMethod: String,
     val phone: String,
-    val price: Int
+    val price: Int,
+    val createdAt: Long
 )

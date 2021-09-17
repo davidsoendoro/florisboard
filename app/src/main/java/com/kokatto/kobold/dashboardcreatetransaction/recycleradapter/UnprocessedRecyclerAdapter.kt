@@ -10,6 +10,8 @@ import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.extension.toStringDate
+import com.kokatto.kobold.utility.CurrencyUtility
 
 class UnprocessedRecyclerAdapter(
     val dataList: ArrayList<TransactionModel>,
@@ -36,10 +38,14 @@ class UnprocessedRecyclerAdapter(
         private val layout = item.findViewById<CardView>(R.id.main_layout)
         private val nameText = item.findTextViewId(R.id.name_text)
         private val phoneText = item.findTextViewId(R.id.phone_text)
+        private val dateText = item.findTextViewId(R.id.date_text)
+        private val deliveryFeeText = item.findTextViewId(R.id.deliveryfee_text)
 
         fun bindViewHolder(data: TransactionModel) {
             nameText.text = data.buyer
             phoneText.text = data.phone
+            dateText.text = data.createdAt.toStringDate("dd MMM yyyy, HH:mm") + " WIB"
+            deliveryFeeText.text ="Ongkir " + CurrencyUtility.parseValueToRbAbreviation(data.deliveryFee)
 
             layout.setOnClickListener {
                 onClick.onClicked(data.toString())
