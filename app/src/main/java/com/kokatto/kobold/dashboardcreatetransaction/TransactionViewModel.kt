@@ -19,7 +19,7 @@ class TransactionViewModel {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
 
-    fun getChatTemplateList(
+    fun getTransactionList(
         page: Int = 1,
         pageSize: Int = 10,
         search: String = "",
@@ -46,7 +46,7 @@ class TransactionViewModel {
 
     }
 
-    fun createChatTemplate(
+    fun createTransaction(
         createTransactionRequest: TransactionModel,
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
@@ -64,7 +64,7 @@ class TransactionViewModel {
         }
     }
 
-    fun findAutotextById(
+    fun findTransactionById(
         id: String,
         onSuccess: (GetTransactionResponse) -> Unit,
         onError: (String) -> Unit
@@ -82,7 +82,7 @@ class TransactionViewModel {
         }
     }
 
-    fun updateAutotextById(
+    fun updateTransactionById(
         id: String,
         requestBody: TransactionModel,
         onSuccess: (BaseResponse) -> Unit,
@@ -101,7 +101,7 @@ class TransactionViewModel {
         }
     }
 
-    fun deleteAutotextById(
+    fun deleteTransactionById(
         id: String,
         onSuccess: (BaseResponse) -> Unit,
         onError: (String) -> Unit
