@@ -20,4 +20,8 @@ object Network {
     val chatTemplateApi: ChatTemplateApi by lazy {
         createNetwork(okHttpClient, Gson())
     }
+
+    val transactionApi: TransactionApi by lazy {
+        createNetwork(okHttpClient, Gson())
+    }
 }
