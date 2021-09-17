@@ -134,7 +134,7 @@ dependencies {
     implementation("androidx.constraintlayout", "constraintlayout", "2.0.4")
     implementation("androidx.lifecycle", "lifecycle-service", "2.2.0")
     implementation("com.google.android.flexbox", "flexbox", "3.0.0")
-    implementation("com.google.android.material", "material", "1.3.0")
+    implementation("com.google.android.material", "material", "1.4.0")
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-android", "1.4.2")
     implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.1.0")
     implementation("com.jaredrummler", "colorpicker", "1.1.0")

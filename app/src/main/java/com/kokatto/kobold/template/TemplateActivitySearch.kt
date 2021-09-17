@@ -44,9 +44,9 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
         super.onCreate(savedInstanceState)
         setContentView(R.layout.template_activity_search)
 
-        chatTemplateRecycler = findViewById<RecyclerView>(R.id.chat_template_recycler)
-        bottomLoading = findViewById<LinearLayout>(R.id.bottom_loading)
-        fullscreenLoading = findViewById<LinearLayout>(R.id.fullcreen_loading)
+        chatTemplateRecycler = findViewById(R.id.chat_template_recycler)
+        bottomLoading = findViewById(R.id.bottom_loading)
+        fullscreenLoading = findViewById(R.id.fullcreen_loading)
 
         buttonBack = findViewById(R.id.back_button)
         buttonClear = findViewById(R.id.clear_button)

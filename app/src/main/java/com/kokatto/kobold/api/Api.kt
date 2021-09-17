@@ -1,12 +1,15 @@
 package com.kokatto.kobold.api
 
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
+import com.kokatto.kobold.api.model.response.GetTransactionResponse
 import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
 import com.kokatto.kobold.api.model.response.PostTokenRefreshResponse
 import com.skydoves.sandwich.ApiResponse
@@ -81,4 +84,40 @@ interface ChatTemplateApi {
     suspend fun deleteAutotextById(
         @Path("id") autoTextId: String
     ): ApiResponse<GetAutoTextResponse>
+}
+
+private const val transactionUrl: String = "api/v1/transaction/"
+
+interface TransactionApi {
+
+    @GET(transactionUrl + "filter")
+    suspend fun getPaginatedTransactionList(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("search") search: String
+    ): ApiResponse<GetPaginationTransactionResponse>
+
+    @POST(transactionUrl + "create")
+    suspend fun postCreateTransaction(
+        @Body createTransactionRequest: TransactionModel
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @GET(transactionUrl + "detail/{id}")
+    suspend fun findTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<GetTransactionResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "update/{id}")
+    suspend fun updateTransactionById(
+        @Path("id") transactionId: String,
+        @Body updateTransactionRequest: TransactionModel
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "delete/{id}")
+    suspend fun deleteTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
 }
