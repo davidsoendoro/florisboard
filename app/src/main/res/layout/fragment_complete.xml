@@ -38,7 +38,7 @@
         android:clipToPadding="false"
         android:visibility="gone"
         tools:visibility="visible"
-        tools:listitem="@layout/item_unprocessed" />
+        tools:listitem="@layout/item_transactionhome" />
 
     <LinearLayout
         android:id="@+id/bottom_loading"

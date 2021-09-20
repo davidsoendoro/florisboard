@@ -24,6 +24,10 @@ class ArchiveActivity : AppCompatActivity(), PagerAdapter.Delegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_archive)
 
+        findViewById<ImageView>(R.id.back_button).setOnClickListener {
+            onBackPressed()
+        }
+
         activeButton = findViewById(R.id.popup_keyboard_active_button)
         warningLayout = findViewById(R.id.layout_active_keyboard)
 

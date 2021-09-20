@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:maxLines="1"
-            android:text="081241233123"
+            android:text="xxxxxxxxxxxx"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/media_img"
             app:layout_constraintStart_toEndOf="@id/dot_text"
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Rp. 242.000"
+            android:text="Rp. xxx.xxx"
             android:textColor="@color/text_primary"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/name_text"
@@ -103,7 +103,7 @@
                 android:paddingVertical="2dp"
                 android:textColor="@color/text_secondary"
                 android:paddingHorizontal="8dp"
-                android:text="Ongkir 5rb"
+                android:text="Ongkir xrb"
                 android:textSize="12sp" />
         </com.google.android.material.card.MaterialCardView>
 
