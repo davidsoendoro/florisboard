@@ -599,4 +599,31 @@
     <string name="error_toomanychars">Melebihi karakter yang tersedia</string>
     <string name="kobold_createchat_expand_view">Perluas Tampilan</string>
     <string name="create_transaction_title">Transaksi</string>
+
+    <string name="form_trx_create">Buat Transaksi</string>
+    <string name="form_trx_edit">Detail Transaksi</string>
+    <string name="form_trx_buyerdetail">Detail Pembeli</string>
+    <string name="form_trx_buyername">Nama Pembeli</string>
+    <string name="form_trx_buyername_hint">Masukkan nama pembeli</string>
+    <string name="form_trx_channel">Channel</string>
+    <string name="form_trx_channel_hint">Pilih Channel</string>
+    <string name="form_trx_phone">Nomor Telpon</string>
+    <string name="form_trx_phone_hint">Isi nomor</string>
+    <string name="form_trx_address">Alamat Penerima</string>
+    <string name="form_trx_address_hint">Isi Alamat</string>
+    <string name="form_trx_orderdetail">Detail Pesanan</string>
+    <string name="form_trx_note">Untuk Pembayaran</string>
+    <string name="form_trx_note_hint">Contoh: 1 kaos putih dan 2 celana hitam</string>
+    <string name="form_trx_price">Harga Barang*</string>
+    <string name="form_trx_price_curr">Rp</string>
+    <string name="form_trx_price_hint">Isi harga</string>
+    <string name="form_trx_payment">Metode Bayar*</string>
+    <string name="form_trx_payment_hint">Pilih Metode</string>
+    <string name="form_trx_logistic">Kurir</string>
+    <string name="form_trx_logistic_hint">Pilih Kurir</string>
+    <string name="form_trx_deliveryfee">Ongkir</string>
+    <string name="form_trx_deliveryfee_hint">Rp</string>
+    <string name="form_trx_required_hint">Harga Barang dan Metode pembayaran\nwajib diisi.</string>
+    <string name="form_trx_btn_create">Buat</string>
+
 </resources>

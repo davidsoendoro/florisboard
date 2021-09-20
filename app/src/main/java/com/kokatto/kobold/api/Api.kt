@@ -1,12 +1,15 @@
 package com.kokatto.kobold.api
 
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
+import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
@@ -119,5 +122,41 @@ interface TransactionApi {
     @PATCH(transactionUrl + "delete/{id}")
     suspend fun deleteTransactionById(
         @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
+}
+
+private const val bankUrl: String = "api/v1/banks/"
+interface BankApi {
+    //    @RequiredAuth
+    @GET(bankUrl + "filter")
+    suspend fun getPaginatedBank(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("search") search: String
+    ): ApiResponse<GetPaginationBankResponse>
+
+    //    @RequiredAuth
+    @POST(bankUrl + "create")
+    suspend fun postCreateBank(
+        @Body createBankRequest: BankModel
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @GET(bankUrl + "detail/{id}")
+    suspend fun findBankById(
+        @Path("id") bankId: String
+    ): ApiResponse<GetBankResponse>
+
+    //    @RequiredAuth
+    @PATCH(bankUrl + "update/{id}")
+    suspend fun updateBankById(
+        @Path("id") bankId: String,
+        @Body updateBankRequest: BankModel
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(bankUrl + "delete/{id}")
+    suspend fun deleteBankById(
+        @Path("id") bankId: String
     ): ApiResponse<BaseResponse>
 }
