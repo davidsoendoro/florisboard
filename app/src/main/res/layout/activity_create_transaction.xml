@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".dashboardcreatetransaction.CreateTransactionActivity">
 
@@ -140,7 +141,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/create_template_button"
+        android:id="@+id/create_transaction_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -60,6 +61,10 @@ class CreateTransactionActivity : AppCompatActivity(), CreateTransactionPagerAda
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = fragmentEnabledCount[position]
         }.attach()
+
+        findViewById<CardView>(R.id.create_transaction_button).setOnClickListener {
+            startActivity(Intent(this, InputActivity::class.java))
+        }
     }
 
     override fun getItemCount(): Int = fragmentEnabledCount.size
