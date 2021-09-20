@@ -15,10 +15,10 @@ import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAdapter.OnClick {
+class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRecyclerAdapter.OnClick {
 
-    private var paidRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
-    private var paidRecycler: RecyclerView? = null
+    private var completeRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
+    private var completeRecycler: RecyclerView? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
     private var transactionList: ArrayList<TransactionModel> = arrayListOf()
@@ -32,36 +32,36 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paidRecycler = view.findViewById(R.id.recycler_view)
+        completeRecycler = view.findViewById(R.id.recycler_view)
         bottomLoading = view.findViewById(R.id.bottom_loading)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
 
-        getPaidTransactionList()
+        getCompleteTransactionList()
 
-        paidRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList, this)
+        completeRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList,this)
 
         DovesRecyclerViewPaginator(
-            recyclerView = paidRecycler!!,
+            recyclerView = completeRecycler!!,
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
                 showToast(it.toString())
-                getPaidTransactionList(it + 1)
+                getCompleteTransactionList(it + 1)
             },
             onLast = { isLast.get() }
         ).run {
             threshold = 3
         }
 
-        paidRecycler!!.adapter = paidRecyclerAdapter
-        paidRecycler!!.vertical()
+        completeRecycler!!.adapter = completeRecyclerAdapter
+        completeRecycler!!.vertical()
     }
 
     override fun onClicked(data: String) {
         showToast(data)
     }
 
-    private fun getPaidTransactionList(page: Int = 1) {
+    private fun getCompleteTransactionList(page: Int = 1) {
         transactionViewModel?.getTransactionList(
             page = page,
             onLoading = {
@@ -74,19 +74,19 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
 //                if first page
                 if (page == 1) {
                     fullscreenLoading!!.isVisible = false
-                    paidRecycler!!.isVisible = true
+                    completeRecycler!!.isVisible = true
                 } else {
                     isLoadingList.set(false)
                     bottomLoading!!.isVisible = false
                 }
                 //contoh insert data
 //                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
-                paidRecyclerAdapter!!.notifyDataSetChanged()
+                completeRecyclerAdapter!!.notifyDataSetChanged()
             },
             onError = {
                 showToast(it)
                 fullscreenLoading!!.isVisible = false
-                paidRecycler!!.isVisible = true
+                completeRecycler!!.isVisible = true
             }
         )
     }

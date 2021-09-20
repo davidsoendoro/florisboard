@@ -625,5 +625,6 @@
     <string name="form_trx_deliveryfee_hint">Rp</string>
     <string name="form_trx_required_hint">Harga Barang dan Metode pembayaran\nwajib diisi.</string>
     <string name="form_trx_btn_create">Buat</string>
+    <string name="archive_title">Arsip</string>
 
 </resources>

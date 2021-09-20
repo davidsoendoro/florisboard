@@ -5,7 +5,7 @@
     android:id="@+id/data_available_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground"
+    android:background="@color/background"
     android:visibility="visible">
 
     <LinearLayout
@@ -38,7 +38,7 @@
         android:clipToPadding="false"
         android:visibility="gone"
         tools:visibility="visible"
-        tools:listitem="@layout/item_unprocessed" />
+        tools:listitem="@layout/item_transactionhome" />
 
     <LinearLayout
         android:id="@+id/bottom_loading"

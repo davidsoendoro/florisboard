@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class CreateTransactionPagerAdapter (
+class PagerAdapter (
     fm: FragmentManager,
     lifecycle: Lifecycle,
     private val delegate: Delegate

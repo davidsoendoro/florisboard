@@ -14,7 +14,12 @@
         android:roundIcon="@mipmap/floris_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
-        <!-- IME service -->
+        <activity
+            android:name=".dashboardcreatetransaction.SearchTransactionActivity"
+            android:exported="true" />
+        <activity
+            android:name=".dashboardcreatetransaction.ArchiveActivity"
+            android:exported="true" /> <!-- IME service -->
         <service
             android:name="dev.patrickgold.florisboard.FlorisImeService"
             android:directBootAware="true"
@@ -39,8 +44,7 @@
             <meta-data
                 android:name="android.view.textservice.scs"
                 android:resource="@xml/spellchecker" />
-        </service>
-        <!-- Settings Activity -->
+        </service> <!-- Settings Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.SettingsMainActivity"
             android:icon="@mipmap/floris_app_icon"
@@ -48,10 +52,11 @@
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round"
             android:theme="@style/SettingsTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".template.TemplateActivity"
@@ -68,28 +73,22 @@
             android:name=".template.TemplateActivitySearch"
             android:icon="@mipmap/floris_app_icon"
             android:label="Kobold Dashboard"
-            android:roundIcon="@mipmap/floris_app_icon_round" />
-        <!-- User Dictionary Manager Activity -->
+            android:roundIcon="@mipmap/floris_app_icon_round" /> <!-- User Dictionary Manager Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.UdmActivity"
             android:icon="@mipmap/floris_app_icon"
             android:label="@string/settings__title"
-            android:theme="@style/SettingsTheme" />
-        <!-- Theme Selector Activity -->
+            android:theme="@style/SettingsTheme" /> <!-- Theme Selector Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.ThemeManagerActivity"
             android:icon="@mipmap/floris_app_icon"
             android:label="@string/settings__title"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        <!-- Theme Editor Activity -->
+            android:theme="@style/SettingsTheme" /> <!-- Theme Editor Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.ThemeEditorActivity"
             android:icon="@mipmap/floris_app_icon"
             android:label="@string/settings__theme_editor__title"
-            android:theme="@style/SettingsTheme" >
-        </activity>
-        <!-- Spelling Activity -->
+            android:theme="@style/SettingsTheme" /> <!-- Spelling Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.spelling.SpellingActivity"
             android:icon="@mipmap/floris_app_icon"
@@ -113,26 +112,7 @@
             android:icon="@mipmap/floris_app_icon"
             android:label="@string/setup__title"
             android:roundIcon="@mipmap/floris_app_icon_round"
-            android:theme="@style/SettingsTheme" /> <!-- Using an activity alias to disable/enable the app icon in the launcher -->
-
-        <!-- Dashboard Transaction Activity-->
-        <activity
-            android:name=".dashboardcreatetransaction.CreateTransactionActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-        <activity
-            android:name=".dashboardcreatetransaction.InputActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:theme="@style/SettingsTheme" />
 
         <activity-alias
             android:name="dev.patrickgold.florisboard.SettingsLauncherAlias"
@@ -140,9 +120,26 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round"
-            android:targetActivity="dev.patrickgold.florisboard.setup.SetupActivity" />
+            android:targetActivity="dev.patrickgold.florisboard.setup.SetupActivity" /> <!-- Using an activity alias to disable/enable the app icon in the launcher -->
+        <!-- Dashboard Transaction Activity -->
+        <activity
+            android:name=".dashboardcreatetransaction.CreateTransactionActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!-- Crash Dialog Activity -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".dashboardcreatetransaction.InputActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity> <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"
             android:icon="@mipmap/floris_app_icon"
