@@ -23,6 +23,8 @@ class KeyboardIdentityMainMenu: LinearLayout {
     var chatTemplateButton: LinearLayout? = null
     private set
 
+    var transactionButton: LinearLayout? = null
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
@@ -31,6 +33,9 @@ class KeyboardIdentityMainMenu: LinearLayout {
 
         chatTemplateButton = findViewById(R.id.chat_template_button)
         chatTemplateButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+
+        transactionButton = findViewById(R.id.create_transaction_button)
+        transactionButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
     }
 
     private fun onButtonClicked(view: View) {
@@ -38,6 +43,7 @@ class KeyboardIdentityMainMenu: LinearLayout {
         when (view.id) {
             R.id.back_button -> florisboard?.setActiveInput(R.id.text_input)
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
+            R.id.create_transaction_button -> florisboard?.setActiveInput(R.id.kobold_menu_transaction)
         }
     }
 }

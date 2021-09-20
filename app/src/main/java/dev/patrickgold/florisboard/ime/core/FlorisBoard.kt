@@ -1005,6 +1005,12 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             R.id.kobold_menu_create_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 5
             }
+            R.id.kobold_menu_transaction -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 6
+//                if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
+//                    uiBinding?.mainViewFlipper?.invalidate()
+//                }
+            }
         }
         textInputManager.isGlidePostEffect = false
     }
