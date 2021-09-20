@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/spinner_bank_main"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/spinner_bank_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/kobold_margin_8px"
+        android:src="@drawable/ic_radio_default"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:outlineAmbientShadowColor="@color/colorPrimary"
+        android:paddingHorizontal="@dimen/kobold_margin_8px"
+        android:paddingVertical="@dimen/kobold_margin_12px"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_bank_radio"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#EBEBEB"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/spinner_bank_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/kobold_margin_8px"
+            android:src="@drawable/img_cash" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/materialCardView">
+
+        <TextView
+            android:id="@+id/spinner_bank_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/kobold_margin_16px"
+            android:textAppearance="@style/spinnerItemLabelHeader"
+            tools:text="BCA" />
+
+        <TextView
+            android:id="@+id/spinner_bank_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/kobold_margin_16px"
+            android:textAppearance="@style/spinnerItemLabel"
+            tools:text="6781231242 " />
+
+        <TextView
+            android:id="@+id/spinner_bank_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/kobold_margin_16px"
+            android:textAppearance="@style/spinnerItemSubLabel"
+            tools:text="John Appleseed" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/spinner_bank_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/kobold_margin_32px"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

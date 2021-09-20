@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kobold_spinner_bank_main"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/kobold_item_42px"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/spinner_radio_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/kobold_margin_8px"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        android:layout_marginEnd="@dimen/kobold_margin_16px"
+        android:src="@drawable/ic_radio_default" />
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/kobold_margin_8px"
+        android:paddingVertical="@dimen/kobold_margin_12px"
+        android:layout_marginEnd="@dimen/kobold_margin_16px"
+        android:outlineAmbientShadowColor="@color/colorPrimary"
+        app:strokeColor="#EBEBEB"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/spinner_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_jne"
+            android:layout_margin="@dimen/kobold_margin_8px"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/spinner_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/kobold_margin_16px"
+        android:textAppearance="@style/spinnerItemLabel"
+        tools:text="JNE - REG" />
+
+</LinearLayout>
