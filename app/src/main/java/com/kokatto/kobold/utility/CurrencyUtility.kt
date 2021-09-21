@@ -15,17 +15,34 @@ class CurrencyUtility {
                 is Float -> NumberFormat.getNumberInstance(Locale.GERMAN).format(value.toDouble())
                 else -> "$value"
             }
-            return "Rp. $x"
+            return "Rp$x"
         }
 
-        fun parseValueToRbAbreviation(beforeFormat: Number?): String {
+        fun parseValueToRbAbreviation(beforeFormat: Number): String {
+            if (beforeFormat==0)
+                return "Rp-"
             val numberFormat = DecimalFormat("#,###")
-            return numberFormat.format(beforeFormat).replace(",000", "rb")
+            return numberFormat.format(roundToHundreds(beforeFormat.toInt())).replace(",000", "rb")
         }
 
-        fun currencyFormatter(beforeFormat: Float = 0F): String {
+        fun currencyFormatter(beforeFormat: Number): String {
                 val numberFormat = DecimalFormat("#,###")
-                return numberFormat.format(beforeFormat).replace(",", ".")
+                return "Rp"+numberFormat.format(beforeFormat).replace(",", ".")
+        }
+
+        fun roundToHundreds(number: Int, multiple: Int = 100): Number {
+            var result= number
+
+            //If not already multiple of given number
+
+
+            //If not already multiple of given number
+            if (number % multiple !== 0) {
+                val division: Int = number / multiple + 1
+                result = division * multiple
+            }
+
+            return result
         }
     }
 }

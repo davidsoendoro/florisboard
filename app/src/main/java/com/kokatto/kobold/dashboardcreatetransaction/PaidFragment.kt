@@ -1,5 +1,6 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -9,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.PaidRecyclerAdapter
+import com.kokatto.kobold.constant.TransactionStatusConstant
+import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class PaidFragment: Fragment(R.layout.fragment_paid) , PaidRecyclerAdapter.OnClick {
+class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAdapter.OnClick {
 
-    private var paidRecyclerAdapter: PaidRecyclerAdapter? = null
+    private var paidRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
     private var paidRecycler: RecyclerView? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
@@ -38,7 +40,7 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , PaidRecyclerAdapter.OnCli
 
         getPaidTransactionList()
 
-        paidRecyclerAdapter = PaidRecyclerAdapter(transactionList, this)
+        paidRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList, this)
 
         DovesRecyclerViewPaginator(
             recyclerView = paidRecycler!!,
@@ -58,12 +60,17 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , PaidRecyclerAdapter.OnCli
     }
 
     override fun onClicked(data: String) {
-        showToast(data)
+        // showToast(data)
+        Intent(requireContext(), DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_ID, data)
+            startActivity(this)
+        }
     }
 
     private fun getPaidTransactionList(page: Int = 1) {
         transactionViewModel?.getTransactionList(
             page = page,
+            status = TransactionStatusConstant.PAID,
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingList.set(it)

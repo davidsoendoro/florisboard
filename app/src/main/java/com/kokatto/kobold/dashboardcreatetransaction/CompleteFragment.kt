@@ -1,6 +1,5 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -17,10 +16,10 @@ import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAdapter.OnClick {
+class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRecyclerAdapter.OnClick {
 
-    private var sentRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
-    private var sentRecycler: RecyclerView? = null
+    private var completeRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
+    private var completeRecycler: RecyclerView? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
     private var transactionList: ArrayList<TransactionModel> = arrayListOf()
@@ -34,43 +33,39 @@ class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAd
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sentRecycler = view.findViewById(R.id.recycler_view)
+        completeRecycler = view.findViewById(R.id.recycler_view)
         bottomLoading = view.findViewById(R.id.bottom_loading)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
 
-        getSentTransactionList()
+        getCompleteTransactionList()
 
-        sentRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList,this)
+        completeRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList,this)
 
         DovesRecyclerViewPaginator(
-            recyclerView = sentRecycler!!,
+            recyclerView = completeRecycler!!,
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
                 showToast(it.toString())
-                getSentTransactionList(it + 1)
+                getCompleteTransactionList(it + 1)
             },
             onLast = { isLast.get() }
         ).run {
             threshold = 3
         }
 
-        sentRecycler!!.adapter = sentRecyclerAdapter
-        sentRecycler!!.vertical()
+        completeRecycler!!.adapter = completeRecyclerAdapter
+        completeRecycler!!.vertical()
     }
 
     override fun onClicked(data: String) {
-        //showToast(data)
-        Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_ID, data)
-            startActivity(this)
-        }
+        showToast(data)
     }
 
-    private fun getSentTransactionList(page: Int = 1) {
+    private fun getCompleteTransactionList(page: Int = 1) {
         transactionViewModel?.getTransactionList(
             page = page,
-            status = TransactionStatusConstant.SENT,
+            status = TransactionStatusConstant.COMPLETE,
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingList.set(it)
@@ -81,19 +76,19 @@ class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAd
 //                if first page
                 if (page == 1) {
                     fullscreenLoading!!.isVisible = false
-                    sentRecycler!!.isVisible = true
+                    completeRecycler!!.isVisible = true
                 } else {
                     isLoadingList.set(false)
                     bottomLoading!!.isVisible = false
                 }
                 //contoh insert data
 //                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
-                sentRecyclerAdapter!!.notifyDataSetChanged()
+                completeRecyclerAdapter!!.notifyDataSetChanged()
             },
             onError = {
                 showToast(it)
                 fullscreenLoading!!.isVisible = false
-                sentRecycler!!.isVisible = true
+                completeRecycler!!.isVisible = true
             }
         )
     }

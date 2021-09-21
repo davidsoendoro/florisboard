@@ -586,6 +586,44 @@
     <string name="kobold_template_delete_button_ok">Hapus template</string>
     <string name="kobold_template_delete_button_cancel">Tidak jadi</string>
 
+    <string name="kobold_transaction_cancel_title">Batalkan transaksi ini?</string>
+    <string name="kobold_transaction_cancel_content">Setelah dibatalkan transaksi proses tidak bisa diubah.</string>
+    <string name="kobold_transaction_cancel_button_yes">Batalkan Transaksi</string>
+    <string name="kobold_transaction_cancel_button_no">Nanti saja</string>
+
+    <string name="kobold_transaction_unpaid_title">Ganti status jadi belum dibayar?</string>
+    <string name="kobold_transaction_unpaid_content">Setelah ganti, status transaksi ini kembali menjadi belum diproses.</string>
+    <string name="kobold_transaction_unpaid_button_yes">Ganti Status</string>
+    <string name="kobold_transaction_unpaid_button_no">Nanti saja</string>
+
+    <string name="kobold_transaction_unsent_title">Ganti status jadi belum dikirim?</string>
+    <string name="kobold_transaction_unsent_content">Setelah ganti, status transaksi ini kembali menjadi belum dikirim.</string>
+    <string name="kobold_transaction_unsent_button_yes">Ganti Status</string>
+    <string name="kobold_transaction_unsent_button_no">Nanti saja</string>
+
+    <string name="kobold_transaction_sent_title">Konfirmasi Pengiriman</string>
+    <string name="kobold_transaction_sent_content">Status transaksi akan berubah menjadi sudah dikirim.</string>
+    <string name="kobold_transaction_sent_button_yes">Ya, ubah jadi sudah dikirim</string>
+    <string name="kobold_transaction_sent_button_no">Nanti saja</string>
+    <string name="kobold_transaction_sent_toast">Transaksi berhasil diubah jadi sudah dikirim.</string>
+
+    <string name="kobold_transaction_finish_title">Konfirmasi Selesai</string>
+    <string name="kobold_transaction_finish_content">Transaksi akan selesai dan dipindahkan ke menu arsip.</string>
+    <string name="kobold_transaction_finish_button_yes">Ya, transaksi selesai</string>
+    <string name="kobold_transaction_finish_button_no">Nanti saja</string>
+
+    <string name="kobold_transaction_paid_title">Konfirmasi Pembayaran</string>
+    <string name="kobold_transaction_paid_content">Status transaksi akan berubah menjadi sudah dibayar.</string>
+    <string name="kobold_transaction_paid_button_yes">Ya, ubah jadi sudah dibayar</string>
+    <string name="kobold_transaction_paid_button_no">Nanti saja</string>
+
+    <string name="kobold_transaction_action_nota">Kirim nota pembelian</string>
+    <string name="kobold_transaction_action_chat">Chat ke Pembeli</string>
+    <string name="kobold_transaction_action_unpaid">Ganti ke belum dibayar</string>
+    <string name="kobold_transaction_action_unsent">Ganti ke belum dikirim</string>
+    <string name="kobold_transaction_action_cancel">Batalkan transaksi ini</string>
+    <string name="kobold_transaction_action_edit">Edit detail transaksi ini</string>
+
     <string name="kobold_guide1_text">Geser tombol pada pilihan Keyboard lapak lalu klik OK.</string>
     <string name="kobold_guide_language_input">Bahasa &amp; Masukan</string>
     <string name="kobold_guide2_text">Pilih Keyboard Lapak pada menu Pilih Keyboard.</string>
@@ -601,7 +639,8 @@
     <string name="create_transaction_title">Transaksi</string>
 
     <string name="form_trx_create">Buat Transaksi</string>
-    <string name="form_trx_edit">Detail Transaksi</string>
+    <string name="form_trx_edit">Edit Transaksi</string>
+    <string name="form_trx_detail">Detil Transaksi</string>
     <string name="form_trx_buyerdetail">Detail Pembeli</string>
     <string name="form_trx_buyername">Nama Pembeli</string>
     <string name="form_trx_buyername_hint">Masukkan nama pembeli</string>
@@ -625,5 +664,13 @@
     <string name="form_trx_deliveryfee_hint">Rp</string>
     <string name="form_trx_required_hint">Harga Barang dan Metode pembayaran\nwajib diisi.</string>
     <string name="form_trx_btn_create">Buat</string>
+    <string name="form_trx_btn_edit">Simpan</string>
+
+    <string name="form_trx_btn_action_paid">Sudah Bayar</string>
+    <string name="form_trx_btn_action_sent">Sudah Dikirim</string>
+    <string name="form_trx_btn_action_complete">Transaksi Selesai</string>
+
+    <string name="toast_copy_clipboard">Pesan nota pembelian berhasil di copy, silahkan pasang di chat pembelimu.</string>
+    <string name="archive_title">Arsip</string>
 
 </resources>
