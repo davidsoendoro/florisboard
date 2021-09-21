@@ -1006,7 +1006,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 uiBinding?.mainViewFlipper?.displayedChild = 5
             }
             R.id.kobold_menu_transaction -> {
-                uiBinding?.mainViewFlipper?.displayedChild = 6
+                uiBinding?.mainViewFlipper?.displayedChild = 8
 //                if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
 //                    uiBinding?.mainViewFlipper?.invalidate()
 //                }
