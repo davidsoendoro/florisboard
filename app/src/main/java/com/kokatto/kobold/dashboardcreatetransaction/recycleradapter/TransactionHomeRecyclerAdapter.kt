@@ -58,7 +58,8 @@ class TransactionHomeRecyclerAdapter(
             deliveryFeeText.text = "Ongkir " + CurrencyUtility.parseValueToRbAbreviation(data.deliveryFee)
 
             layout.setOnClickListener {
-                onClick.onClicked(data.toString())
+                //onClick.onClicked(data.toString())
+                onClick.onClicked(data._id)
             }
         }
     }

@@ -19,7 +19,7 @@ import com.kokatto.kobold.extension.showToast
 
 class InputActivity : AppCompatActivity() {
 
-    private companion object {
+    companion object {
         const val CREATE = -1
         const val EDIT = 1
         const val MODE = "MODE"
@@ -47,6 +47,7 @@ class InputActivity : AppCompatActivity() {
     private var extraID: String = ""
 
     private var selectedBank: BankModel? = null
+    private var currentTransaction: TransactionModel? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
     private var spinnerChannelSelector: SpinnerChannelSelector? = SpinnerChannelSelector()
@@ -77,8 +78,14 @@ class InputActivity : AppCompatActivity() {
             layoutTitleText?.text = resources.getString(R.string.form_trx_create)
             disableFormInput(false)
         } else {
-            layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
-            disableFormInput(true)
+            intent.getStringExtra(EXTRA_ID).let { id ->
+                if (id != null) {
+                    callApiFindTransactionById(id)
+                    layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
+                    btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
+                    disableFormInput(false)
+                }
+            }
         }
 
         btnSubmit?.let { button -> button.setOnClickListener { onClicked(button) } }
@@ -240,5 +247,33 @@ class InputActivity : AppCompatActivity() {
             btnSubmitText?.setBackgroundColor(resources.getColor(R.color.colorPrimary50))
             btnSubmit?.preventCornerOverlap = true
         }
+    }
+
+    private fun setupDisplay(model: TransactionModel) {
+        model.buyer.let { s -> editTextBuyer?.setText(s) }
+        model.channel.let { s -> editTextChannel?.setText(s) }
+        model.phone.let { s -> editTextPhone?.setText(s) }
+        model.address.let { s -> editTextAddress?.setText(s) }
+        model.notes.let { s -> editTextNote?.setText(s) }
+        model.price.let { s -> editTextPrice?.setText(s.toString()) }
+        model.payingMethod.let { s -> editTextPayment?.setText(s) }
+        model.logistic.let { s -> editTextLogistic?.setText(s) }
+        model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
+    }
+
+    // Function API Call
+    private fun callApiFindTransactionById(_id: String) {
+        //progressLoading(true)
+        transactionViewModel?.findTransactionById(_id,
+            onSuccess = { it ->
+                currentTransaction = it.data
+                setupDisplay(it.data)
+                //progressLoading(false)
+            },
+            onError = {
+                showToast(it.toString())
+                //progressLoading(false)
+            }
+        )
     }
 }

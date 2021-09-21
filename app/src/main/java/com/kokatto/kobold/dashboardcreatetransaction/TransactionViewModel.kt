@@ -22,6 +22,7 @@ class TransactionViewModel {
     fun getTransactionList(
         page: Int = 1,
         pageSize: Int = 10,
+        status: String = "",
         search: String = "",
         onLoading: (Boolean) -> Unit,
         onSuccess: (GetPaginationTransactionResponse) -> Unit,
@@ -31,7 +32,7 @@ class TransactionViewModel {
 //            delay(5000)
 
             onLoading.invoke(true)
-            val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, search)
+            val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, status, search)
             response.onSuccess {
                 onLoading.invoke(false)
                 onSuccess.invoke(this.data)
@@ -109,6 +110,96 @@ class TransactionViewModel {
         scope.launch {
 //            delay(5000)
             val response = Network.transactionApi.deleteTransactionById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun pendingTransactionById(
+        id: String,
+        onSuccess: (BaseResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.transactionApi.pendingTransactionById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun paidTransactionById(
+        id: String,
+        onSuccess: (BaseResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.transactionApi.paidTransactionById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun sentTransactionById(
+        id: String,
+        onSuccess: (BaseResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.transactionApi.sentTransactionById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun cancelTransactionById(
+        id: String,
+        onSuccess: (BaseResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.transactionApi.cancelTransactionById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun completeTransactionById(
+        id: String,
+        onSuccess: (BaseResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.transactionApi.completeTransactionById(id)
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {

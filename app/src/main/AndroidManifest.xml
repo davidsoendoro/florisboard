@@ -134,12 +134,12 @@
         <activity
             android:name=".dashboardcreatetransaction.InputActivity"
             android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity> <!-- Crash Dialog Activity -->
+        </activity>
+        <activity
+            android:name=".dashboardcreatetransaction.DetailActivity"
+            android:exported="true">
+        </activity>
+        <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"
             android:icon="@mipmap/floris_app_icon"
