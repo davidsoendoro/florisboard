@@ -1,7 +1,6 @@
 package com.kokatto.kobold.transaction
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -11,13 +10,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
-import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.transaction.recycleradapter.TransactionKeyboardRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
@@ -48,17 +46,17 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         super.onAttachedToWindow()
         val searchButton: ImageView = findViewById(R.id.search_button)
         val backButton: TextView = findViewById(R.id.back_button)
-//        val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
+        val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
 
         searchButton.setOnClickListener {
 //            florisboard?.inputFeedbackManager?.keyPress()
 //            florisboard?.openSearchEditor()
         }
-//        createTemplateButton.setOnClickListener {
-//            florisboard?.inputFeedbackManager?.keyPress()
-//            florisboard?.setActiveInput(R.id.kobold_menu_create_chat_template)
-//        }
+        createTemplateButton.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+        }
         backButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
