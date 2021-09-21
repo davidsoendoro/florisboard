@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_cross_svg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/icon_black" />
+
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="17dp"
+                android:layout_marginStart="20dp"
+                android:text="Title layout"
+                android:textColor="@color/textColorDark"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/back_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/border"
+            app:layout_constraintTop_toBottomOf="@id/title_layout" />
+
+        <!-- Full Screen Loading  -->
+        <LinearLayout
+            android:id="@+id/fullcreen_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="visible">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:paddingVertical="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scroll_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/main_layout"
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintVertical_weight="1"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/main_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingHorizontal="17dp"
+                android:paddingTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    android:text="@string/form_trx_buyerdetail"
+                    android:textAppearance="@style/FormTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/form_trx_buyername"
+                    android:textAppearance="@style/FormEditTextTitle"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edittext_buyername_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    app:hintEnabled="false"
+                    android:background="@color/colorWhite">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_buyername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_trx_buyername"
+                        android:textAppearance="@style/FormEditTextHint"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/form_trx_channel"
+                            android:textAppearance="@style/FormEditTextTitle" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_channel_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:hintEnabled="false"
+                            android:layout_marginBottom="@dimen/kobold_margin_24px">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edittext_channel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@drawable/ic_subdued"
+                                android:drawablePadding="@dimen/kobold_margin_4px"
+                                android:hint="@string/form_trx_channel_hint"
+                                android:focusable="false"
+                                android:clickable="true"
+                                android:scrollHorizontally="true"
+                                android:lines="1"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:cursorVisible="false"
+                                android:textAppearance="@style/FormEditTextHint"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="17dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/form_trx_phone"
+                            android:textAppearance="@style/FormEditTextTitle" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_phone_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/kobold_margin_24px"
+                            app:hintEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edittext_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/form_trx_phone_hint"
+                                android:inputType="phone"
+                                android:lines="1"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:textAppearance="@style/FormEditTextHint"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/form_trx_address"
+                    android:textAppearance="@style/FormEditTextTitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edittext_buyeraddress_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_buyeraddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_trx_address_hint"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAppearance="@style/FormEditTextHint"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="@dimen/kobold_margin_32px"
+                    android:layerType="software"
+                    android:src="@drawable/shape_line_strip"
+                    app:layout_constraintTop_toBottomOf="@id/textinputlayout_buyeraddress" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/kobold_margin_32px"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    android:text="@string/form_trx_orderdetail"
+                    android:textAppearance="@style/FormTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/form_trx_note"
+                    android:textAppearance="@style/FormEditTextTitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edittext_note_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:hint="@string/form_trx_note_hint"
+                        android:minHeight="84dp"
+                        android:textAppearance="@style/FormEditTextHint"
+                        app:hintEnabled="false"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/form_trx_price"
+                    android:textAppearance="@style/FormEditTextTitle" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edittext_price_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_trx_price_hint"
+                        android:inputType="numberDecimal"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textAppearance="@style/FormEditTextHint"
+                        android:drawableStart="@drawable/ic_prefix_text_rp"
+                        android:drawablePadding="@dimen/kobold_margin_12px"
+                        app:hintEnabled="false"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/form_trx_payment"
+                    android:textAppearance="@style/FormEditTextTitle" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edittext_paymentmethod_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_paymentmethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_subdued"
+                        android:drawablePadding="@dimen/kobold_margin_4px"
+                        android:hint="@string/form_trx_payment_hint"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:scrollHorizontally="true"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:cursorVisible="false"
+                        android:textAppearance="@style/FormEditTextHint"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/form_trx_logistic"
+                            android:textAppearance="@style/FormEditTextTitle" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_logistic_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/kobold_margin_24px"
+                            app:hintEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edittext_logistic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@drawable/ic_subdued"
+                                android:drawablePadding="@dimen/kobold_margin_4px"
+                                android:hint="@string/form_trx_logistic_hint"
+                                android:focusable="false"
+                                android:clickable="true"
+                                android:scrollHorizontally="true"
+                                android:lines="1"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:cursorVisible="false"
+                                android:textAppearance="@style/FormEditTextHint"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginLeft="17dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/form_trx_deliveryfee"
+                            android:textAppearance="@style/FormEditTextTitle" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_deliveryfee_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/kobold_margin_24px"
+                            app:hintEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edittext_deliveryfee"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@drawable/ic_calculator"
+                                android:drawableStart="@drawable/ic_prefix_text_rp"
+                                android:drawablePadding="@dimen/kobold_margin_4px"
+                                android:inputType="numberDecimal"
+                                android:textAppearance="@style/FormEditTextHint"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/kobold_margin_32px"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ProgressBar
+                        android:id="@+id/submit_button_loading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                    />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/submit_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginRight="@dimen/kobold_margin_8px"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/colorPrimary50"
+                        android:layout_weight="1"
+                        android:layout_gravity="center">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/submit_button_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/colorPrimary50"
+                                android:drawableLeft="@drawable/ic_checked"
+                                android:drawablePadding="8dp"
+                                android:drawableTint="@color/icon_white"
+                                android:gravity="center"
+                                android:text="Sudah Bayar"
+                                android:textAppearance="@style/buttonStatus"
+                                android:textColor="@color/text_color_white"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/action_button"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:outlineAmbientShadowColor="@color/colorPrimary"
+                        android:paddingHorizontal="@dimen/kobold_margin_8px"
+                        android:paddingVertical="@dimen/kobold_margin_12px"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="#EBEBEB"
+                        app:strokeWidth="1dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_ellipsis" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/line_bottom"
+                    android:layout_width="64dp"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_gravity="center|bottom"
+                    android:background="@color/textBlack" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

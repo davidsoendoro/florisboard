@@ -1,5 +1,8 @@
 package com.kokatto.kobold.api.model.basemodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TransactionModel(
     val _id: String,
     val address: String,

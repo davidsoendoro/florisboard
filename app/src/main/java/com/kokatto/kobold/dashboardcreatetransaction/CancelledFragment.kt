@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
@@ -64,6 +65,7 @@ class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHome
     private fun getCancelledTransactionList(page: Int = 1) {
         transactionViewModel?.getTransactionList(
             page = page,
+            status = TransactionStatusConstant.CANCEL,
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingList.set(it)

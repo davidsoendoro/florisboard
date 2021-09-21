@@ -97,6 +97,7 @@ interface TransactionApi {
     suspend fun getPaginatedTransactionList(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
+        @Query("status") status: String,
         @Query("search") search: String
     ): ApiResponse<GetPaginationTransactionResponse>
 
@@ -121,6 +122,36 @@ interface TransactionApi {
     //    @RequiredAuth
     @PATCH(transactionUrl + "delete/{id}")
     suspend fun deleteTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "status/pending/{id}")
+    suspend fun pendingTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "status/paid/{id}")
+    suspend fun paidTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "status/sent/{id}")
+    suspend fun sentTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "status/cancel/{id}")
+    suspend fun cancelTransactionById(
+        @Path("id") transactionId: String
+    ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @PATCH(transactionUrl + "status/complete/{id}")
+    suspend fun completeTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
@@ -64,6 +65,7 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
     private fun getCompleteTransactionList(page: Int = 1) {
         transactionViewModel?.getTransactionList(
             page = page,
+            status = TransactionStatusConstant.COMPLETE,
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingList.set(it)
