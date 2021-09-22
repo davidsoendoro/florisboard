@@ -23,6 +23,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     companion object {
         const val EXTRA_STATE_INPUT = "EXTRA_STATE_INPUT"
         const val EXTRA_ID = "ID"
+
         const val EXTRA_TEMPLATE = "TEMPLATE"
         const val EXTRA_TITLE = "TITLE"
         const val EXTRA_CONTENT = "CONTENT"
@@ -102,11 +103,16 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         }
 
         extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
-        extraId = intent.getStringExtra(EXTRA_ID)
+        val data = intent.getParcelableExtra<AutoTextModel>(EXTRA_STATE_INPUT)
+//        extraId = intent.getStringExtra(EXTRA_ID)
 
-        val extraTemplate = intent.getStringExtra(EXTRA_TEMPLATE)
-        val extraTitle = intent.getStringExtra(EXTRA_TITLE)
-        val extraContent = intent.getStringExtra(EXTRA_CONTENT)
+//        val extraTemplate = intent.getStringExtra(EXTRA_TEMPLATE)
+//        val extraTitle = intent.getStringExtra(EXTRA_TITLE)
+//        val extraContent = intent.getStringExtra(EXTRA_CONTENT)
+
+        val extraTemplate = data?.template
+        val extraTitle = data?.title
+        val extraContent = data?.content
         markButtonSaveDisable(true)
 
         if (extraStateInput!! >= 0) {

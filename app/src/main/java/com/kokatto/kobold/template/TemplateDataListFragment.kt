@@ -150,12 +150,17 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
     }
 
     override fun onClicked(data: AutoTextModel) {
+//        Intent(requireContext(), TemplateActivityInput::class.java).apply {
+//            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_EDIT)
+//            putExtra(TemplateActivityInput.EXTRA_ID, data._id)
+//            putExtra(TemplateActivityInput.EXTRA_TEMPLATE, data.template)
+//            putExtra(TemplateActivityInput.EXTRA_TITLE, data.title)
+//            putExtra(TemplateActivityInput.EXTRA_CONTENT, data.content)
+//            startActivity(this)
+//        }
         Intent(requireContext(), TemplateActivityInput::class.java).apply {
-            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_EDIT)
-            putExtra(TemplateActivityInput.EXTRA_ID, data._id)
-            putExtra(TemplateActivityInput.EXTRA_TEMPLATE, data.template)
-            putExtra(TemplateActivityInput.EXTRA_TITLE, data.title)
-            putExtra(TemplateActivityInput.EXTRA_CONTENT, data.content)
+            putExtra(TemplateActivityInput.EXTRA_ID, TemplateActivityInput.EXTRA_STATE_EDIT)
+            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, data)
             startActivity(this)
         }
     }

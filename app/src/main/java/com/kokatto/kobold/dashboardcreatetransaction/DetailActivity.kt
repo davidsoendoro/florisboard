@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -14,8 +15,14 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogAction
@@ -31,6 +38,9 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_ID = "EXTRA_ID"
+        const val EXTRA_DATA = "EXTRA_DATA"
+        const val EDIT = "EDIT"
+        const val EDIT_COMPLETE = "EDIT_COMPLETE"
     }
 
     private var editTextBuyer: EditText? = null
@@ -107,16 +117,11 @@ class DetailActivity : AppCompatActivity() {
         fullscreenLoading = findViewById<LinearLayout>(R.id.fullcreen_loading)
         scrollviewLayout = findViewById<ScrollView>(R.id.scroll_layout)
 
-        intent.getStringExtra(EXTRA_ID).let { id ->
-            if (id != null) {
-                callApifindTransactionById(id)
-                disableFormInput()
-            }
-        }
-
         btnSubmit?.let { button -> button.setOnClickListener { onClicked(button) } }
         btnBack?.let { button -> button.setOnClickListener { onClicked(button) } }
         btnAction?.let { button -> button.setOnClickListener { onClicked(button) } }
+
+        getTransactionModelFromIntent()
     }
 
     private fun onClicked(view: View) {
@@ -196,6 +201,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_button -> {
                 val currentStatus = currentTransaction?.latestStatus
                 val _id = currentTransaction?._id
+                println("currentTransaction?.latestStatus :: " + currentStatus)
 
                 when (currentStatus) {
                     TransactionStatusConstant.PENDING -> {
@@ -344,15 +350,7 @@ class DetailActivity : AppCompatActivity() {
                         dialogAction?.onEditClick = {
                             // Show Dialog Edit
                             dialogAction?.dismiss()
-                            Intent(this, InputActivity::class.java).apply {
-                                currentTransaction?._id.let { id ->
-                                    run {
-                                        putExtra(InputActivity.EXTRA_ID, id)
-                                        putExtra(InputActivity.MODE, InputActivity.EDIT)
-                                        startActivity(this)
-                                    }
-                                }
-                            }
+                            openIntentInput(EDIT_COMPLETE)
                         }
 
                         dialogAction?.onChatClick = {
@@ -407,7 +405,21 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                     }
-                    else -> showToast("no selection")
+                    else -> {
+                        dialogAction = currentStatus?.let { DialogAction().newInstance(it) }
+                        dialogAction?.openDialog(supportFragmentManager)
+
+                        dialogAction?.onChatClick = {
+                            //Redirect ke respective channel
+                            showToast("Redirect ke respective channel")
+                        }
+
+                        dialogAction?.onCompleteEditClick = {
+                            // Show Dialog Edit
+                            dialogAction?.dismiss()
+                            openIntentInput(EDIT_COMPLETE)
+                        }
+                    }
                 }
             }
         }
@@ -418,32 +430,59 @@ class DetailActivity : AppCompatActivity() {
         val textColor = this.resources.getColor(R.color.colorEditTextDisableText, null)
         val backgroundColor = this.resources.getColor(R.color.colorEditTextDisable, null)
         val isEditable = false
+
         editTextBuyer?.isEnabled = isEditable
         editTextBuyer?.setTextColor(textColor)
+        editTextBuyer?.setFocusableInTouchMode(isEditable)
+        editTextBuyer?.setFocusable(isEditable)
         editTextBuyerLayout?.setBackgroundColor(backgroundColor)
+
         editTextChannel?.isEnabled = isEditable
         editTextChannel?.setTextColor(textColor)
+        editTextChannel?.setFocusableInTouchMode(isEditable)
+        editTextChannel?.setFocusable(isEditable)
         editTextChannelLayout?.setBackgroundColor(backgroundColor)
+
         editTextPhone?.isEnabled = isEditable
         editTextPhone?.setTextColor(textColor)
+        editTextPhone?.setFocusableInTouchMode(isEditable)
+        editTextPhone?.setFocusable(isEditable)
         editTextPhoneLayout?.setBackgroundColor(backgroundColor)
+
         editTextAddress?.isEnabled = isEditable
         editTextAddress?.setTextColor(textColor)
+        editTextAddress?.setFocusableInTouchMode(isEditable)
+        editTextAddress?.setFocusable(isEditable)
         editTextAddressLayout?.setBackgroundColor(backgroundColor)
+
         editTextNote?.isEnabled = isEditable
         editTextNote?.setTextColor(textColor)
+        editTextNote?.setFocusableInTouchMode(isEditable)
+        editTextNote?.setFocusable(isEditable)
         editTextNoteLayout?.setBackgroundColor(backgroundColor)
+
         editTextPrice?.isEnabled = isEditable
         editTextPrice?.setTextColor(textColor)
+        editTextPrice?.setFocusableInTouchMode(isEditable)
+        editTextPrice?.setFocusable(isEditable)
         editTextPriceLayout?.setBackgroundColor(backgroundColor)
+
         editTextPayment?.isEnabled = isEditable
         editTextPayment?.setTextColor(textColor)
+        editTextPayment?.setFocusableInTouchMode(isEditable)
+        editTextPayment?.setFocusable(isEditable)
         editTextPaymentLayout?.setBackgroundColor(backgroundColor)
         editTextLogistic?.isEnabled = isEditable
+
         editTextLogistic?.setTextColor(textColor)
+        editTextLogistic?.setFocusableInTouchMode(isEditable)
+        editTextLogistic?.setFocusable(isEditable)
         editTextLogisticLayout?.setBackgroundColor(backgroundColor)
+
         editTextdeliveryFee?.isEnabled = isEditable
         editTextdeliveryFee?.setTextColor(textColor)
+        editTextdeliveryFee?.setFocusableInTouchMode(isEditable)
+        editTextdeliveryFee?.setFocusable(isEditable)
         editTextDeliveryFeeLayout?.setBackgroundColor(backgroundColor)
     }
 
@@ -460,6 +499,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setupDisplay(model: TransactionModel) {
         model.buyer.let { s -> editTextBuyer?.setText(s) }
         model.channel.let { s -> editTextChannel?.setText(s) }
+        constructChannel(editTextChannel!!, model.channelAsset)
         model.phone.let { s -> editTextPhone?.setText(s) }
         model.address.let { s -> editTextAddress?.setText(s) }
         model.notes.let { s -> editTextNote?.setText(s) }
@@ -469,21 +509,16 @@ class DetailActivity : AppCompatActivity() {
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
     }
 
-    // Function API Call
-    private fun callApifindTransactionById(_id: String) {
+    private fun getTransactionModelFromIntent() {
         progressLoading(true)
-        transactionViewModel?.findTransactionById(_id,
-            onSuccess = { it ->
-                currentTransaction = it.data
-                setupDisplay(it.data)
-                setupSubmitButton(it.data.latestStatus)
-                progressLoading(false)
-            },
-            onError = {
-                progressLoading(false)
-            }
-        )
+        currentTransaction = intent.getParcelableExtra<TransactionModel>(EXTRA_DATA)
+        currentTransaction?.let { setupDisplay(it) }
+        currentTransaction?.latestStatus?.let { setupSubmitButton(it) }
+        progressLoading(false)
+        disableFormInput()
     }
+
+
 
     private fun setupSubmitButton(latestStatus: String) {
         when (latestStatus) {
@@ -502,6 +537,61 @@ class DetailActivity : AppCompatActivity() {
                 btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_circle_checked, 0, 0, 0);
                 btnSubmitProgress?.visibility = View.GONE
             }
+            else -> {
+                btnSubmitText?.text = resources.getString(R.string.form_trx_btn_action_complete)
+                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled));
+                btnSubmit?.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
+                btnSubmitProgress?.visibility = View.GONE
+            }
         }
+    }
+
+    private fun openIntentInput(mode: String) {
+        when(mode) {
+            EDIT -> {
+                Intent(this, InputActivity::class.java).apply {
+                    currentTransaction?._id.let { id ->
+                        run {
+                            putExtra(InputActivity.EXTRA_DATA, currentTransaction)
+                            putExtra(InputActivity.MODE, InputActivity.EDIT)
+                            startActivity(this)
+                        }
+                    }
+                }
+            }
+            EDIT_COMPLETE -> {
+                Intent(this, InputActivity::class.java).apply {
+                    currentTransaction?._id.let { id ->
+                        run {
+                            putExtra(InputActivity.EXTRA_DATA, currentTransaction)
+                            putExtra(InputActivity.MODE, InputActivity.EDIT_COMPLETE)
+                            startActivity(this)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun constructChannel(editText: EditText, assetUrl: String) {
+        Glide.with(this).load(assetUrl).apply(RequestOptions().fitCenter()).into(
+            object : CustomTarget<Drawable>(50,50){
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    editText?.setCompoundDrawablesWithIntrinsicBounds(placeholder, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null)
+                    editText?.compoundDrawablePadding = 12
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    editText?.setCompoundDrawablesWithIntrinsicBounds(resource, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null)
+                    editText?.compoundDrawablePadding = 12
+                }
+            }
+        )
     }
 }

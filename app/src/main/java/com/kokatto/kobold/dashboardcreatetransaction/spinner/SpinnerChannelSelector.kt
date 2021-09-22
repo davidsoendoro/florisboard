@@ -11,43 +11,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.PropertiesModel
+import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerChannelAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerChannelItem
+import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
+import com.kokatto.kobold.extension.showToast
 
 class SpinnerChannelSelector : BottomSheetDialogFragment() {
 
     val TAG = "SpinnerChannelSelector"
 
-//    fun newInstance(item : SpinnerChannelItem): SpinnerChannelSelector? {
-//        return SpinnerChannelSelector().apply {
-//            arguments = Bundle().apply {
-//                putSerializable("item", item)
-//            }
-//        }
-//    }
-
     fun newInstance(): SpinnerChannelSelector? {
         return SpinnerChannelSelector()
     }
 
-    var onItemClick: ((SpinnerChannelItem) -> Unit)? = null
+    var onItemClick: ((PropertiesModel) -> Unit)? = null
 
     private var title: TextView? = null
     private var recyclerView: RecyclerView? = null
     private var backButton: ImageView? = null
 
-    // Get Data Via API Call
-    private var selectedOption = SpinnerChannelItem("Belum Ada")
-    private var pickOptions = arrayOf(
-        SpinnerChannelItem("Belum Ada"),
-        SpinnerChannelItem("WhatsApp"),
-        SpinnerChannelItem("WhatsApp Business"),
-        SpinnerChannelItem("Line"),
-        SpinnerChannelItem("Facebook Messenger"),
-        SpinnerChannelItem("Bukalapak Chat"),
-        SpinnerChannelItem("Tokopedia Chat"),
-        SpinnerChannelItem("Shopee Chat"),
-    )
+    // get using API Function
+    private var selectedOption =  PropertiesModel("","","","")
+    private var pickOptions = ArrayList<PropertiesModel>()
+
+    private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,6 +52,8 @@ class SpinnerChannelSelector : BottomSheetDialogFragment() {
         title?.text = "Pilih Channel"
         backButton = view.findViewById<ImageView>(R.id.spinner_selector_back_button)
         recyclerView = view.findViewById<RecyclerView>(R.id.spinner_selector_recycler_view)
+        recyclerView?.setHasFixedSize(true)
+        getPropertiesList()
         recyclerView?.layoutManager = LinearLayoutManager(context)
         recyclerView?.adapter = SpinnerChannelAdapter(this, pickOptions, selectedOption) { result ->
             onItemClick?.invoke(result)
@@ -75,12 +66,29 @@ class SpinnerChannelSelector : BottomSheetDialogFragment() {
         }
     }
 
-    fun openSelector(fragmentManager: FragmentManager, selectedItem: SpinnerChannelItem) {
+    fun openSelector(fragmentManager: FragmentManager, selectedItem: PropertiesModel) {
         selectedItem.let { selectedItem ->
-            if(selectedItem.label != null && selectedItem.label != ""){
+            if(selectedItem.assetDesc != null && selectedItem.assetDesc != ""){
                 selectedOption = selectedItem
             }
         }
         this.show(fragmentManager, TAG)
+    }
+
+    fun getPropertiesList() {
+        if(pickOptions.size <= 0) {
+            transactionViewModel?.getStandardListProperties(
+                type = PropertiesTypeConstant.channel,
+                onSuccess = { it ->
+                    if (it.data.size > 0) {
+                        pickOptions.addAll(it.data)
+                        recyclerView?.adapter?.notifyDataSetChanged()
+                    }
+                },
+                onError = {
+                    showToast(it)
+                })
+        }
+
     }
 }

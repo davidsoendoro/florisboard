@@ -623,6 +623,8 @@
     <string name="kobold_transaction_action_unsent">Ganti ke belum dikirim</string>
     <string name="kobold_transaction_action_cancel">Batalkan transaksi ini</string>
     <string name="kobold_transaction_action_edit">Edit detail transaksi ini</string>
+    <string name="kobold_transaction_action_complete_edit">Edit transaksi ini</string>
+    <string name="kobold_transaction_action_complete_chat">Chat ke Pembeli</string>
 
     <string name="kobold_guide1_text">Geser tombol pada pilihan Keyboard lapak lalu klik OK.</string>
     <string name="kobold_guide_language_input">Bahasa &amp; Masukan</string>

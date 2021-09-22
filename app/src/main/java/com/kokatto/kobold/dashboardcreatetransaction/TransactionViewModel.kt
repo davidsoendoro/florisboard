@@ -4,6 +4,7 @@ import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
+import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
@@ -200,6 +201,24 @@ class TransactionViewModel {
         scope.launch {
 //            delay(5000)
             val response = Network.transactionApi.completeTransactionById(id)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun getStandardListProperties(
+        type: String,
+        onSuccess: (GetStandardPropertiesResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.transactionApi.getStandardListProperties(type)
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {
