@@ -121,6 +121,7 @@
                             android:textAppearance="@style/FormEditTextTitle" />
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_channel_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -195,7 +196,7 @@
                     android:textAppearance="@style/FormEditTextTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textinputlayout_buyeraddress"
+                    android:id="@+id/edittext_buyeraddress_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -221,7 +222,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_32px"
                     android:layerType="software"
                     android:src="@drawable/shape_line_strip"
-                    app:layout_constraintTop_toBottomOf="@id/textinputlayout_buyeraddress" />
+                    app:layout_constraintTop_toBottomOf="@id/edittext_buyeraddress_layout" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -238,7 +239,7 @@
                     android:textAppearance="@style/FormEditTextTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textinputlayout_note"
+                    android:id="@+id/edittext_note_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -265,7 +266,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textinputlayout_price"
+                    android:id="@+id/edittext_price_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -298,7 +299,7 @@
                     android:textAppearance="@style/FormEditTextTitle" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textinputlayout_paymentmethod"
+                    android:id="@+id/edittext_paymentmethod_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -345,6 +346,7 @@
                             android:textAppearance="@style/FormEditTextTitle" />
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_logistic_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -387,6 +389,7 @@
                             android:textAppearance="@style/FormEditTextTitle" />
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/edittext_deliveryfee_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

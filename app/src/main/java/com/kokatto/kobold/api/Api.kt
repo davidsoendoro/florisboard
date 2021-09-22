@@ -11,6 +11,7 @@ import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
+import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
 import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
@@ -154,6 +155,12 @@ interface TransactionApi {
     suspend fun completeTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
+
+    //    @RequiredAuth
+    @GET(transactionUrl + "properties/{type}")
+    suspend fun getStandardListProperties(
+        @Path("type") typeAsset: String
+    ): ApiResponse<GetStandardPropertiesResponse>
 }
 
 private const val bankUrl: String = "api/v1/banks/"

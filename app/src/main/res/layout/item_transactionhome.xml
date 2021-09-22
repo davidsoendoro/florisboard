@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,8 +20,8 @@
 
         <ImageView
             android:id="@+id/media_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_whatsapp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +90,7 @@
             app:layout_constraintTop_toBottomOf="@id/total_price_text" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -100,12 +102,32 @@
                 android:id="@+id/deliveryfee_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="2dp"
-                android:textColor="@color/text_secondary"
                 android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
                 android:text="Ongkir xrb"
+                android:textColor="@color/text_secondary"
                 android:textSize="12sp" />
         </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/bank_img"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="@dimen/kobold_margin_12px"
+            android:src="@drawable/ic_whatsapp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/logistic_img"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="@dimen/kobold_margin_12px"
+            android:src="@drawable/ic_whatsapp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bank_img"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

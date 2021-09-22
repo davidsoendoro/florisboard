@@ -25,15 +25,18 @@ class KoboldEditText: ConstraintLayout {
 
         val labelText: String? = a.getString(R.styleable.KoboldEditText_label)
         val textValue: String? = a.getString(R.styleable.KoboldEditText_android_text)
+        val textHint: String? = a.getString(R.styleable.KoboldEditText_android_hint)
         val imeOptions: Int = a.getInt(R.styleable.KoboldEditText_android_imeOptions, 0)
         val inputType: Int = a.getInt(R.styleable.KoboldEditText_android_inputType, 0)
         val isEditable: Boolean = a.getBoolean(R.styleable.KoboldEditText_editable, false)
         val showChevron: Boolean = a.getBoolean(R.styleable.KoboldEditText_showChevron, false)
+        val showCalculator: Boolean = a.getBoolean(R.styleable.KoboldEditText_showCalculator, false)
         val maxAllowedCharacters: Int = a.getInt(R.styleable.KoboldEditText_maxAllowedCharacters, 0)
 //        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
         label.text = labelText
         editText.text = textValue
+        editText.hint = textHint
         this.imeOptions = imeOptions
         this.inputType = inputType
         this.maxAllowedCharacters = maxAllowedCharacters
@@ -53,6 +56,12 @@ class KoboldEditText: ConstraintLayout {
             chevronRight.visibility = GONE
         }
 
+        if (showCalculator) {
+            calculatorRight.visibility = VISIBLE
+        } else {
+            calculatorRight.visibility = GONE
+        }
+
         a.recycle();
     }
 
@@ -60,6 +69,7 @@ class KoboldEditText: ConstraintLayout {
     val editText: TextView
     val editable: AppCompatEditText
     val chevronRight: ImageView
+    val calculatorRight: ImageView
     val errorText: TextView
     var imeOptions: Int = 0
     var inputType: Int = 0
@@ -75,6 +85,7 @@ class KoboldEditText: ConstraintLayout {
         editText = findViewById(R.id.kobold_edittext_text)
         editable = findViewById(R.id.kobold_edittext_editable)
         chevronRight = findViewById(R.id.kobold_edittext_chevron)
+        calculatorRight = findViewById(R.id.kobold_edittext_calculator)
         errorText = findViewById(R.id.kobold_edittext_errorText)
 
         editText.addTextChangedListener { text ->

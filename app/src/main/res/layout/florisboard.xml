@@ -63,16 +63,30 @@
             <include android:id="@+id/kobold" layout="@layout/kobold"/>
 
 <!--            chat template menu (4)-->
-            <include android:id="@+id/kobold_menu_chat_template" layout="@layout/kobold_menu_chat_template"/>
+            <include
+                android:id="@+id/kobold_menu_chat_template"
+                layout="@layout/kobold_menu_chat_template" />
 
-            <include android:id="@+id/kobold_menu_create_chat_template" layout="@layout/kobold_menu_create_chat_template"/>
+            <include
+                android:id="@+id/kobold_menu_create_chat_template"
+                layout="@layout/kobold_menu_create_chat_template" />
 
-<!--            create transaction menu (6)-->
-            <include android:id="@+id/kobold_menu_transaction" layout="@layout/kobold_menu_transaction"/>
+            <include
+                android:id="@+id/kobold_editor"
+                layout="@layout/kobold_editor" />
 
-            <include android:id="@+id/kobold_editor" layout="@layout/kobold_editor"/>
+            <include
+                android:id="@+id/kobold_spinner"
+                layout="@layout/kobold_spinner_editor" />
 
-            <include android:id="@+id/kobold_spinner" layout="@layout/kobold_spinner_editor"/>
+            <!--            create transaction menu (8)-->
+            <include
+                android:id="@+id/kobold_menu_transaction"
+                layout="@layout/kobold_menu_transaction" />
+
+            <include
+                android:id="@+id/kobold_menu_create_transaction"
+                layout="@layout/kobold_menu_create_transaction" />
 
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 

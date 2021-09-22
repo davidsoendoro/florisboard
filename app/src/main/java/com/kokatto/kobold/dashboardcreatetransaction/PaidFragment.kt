@@ -59,10 +59,9 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
         paidRecycler!!.vertical()
     }
 
-    override fun onClicked(data: String) {
-        // showToast(data)
+    override fun onClicked(data: TransactionModel) {
         Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_ID, data)
+            putExtra(DetailActivity.EXTRA_DATA, data)
             startActivity(this)
         }
     }

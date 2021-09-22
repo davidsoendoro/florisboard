@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/spinner_channel_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginVertical="@dimen/kobold_margin_8px"
         android:layout_marginEnd="@dimen/kobold_margin_16px"
         android:src="@drawable/ic_no_number" />

@@ -623,6 +623,8 @@
     <string name="kobold_transaction_action_unsent">Ganti ke belum dikirim</string>
     <string name="kobold_transaction_action_cancel">Batalkan transaksi ini</string>
     <string name="kobold_transaction_action_edit">Edit detail transaksi ini</string>
+    <string name="kobold_transaction_action_complete_edit">Edit transaksi ini</string>
+    <string name="kobold_transaction_action_complete_chat">Chat ke Pembeli</string>
 
     <string name="kobold_guide1_text">Geser tombol pada pilihan Keyboard lapak lalu klik OK.</string>
     <string name="kobold_guide_language_input">Bahasa &amp; Masukan</string>
@@ -672,5 +674,18 @@
 
     <string name="toast_copy_clipboard">Pesan nota pembelian berhasil di copy, silahkan pasang di chat pembelimu.</string>
     <string name="archive_title">Arsip</string>
+    <string name="buyer_detail_title">Detail Pembeli</string>
+    <string name="kobold_transaction_buyer_name">Nama Pembeli</string>
+    <string name="kobold_transaction_choosechannel">Pilih Channel</string>
+    <string name="kobold_transaction_phone_number">Nomor Telepon</string>
+    <string name="kobold_transaction_receiver_address">Alamat Penerima</string>
+    <string name="order_detail_title">Detail Pesanan</string>
+    <string name="kobold_transaction_price_item">Harga Barang*</string>
+    <string name="kobold_transaction_order_detail">Untuk Pembayaran</string>
+    <string name="kobold_transaction_order_detail_hint">Contoh: 1 kaos putih dan 2 celana hitam</string>
+    <string name="kobold_transaction_price_hint">Rp</string>
+    <string name="kobold_transaction_payment_type">Metode Bayar*</string>
+    <string name="kobold_transaction_shippingcost">Ongkir</string>
+    <string name="kobold_transaction_button_create"><![CDATA[Buat Transaksi & Pasang di chat]]></string>
 
 </resources>

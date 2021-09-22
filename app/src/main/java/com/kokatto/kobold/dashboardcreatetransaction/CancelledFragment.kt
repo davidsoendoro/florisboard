@@ -1,5 +1,6 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -58,8 +59,11 @@ class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHome
         cancelledRecycler!!.vertical()
     }
 
-    override fun onClicked(data: String) {
-        showToast(data)
+    override fun onClicked(data: TransactionModel) {
+        Intent(requireContext(), DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_DATA, data)
+            startActivity(this)
+        }
     }
 
     private fun getCancelledTransactionList(page: Int = 1) {
