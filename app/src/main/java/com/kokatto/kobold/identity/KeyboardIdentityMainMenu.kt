@@ -28,7 +28,7 @@ class KeyboardIdentityMainMenu: LinearLayout {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        backButton = findViewById(R.id.back_button)
+        backButton = findViewById(R.id.to_dashboard)
         backButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
 
         chatTemplateButton = findViewById(R.id.chat_template_button)
@@ -41,7 +41,7 @@ class KeyboardIdentityMainMenu: LinearLayout {
     private fun onButtonClicked(view: View) {
         florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
-            R.id.back_button -> florisboard?.setActiveInput(R.id.text_input)
+            R.id.to_dashboard -> florisboard?.launchToDashboard()
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
             R.id.create_transaction_button -> florisboard?.setActiveInput(R.id.kobold_menu_transaction)
         }

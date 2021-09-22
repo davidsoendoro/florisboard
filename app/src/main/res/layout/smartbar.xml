@@ -2,6 +2,7 @@
 <dev.patrickgold.florisboard.ime.text.smartbar.SmartbarView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/smartbar_height"
     android:orientation="horizontal"
@@ -28,6 +29,14 @@
             style="@style/SmartbarQuickAction"
             android:contentDescription="@string/smartbar__quick_action__exit_editing"
             android:src="@drawable/ic_arrow_back"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/kobold_rv_inline_suggestions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_inline_suggestion"
+            tools:itemCount="5"
+            />
 
     </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 

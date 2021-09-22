@@ -764,7 +764,7 @@ class TextKeyboardView : KeyboardView, SwipeGesture.Listener, GlideTypingGesture
         } * if (isPreviewMode) {
             0.90f
         } else {
-            0.97f
+            0.96f
         }
 
         super.onMeasure(

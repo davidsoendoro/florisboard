@@ -775,6 +775,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         applicationContext.startActivity(i)
     }
 
+    fun launchToDashboard() {
+
+    }
+
     fun launchExpandView(pickInput: String, nameInput: String, content: String) {
         requestHideSelf(0)
         val i = Intent(this, TemplateActivity::class.java).apply {
