@@ -14,6 +14,9 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
+import com.kokatto.kobold.editor.SpinnerEditorAdapter
+import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.transaction.recycleradapter.TransactionKeyboardRecyclerAdapter
@@ -46,6 +49,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         super.onAttachedToWindow()
         val searchButton: ImageView = findViewById(R.id.search_button)
         val backButton: TextView = findViewById(R.id.back_button)
+        val statusLayout: LinearLayout = findViewById(R.id.status_layout)
+        val statusText = findTextViewId(R.id.status_text)
+        var selectedOption = SpinnerEditorItem(resources.getStringArray(R.array.kobold_transaction_category_values)[0])
+//        define as arraylist first
+        var pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
 
@@ -60,6 +68,27 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         backButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
+        }
+
+//        add data from string array to array list
+        resources.getStringArray(R.array.kobold_transaction_category_values).forEach {
+            pickTemplateOptions.add(SpinnerEditorItem(it))
+        }
+
+        statusLayout.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.openSpinner(
+                R.id.kobold_menu_transaction, SpinnerEditorAdapter(
+                    context,
+//                    convert arraylist data to array
+                    pickTemplateOptions.toTypedArray(), selectedOption
+                ) { result ->
+                    florisboard.inputFeedbackManager.keyPress()
+                    statusText.text = result.label
+                    florisboard.setActiveInput(R.id.kobold_menu_transaction)
+                    selectedOption = result
+                }
+            )
         }
 
         adapter = TransactionKeyboardRecyclerAdapter(transactionList, this)

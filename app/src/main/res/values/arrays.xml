@@ -204,4 +204,10 @@
         <item>Cek Barang</item>
         <item>Custom</item>
     </string-array>
+
+    <string-array name="kobold_transaction_category_values">
+        <item>Belum diproses</item>
+        <item>Dibayar</item>
+        <item>Dikirim</item>
+    </string-array>
 </resources>
