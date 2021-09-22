@@ -3,8 +3,10 @@ package com.kokatto.kobold.transaction.recycleradapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.extension.findTextViewId
@@ -40,6 +42,10 @@ class TransactionKeyboardRecyclerAdapter(
         private val dateText = item.findTextViewId(R.id.date_text)
         private val deliveryFeeText = item.findTextViewId(R.id.deliveryfee_text)
 
+        private val channelImg = item.findViewById<ImageView>(R.id.media_img)
+        private val bankImg = item.findViewById<ImageView>(R.id.bank_img)
+        private val logisticImg = item.findViewById<ImageView>(R.id.logistic_img)
+
         fun bindViewHolder(data: TransactionModel) {
             nameText.text =
                 if (data.buyer == "")
@@ -56,6 +62,34 @@ class TransactionKeyboardRecyclerAdapter(
 
             dateText.text = data.createdAt.toStringDate("dd MMM yyyy, HH:mm") + " WIB"
             deliveryFeeText.text = "Ongkir " + CurrencyUtility.parseValueToRbAbreviation(data.deliveryFee)
+
+
+            data.channelAsset.let { asset ->
+                channelImg?.let {
+                    Glide.with(this.itemView.context)
+                        .load(asset)
+                        .placeholder(R.drawable.ic_no_number)
+                        .into(it)
+                }
+            }
+
+            data.bankAsset.let { asset ->
+                bankImg?.let {
+                    Glide.with(this.itemView.context)
+                        .load(asset)
+                        .into(it)
+                    bankImg.visibility = View.VISIBLE
+                }
+            }
+
+            data.logisticAsset.let { asset ->
+                logisticImg?.let {
+                    Glide.with(this.itemView.context)
+                        .load(asset)
+                        .into(it)
+                    logisticImg.visibility = View.VISIBLE
+                }
+            }
 
             layout.setOnClickListener {
                 onClick.onClicked(data.toString())

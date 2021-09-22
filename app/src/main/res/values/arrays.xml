@@ -210,4 +210,10 @@
         <item>Dibayar</item>
         <item>Dikirim</item>
     </string-array>
+
+    <string-array name="kobold_transaction_category_apicall">
+        <item>PENDING</item>
+        <item>PAID</item>
+        <item>SENT</item>
+    </string-array>
 </resources>
