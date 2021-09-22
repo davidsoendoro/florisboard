@@ -48,17 +48,31 @@ import android.widget.ImageView
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
+import com.kokatto.kobold.databinding.FlorisboardBinding
+import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.template.TemplateActivity
+import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
+import dev.patrickgold.florisboard.common.ViewUtils
 import dev.patrickgold.florisboard.crashutility.CrashUtility
-import dev.patrickgold.florisboard.debug.*
+import dev.patrickgold.florisboard.debug.LogTopic
+import dev.patrickgold.florisboard.debug.flogError
+import dev.patrickgold.florisboard.debug.flogInfo
 import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
+import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
+import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
+import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -74,11 +88,6 @@ import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeManager
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.AppVersionUtils
-import dev.patrickgold.florisboard.common.ViewUtils
-import com.kokatto.kobold.databinding.FlorisboardBinding
-import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
-import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
-import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.util.debugSummarize
 import dev.patrickgold.florisboard.util.findViewWithType
 import dev.patrickgold.florisboard.util.refreshLayoutOf
@@ -93,11 +102,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
-import com.kokatto.kobold.extension.vertical
-import com.kokatto.kobold.template.TemplateActivity
-import com.kokatto.kobold.uicomponent.KoboldEditText
-import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
-import dev.patrickgold.florisboard.ime.keyboard.InputAttributes
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
@@ -1006,10 +1010,13 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 uiBinding?.mainViewFlipper?.displayedChild = 5
             }
             R.id.kobold_menu_transaction -> {
-                uiBinding?.mainViewFlipper?.displayedChild = 6
+                uiBinding?.mainViewFlipper?.displayedChild = 8
 //                if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
 //                    uiBinding?.mainViewFlipper?.invalidate()
 //                }
+            }
+            R.id.kobold_menu_create_transaction -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 9
             }
         }
         textInputManager.isGlidePostEffect = false

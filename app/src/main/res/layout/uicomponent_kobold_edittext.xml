@@ -68,13 +68,23 @@
 
             <ImageView
                 android:id="@+id/kobold_edittext_chevron"
-                android:layout_width="0dp"
+                android:layout_width="41dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"
                 android:maxHeight="@dimen/kobold_margin_12px"
                 android:padding="@dimen/kobold_margin_16px"
                 android:src="@drawable/ic_chevron_right"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/kobold_edittext_calculator"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:maxHeight="@dimen/kobold_margin_12px"
+                android:padding="@dimen/kobold_margin_16px"
+                android:src="@drawable/ic_calculator"
+                tools:visibility="visible"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
