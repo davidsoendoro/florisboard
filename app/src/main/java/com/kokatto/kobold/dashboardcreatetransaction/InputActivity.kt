@@ -1,5 +1,6 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -9,8 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
@@ -22,19 +29,30 @@ class InputActivity : AppCompatActivity() {
     companion object {
         const val CREATE = -1
         const val EDIT = 1
+        const val EDIT_COMPLETE = 2
         const val MODE = "MODE"
         const val EXTRA_ID = "EXTRA_ID"
+        const val EXTRA_DATA = "EXTRA_DATA"
     }
 
     private var editTextBuyer: EditText? = null
+    private var editTextBuyerLayout: TextInputLayout? = null
     private var editTextChannel: EditText? = null
+    private var editTextChannelLayout: TextInputLayout? = null
     private var editTextPhone: EditText? = null
+    private var editTextPhoneLayout: TextInputLayout? = null
     private var editTextAddress: EditText? = null
+    private var editTextAddressLayout: TextInputLayout? = null
     private var editTextNote: EditText? = null
+    private var editTextNoteLayout: TextInputLayout? = null
     private var editTextPrice: EditText? = null
+    private var editTextPriceLayout: TextInputLayout? = null
     private var editTextPayment: EditText? = null
+    private var editTextPaymentLayout: TextInputLayout? = null
     private var editTextLogistic: EditText? = null
+    private var editTextLogisticLayout: TextInputLayout? = null
     private var editTextdeliveryFee: EditText? = null
+    private var editTextDeliveryFeeLayout: TextInputLayout? = null
     private var btnSubmit: CardView? = null
     private var btnSubmitText: TextView? = null
     private var btnSubmitProgress: ProgressBar? = null
@@ -47,6 +65,8 @@ class InputActivity : AppCompatActivity() {
     private var extraID: String = ""
 
     private var selectedBank: BankModel? = null
+    private var selectedLogistic: PropertiesModel? = null
+    private var selectedChannel: PropertiesModel? = null
     private var currentTransaction: TransactionModel? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
@@ -60,13 +80,20 @@ class InputActivity : AppCompatActivity() {
 
         editTextBuyer = findViewById<EditText>(R.id.edittext_buyername)
         editTextChannel = findViewById<EditText>(R.id.edittext_channel)
+        editTextChannelLayout = findViewById<TextInputLayout>(R.id.edittext_channel_layout)
         editTextPhone = findViewById<EditText>(R.id.edittext_phone)
         editTextAddress = findViewById<EditText>(R.id.edittext_buyeraddress)
+        editTextAddressLayout = findViewById<TextInputLayout>(R.id.edittext_buyeraddress_layout)
         editTextNote = findViewById<EditText>(R.id.edittext_note)
+        editTextNoteLayout = findViewById<TextInputLayout>(R.id.edittext_note_layout)
         editTextPrice = findViewById<EditText>(R.id.edittext_price)
+        editTextPriceLayout = findViewById<TextInputLayout>(R.id.edittext_price_layout)
         editTextPayment = findViewById<EditText>(R.id.edittext_paymentmethod)
+        editTextPaymentLayout = findViewById<TextInputLayout>(R.id.edittext_paymentmethod_layout)
         editTextLogistic = findViewById<EditText>(R.id.edittext_logistic)
+        editTextLogisticLayout = findViewById<TextInputLayout>(R.id.edittext_logistic_layout)
         editTextdeliveryFee = findViewById<EditText>(R.id.edittext_deliveryfee)
+        editTextDeliveryFeeLayout = findViewById<TextInputLayout>(R.id.edittext_deliveryfee_layout)
         btnSubmit = findViewById<CardView>(R.id.submit_button)
         btnSubmitText = findViewById<TextView>(R.id.submit_button_text)
         btnSubmitProgress = findViewById<ProgressBar>(R.id.submit_button_loading)
@@ -74,16 +101,32 @@ class InputActivity : AppCompatActivity() {
 
         mode = intent.getIntExtra(MODE, -1)
 
-        if (mode == CREATE) {
-            layoutTitleText?.text = resources.getString(R.string.form_trx_create)
-            disableFormInput(false)
-        } else {
-            intent.getStringExtra(EXTRA_ID).let { id ->
-                if (id != null) {
-                    callApiFindTransactionById(id)
-                    layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
-                    btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
-                    disableFormInput(false)
+        when (mode) {
+            CREATE -> {
+                layoutTitleText?.text = resources.getString(R.string.form_trx_create)
+                disableFormInput(false)
+                saveButtonDisable(true)
+            }
+            EDIT -> {
+                intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
+                    if (model != null) {
+                        layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
+                        btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
+                        disableFormInput(false)
+                        setupDisplay(model)
+                        saveButtonDisable(true)
+                    }
+                }
+            }
+            EDIT_COMPLETE -> {
+                intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
+                    if (model != null) {
+                        layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
+                        btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
+                        disableFormCompleteState()
+                        setupDisplay(model)
+                        saveButtonDisable(false)
+                    }
                 }
             }
         }
@@ -97,9 +140,16 @@ class InputActivity : AppCompatActivity() {
         editTextChannel?.setOnClickListener {
             val channel = editTextChannel?.text.toString()
             spinnerChannelSelector = SpinnerChannelSelector().newInstance()
-            spinnerChannelSelector?.openSelector(supportFragmentManager, SpinnerChannelItem(channel))
+
+            if(selectedChannel == null) {
+                selectedChannel = PropertiesModel("","","", channel)
+            }
+
+            spinnerChannelSelector?.openSelector(supportFragmentManager, selectedChannel!!)
             spinnerChannelSelector?.onItemClick = {
-                editTextChannel?.setText(it.label)
+                selectedChannel = it
+                editTextChannel?.setText(it.assetDesc)
+                constructChannel(editTextChannel!!, it.assetUrl)
             }
         }
 
@@ -107,7 +157,7 @@ class InputActivity : AppCompatActivity() {
             spinnerBankSelector = SpinnerBankSelector().newInstance()
 
             if(selectedBank == null) {
-                selectedBank = BankModel("","","Cash","")
+                selectedBank = BankModel("","","Cash","","")
             }
 
             spinnerBankSelector?.openSelector(supportFragmentManager, selectedBank!!)
@@ -127,19 +177,28 @@ class InputActivity : AppCompatActivity() {
         editTextLogistic?.setOnClickListener {
             val logistic = editTextLogistic?.text.toString()
             spinnerLogisticSelector = SpinnerLogisticSelector().newInstance()
-            spinnerLogisticSelector?.openSelector(supportFragmentManager, SpinnerLogisticItem(logistic))
+
+            if(selectedLogistic == null) {
+                selectedLogistic = PropertiesModel("","","",logistic)
+            }
+
+            spinnerLogisticSelector?.openSelector(supportFragmentManager, selectedLogistic!!)
             spinnerLogisticSelector?.onItemClick = {
-                editTextLogistic?.setText(it.label)
+                selectedLogistic = it
+                editTextLogistic?.setText(it.assetDesc)
             }
         }
-
-        saveButtonDisable(true)
     }
 
     private fun onClicked(view: View) {
         when (view.id) {
             R.id.submit_button -> {
-                submitForm(extraID)
+                if(currentTransaction == null) {
+                    submitForm("")
+                } else {
+                    currentTransaction?.let { submitForm(it._id) }
+                }
+
             }
         }
 
@@ -162,43 +221,55 @@ class InputActivity : AppCompatActivity() {
                 _id = _id,
                 buyer = editTextBuyer?.text.toString(),
                 channel = editTextChannel?.text.toString(),
+                channelAsset = selectedChannel?.assetUrl.toString(),
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
                 price = editTextPrice?.text.toString().toInt(),
                 payingMethod = editTextPayment?.text.toString(),
+                bankAccountNo = selectedBank?.accountNo.toString(),
+                bankAccountName = selectedBank?.accountHolder.toString(),
+                bankAsset = selectedBank?.asset.toString(),
                 logistic = editTextLogistic?.text.toString(),
+                logisticAsset = selectedLogistic?.assetUrl.toString(),
                 deliveryFee = deliveryFee,
                 latestStatus = "",
                 createdAt = 0L
             )
 
-            if (mode == CREATE) {
-                transactionViewModel?.createTransaction(
-                    model,
-                    onSuccess = {
-                        progressSubmit(false)
-                        showToast(resources.getString(R.string.template_create_success))
-                    },
-                    onError = {
-                        progressSubmit(false)
-                        showToast(it)
-                    }
-                )
-            } else {
-                transactionViewModel?.updateTransactionById(
-                    _id,
-                    model,
-                    onSuccess = {
-                        progressSubmit(false)
-                        showToast(resources.getString(R.string.template_create_success))
-                    },
-                    onError = {
-                        progressSubmit(false)
-                        showToast(it)
-                    }
-                )
+            when (mode) {
+                CREATE -> {
+                    transactionViewModel?.createTransaction(
+                        model,
+                        onSuccess = {
+                            super.finish()
+                            progressSubmit(false)
+                            showToast(resources.getString(R.string.template_create_success))
+                        },
+                        onError = {
+                            progressSubmit(false)
+                            showToast(it)
+                        }
+                    )
+                }
+                else -> {
+                    transactionViewModel?.updateTransactionById(
+                        _id,
+                        model,
+                        onSuccess = {
+                            super.finish()
+                            progressSubmit(false)
+                            showToast(resources.getString(R.string.template_create_success))
+                        },
+                        onError = {
+                            super.finish()
+                            progressSubmit(false)
+                            showToast(it)
+                        }
+                    )
+                }
             }
+
         } else {
             showToast("Form Validation Failed!!")
         }
@@ -252,28 +323,88 @@ class InputActivity : AppCompatActivity() {
     private fun setupDisplay(model: TransactionModel) {
         model.buyer.let { s -> editTextBuyer?.setText(s) }
         model.channel.let { s -> editTextChannel?.setText(s) }
+        constructChannel(editTextChannel!!, model.channelAsset)
+        selectedChannel = PropertiesModel("","",model.channelAsset, model.channel)
         model.phone.let { s -> editTextPhone?.setText(s) }
         model.address.let { s -> editTextAddress?.setText(s) }
         model.notes.let { s -> editTextNote?.setText(s) }
         model.price.let { s -> editTextPrice?.setText(s.toString()) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
+        selectedBank = BankModel("", model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
         model.logistic.let { s -> editTextLogistic?.setText(s) }
+        selectedLogistic = PropertiesModel("","", model.logisticAsset, model.logistic)
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
     }
 
-    // Function API Call
-    private fun callApiFindTransactionById(_id: String) {
-        //progressLoading(true)
-        transactionViewModel?.findTransactionById(_id,
-            onSuccess = { it ->
-                currentTransaction = it.data
-                setupDisplay(it.data)
-                //progressLoading(false)
-            },
-            onError = {
-                showToast(it.toString())
-                //progressLoading(false)
+    private fun constructChannel(editText: EditText, assetUrl: String) {
+        println("constructChannel :: constructChannel")
+        Glide.with(this).load(assetUrl).apply(RequestOptions().fitCenter()).into(
+            object : CustomTarget<Drawable>(50,50){
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    editText?.setCompoundDrawablesWithIntrinsicBounds(placeholder, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null)
+                    editText?.compoundDrawablePadding = 12
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    editText?.setCompoundDrawablesWithIntrinsicBounds(resource, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null)
+                    editText?.compoundDrawablePadding = 12
+                }
             }
         )
     }
+
+    private fun disableFormCompleteState() {
+        val textColor = this.resources.getColor(R.color.colorEditTextDisableText, null)
+        val backgroundColor = this.resources.getColor(R.color.colorEditTextDisable, null)
+        val isEditable = false
+
+        editTextChannel?.isEnabled = isEditable
+        editTextChannel?.setTextColor(textColor)
+        editTextChannel?.setFocusableInTouchMode(isEditable)
+        editTextChannel?.setFocusable(isEditable)
+        editTextChannelLayout?.setBackgroundColor(backgroundColor)
+
+        editTextAddress?.isEnabled = isEditable
+        editTextAddress?.setTextColor(textColor)
+        editTextAddress?.setFocusableInTouchMode(isEditable)
+        editTextAddress?.setFocusable(isEditable)
+        editTextAddressLayout?.setBackgroundColor(backgroundColor)
+
+        editTextNote?.isEnabled = isEditable
+        editTextNote?.setTextColor(textColor)
+        editTextNote?.setFocusableInTouchMode(isEditable)
+        editTextNote?.setFocusable(isEditable)
+        editTextNoteLayout?.setBackgroundColor(backgroundColor)
+
+        editTextPrice?.isEnabled = isEditable
+        editTextPrice?.setTextColor(textColor)
+        editTextPrice?.setFocusableInTouchMode(isEditable)
+        editTextPrice?.setFocusable(isEditable)
+        editTextPriceLayout?.setBackgroundColor(backgroundColor)
+
+        editTextPayment?.isEnabled = isEditable
+        editTextPayment?.setTextColor(textColor)
+        editTextPayment?.setFocusableInTouchMode(isEditable)
+        editTextPayment?.setFocusable(isEditable)
+        editTextPaymentLayout?.setBackgroundColor(backgroundColor)
+        editTextLogistic?.isEnabled = isEditable
+
+        editTextLogistic?.setTextColor(textColor)
+        editTextLogistic?.setFocusableInTouchMode(isEditable)
+        editTextLogistic?.setFocusable(isEditable)
+        editTextLogisticLayout?.setBackgroundColor(backgroundColor)
+
+        editTextdeliveryFee?.isEnabled = isEditable
+        editTextdeliveryFee?.setTextColor(textColor)
+        editTextdeliveryFee?.setFocusableInTouchMode(isEditable)
+        editTextdeliveryFee?.setFocusable(isEditable)
+        editTextDeliveryFeeLayout?.setBackgroundColor(backgroundColor)
+    }
+
+
 }

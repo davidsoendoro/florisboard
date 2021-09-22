@@ -34,7 +34,7 @@ class SpinnerBankSelector : BottomSheetDialogFragment() {
     private var backButton: ImageView? = null
 
     // get using API Function
-    private var selectedOption = BankModel("","","Cash","")
+    private var selectedOption = BankModel("","Cash","Cash","", "")
     private var pickOptions = ArrayList<BankModel>()
 
     private val bankViewModel: BankViewModel? = BankViewModel()
@@ -85,7 +85,7 @@ class SpinnerBankSelector : BottomSheetDialogFragment() {
             },
             onSuccess = { it ->
                 if (it.data.totalRecord > 0) {
-                    pickOptions.add(BankModel("","","Cash",""))
+                    pickOptions.add(BankModel("","Cash","Cash","", ""))
                     pickOptions.addAll(it.data.contents)
                     recyclerView?.adapter?.notifyDataSetChanged()
                 }

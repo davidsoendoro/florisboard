@@ -156,7 +156,10 @@ class SearchTransactionActivity : AppCompatActivity() , TransactionHomeRecyclerA
         }
     }
 
-    override fun onClicked(data: String) {
-        showToast(data)
+    override fun onClicked(data: TransactionModel) {
+        Intent(this, DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_DATA, data)
+            startActivity(this)
+        }
     }
 }

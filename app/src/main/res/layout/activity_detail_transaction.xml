@@ -250,7 +250,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_32px"
                     android:layerType="software"
                     android:src="@drawable/shape_line_strip"
-                    app:layout_constraintTop_toBottomOf="@id/textinputlayout_buyeraddress" />
+                    app:layout_constraintTop_toBottomOf="@id/edittext_buyeraddress_layout" />
 
                 <TextView
                     android:layout_width="wrap_content"

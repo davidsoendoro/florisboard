@@ -30,11 +30,104 @@
                 >
 
                 <LinearLayout
+                    android:id="@+id/layout_complete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/action_chat_complete"
+                        android:layout_marginRight="@dimen/kobold_margin_12px"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/kobold_margin_16px"
+                        app:cardCornerRadius="@dimen/kobold_margin_16px"
+                        android:outlineAmbientShadowColor="@color/colorPrimary"
+                        android:elevation="0dp"
+                        app:strokeColor="#EBEBEB"
+                        app:strokeWidth="1dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_chat"
+                                android:layout_marginTop="@dimen/kobold_margin_16px"
+                                />
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="@dimen/kobold_margin_16px"
+                                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/kobold_transaction_action_complete_chat"
+                                style="@style/dialogActionCard"/>
+
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/action_edit_complete"
+                        android:layout_marginLeft="@dimen/kobold_margin_12px"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/kobold_margin_16px"
+                        app:cardCornerRadius="@dimen/kobold_margin_16px"
+                        android:outlineAmbientShadowColor="@color/colorPrimary"
+                        android:elevation="0dp"
+                        app:strokeColor="#EBEBEB"
+                        app:strokeWidth="1dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/ic_edit_small"
+                                android:layout_marginTop="@dimen/kobold_margin_16px"
+                                />
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="@dimen/kobold_margin_16px"
+                                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/kobold_transaction_action_complete_edit"
+                                style="@style/dialogActionCard"/>
+
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/layout_paid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/action_chat"
@@ -129,7 +222,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/action_unsent"
@@ -188,7 +281,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     >
 
                     <com.google.android.material.card.MaterialCardView
@@ -234,6 +327,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_cancel"
                     android:layout_marginTop="@dimen/kobold_margin_16px"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

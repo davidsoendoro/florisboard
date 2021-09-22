@@ -26,10 +26,13 @@ class DialogAction : BottomSheetDialogFragment() {
     var onChatClick: ((Boolean) -> Unit)? = null
     var onUnpaidClick: ((Boolean) -> Unit)? = null
     var onUnsentClick: ((Boolean) -> Unit)? = null
+    var onCompleteEditClick: ((Boolean) -> Unit)? = null
 
     private var unpaidLayout: LinearLayout? = null
     private var paidLayout: LinearLayout? = null
     private var unsentLayout: LinearLayout? = null
+    private var completeLayout: LinearLayout? = null
+    private var cancelLayout: LinearLayout? = null
     private var currentStatus: String? = ""
 
     fun newInstance(_status: String): DialogAction {
@@ -56,10 +59,15 @@ class DialogAction : BottomSheetDialogFragment() {
         val chatBtn = view.findViewById<CardView>(R.id.action_chat)
         val unpaidBtn = view.findViewById<CardView>(R.id.action_unpaid)
         val unsentBtn = view.findViewById<CardView>(R.id.action_unsent)
+        val completeEditBtn = view.findViewById<CardView>(R.id.action_edit_complete)
+        val completeChatBtn = view.findViewById<CardView>(R.id.action_chat_complete)
 
         unpaidLayout = view.findViewById<LinearLayout>(R.id.layout_unpaid)
         paidLayout = view.findViewById<LinearLayout>(R.id.layout_paid)
         unsentLayout = view.findViewById<LinearLayout>(R.id.layout_unsent)
+        completeLayout = view.findViewById<LinearLayout>(R.id.layout_complete)
+        completeLayout = view.findViewById<LinearLayout>(R.id.layout_complete)
+        cancelLayout = view.findViewById<LinearLayout>(R.id.layout_cancel)
 
         cancelBtn?.let { button ->
             button.setOnClickListener {
@@ -91,22 +99,45 @@ class DialogAction : BottomSheetDialogFragment() {
                 onUnsentClick?.invoke(true)
             }
         }
+        completeEditBtn?.let { button ->
+            button.setOnClickListener {
+                onCompleteEditClick?.invoke(true)
+            }
+        }
+        completeChatBtn?.let { button ->
+            button.setOnClickListener {
+                onChatClick?.invoke(true)
+            }
+        }
 
         when (currentStatus) {
             TransactionStatusConstant.PENDING -> {
                 unpaidLayout?.visibility = View.VISIBLE
                 paidLayout?.visibility = View.GONE
                 unsentLayout?.visibility = View.GONE
+                completeLayout?.visibility = View.GONE
+                cancelLayout?.visibility = View.VISIBLE
             }
             TransactionStatusConstant.PAID -> {
                 unpaidLayout?.visibility = View.GONE
                 paidLayout?.visibility = View.VISIBLE
                 unsentLayout?.visibility = View.GONE
+                completeLayout?.visibility = View.GONE
+                cancelLayout?.visibility = View.VISIBLE
             }
             TransactionStatusConstant.SENT -> {
                 unpaidLayout?.visibility = View.GONE
                 paidLayout?.visibility = View.VISIBLE
                 unsentLayout?.visibility = View.VISIBLE
+                completeLayout?.visibility = View.GONE
+                cancelLayout?.visibility = View.VISIBLE
+            }
+            else -> {
+                unpaidLayout?.visibility = View.GONE
+                paidLayout?.visibility = View.GONE
+                unsentLayout?.visibility = View.GONE
+                completeLayout?.visibility = View.VISIBLE
+                cancelLayout?.visibility = View.GONE
             }
         }
     }

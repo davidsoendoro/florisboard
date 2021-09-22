@@ -8,18 +8,19 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
 import com.kokatto.kobold.extension.addRipple
-import java.io.Serializable
 
-class SpinnerLogisticItem(val label: String) : Serializable
+class SpinnerLogisticItem(val label: String)
 
 class SpinnerLogisticAdapter(
     private val context: SpinnerLogisticSelector,
-    private val options: Array<SpinnerLogisticItem>,
-    private var selectedOption: SpinnerLogisticItem,
-    private val callback: (result: SpinnerLogisticItem) -> Unit
+    private val options: ArrayList<PropertiesModel>,
+    private var selectedOption: PropertiesModel,
+    private val callback: (result: PropertiesModel) -> Unit
 ) : RecyclerView.Adapter<SpinnerLogisticAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,10 +29,14 @@ class SpinnerLogisticAdapter(
         var label: TextView? = view.findViewById(R.id.spinner_label)
         var icon: ImageView? = view.findViewById(R.id.spinner_icon)
 
-        fun bindViewHolder(option: SpinnerLogisticItem) {
-            label?.text = option.label
+        fun bindViewHolder(option: PropertiesModel) {
+            label?.text = option.assetDesc
+            icon?.let {
+                Glide.with(context)
+                    .load(option.assetUrl)
+                    .into(it) };
 
-            if (option.label == selectedOption.label) {
+            if (option.assetDesc == selectedOption.assetDesc) {
                 // Selected
                 radio?.setImageDrawable(
                     ResourcesCompat.getDrawable(

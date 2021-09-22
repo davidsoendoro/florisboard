@@ -11,8 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.PropertiesModel
+import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerLogisticAdapter
-import com.kokatto.kobold.dashboardcreatetransaction.SpinnerLogisticItem
+import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
+import com.kokatto.kobold.extension.showToast
 
 class SpinnerLogisticSelector : BottomSheetDialogFragment() {
 
@@ -22,23 +25,17 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
         return SpinnerLogisticSelector()
     }
 
-    var onItemClick: ((SpinnerLogisticItem) -> Unit)? = null
+    var onItemClick: ((PropertiesModel) -> Unit)? = null
 
     private var title: TextView? = null
     private var recyclerView: RecyclerView? = null
     private var backButton: ImageView? = null
 
-    // Get Data Via API Call
-    private var selectedOption = SpinnerLogisticItem("JNE - REG")
-    private var pickOptions = arrayOf(
-        SpinnerLogisticItem("JNE - REG"),
-        SpinnerLogisticItem("JNE - Best"),
-        SpinnerLogisticItem("J&T - REG"),
-        SpinnerLogisticItem("SiCepat REG"),
-        SpinnerLogisticItem("SiCepat Halu"),
-        SpinnerLogisticItem("Anteraja - REG"),
-        SpinnerLogisticItem("Lion Parcel - REGPACK"),
-    )
+    // get using API Function
+    private var selectedOption =  PropertiesModel("","","","")
+    private var pickOptions = ArrayList<PropertiesModel>()
+
+    private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,8 +51,11 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
         title?.text = "Pilih Kurir"
         backButton = view.findViewById<ImageView>(R.id.spinner_selector_back_button)
         recyclerView = view.findViewById<RecyclerView>(R.id.spinner_selector_recycler_view)
+        recyclerView?.setHasFixedSize(true)
+        getPropertiesList()
         recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerView?.adapter = SpinnerLogisticAdapter(this, pickOptions, selectedOption) { result ->
+        recyclerView?.adapter = SpinnerLogisticAdapter(this, pickOptions, selectedOption)
+        { result ->
             onItemClick?.invoke(result)
             dismiss()
         }
@@ -66,12 +66,26 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
         }
     }
 
-    fun openSelector(fragmentManager: FragmentManager, selectedItem: SpinnerLogisticItem) {
+    fun openSelector(fragmentManager: FragmentManager, selectedItem: PropertiesModel) {
         selectedItem.let { selectedItem ->
-            if (selectedItem.label != null && selectedItem.label != "") {
+            if (selectedItem.assetDesc != null && selectedItem.assetDesc != "") {
                 selectedOption = selectedItem
             }
         }
         this.show(fragmentManager, TAG)
+    }
+
+    fun getPropertiesList() {
+        transactionViewModel?.getStandardListProperties(
+            type = PropertiesTypeConstant.logistic,
+            onSuccess = { it ->
+                if (it.data.size > 0) {
+                    pickOptions.addAll(it.data)
+                    recyclerView?.adapter?.notifyDataSetChanged()
+                }
+            },
+            onError = {
+                showToast(it)
+            })
     }
 }
