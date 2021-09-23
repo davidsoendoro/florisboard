@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -21,9 +22,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.basemodel.BankModel
-import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogAction
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogCancel
@@ -68,19 +68,11 @@ class DetailActivity : AppCompatActivity() {
     private var btnBack: ImageView? = null
     private var btnAction: CardView? = null
 
-    private var isLoading: Boolean = false
     private var currentTransaction: TransactionModel? = null
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     // Dialog Popup
     private var dialogAction: DialogAction? = null
-    private var dialogCancel: DialogCancel? = null
-    private var dialogFinish: DialogFinish? = null
-    private var dialogSent: DialogSent? = null
-    private var dialogPaid: DialogPaid? = null
-    private var dialogUnpaid: DialogUnpaid? = null
-    private var dialogUnsent: DialogUnsent? = null
-
     private var fullscreenLoading: LinearLayout? = null
     private var scrollviewLayout: ScrollView? = null
 
@@ -130,68 +122,20 @@ class DetailActivity : AppCompatActivity() {
                 val _id = currentTransaction?._id
 
                 when (currentTransaction?.latestStatus) {
+                    // Sudah Dibayar
                     TransactionStatusConstant.PENDING -> {
-                        // Sudah Bayar ?
-                        dialogPaid = DialogPaid().newInstance()
-                        dialogPaid?.openDialog(supportFragmentManager)
-                        dialogPaid?.onConfirmClick = {
-                            dialogPaid?.progressLoading(true)
-                            // CALL API
-                            if (_id != null) {
-                                transactionViewModel?.paidTransactionById(_id,
-                                    onSuccess = { it ->
-                                        dialogPaid?.progressLoading(false)
-                                        dialogPaid?.dismiss()
-                                        super.finish()
-                                    },
-                                    onError = {
-                                        progressLoading(false)
-                                    }
-                                )
-                            }
-                        }
+                        currentTransaction?.let { m -> onPaidDialog(m) }
+                        dialogAction?.dismiss()
                     }
                     TransactionStatusConstant.PAID -> {
-                        // Sudah Dikirim ?
-                        dialogSent = DialogSent().newInstance()
-                        dialogSent?.openDialog(supportFragmentManager)
-                        dialogSent?.onConfirmClick = {
-                            dialogSent?.progressLoading(true)
-                            // CALL API
-                            if (_id != null) {
-                                transactionViewModel?.sentTransactionById(_id,
-                                    onSuccess = { it ->
-                                        dialogSent?.progressLoading(false)
-                                        dialogSent?.dismiss()
-                                        super.finish()
-                                    },
-                                    onError = {
-                                        progressLoading(false)
-                                    }
-                                )
-                            }
-                        }
+                        // Sudah Dikirim
+                        currentTransaction?.let { m -> onSentDialog(m) }
+                        dialogAction?.dismiss()
                     }
                     TransactionStatusConstant.SENT -> {
-                        // Transaksi Selesai ?
-                        dialogFinish = DialogFinish().newInstance()
-                        dialogFinish?.openDialog(supportFragmentManager)
-                        dialogFinish?.onConfirmClick = {
-                            dialogFinish?.progressLoading(true)
-                            // CALL API
-                            if (_id != null) {
-                                transactionViewModel?.completeTransactionById(_id,
-                                    onSuccess = { it ->
-                                        dialogSent?.progressLoading(false)
-                                        dialogSent?.dismiss()
-                                        super.finish()
-                                    },
-                                    onError = {
-                                        progressLoading(false)
-                                    }
-                                )
-                            }
-                        }
+                        // Transaksi Selesai
+                        currentTransaction?.let { m -> onCompleteDialog(m) }
+                        dialogAction?.dismiss()
                     }
                 }
             }
@@ -201,123 +145,49 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_button -> {
                 val currentStatus = currentTransaction?.latestStatus
                 val _id = currentTransaction?._id
-                println("currentTransaction?.latestStatus :: " + currentStatus)
 
                 when (currentStatus) {
                     TransactionStatusConstant.PENDING -> {
-                        println("currentTransaction?.latestStatus :: " + currentStatus)
                         dialogAction = DialogAction().newInstance(currentStatus)
                         dialogAction?.openDialog(supportFragmentManager)
 
                         dialogAction?.onCancelClick = {
-                            // Show Dialog Confirm Cancel
-                            dialogCancel = DialogCancel().newInstance()
-                            dialogCancel?.openDialog(supportFragmentManager)
-                            dialogCancel?.onConfirmClick = {
-                                dialogCancel?.progressLoading(true)
-                                // API CALL
-                                if (_id != null) {
-                                    transactionViewModel?.cancelTransactionById(_id,
-                                        onSuccess = { it ->
-                                            dialogCancel?.progressLoading(false)
-                                            dialogCancel?.dismiss()
-                                            super.finish()
-                                        },
-                                        onError = {
-                                            progressLoading(false)
-                                        }
-                                    )
-                                }
-                            }
+                            currentTransaction?.let { m -> onCancelDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onEditClick = {
-                            // Show Dialog Confirm
+                            currentTransaction?.let { m -> onEditDialog(m) }
                             dialogAction?.dismiss()
-                            Intent(this, InputActivity::class.java).apply {
-                                currentTransaction?._id.let { id ->
-                                    run {
-                                        putExtra(InputActivity.EXTRA_ID, id)
-                                        putExtra(InputActivity.MODE, InputActivity.EDIT)
-                                        startActivity(this)
-                                    }
-                                }
-
-                            }
                         }
 
                         dialogAction?.onSendClick = {
-                            // Show Dialog Confirm
-                            val clipboardData = "Halo ini detail transaksi nya ya :\n" +
-                                "Pembeli : " + currentTransaction?.buyer.toString() + "\n" +
-                                "Nomor Telp : " + currentTransaction?.phone.toString() + "\n" +
-                                "Alamat : " + currentTransaction?.address.toString() + "\n" +
-                                "\n" +
-                                "===\n" +
-                                "\n" +
-                                "Untuk Pembayaran :" + currentTransaction?.notes.toString() + "\n" +
-                                "Harga : Rp." + currentTransaction?.price.toString() + "\n" +
-                                "Metode Bayar : " + currentTransaction?.payingMethod.toString() + "\n" +
-                                "Ongkir : Rp." + currentTransaction?.deliveryFee.toString() + "\n" +
-                                "Kurir : " + currentTransaction?.logistic.toString() + "\n" +
-                                "\n" +
-                                "Silahkan, proses pembayaran bisa via :\n" +
-                                "\n" +
-                                "[Account No] - [Account Holder]\n" +
-                                "\n" +
-                                "Terima Kasih :-)"
-                            val myClipboard =
-                                this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                            val myClip: ClipData = ClipData.newPlainText("Label", clipboardData)
-                            myClipboard.setPrimaryClip(myClip)
-                            showToast(resources.getString(R.string.toast_copy_clipboard))
-                            super.finish()
+                            currentTransaction?.let { m -> onNotaDialog(m) }
+                            dialogAction?.dismiss()
                         }
                     }
                     TransactionStatusConstant.PAID -> {
-                        println("currentTransaction?.latestStatus :: " + currentStatus)
                         dialogAction = DialogAction().newInstance(currentStatus)
                         dialogAction?.openDialog(supportFragmentManager)
 
                         dialogAction?.onCancelClick = {
-                            // Show Dialog Confirm Cancel
-                            dialogCancel = DialogCancel().newInstance()
-                            dialogCancel?.openDialog(supportFragmentManager)
-                            dialogCancel?.onConfirmClick = {
-                                dialogCancel?.progressLoading(true)
-                                super.finish()
-                            }
+                            currentTransaction?.let { m -> onCancelDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onEditClick = {
-                            // Show Dialog Edit
+                            currentTransaction?.let { m -> onEditDialog(m) }
                             dialogAction?.dismiss()
-                            Intent(this, InputActivity::class.java).apply {
-                                currentTransaction?._id.let { id ->
-                                    run {
-                                        putExtra(InputActivity.EXTRA_ID, id)
-                                        putExtra(InputActivity.MODE, InputActivity.EDIT)
-                                        startActivity(this)
-                                    }
-                                }
-                            }
                         }
 
                         dialogAction?.onChatClick = {
-                            //Redirect ke respective channel
-                            showToast("Redirect ke respective channel")
+                            currentTransaction?.let { m -> onChatDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onUnpaidClick = {
-                            // Show Dialog Confirm Unpaid
-                            dialogUnpaid = DialogUnpaid().newInstance()
-                            dialogUnpaid?.openDialog(supportFragmentManager)
-                            dialogUnpaid?.onConfirmClick = {
-                                dialogUnpaid?.progressLoading(true)
-                                // Call API Update to Unpaid
-                                dialogAction?.dismiss()
-                                dialogUnpaid?.dismiss()
-                            }
+                            currentTransaction?.let { m -> onUnpaid(m) }
+                            dialogAction?.dismiss()
                         }
                     }
                     TransactionStatusConstant.SENT -> {
@@ -326,82 +196,28 @@ class DetailActivity : AppCompatActivity() {
                         dialogAction?.openDialog(supportFragmentManager)
 
                         dialogAction?.onCancelClick = {
-                            // Show Dialog Confirm Cancel
-                            dialogCancel = DialogCancel().newInstance()
-                            dialogCancel?.openDialog(supportFragmentManager)
-                            dialogCancel?.onConfirmClick = {
-                                dialogCancel?.progressLoading(true)
-                                // API CALL
-                                if (_id != null) {
-                                    transactionViewModel?.cancelTransactionById(_id,
-                                        onSuccess = { it ->
-                                            dialogCancel?.progressLoading(false)
-                                            dialogCancel?.dismiss()
-                                            super.finish()
-                                        },
-                                        onError = {
-                                            progressLoading(false)
-                                        }
-                                    )
-                                }
-                            }
+                            currentTransaction?.let { m -> onCancelDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onEditClick = {
-                            // Show Dialog Edit
+                            currentTransaction?.let { m -> onEditDialog(m) }
                             dialogAction?.dismiss()
-                            openIntentInput(EDIT_COMPLETE)
                         }
 
                         dialogAction?.onChatClick = {
-                            //Redirect ke respective channel
-                            showToast("Redirect ke respective channel")
+                            currentTransaction?.let { m -> onChatDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onUnpaidClick = {
-                            // Show Dialog Confirm Unpaid
-                            dialogUnpaid = DialogUnpaid().newInstance()
-                            dialogUnpaid?.openDialog(supportFragmentManager)
-                            dialogUnpaid?.onConfirmClick = {
-                                dialogUnpaid?.progressLoading(true)
-                                // API CALL
-                                if (_id != null) {
-                                    transactionViewModel?.pendingTransactionById(_id,
-                                        onSuccess = { it ->
-                                            dialogUnpaid?.progressLoading(false)
-                                            dialogUnpaid?.dismiss()
-                                            dialogAction?.dismiss()
-                                            super.finish()
-                                        },
-                                        onError = {
-                                            dialogUnpaid?.progressLoading(false)
-                                        }
-                                    )
-                                }
-                            }
+                            currentTransaction?.let { m -> onUnpaid(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onUnsentClick = {
-                            // Show Dialog Confirm Unpaid
-                            dialogUnsent = DialogUnsent().newInstance()
-                            dialogUnsent?.openDialog(supportFragmentManager)
-                            dialogUnsent?.onConfirmClick = {
-                                dialogUnsent?.progressLoading(true)
-                                // API CALL
-                                if (_id != null) {
-                                    transactionViewModel?.paidTransactionById(_id,
-                                        onSuccess = { it ->
-                                            dialogUnsent?.progressLoading(false)
-                                            dialogUnsent?.dismiss()
-                                            dialogAction?.dismiss()
-                                            super.finish()
-                                        },
-                                        onError = {
-                                            dialogUnsent?.progressLoading(false)
-                                        }
-                                    )
-                                }
-                            }
+                            currentTransaction?.let { m -> onUnsentDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                     }
@@ -410,14 +226,13 @@ class DetailActivity : AppCompatActivity() {
                         dialogAction?.openDialog(supportFragmentManager)
 
                         dialogAction?.onChatClick = {
-                            //Redirect ke respective channel
-                            showToast("Redirect ke respective channel")
+                            currentTransaction?.let { m -> onChatDialog(m) }
+                            dialogAction?.dismiss()
                         }
 
                         dialogAction?.onCompleteEditClick = {
-                            // Show Dialog Edit
+                            currentTransaction?.let { m -> onEditCompleteDialog(m) }
                             dialogAction?.dismiss()
-                            openIntentInput(EDIT_COMPLETE)
                         }
                     }
                 }
@@ -433,56 +248,56 @@ class DetailActivity : AppCompatActivity() {
 
         editTextBuyer?.isEnabled = isEditable
         editTextBuyer?.setTextColor(textColor)
-        editTextBuyer?.setFocusableInTouchMode(isEditable)
-        editTextBuyer?.setFocusable(isEditable)
+        editTextBuyer?.isFocusableInTouchMode = isEditable
+        editTextBuyer?.isFocusable = isEditable
         editTextBuyerLayout?.setBackgroundColor(backgroundColor)
 
         editTextChannel?.isEnabled = isEditable
         editTextChannel?.setTextColor(textColor)
-        editTextChannel?.setFocusableInTouchMode(isEditable)
-        editTextChannel?.setFocusable(isEditable)
+        editTextChannel?.isFocusableInTouchMode = isEditable
+        editTextChannel?.isFocusable = isEditable
         editTextChannelLayout?.setBackgroundColor(backgroundColor)
 
         editTextPhone?.isEnabled = isEditable
         editTextPhone?.setTextColor(textColor)
-        editTextPhone?.setFocusableInTouchMode(isEditable)
-        editTextPhone?.setFocusable(isEditable)
+        editTextPhone?.isFocusableInTouchMode = isEditable
+        editTextPhone?.isFocusable = isEditable
         editTextPhoneLayout?.setBackgroundColor(backgroundColor)
 
         editTextAddress?.isEnabled = isEditable
         editTextAddress?.setTextColor(textColor)
-        editTextAddress?.setFocusableInTouchMode(isEditable)
-        editTextAddress?.setFocusable(isEditable)
+        editTextAddress?.isFocusableInTouchMode = isEditable
+        editTextAddress?.isFocusable = isEditable
         editTextAddressLayout?.setBackgroundColor(backgroundColor)
 
         editTextNote?.isEnabled = isEditable
         editTextNote?.setTextColor(textColor)
-        editTextNote?.setFocusableInTouchMode(isEditable)
-        editTextNote?.setFocusable(isEditable)
+        editTextNote?.isFocusableInTouchMode = isEditable
+        editTextNote?.isFocusable = isEditable
         editTextNoteLayout?.setBackgroundColor(backgroundColor)
 
         editTextPrice?.isEnabled = isEditable
         editTextPrice?.setTextColor(textColor)
-        editTextPrice?.setFocusableInTouchMode(isEditable)
-        editTextPrice?.setFocusable(isEditable)
+        editTextPrice?.isFocusableInTouchMode = isEditable
+        editTextPrice?.isFocusable = isEditable
         editTextPriceLayout?.setBackgroundColor(backgroundColor)
 
         editTextPayment?.isEnabled = isEditable
         editTextPayment?.setTextColor(textColor)
-        editTextPayment?.setFocusableInTouchMode(isEditable)
-        editTextPayment?.setFocusable(isEditable)
+        editTextPayment?.isFocusableInTouchMode = isEditable
+        editTextPayment?.isFocusable = isEditable
         editTextPaymentLayout?.setBackgroundColor(backgroundColor)
         editTextLogistic?.isEnabled = isEditable
 
         editTextLogistic?.setTextColor(textColor)
-        editTextLogistic?.setFocusableInTouchMode(isEditable)
-        editTextLogistic?.setFocusable(isEditable)
+        editTextLogistic?.isFocusableInTouchMode = isEditable
+        editTextLogistic?.isFocusable = isEditable
         editTextLogisticLayout?.setBackgroundColor(backgroundColor)
 
         editTextdeliveryFee?.isEnabled = isEditable
         editTextdeliveryFee?.setTextColor(textColor)
-        editTextdeliveryFee?.setFocusableInTouchMode(isEditable)
-        editTextdeliveryFee?.setFocusable(isEditable)
+        editTextdeliveryFee?.isFocusableInTouchMode = isEditable
+        editTextdeliveryFee?.isFocusable = isEditable
         editTextDeliveryFeeLayout?.setBackgroundColor(backgroundColor)
     }
 
@@ -518,80 +333,368 @@ class DetailActivity : AppCompatActivity() {
         disableFormInput()
     }
 
-
-
     private fun setupSubmitButton(latestStatus: String) {
         when (latestStatus) {
             TransactionStatusConstant.PENDING -> {
                 btnSubmitText?.text = resources.getString(R.string.form_trx_btn_action_paid)
-                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checked, 0, 0, 0);
+                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_checked, 0, 0, 0)
                 btnSubmitProgress?.visibility = View.GONE
             }
             TransactionStatusConstant.PAID -> {
                 btnSubmitText?.text = resources.getString(R.string.form_trx_btn_action_sent)
-                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sent, 0, 0, 0);
+                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_sent, 0, 0, 0)
                 btnSubmitProgress?.visibility = View.GONE
             }
             TransactionStatusConstant.SENT -> {
                 btnSubmitText?.text = resources.getString(R.string.form_trx_btn_action_complete)
-                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_circle_checked, 0, 0, 0);
+                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_circle_checked, 0, 0, 0)
                 btnSubmitProgress?.visibility = View.GONE
             }
             else -> {
                 btnSubmitText?.text = resources.getString(R.string.form_trx_btn_action_complete)
-                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled));
+                btnSubmitText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
                 btnSubmit?.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
                 btnSubmitProgress?.visibility = View.GONE
             }
         }
     }
 
-    private fun openIntentInput(mode: String) {
-        when(mode) {
-            EDIT -> {
-                Intent(this, InputActivity::class.java).apply {
-                    currentTransaction?._id.let { id ->
-                        run {
-                            putExtra(InputActivity.EXTRA_DATA, currentTransaction)
-                            putExtra(InputActivity.MODE, InputActivity.EDIT)
-                            startActivity(this)
-                        }
-                    }
-                }
-            }
-            EDIT_COMPLETE -> {
-                Intent(this, InputActivity::class.java).apply {
-                    currentTransaction?._id.let { id ->
-                        run {
-                            putExtra(InputActivity.EXTRA_DATA, currentTransaction)
-                            putExtra(InputActivity.MODE, InputActivity.EDIT_COMPLETE)
-                            startActivity(this)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private fun constructChannel(editText: EditText, assetUrl: String) {
         Glide.with(this).load(assetUrl).apply(RequestOptions().fitCenter()).into(
-            object : CustomTarget<Drawable>(50,50){
+            object : CustomTarget<Drawable>(50, 50) {
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    editText?.setCompoundDrawablesWithIntrinsicBounds(placeholder, null,
-                        resources.getDrawable(R.drawable.ic_subdued), null)
-                    editText?.compoundDrawablePadding = 12
+                    editText.setCompoundDrawablesWithIntrinsicBounds(
+                        placeholder, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null
+                    )
+                    editText.compoundDrawablePadding = 12
                 }
 
                 override fun onResourceReady(
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
-                    editText?.setCompoundDrawablesWithIntrinsicBounds(resource, null,
-                        resources.getDrawable(R.drawable.ic_subdued), null)
-                    editText?.compoundDrawablePadding = 12
+                    editText.setCompoundDrawablesWithIntrinsicBounds(
+                        resource, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null
+                    )
+                    editText.compoundDrawablePadding = 12
                 }
             }
         )
     }
+
+    private fun onCancelDialog(model: TransactionModel) {
+        val dialogCancel = DialogCancel().newInstance()
+        dialogCancel?.openDialog(supportFragmentManager)
+        dialogCancel?.onConfirmClick = {
+            dialogCancel?.progressLoading(true)
+            transactionViewModel?.cancelTransactionById(
+                model._id,
+                onSuccess = {
+                    dialogCancel?.progressLoading(false)
+                    dialogCancel?.dismiss()
+
+                    val intent = Intent()
+                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
+                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    finish()
+                    showToast(resources.getString(R.string.kobold_transaction_cancel_toast))
+                },
+                onError = {
+                    progressLoading(false)
+                }
+            )
+        }
+    }
+
+    private fun onEditDialog(model: TransactionModel) {
+        val intent = Intent(this, InputActivity::class.java)
+        intent.putExtra(InputActivity.EXTRA_DATA, model)
+        intent.putExtra(InputActivity.MODE, InputActivity.EDIT)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+    }
+
+    private fun onEditCompleteDialog(model: TransactionModel) {
+        val intent = Intent(this, InputActivity::class.java)
+        intent.putExtra(InputActivity.EXTRA_DATA, model)
+        intent.putExtra(InputActivity.MODE, InputActivity.EDIT_COMPLETE)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+    }
+
+    private fun onNotaDialog(model: TransactionModel) {
+        // Show Dialog Confirm
+        val message = "Halo ini detail transaksi nya ya :\n" +
+            "Pembeli : " + model.buyer.toString() + "\n" +
+            "Nomor Telp : " + model.phone.toString() + "\n" +
+            "Alamat : " + model.address.toString() + "\n" +
+            "\n" +
+            "===\n" +
+            "\n" +
+            "Untuk Pembayaran :" + model.notes.toString() + "\n" +
+            "Harga : Rp." + model.price.toString() + "\n" +
+            "Metode Bayar : " + model.payingMethod.toString() + "\n" +
+            "Ongkir : Rp." + model.deliveryFee.toString() + "\n" +
+            "Kurir : " + model.logistic.toString() + "\n" +
+            "\n" +
+            "Silahkan, proses pembayaran bisa via :\n" +
+            "\n" +
+            "[Account No] - [Account Holder]\n" +
+            "\n" +
+            "Terima Kasih :-)"
+        val myClipboard =
+            this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val myClip: ClipData = ClipData.newPlainText("Label", message)
+        myClipboard.setPrimaryClip(myClip)
+
+        if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA) {
+            when (model.channel) {
+                ActivityConstantCode.WHATSAPP -> {
+                    if (!model.phone.isNullOrBlank()) {
+                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_PKG)
+                    } else {
+                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+                    }
+                }
+                ActivityConstantCode.WHATSAPP_BUSINESS -> {
+                    if (!model.phone.isNullOrBlank()) {
+                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
+                    } else {
+                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+                    }
+                }
+                ActivityConstantCode.LINE -> {
+                    openApplicationActivity(this, ActivityConstantCode.LINE_PKG)
+                }
+                ActivityConstantCode.FACEBOOK_MESSENGER -> {
+                    openApplicationActivity(this, ActivityConstantCode.FACEBOOK_MESSENGER_PKG)
+                }
+                ActivityConstantCode.INSTAGRAM -> {
+                    openApplicationActivity(this, ActivityConstantCode.INSTAGRAM_PKG)
+                }
+                ActivityConstantCode.BUKALAPAK_CHAT -> {
+                    openApplicationActivity(this, ActivityConstantCode.BUKALAPAK_CHAT_PKG)
+                }
+                ActivityConstantCode.TOKOPEDIA_CHAT -> {
+                    openApplicationActivity(this, ActivityConstantCode.TOKOPEDIA_CHAT_PKG)
+                }
+                ActivityConstantCode.SHOPEE_CHAT -> {
+                    openApplicationActivity(this, ActivityConstantCode.SHOPEE_CHAT_PKG)
+                }
+                else ->
+                    showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
+            }
+        } else {
+            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+        }
+    }
+
+    private fun onChatDialog(model: TransactionModel) {
+
+        if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA) {
+            when (model.channel) {
+                ActivityConstantCode.WHATSAPP -> {
+                    if (!model.phone.isNullOrBlank()) {
+                        openWhatsappAndDirectToNumber(model.phone, "", this, ActivityConstantCode.WHATSAPP_PKG)
+                    } else {
+                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+                    }
+                }
+                ActivityConstantCode.WHATSAPP_BUSINESS -> {
+                    if (!model.phone.isNullOrBlank()) {
+                        openWhatsappAndDirectToNumber(model.phone, "", this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
+                    } else {
+                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+                    }
+                }
+                ActivityConstantCode.LINE -> {
+                    openApplicationActivity(this, ActivityConstantCode.LINE_PKG)
+                }
+                ActivityConstantCode.FACEBOOK_MESSENGER -> {
+                    openApplicationActivity(this, ActivityConstantCode.FACEBOOK_MESSENGER_PKG)
+                }
+                ActivityConstantCode.INSTAGRAM -> {
+                    openApplicationActivity(this, ActivityConstantCode.INSTAGRAM_PKG)
+                }
+                ActivityConstantCode.BUKALAPAK_CHAT -> {
+                    openApplicationActivity(this, ActivityConstantCode.BUKALAPAK_CHAT_PKG)
+                }
+                ActivityConstantCode.TOKOPEDIA_CHAT -> {
+                    openApplicationActivity(this, ActivityConstantCode.TOKOPEDIA_CHAT_PKG)
+                }
+                ActivityConstantCode.SHOPEE_CHAT -> {
+                    openApplicationActivity(this, ActivityConstantCode.SHOPEE_CHAT_PKG)
+                }
+                else ->
+                    showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+            }
+        } else {
+            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+        }
+    }
+
+    private fun onUnpaid(model: TransactionModel) {
+        val dialog = DialogUnpaid().newInstance()
+        dialog?.openDialog(supportFragmentManager)
+        dialog?.onConfirmClick = {
+            dialog?.progressLoading(true)
+            transactionViewModel?.pendingTransactionById(
+                model._id,
+                onSuccess = {
+                    dialog?.progressLoading(false)
+                    dialog?.dismiss()
+
+                    val intent = Intent()
+                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
+                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    finish()
+                    showToast(resources.getString(R.string.kobold_transaction_unpaid_toast))
+                },
+                onError = {
+                    progressLoading(false)
+                }
+            )
+        }
+    }
+
+    private fun onPaidDialog(model: TransactionModel) {
+        val dialog = DialogPaid().newInstance()
+        dialog?.openDialog(supportFragmentManager)
+        dialog?.onConfirmClick = {
+            dialog?.progressLoading(true)
+            transactionViewModel?.paidTransactionById(
+                model._id,
+                onSuccess = {
+                    dialog?.progressLoading(false)
+                    dialog?.dismiss()
+
+                    val intent = Intent()
+                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
+                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    finish()
+                    showToast(resources.getString(R.string.kobold_transaction_paid_toast))
+                },
+                onError = {
+                    progressLoading(false)
+                }
+            )
+        }
+    }
+
+    private fun onSentDialog(model: TransactionModel) {
+        val dialog = DialogSent().newInstance()
+        dialog?.openDialog(supportFragmentManager)
+        dialog?.onConfirmClick = {
+            dialog?.progressLoading(true)
+            transactionViewModel?.sentTransactionById(
+                model._id,
+                onSuccess = {
+                    dialog?.progressLoading(false)
+                    dialog?.dismiss()
+
+                    val intent = Intent()
+                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
+                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    finish()
+                    showToast(resources.getString(R.string.kobold_transaction_sent_toast))
+                },
+                onError = {
+                    progressLoading(false)
+                }
+            )
+        }
+    }
+
+    private fun onCompleteDialog(model: TransactionModel) {
+        val dialog = DialogFinish().newInstance()
+        dialog?.openDialog(supportFragmentManager)
+        dialog?.onConfirmClick = {
+            dialog?.progressLoading(true)
+            transactionViewModel?.completeTransactionById(
+                model._id,
+                onSuccess = {
+                    dialog?.progressLoading(false)
+                    dialog?.dismiss()
+
+                    val intent = Intent()
+                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
+                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    finish()
+                    showToast(resources.getString(R.string.kobold_transaction_finish_toast))
+                },
+                onError = {
+                    progressLoading(false)
+                }
+            )
+        }
+    }
+
+    private fun onUnsentDialog(model: TransactionModel) {
+        val dialog = DialogUnsent().newInstance()
+        dialog?.openDialog(supportFragmentManager)
+        dialog?.onConfirmClick = {
+            dialog?.progressLoading(true)
+            transactionViewModel?.paidTransactionById(
+                model._id,
+                onSuccess = {
+                    dialog?.progressLoading(false)
+                    dialog?.dismiss()
+
+                    val intent = Intent()
+                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
+                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    finish()
+                    showToast(resources.getString(R.string.kobold_transaction_unsent_toast))
+                },
+                onError = {
+                    progressLoading(false)
+                }
+            )
+        }
+    }
+
+    fun openWhatsappAndDirectToNumber(phoneNo: String, message: String, context: Context, packageName: String) {
+        var intent = context.packageManager.getLaunchIntentForPackage(packageName)
+        if (intent != null) {
+            val sendIntent = Intent("android.intent.action.MAIN")
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.type = "text/plain"
+            sendIntent.putExtra(Intent.EXTRA_TEXT, message)
+            sendIntent.putExtra("jid", phoneNo + "@s.whatsapp.net")
+            sendIntent.setPackage(packageName)
+            startActivity(sendIntent)
+        } else {
+            // Bring user to the market or let them choose an app?
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.data = Uri.parse("market://details?id=$packageName")
+            context.startActivity(intent)
+        }
+    }
+
+    fun openApplicationActivity(context: Context, packageName: String) {
+        var intent = context.packageManager.getLaunchIntentForPackage(packageName)
+
+        if (intent != null) {
+            // We found the activity now start the activity
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
+        } else {
+            // Bring user to the market or let them choose an app?
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.data = Uri.parse("market://details?id=$packageName")
+            context.startActivity(intent)
+        }
+
+    }
+
 }

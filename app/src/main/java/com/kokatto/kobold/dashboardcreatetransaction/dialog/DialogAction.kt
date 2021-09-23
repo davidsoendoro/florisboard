@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.constant.TransactionStatusConstant
+import com.kokatto.kobold.extension.RoundedBottomSheet
 
-class DialogAction : BottomSheetDialogFragment() {
+class DialogAction : RoundedBottomSheet() {
 
     companion object {
         const val TAG = "DialogAction"
