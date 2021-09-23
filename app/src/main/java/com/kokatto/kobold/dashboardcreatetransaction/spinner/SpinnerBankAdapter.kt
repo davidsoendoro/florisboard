@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.extension.addRipple
 
@@ -31,19 +32,18 @@ class SpinnerBankAdapter(
 
 
         fun bindViewHolder(option: BankModel) {
-            bankLabel?.text = option.bank
-            bankNo?.text = option.accountNo
-            bankHolder?.text = option.accountHolder
-            bankEdit?.visibility.let { i ->
-                bankNo?.let { text ->
-                    if (text.text == "Cash") {
-                        View.GONE
-                    } else {
-                        View.VISIBLE
-                    }
-                }
-            }
 
+            if(option.accountNo.equals(CASH)) {
+                bankLabel?.text = ""
+                bankNo?.text = option.accountNo
+                bankHolder?.text = ""
+                bankEdit?.visibility = View.GONE
+            } else {
+                bankLabel?.text = option.bank
+                bankNo?.text = option.accountNo
+                bankHolder?.text = option.accountHolder
+                bankEdit?.visibility = View.VISIBLE
+            }
 
             if (option.accountNo == selectedOption.accountNo) {
                 // Selected

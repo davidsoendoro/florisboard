@@ -1,24 +1,27 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
-import com.kokatto.kobold.template.TemplateActivityInput
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class UnprocessedFragment: Fragment(R.layout.fragment_unprocessed), TransactionHomeRecyclerAdapter.OnClick {
+class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), TransactionHomeRecyclerAdapter.OnClick {
 
     private var unprocessedRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
     private var unprocesedRecycler: RecyclerView? = null
@@ -31,6 +34,7 @@ class UnprocessedFragment: Fragment(R.layout.fragment_unprocessed), TransactionH
 
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
+    private var launchActivity: ActivityResultLauncher<Intent>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,7 +44,7 @@ class UnprocessedFragment: Fragment(R.layout.fragment_unprocessed), TransactionH
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
 
         getUnprocessedTransactionList()
-        unprocessedRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList,this)
+        unprocessedRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList, this)
 
         DovesRecyclerViewPaginator(
             recyclerView = unprocesedRecycler!!,
@@ -60,9 +64,22 @@ class UnprocessedFragment: Fragment(R.layout.fragment_unprocessed), TransactionH
     }
 
     override fun onClicked(data: TransactionModel) {
-        Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_DATA, data)
-            startActivity(this)
+        val intent = Intent(requireContext(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_DATA, data)
+        launchActivity?.launch(intent)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL
+                || result.resultCode == ActivityConstantCode.STATUS_TO_PAID) {
+                val data: Intent? = result.data
+                transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
+                unprocessedRecyclerAdapter!!.notifyDataSetChanged()
+                showToast(resources.getString(R.string.kobold_transaction_cancel_toast))
+            }
         }
     }
 
@@ -97,4 +114,5 @@ class UnprocessedFragment: Fragment(R.layout.fragment_unprocessed), TransactionH
             }
         )
     }
+
 }
