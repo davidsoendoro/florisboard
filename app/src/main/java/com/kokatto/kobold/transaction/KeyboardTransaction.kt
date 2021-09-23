@@ -48,7 +48,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
     private val isLastTransaction = AtomicBoolean(false)
     private val isFirstLoad = AtomicBoolean(true)
 
-    var dataUnavailableLayout: LinearLayout? = null
+//    var dataUnavailableLayout: LinearLayout? = null
 
     private var messageSnackbar: Snackbar? = null
 
@@ -58,7 +58,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         val backButton: TextView = findViewById(R.id.back_button)
         val statusLayout: LinearLayout = findViewById(R.id.status_layout)
         val statusText = findTextViewId(R.id.status_text)
-        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
+//        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
 //        define as arraylist first
         var pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
@@ -133,7 +133,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingTransaction.set(it)
-                dataUnavailableLayout?.isVisible = false
+//                dataUnavailableLayout?.isVisible = false
             },
             onSuccess = { it ->
                 //                            clear page first
@@ -168,7 +168,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                         },
                         onSuccess = { successData ->
                             isLastTransaction.set(successData.data.totalPages <= successData.data.page)
-                            dataUnavailableLayout?.isVisible = successData.data.contents.isEmpty()
+//                            dataUnavailableLayout?.isVisible = successData.data.contents.isEmpty()
 
                             isLoadingTransaction.set(false)
                             val initialSize = transactionList.size
@@ -189,7 +189,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                         onError = { errorMessage ->
                             showToast(errorMessage)
 
-                            dataUnavailableLayout?.isVisible = false
+//                            dataUnavailableLayout?.isVisible = false
                             bottomLoading.isVisible = false
                         }
                     )
