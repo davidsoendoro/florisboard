@@ -113,11 +113,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         if (changedView == this && visibility == View.VISIBLE) {
 //        if (changedView == this && visibility == View.VISIBLE || florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
             adapter?.dataList?.clear()
-            if (isFirstLoad.get()) {
-                Log.d("OkHttpClient", "first--------------------------------------")
-                loadTransaction()
-                isFirstLoad.set(false)
-            }
+//            if (isFirstLoad.get()) {
+            Log.d("OkHttpClient", "first--------------------------------------")
+            loadTransaction()
+//                isFirstLoad.set(false)
+//            }
         }
 //        on this layout visible
         else {

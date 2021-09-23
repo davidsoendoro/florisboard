@@ -7,12 +7,13 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
-import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
+import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.koboldSetEnabled
-import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
@@ -25,7 +26,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
-    private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
+    private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     private var koboldExpandView: TextView? = null
     private var buyerNameText: KoboldEditText? = null
@@ -256,7 +257,37 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
         invalidateSaveButton()
         createTransactionButton?.setOnClickListener {
-            showToast("enabled")
+
+            val model = TransactionModel(
+                buyer = buyerNameText?.editText?.text.toString(),
+                channel = chooseChannelText?.editText?.text.toString(),
+                phone = phoneNumberText?.editText?.text.toString(),
+                address = addressText?.editText?.text.toString(),
+                notes = orderDetailText?.editText?.text.toString(),
+                price =
+                if (itemPriceText?.editText?.text.toString() == "")
+                    0
+                else
+                    itemPriceText?.editText?.text.toString().toInt(),
+                payingMethod = choosePaymentMethodText?.editText?.text.toString(),
+                logistic = chooseCourierText?.editText?.text.toString(),
+                deliveryFee =
+                if (shippingCostText?.editText?.text.toString() == "")
+                    0
+                else
+                    shippingCostText?.editText?.text.toString().toInt()
+            )
+            transactionViewModel?.createTransaction(
+                createTransactionRequest =
+                model,
+                onSuccess = {
+                    showSnackBar(it)
+                    florisboard?.setActiveInput(R.id.kobold_menu_transaction)
+                },
+                onError = {
+                    showSnackBar(it)
+                }
+            )
         }
     }
 
