@@ -2,6 +2,7 @@ package com.kokatto.kobold.transaction
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -14,6 +15,9 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
+import com.kokatto.kobold.editor.SpinnerEditorAdapter
+import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.transaction.recycleradapter.TransactionKeyboardRecyclerAdapter
@@ -30,6 +34,9 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
+    var selectedOption: SpinnerEditorItem =
+        SpinnerEditorItem(resources.getStringArray(R.array.kobold_transaction_category_values)[0])
+
     private var transactionList: ArrayList<TransactionModel> = arrayListOf()
     private var adapter: TransactionKeyboardRecyclerAdapter? = null
 
@@ -39,6 +46,9 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 
     private val isLoadingTransaction = AtomicBoolean(true)
     private val isLastTransaction = AtomicBoolean(false)
+    private val isFirstLoad = AtomicBoolean(true)
+
+    var dataUnavailableLayout: LinearLayout? = null
 
     private var messageSnackbar: Snackbar? = null
 
@@ -46,6 +56,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         super.onAttachedToWindow()
         val searchButton: ImageView = findViewById(R.id.search_button)
         val backButton: TextView = findViewById(R.id.back_button)
+        val statusLayout: LinearLayout = findViewById(R.id.status_layout)
+        val statusText = findTextViewId(R.id.status_text)
+        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
+//        define as arraylist first
+        var pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
 
@@ -62,29 +77,72 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
         }
 
+//        add data from string array to array list
+        resources.getStringArray(R.array.kobold_transaction_category_values).forEach {
+            pickTemplateOptions.add(SpinnerEditorItem(it))
+        }
+
+        statusLayout.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.openSpinner(
+                R.id.kobold_menu_transaction, SpinnerEditorAdapter(
+                    context,
+//                    convert arraylist data to array
+                    pickTemplateOptions.toTypedArray(), selectedOption
+                ) { result ->
+                    florisboard.inputFeedbackManager.keyPress()
+                    statusText.text = result.label
+                    florisboard.setActiveInput(R.id.kobold_menu_transaction)
+                    selectedOption = result
+
+                    transactionList.clear()
+                    adapter?.notifyDataSetChanged()
+
+                    loadTransaction(
+                        index = pickTemplateOptions.indexOf(result)
+                    )
+                }
+            )
+        }
         adapter = TransactionKeyboardRecyclerAdapter(transactionList, this)
         transactionRecycler?.adapter = adapter
-
-        loadTransaction()
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        if (visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
+//        on this layout not visible
+        if (changedView == this && visibility == View.VISIBLE) {
+//        if (changedView == this && visibility == View.VISIBLE || florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
             adapter?.dataList?.clear()
-            loadTransaction()
+            if (isFirstLoad.get()) {
+                Log.d("OkHttpClient", "first--------------------------------------")
+                loadTransaction()
+                isFirstLoad.set(false)
+            }
+        }
+//        on this layout visible
+        else {
+            transactionList.clear()
         }
         super.onVisibilityChanged(changedView, visibility)
     }
 
-    fun loadTransaction() {
+    private fun loadTransaction(index: Int = 0) {
         florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
-
         transactionViewModel?.getTransactionList(
+            status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],
             onLoading = {
                 Timber.e(it.toString())
                 isLoadingTransaction.set(it)
+                dataUnavailableLayout?.isVisible = false
             },
             onSuccess = { it ->
+                //                            clear page first
+                Log.e("data", it.data.toString())
+                if (it.data.page == 1) {
+                    transactionList.clear()
+                    adapter?.notifyDataSetChanged()
+                }
+
                 transactionList.addAll(it.data.contents)
                 adapter?.notifyItemRangeChanged(0, it.data.contents.size)
             },
@@ -102,6 +160,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                 loadMore = { loadMoreData ->
                     bottomLoading.isVisible = true
                     transactionViewModel?.getTransactionList(
+                        status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],
                         page = loadMoreData + 1,
                         onLoading = { loadData ->
                             Timber.e(loadData.toString())
@@ -109,9 +168,18 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                         },
                         onSuccess = { successData ->
                             isLastTransaction.set(successData.data.totalPages <= successData.data.page)
+                            dataUnavailableLayout?.isVisible = successData.data.contents.isEmpty()
 
                             isLoadingTransaction.set(false)
                             val initialSize = transactionList.size
+//                            clear page first
+                            Log.e("data", successData.data.toString())
+                            if (successData.data.page == 1) {
+                                showToast("first page")
+                                transactionList.clear()
+                                adapter?.notifyDataSetChanged()
+                            }
+
                             transactionList.addAll(successData.data.contents)
                             val finalSize = transactionList.size
                             adapter?.notifyItemRangeChanged(initialSize, finalSize)
@@ -120,13 +188,15 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                         },
                         onError = { errorMessage ->
                             showToast(errorMessage)
+
+                            dataUnavailableLayout?.isVisible = false
                             bottomLoading.isVisible = false
                         }
                     )
                 },
                 onLast = { isLastTransaction.get() }
             ).run {
-                threshold = 0
+                threshold = 5
             }
         }
         transactionRecycler?.vertical()
@@ -134,7 +204,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 
     override fun onClicked(data: String) {
         florisboard?.inputFeedbackManager?.keyPress()
-        florisboard?.textInputManager?.activeEditorInstance?.commitText(data)
+//        florisboard?.textInputManager?.activeEditorInstance?.commitText(data)
     }
 
 }

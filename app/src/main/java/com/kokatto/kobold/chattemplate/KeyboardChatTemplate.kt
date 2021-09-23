@@ -1,7 +1,6 @@
 package com.kokatto.kobold.chattemplate
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -11,12 +10,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
-import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
@@ -70,7 +68,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        if (visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
+        if (changedView == this.rootView && visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
             adapter?.dataList?.clear()
             loadChatTemplate()
         }
@@ -127,7 +125,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                 },
                 onLast = { isLastChatTemplate.get() }
             ).run {
-                threshold = 0
+                threshold = 5
             }
         }
         chatTemplateRecycler?.vertical()
