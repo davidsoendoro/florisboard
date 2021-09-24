@@ -34,6 +34,10 @@
             android:id="@+id/kobold_search_result"
             layout="@layout/kobold_search_result" />
 
+        <include
+            android:id="@+id/kobold_search_transaction"
+            layout="@layout/kobold_search_transaction" />
+
     </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
 </LinearLayout>

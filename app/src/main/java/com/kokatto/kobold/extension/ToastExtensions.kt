@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
 
-fun Context.showToastLong(message: String?) {
-    this.showToast(message, Toast.LENGTH_LONG)
-}
 
 fun Context.showToast(message: String?, duration: Int? = null) {
     this.createToast(message, duration).show()
@@ -28,17 +25,10 @@ fun Fragment.showToast(@StringRes messageRes: Int, duration: Int? = null) {
     this.createToast(this.getString(messageRes), duration)?.show()
 }
 
-fun Fragment.showToastLong(message: String?) {
-    this.activity?.showToastLong(message)
-}
-
 fun Fragment.createToast(message: String?, duration: Int? = null): Toast? {
     return this.activity?.createToast(message, duration)
 }
 
-fun Fragment.createToastLong(message: String?): Toast? {
-    return this.activity?.createToast(message, Toast.LENGTH_LONG)
-}
 
 fun View.showToast(message: String?, duration: Int? = null) {
     this.context.createToast(message, duration).show()

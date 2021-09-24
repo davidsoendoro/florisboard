@@ -190,7 +190,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/kobold_item_42px"
+                android:textColor="@color/text_secondary"
                 android:gravity="center"
+                android:textSize="10sp"
                 android:text="Harga Barang dan Metode pembayaran wajib diisi." />
 
         </LinearLayout>

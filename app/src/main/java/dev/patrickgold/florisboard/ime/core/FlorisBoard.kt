@@ -60,11 +60,13 @@ import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
-import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
+import com.kokatto.kobold.transaction.KeyboardSearchTransaction
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.common.ViewUtils
@@ -76,7 +78,6 @@ import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
-import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -797,9 +798,11 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         applicationContext.startActivity(i)
     }
 
-    fun launchExpandCreateTransactionView() {
+    fun launchExpandCreateTransactionView(transactionModel: TransactionModel) {
         requestHideSelf(0)
-        val i = Intent(this, CreateTransactionActivity::class.java).apply {
+        val i = Intent(this, InputActivity::class.java).apply {
+            putExtra(InputActivity.MODE, InputActivity.FROM_KEYBOARD)
+            putExtra(EXTRA_DATA, transactionModel)
         }
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
             Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
@@ -865,7 +868,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         clipInputManager.onSubtypeChanged(newSubtype, doRefreshLayouts)
     }
 
-    fun openSearchEditor() {
+    fun openSearchEditor(destinationId: Int) {
         val keyboardViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
 
@@ -886,10 +889,22 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         val onEditCommitted = {
             val result = editTextEditor?.editable?.text.toString()
 
-            val searchPage = keyboardViewFlipper?.findViewById<KeyboardSearchChatTemplate>(R.id.kobold_search_result)
-            searchPage?.query = result
+            when (destinationId) {
+                R.id.kobold_search_result -> {
+                    val searchPage =
+                        keyboardViewFlipper?.findViewById<KeyboardSearchChatTemplate>(R.id.kobold_search_result)
+                    searchPage?.query = result
 
-            keyboardViewFlipper?.displayedChild = 1
+                    keyboardViewFlipper?.displayedChild = 1
+                }
+                R.id.kobold_search_transaction -> {
+                    val searchPage =
+                        keyboardViewFlipper?.findViewById<KeyboardSearchTransaction>(R.id.kobold_search_transaction)
+//                    searchPage?.query = result
+
+                    keyboardViewFlipper?.displayedChild = 2
+                }
+            }
         }
 
         editTextEditor?.editable?.setOnKeyListener { v, keyCode, event ->
@@ -1026,6 +1041,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             R.id.kobold_menu_create_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 5
             }
+//            transaction menu
             R.id.kobold_menu_transaction -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 8
 //                if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {

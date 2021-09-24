@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
@@ -60,13 +61,13 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         val statusText = findTextViewId(R.id.status_text)
 //        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
 //        define as arraylist first
-        var pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
+        val pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
 
         searchButton.setOnClickListener {
-//            florisboard?.inputFeedbackManager?.keyPress()
-//            florisboard?.openSearchEditor()
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.openSearchEditor(R.id.kobold_search_transaction)
         }
         createTemplateButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -136,7 +137,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 //                dataUnavailableLayout?.isVisible = false
             },
             onSuccess = { it ->
-                //                            clear page first
+//                clear page first
                 Log.e("data", it.data.toString())
                 if (it.data.page == 1) {
                     transactionList.clear()
@@ -202,9 +203,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         transactionRecycler?.vertical()
     }
 
-    override fun onClicked(data: String) {
+    override fun onClicked(data: TransactionModel) {
         florisboard?.inputFeedbackManager?.keyPress()
-//        florisboard?.textInputManager?.activeEditorInstance?.commitText(data)
+        florisboard?.textInputManager?.activeEditorInstance?.commitText(
+            createTransactionChat(data)
+        )
     }
 
 }
