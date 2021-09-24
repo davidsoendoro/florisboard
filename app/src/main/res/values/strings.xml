@@ -698,6 +698,7 @@
     <string name="kobold_transaction_button_create"><![CDATA[Buat Transaksi & Pasang di chat]]></string>
     <string name="kobold_menu_transaction_data_unavailable_title">Belum ada Transaksi</string>
     <string name="kobold_menu_transaction_data_unavailable_content">Daftar penjualan dengan pelanggan akan muncul disini.</string>
+    <string name="kobold_transaction_courier">Kurir</string>
 
 
     <string name="kobold_bank_toolbar_title">Rekening Bank</string>
