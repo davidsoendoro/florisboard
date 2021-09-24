@@ -32,6 +32,7 @@ class InputActivity : AppCompatActivity() {
         const val CREATE = -1
         const val EDIT = 1
         const val EDIT_COMPLETE = 2
+        const val FROM_KEYBOARD = 3
         const val MODE = "MODE"
         const val EXTRA_ID = "EXTRA_ID"
         const val EXTRA_DATA = "EXTRA_DATA"
@@ -134,6 +135,17 @@ class InputActivity : AppCompatActivity() {
                         initBooleanArray(isValidFormArray, true)
                         isValidFormArray[4] = true
                         isValidFormArray[5] = true
+                        formValidation()
+                    }
+                }
+            }
+            FROM_KEYBOARD -> {
+                intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
+                    if (model != null) {
+                        layoutTitleText?.text = resources.getString(R.string.form_trx_create)
+                        disableFormInput(false)
+                        setupDisplay(model)
+                        initBooleanArray(isValidFormArray, true)
                         formValidation()
                     }
                 }
@@ -516,7 +528,7 @@ class InputActivity : AppCompatActivity() {
 
     private fun isNotValid(): Boolean {
         val test = isValidFormArray.any { b -> b.equals(false) }
-        println("isNotValid :: ${test.toString()}")
+        println("isNotValid :: $test")
         return test
     }
 

@@ -60,7 +60,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         val statusText = findTextViewId(R.id.status_text)
 //        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
 //        define as arraylist first
-        var pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
+        val pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
 
@@ -136,7 +136,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 //                dataUnavailableLayout?.isVisible = false
             },
             onSuccess = { it ->
-                //                            clear page first
+//                clear page first
                 Log.e("data", it.data.toString())
                 if (it.data.page == 1) {
                     transactionList.clear()

@@ -57,8 +57,10 @@ import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
-import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
@@ -790,9 +792,11 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         applicationContext.startActivity(i)
     }
 
-    fun launchExpandCreateTransactionView() {
+    fun launchExpandCreateTransactionView(transactionModel: TransactionModel) {
         requestHideSelf(0)
-        val i = Intent(this, CreateTransactionActivity::class.java).apply {
+        val i = Intent(this, InputActivity::class.java).apply {
+            putExtra(InputActivity.MODE, InputActivity.FROM_KEYBOARD)
+            putExtra(EXTRA_DATA, transactionModel)
         }
         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
             Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or

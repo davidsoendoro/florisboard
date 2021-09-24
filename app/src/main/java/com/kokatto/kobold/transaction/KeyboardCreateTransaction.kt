@@ -90,7 +90,9 @@ class KeyboardCreateTransaction : ConstraintLayout {
 //            val pickInput = koboldTemplatePickInput?.editText?.text.toString()
 //            val nameInput = koboldTemplateNameInput?.editText?.text.toString()
 //            val content = koboldTemplateContent?.editText?.text.toString()
-            florisboard?.launchExpandCreateTransactionView()
+            florisboard?.launchExpandCreateTransactionView(
+                createTransactionModel()
+            )
         }
 
         buyerNameText?.setOnClickListener {
@@ -258,28 +260,9 @@ class KeyboardCreateTransaction : ConstraintLayout {
         invalidateSaveButton()
         createTransactionButton?.setOnClickListener {
 
-            val model = TransactionModel(
-                buyer = buyerNameText?.editText?.text.toString(),
-                channel = chooseChannelText?.editText?.text.toString(),
-                phone = phoneNumberText?.editText?.text.toString(),
-                address = addressText?.editText?.text.toString(),
-                notes = orderDetailText?.editText?.text.toString(),
-                price =
-                if (itemPriceText?.editText?.text.toString() == "")
-                    0
-                else
-                    itemPriceText?.editText?.text.toString().toInt(),
-                payingMethod = choosePaymentMethodText?.editText?.text.toString(),
-                logistic = chooseCourierText?.editText?.text.toString(),
-                deliveryFee =
-                if (shippingCostText?.editText?.text.toString() == "")
-                    0
-                else
-                    shippingCostText?.editText?.text.toString().toInt()
-            )
             transactionViewModel?.createTransaction(
                 createTransactionRequest =
-                model,
+                createTransactionModel(),
                 onSuccess = {
                     showSnackBar(it)
                     florisboard?.setActiveInput(R.id.kobold_menu_transaction)
@@ -300,5 +283,27 @@ class KeyboardCreateTransaction : ConstraintLayout {
             }
         }
         createTransactionButton?.koboldSetEnabled(isInputValid)
+    }
+
+    fun createTransactionModel(): TransactionModel {
+        return TransactionModel(
+            buyer = buyerNameText?.editText?.text.toString(),
+            channel = chooseChannelText?.editText?.text.toString(),
+            phone = phoneNumberText?.editText?.text.toString(),
+            address = addressText?.editText?.text.toString(),
+            notes = orderDetailText?.editText?.text.toString(),
+            price =
+            if (itemPriceText?.editText?.text.toString() == "")
+                0
+            else
+                itemPriceText?.editText?.text.toString().toInt(),
+            payingMethod = choosePaymentMethodText?.editText?.text.toString(),
+            logistic = chooseCourierText?.editText?.text.toString(),
+            deliveryFee =
+            if (shippingCostText?.editText?.text.toString() == "")
+                0
+            else
+                shippingCostText?.editText?.text.toString().toInt()
+        )
     }
 }
