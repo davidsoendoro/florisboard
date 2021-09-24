@@ -543,6 +543,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="buat_template">Buat Template</string>
     <string name="buat_transaksi">Buat Transaksi</string>
+    <string name="buat_bank">Tambah rekening bank</string>
     <string name="template_chat">Template Chat</string>
     <string name="status_pesanan">Status Pesanan</string>
     <string name="cek_ongkir">Cek Ongkir</string>
@@ -590,16 +591,19 @@
     <string name="kobold_transaction_cancel_content">Setelah dibatalkan transaksi proses tidak bisa diubah.</string>
     <string name="kobold_transaction_cancel_button_yes">Batalkan Transaksi</string>
     <string name="kobold_transaction_cancel_button_no">Nanti saja</string>
+    <string name="kobold_transaction_cancel_toast">Transaksi berhasil dibatalkan. Kamu bisa melihat di halaman arsip.</string>
 
     <string name="kobold_transaction_unpaid_title">Ganti status jadi belum dibayar?</string>
     <string name="kobold_transaction_unpaid_content">Setelah ganti, status transaksi ini kembali menjadi belum diproses.</string>
     <string name="kobold_transaction_unpaid_button_yes">Ganti Status</string>
     <string name="kobold_transaction_unpaid_button_no">Nanti saja</string>
+    <string name="kobold_transaction_unpaid_toast">Transaksi berhasil diganti status.</string>
 
     <string name="kobold_transaction_unsent_title">Ganti status jadi belum dikirim?</string>
     <string name="kobold_transaction_unsent_content">Setelah ganti, status transaksi ini kembali menjadi belum dikirim.</string>
     <string name="kobold_transaction_unsent_button_yes">Ganti Status</string>
     <string name="kobold_transaction_unsent_button_no">Nanti saja</string>
+    <string name="kobold_transaction_unsent_toast">Transaksi berhasil diganti status.</string>
 
     <string name="kobold_transaction_sent_title">Konfirmasi Pengiriman</string>
     <string name="kobold_transaction_sent_content">Status transaksi akan berubah menjadi sudah dikirim.</string>
@@ -611,14 +615,19 @@
     <string name="kobold_transaction_finish_content">Transaksi akan selesai dan dipindahkan ke menu arsip.</string>
     <string name="kobold_transaction_finish_button_yes">Ya, transaksi selesai</string>
     <string name="kobold_transaction_finish_button_no">Nanti saja</string>
+    <string name="kobold_transaction_finish_toast">Transaksi berhasil diganti status.</string>
 
     <string name="kobold_transaction_paid_title">Konfirmasi Pembayaran</string>
     <string name="kobold_transaction_paid_content">Status transaksi akan berubah menjadi sudah dibayar.</string>
     <string name="kobold_transaction_paid_button_yes">Ya, ubah jadi sudah dibayar</string>
     <string name="kobold_transaction_paid_button_no">Nanti saja</string>
+    <string name="kobold_transaction_paid_toast">Transaksi berhasil diubah jadi sudah dibayar.</string>
 
     <string name="kobold_transaction_action_nota">Kirim nota pembelian</string>
+    <string name="kobold_transaction_action_nota_toast">Pesan nota pembelian berhasil di copy, silahkan pasang di chat pembelimu.</string>
+    <string name="kobold_transaction_action_nota_toast_error">Tidak ditemukan nomor telpon tersimpan.</string>
     <string name="kobold_transaction_action_chat">Chat ke Pembeli</string>
+    <string name="kobold_transaction_action_chat_toast">Tidak ditemukan nomor telpon tersimpan.</string>
     <string name="kobold_transaction_action_unpaid">Ganti ke belum dibayar</string>
     <string name="kobold_transaction_action_unsent">Ganti ke belum dikirim</string>
     <string name="kobold_transaction_action_cancel">Batalkan transaksi ini</string>
@@ -642,6 +651,7 @@
 
     <string name="form_trx_create">Buat Transaksi</string>
     <string name="form_trx_edit">Edit Transaksi</string>
+    <string name="form_trx_edit_complete">Edit Transaksi Complete</string>
     <string name="form_trx_detail">Detil Transaksi</string>
     <string name="form_trx_buyerdetail">Detail Pembeli</string>
     <string name="form_trx_buyername">Nama Pembeli</string>
@@ -672,7 +682,6 @@
     <string name="form_trx_btn_action_sent">Sudah Dikirim</string>
     <string name="form_trx_btn_action_complete">Transaksi Selesai</string>
 
-    <string name="toast_copy_clipboard">Pesan nota pembelian berhasil di copy, silahkan pasang di chat pembelimu.</string>
     <string name="archive_title">Arsip</string>
     <string name="buyer_detail_title">Detail Pembeli</string>
     <string name="kobold_transaction_buyer_name">Nama Pembeli</string>
@@ -687,5 +696,32 @@
     <string name="kobold_transaction_payment_type">Metode Bayar*</string>
     <string name="kobold_transaction_shippingcost">Ongkir</string>
     <string name="kobold_transaction_button_create"><![CDATA[Buat Transaksi & Pasang di chat]]></string>
+    <string name="kobold_menu_transaction_data_unavailable_title">Belum ada Transaksi</string>
+    <string name="kobold_menu_transaction_data_unavailable_content">Daftar penjualan dengan pelanggan akan muncul disini.</string>
+    <string name="kobold_transaction_courier">Kurir</string>
+
+
+    <string name="kobold_bank_toolbar_title">Rekening Bank</string>
+    <string name="kobold_bank_empty_title">Belum ada rekening bank terpasang</string>
+    <string name="kobold_bank_input_toolbar_title">Tambah rekening bank</string>
+    <string name="kobold_bank_edit_toolbar_title">Edit rekening bank</string>
+    <string name="kobold_bank_empty_desc">Pasang rekening bank untuk pencairan dana\nsetelah transaksi dengan pembeli.</string>
+    <string name="kobold_bank_empty_action_btn">Tambah rekening bank</string>
+    <string name="kobold_bank_input_selection">Pilih Bank</string>
+    <string name="kobold_bank_input_placeholder_other">Bank Lainnya</string>
+    <string name="kobold_bank_input_bank_no">Nomor Rekening</string>
+    <string name="kobold_bank_input_bank_holder">Nama Pemilik Rekening</string>
+    <string name="kobold_bank_input_action_submit">Simpan rekening</string>
+    <string name="kobold_bank_input_action_submit_success">Rekening berhasil ditambahkan.</string>
+    <string name="kobold_bank_input_action_delete">Hapus rekening</string>
+    <string name="kobold_bank_input_action_delete_success">Rekening berhasil dihapus.</string>
+    <string name="kobold_bank_dialog_delete_title">Hapus Rekening?</string>
+    <string name="kobold_bank_dialog_delete_desc">Rekening yang sudah dibuat akan terhapus.</string>
+    <string name="kobold_bank_dialog_delete_action_confirm">Ya, hapus rekening</string>
+    <string name="kobold_bank_dialog_delete_action_cancel">Nanti saja</string>
+    <string name="kobold_bank_dialog_cancel_title">Tidak jadi Buat Rekening?</string>
+    <string name="kobold_bank_dialog_cancel_desc">Form rekening yang sudah diisi akan dihapus dan\ntidak akan tersimpan.</string>
+    <string name="kobold_bank_dialog_cancel_action_confirm">Ya, hapus rekening</string>
+    <string name="kobold_bank_dialog_cancel_action_cancel">Nanti saja</string>
 
 </resources>

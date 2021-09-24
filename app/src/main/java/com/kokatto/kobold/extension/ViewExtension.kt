@@ -3,8 +3,11 @@ package com.kokatto.kobold.extension
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import com.google.android.material.button.MaterialButton
+import com.kokatto.kobold.R
+import com.kokatto.kobold.uicomponent.KoboldEditText
 
 fun View.setMargins(
     left: Int? = null,
@@ -46,4 +49,17 @@ fun View.findTextViewId(id: Int): TextView {
 fun View.addRipple() = with(TypedValue()) {
     context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
     foreground = AppCompatResources.getDrawable(context, resourceId)
+}
+
+fun View.findKoboldEditTextId(id: Int): KoboldEditText {
+    return this.findViewById(id)
+}
+
+fun MaterialButton.koboldSetEnabled(enabled: Boolean) {
+    if (enabled)
+        this.setBackgroundColor(resources.getColor(R.color.kobold_blue_button))
+    else
+        this.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
+
+    this.isEnabled = enabled
 }

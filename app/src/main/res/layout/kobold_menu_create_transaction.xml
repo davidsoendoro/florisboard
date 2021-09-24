@@ -37,7 +37,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/kobold_createtemplate_expand_view"
+                        android:id="@+id/kobold_createtransaction_expand_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -101,7 +101,7 @@
             </LinearLayout>
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
-                android:id="@+id/kobold_transaction_name_content"
+                android:id="@+id/kobold_transaction_receiver_address"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="8dp"
@@ -136,7 +136,7 @@
                 app:maxAllowedCharacters="1000" />
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
-                android:id="@+id/kobold_transaction_price_item"
+                android:id="@+id/kobold_transaction_item_price"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="8dp"
@@ -146,7 +146,7 @@
                 app:maxAllowedCharacters="1000" />
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
-                android:id="@+id/kobold_transaction_payment_type"
+                android:id="@+id/kobold_transaction_payment_method"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="@dimen/kobold_margin_8px"
@@ -167,7 +167,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_8px"
                     android:layout_weight="1"
                     android:entries="@array/kobold_pick_template_values"
-                    app:label="@string/kobold_transaction_choosechannel"
+                    app:label="@string/kobold_transaction_courier"
                     app:showChevron="true" />
 
                 <com.kokatto.kobold.uicomponent.KoboldEditText
@@ -227,11 +227,11 @@
             app:layout_constraintTop_toBottomOf="@id/line" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_button"
+            android:id="@+id/create_transaction_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:backgroundTint="@color/kobold_red_button_disabled"
+            android:backgroundTint="@color/kobold_blue_button"
             android:paddingHorizontal="@dimen/kobold_margin_12px"
             android:text="@string/kobold_transaction_button_create"
             android:textAllCaps="false"

@@ -99,6 +99,14 @@
                         android:hint="@string/form_trx_buyername"
                         android:textAppearance="@style/FormEditTextHint" />
 
+                    <TextView
+                        android:id="@+id/edittext_buyername_error"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/template_text_error_length"
+                        android:textAppearance="@style/error_edit_text"
+                        android:visibility="gone"/>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -175,7 +183,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/form_trx_phone_hint"
-                                android:inputType="phone"
+                                android:inputType="number"
                                 android:lines="1"
                                 android:maxLines="1"
                                 android:singleLine="true"
@@ -278,7 +286,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/form_trx_price_hint"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:lines="1"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -400,10 +408,10 @@
                                 android:id="@+id/edittext_deliveryfee"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableRight="@drawable/ic_calculator"
+                                android:drawableEnd="@drawable/ic_calculator"
                                 android:drawableStart="@drawable/ic_prefix_text_rp"
                                 android:drawablePadding="@dimen/kobold_margin_4px"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:textAppearance="@style/FormEditTextHint" />
 
                         </com.google.android.material.textfield.TextInputLayout>

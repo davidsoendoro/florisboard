@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -88,6 +89,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_text" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -104,7 +106,31 @@
                 android:paddingHorizontal="8dp"
                 android:text="Ongkir xrb"
                 android:textSize="12sp" />
+
         </com.google.android.material.card.MaterialCardView>
+
+
+        <ImageView
+            android:id="@+id/bank_img"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="@dimen/kobold_margin_12px"
+            android:src="@drawable/ic_whatsapp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/logistic_img"
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="@dimen/kobold_margin_12px"
+            android:src="@drawable/ic_whatsapp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bank_img"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

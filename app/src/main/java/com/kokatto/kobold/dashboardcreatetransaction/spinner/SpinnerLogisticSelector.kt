@@ -5,19 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerLogisticAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
+import com.kokatto.kobold.extension.RoundedBottomSheet
 import com.kokatto.kobold.extension.showToast
 
-class SpinnerLogisticSelector : BottomSheetDialogFragment() {
+class SpinnerLogisticSelector : RoundedBottomSheet() {
 
     val TAG = "SpinnerLogisticSelector"
 
@@ -30,9 +32,8 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
     private var title: TextView? = null
     private var recyclerView: RecyclerView? = null
     private var backButton: ImageView? = null
-
-    // get using API Function
-    private var selectedOption =  PropertiesModel("","","","")
+    private var fullscreenLoading: LinearLayout? = null
+    private var selectedOption = PropertiesModel("", "", "", "")
     private var pickOptions = ArrayList<PropertiesModel>()
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
@@ -50,6 +51,7 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
         title = view.findViewById<TextView>(R.id.spinner_selector_title)
         title?.text = "Pilih Kurir"
         backButton = view.findViewById<ImageView>(R.id.spinner_selector_back_button)
+        fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
         recyclerView = view.findViewById<RecyclerView>(R.id.spinner_selector_recycler_view)
         recyclerView?.setHasFixedSize(true)
         getPropertiesList()
@@ -76,6 +78,7 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
     }
 
     fun getPropertiesList() {
+        fullscreenLoading!!.isVisible = true
         transactionViewModel?.getStandardListProperties(
             type = PropertiesTypeConstant.logistic,
             onSuccess = { it ->
@@ -83,8 +86,10 @@ class SpinnerLogisticSelector : BottomSheetDialogFragment() {
                     pickOptions.addAll(it.data)
                     recyclerView?.adapter?.notifyDataSetChanged()
                 }
+                fullscreenLoading!!.isVisible = false
             },
             onError = {
+                fullscreenLoading!!.isVisible = false
                 showToast(it)
             })
     }
