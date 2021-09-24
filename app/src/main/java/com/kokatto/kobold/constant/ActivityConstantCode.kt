@@ -35,5 +35,10 @@ class ActivityConstantCode {
         // VALUE
         val CASH = "Cash"
 
+        //FRAGMENT
+        val FRAGMENT_DATA = "DATA"
+        val FRAGMENT_EMPTY = "EMPTY"
+        val FRAGMENT_ERROR = "ERROR"
+
     }
 }
