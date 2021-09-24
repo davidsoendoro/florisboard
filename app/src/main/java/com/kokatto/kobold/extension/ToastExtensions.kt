@@ -1,15 +1,11 @@
 package com.kokatto.kobold.extension
 
 import android.content.Context
-import android.graphics.Rect
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
-import com.kokatto.kobold.R
+import com.google.android.material.snackbar.Snackbar
 
 
 fun Context.showToastLong(message: String?) {
@@ -46,4 +42,10 @@ fun Fragment.createToastLong(message: String?): Toast? {
 
 fun View.showToast(message: String?, duration: Int? = null) {
     this.context.createToast(message, duration).show()
+}
+
+fun View.showSnackBar(message: String = "", duration: Int = Snackbar.LENGTH_LONG) {
+    val snackbar = Snackbar
+        .make(this, message, duration)
+    snackbar.show()
 }
