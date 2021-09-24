@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.bank.BankViewModel
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerBankAdapter
 import com.kokatto.kobold.extension.RoundedBottomSheet
 import com.kokatto.kobold.extension.showToast
@@ -37,7 +39,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
     private var fullscreenLoading: LinearLayout? = null
 
     // get using API Function
-    private var selectedOption = BankModel("","Cash","Cash","", "")
+    private var selectedOption = BankModel("",BANK_TYPE_OTHER, CASH,"", "", "")
     private var pickOptions = ArrayList<BankModel>()
 
     private val bankViewModel: BankViewModel = BankViewModel()
@@ -98,7 +100,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
             },
             onSuccess = {
                 if (it.data.totalRecord > 0) {
-                    pickOptions.add(BankModel("","Cash","Cash","", ""))
+                    pickOptions.add(BankModel("", BANK_TYPE_OTHER, CASH,"Cash","", ""))
                     pickOptions.addAll(it.data.contents)
                     recyclerView?.adapter?.notifyDataSetChanged()
                     fullscreenLoading!!.isVisible = false

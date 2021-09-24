@@ -139,6 +139,13 @@
             android:name=".dashboardcreatetransaction.DetailActivity"
             android:exported="true">
         </activity>
+        <!-- Bank Management Activity -->
+        <activity
+            android:name=".bank.BankHomeActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".bank.BankInputActivity"
+            android:exported="true"/>
         <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"

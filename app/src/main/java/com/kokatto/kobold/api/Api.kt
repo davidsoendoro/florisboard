@@ -197,4 +197,9 @@ interface BankApi {
     suspend fun deleteBankById(
         @Path("id") bankId: String
     ): ApiResponse<BaseResponse>
+
+    @GET(transactionUrl + "properties/{type}")
+    suspend fun getStandardListProperties(
+        @Path("type") typeAsset: String
+    ): ApiResponse<GetStandardPropertiesResponse>
 }
