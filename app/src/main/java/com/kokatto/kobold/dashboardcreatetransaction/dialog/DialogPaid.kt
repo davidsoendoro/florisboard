@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
+import com.kokatto.kobold.extension.RoundedBottomSheet
 
-class DialogPaid : BottomSheetDialogFragment() {
+class DialogPaid : RoundedBottomSheet() {
 
     val TAG = "DialogPaid"
 

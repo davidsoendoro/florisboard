@@ -20,4 +20,7 @@ class PagerAdapter (
     override fun getItemCount() = delegate.getItemCount()
 
     override fun createFragment(position: Int) = delegate.createFragment(position)
+
+
+
 }

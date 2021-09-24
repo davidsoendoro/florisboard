@@ -1,9 +1,11 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -36,11 +38,9 @@ class InputActivity : AppCompatActivity() {
     }
 
     private var editTextBuyer: EditText? = null
-    private var editTextBuyerLayout: TextInputLayout? = null
     private var editTextChannel: EditText? = null
     private var editTextChannelLayout: TextInputLayout? = null
     private var editTextPhone: EditText? = null
-    private var editTextPhoneLayout: TextInputLayout? = null
     private var editTextAddress: EditText? = null
     private var editTextAddressLayout: TextInputLayout? = null
     private var editTextNote: EditText? = null
@@ -57,9 +57,10 @@ class InputActivity : AppCompatActivity() {
     private var btnSubmitText: TextView? = null
     private var btnSubmitProgress: ProgressBar? = null
     private var layoutTitleText: TextView? = null
+    private var btnBack: ImageView? = null
 
     private var mode: Int? = -1
-    private var isValidForm: Boolean = false
+    private var isValidFormArray: BooleanArray = BooleanArray(7)
     private var isEditable: Boolean = true
     private var isLoading: Boolean = false
     private var extraID: String = ""
@@ -95,6 +96,7 @@ class InputActivity : AppCompatActivity() {
         editTextdeliveryFee = findViewById<EditText>(R.id.edittext_deliveryfee)
         editTextDeliveryFeeLayout = findViewById<TextInputLayout>(R.id.edittext_deliveryfee_layout)
         btnSubmit = findViewById<CardView>(R.id.submit_button)
+        btnBack = findViewById<ImageView>(R.id.back_button)
         btnSubmitText = findViewById<TextView>(R.id.submit_button_text)
         btnSubmitProgress = findViewById<ProgressBar>(R.id.submit_button_loading)
         layoutTitleText = findViewById<TextView>(R.id.title_text)
@@ -105,7 +107,8 @@ class InputActivity : AppCompatActivity() {
             CREATE -> {
                 layoutTitleText?.text = resources.getString(R.string.form_trx_create)
                 disableFormInput(false)
-                saveButtonDisable(true)
+                initBooleanArray(isValidFormArray, true)
+                formValidation()
             }
             EDIT -> {
                 intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
@@ -114,7 +117,10 @@ class InputActivity : AppCompatActivity() {
                         btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
                         disableFormInput(false)
                         setupDisplay(model)
-                        saveButtonDisable(true)
+                        initBooleanArray(isValidFormArray, true)
+                        isValidFormArray[4] = true
+                        isValidFormArray[5] = true
+                        formValidation()
                     }
                 }
             }
@@ -125,24 +131,25 @@ class InputActivity : AppCompatActivity() {
                         btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
                         disableFormCompleteState()
                         setupDisplay(model)
-                        saveButtonDisable(false)
+                        initBooleanArray(isValidFormArray, true)
+                        isValidFormArray[4] = true
+                        isValidFormArray[5] = true
+                        formValidation()
                     }
                 }
             }
         }
 
         btnSubmit?.let { button -> button.setOnClickListener { onClicked(button) } }
+        btnBack?.let { button -> button.setOnClickListener { onClicked(button) } }
 
-        editTextPrice?.addTextChangedListener { text ->
-            formValidation()
-        }
 
         editTextChannel?.setOnClickListener {
             val channel = editTextChannel?.text.toString()
             spinnerChannelSelector = SpinnerChannelSelector().newInstance()
 
-            if(selectedChannel == null) {
-                selectedChannel = PropertiesModel("","","", channel)
+            if (selectedChannel == null) {
+                selectedChannel = PropertiesModel("", "", "", channel)
             }
 
             spinnerChannelSelector?.openSelector(supportFragmentManager, selectedChannel!!)
@@ -156,8 +163,8 @@ class InputActivity : AppCompatActivity() {
         editTextPayment?.setOnClickListener {
             spinnerBankSelector = SpinnerBankSelector().newInstance()
 
-            if(selectedBank == null) {
-                selectedBank = BankModel("","","Cash","","")
+            if (selectedBank == null) {
+                selectedBank = BankModel("", "", "Cash", "", "")
             }
 
             spinnerBankSelector?.openSelector(supportFragmentManager, selectedBank!!)
@@ -169,8 +176,6 @@ class InputActivity : AppCompatActivity() {
                 } else {
                     editTextPayment?.setText(it.bank)
                 }
-
-                formValidation()
             }
         }
 
@@ -178,8 +183,8 @@ class InputActivity : AppCompatActivity() {
             val logistic = editTextLogistic?.text.toString()
             spinnerLogisticSelector = SpinnerLogisticSelector().newInstance()
 
-            if(selectedLogistic == null) {
-                selectedLogistic = PropertiesModel("","","",logistic)
+            if (selectedLogistic == null) {
+                selectedLogistic = PropertiesModel("", "", "", logistic)
             }
 
             spinnerLogisticSelector?.openSelector(supportFragmentManager, selectedLogistic!!)
@@ -187,18 +192,62 @@ class InputActivity : AppCompatActivity() {
                 selectedLogistic = it
                 editTextLogistic?.setText(it.assetDesc)
             }
+
+            formValidation()
         }
+
+        editTextBuyer?.addTextChangedListener {
+            isValidFormArray[0] = editTextLengthValidation(editTextBuyer!!, 0, 100, "editTextBuyerError")
+            formValidation()
+        }
+
+        editTextPhone?.addTextChangedListener {
+            isValidFormArray[1] = editTextLengthValidation(editTextPhone!!, 0, 15, "editTextPhoneError")
+            formValidation()
+        }
+
+        editTextAddress?.addTextChangedListener {
+            isValidFormArray[2] = editTextLengthValidation(editTextAddress!!, 0, 500, "editTextNoteError")
+            formValidation()
+        }
+
+        editTextNote?.addTextChangedListener {
+            isValidFormArray[3] = editTextLengthValidation(editTextNote!!, 0, 1000, "editTextNoteError")
+            formValidation()
+        }
+
+        editTextPrice?.addTextChangedListener {
+            isValidFormArray[4] =
+                editTextLengthValidation(editTextPrice!!, 1, 15, "editTextPriceError", "Required Field")
+            formValidation()
+        }
+
+        editTextPayment?.addTextChangedListener { text ->
+            isValidFormArray[5] = text.toString().isNotEmpty()
+            formValidation()
+        }
+
+        editTextdeliveryFee?.addTextChangedListener {
+            isValidFormArray[6] = editTextLengthValidation(editTextdeliveryFee!!, 0, 15, "editTextdeliveryFeeError")
+            formValidation()
+        }
+
+        formValidation()
     }
 
     private fun onClicked(view: View) {
         when (view.id) {
             R.id.submit_button -> {
-                if(currentTransaction == null) {
+                if (currentTransaction == null) {
                     submitForm("")
                 } else {
                     currentTransaction?.let { submitForm(it._id) }
                 }
 
+            }
+            R.id.back_button -> {
+                setResult(RESULT_CANCELED)
+                finish()
             }
         }
 
@@ -206,7 +255,7 @@ class InputActivity : AppCompatActivity() {
 
     private fun submitForm(_id: String) {
 
-        if (isValidForm) {
+        if (!isNotValid()) {
             progressSubmit(true)
 
             var deliveryFee = 0
@@ -242,9 +291,8 @@ class InputActivity : AppCompatActivity() {
                     transactionViewModel?.createTransaction(
                         model,
                         onSuccess = {
-                            super.finish()
+                            setActivityResultOK(model)
                             progressSubmit(false)
-                            showToast(resources.getString(R.string.template_create_success))
                         },
                         onError = {
                             progressSubmit(false)
@@ -257,9 +305,8 @@ class InputActivity : AppCompatActivity() {
                         _id,
                         model,
                         onSuccess = {
-                            super.finish()
+                            setActivityResultOK(model)
                             progressSubmit(false)
-                            showToast(resources.getString(R.string.template_create_success))
                         },
                         onError = {
                             super.finish()
@@ -276,16 +323,9 @@ class InputActivity : AppCompatActivity() {
     }
 
     private fun formValidation() {
-        println("formValidation")
-        editTextPrice?.text?.let { price ->
-            editTextPayment?.text.let { payment ->
-                println("payment " + payment.toString())
-                println("price " + price.toString())
-                isValidForm = price.length > 0 && payment != null
-                println("isValidForm " + isValidForm.toString())
-                saveButtonDisable(!isValidForm)
-            }
-        }
+        println("formValidation ::")
+        isValidFormArray.forEach { println(it.toString()) }
+        saveButtonDisable(isNotValid())
     }
 
     private fun progressSubmit(_isLoading: Boolean) {
@@ -324,7 +364,7 @@ class InputActivity : AppCompatActivity() {
         model.buyer.let { s -> editTextBuyer?.setText(s) }
         model.channel.let { s -> editTextChannel?.setText(s) }
         constructChannel(editTextChannel!!, model.channelAsset)
-        selectedChannel = PropertiesModel("","",model.channelAsset, model.channel)
+        selectedChannel = PropertiesModel("", "", model.channelAsset, model.channel)
         model.phone.let { s -> editTextPhone?.setText(s) }
         model.address.let { s -> editTextAddress?.setText(s) }
         model.notes.let { s -> editTextNote?.setText(s) }
@@ -332,27 +372,31 @@ class InputActivity : AppCompatActivity() {
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
         selectedBank = BankModel("", model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
         model.logistic.let { s -> editTextLogistic?.setText(s) }
-        selectedLogistic = PropertiesModel("","", model.logisticAsset, model.logistic)
+        selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
     }
 
     private fun constructChannel(editText: EditText, assetUrl: String) {
         println("constructChannel :: constructChannel")
         Glide.with(this).load(assetUrl).apply(RequestOptions().fitCenter()).into(
-            object : CustomTarget<Drawable>(50,50){
+            object : CustomTarget<Drawable>(50, 50) {
                 override fun onLoadCleared(placeholder: Drawable?) {
-                    editText?.setCompoundDrawablesWithIntrinsicBounds(placeholder, null,
-                        resources.getDrawable(R.drawable.ic_subdued), null)
-                    editText?.compoundDrawablePadding = 12
+                    editText.setCompoundDrawablesWithIntrinsicBounds(
+                        placeholder, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null
+                    )
+                    editText.compoundDrawablePadding = 12
                 }
 
                 override fun onResourceReady(
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
-                    editText?.setCompoundDrawablesWithIntrinsicBounds(resource, null,
-                        resources.getDrawable(R.drawable.ic_subdued), null)
-                    editText?.compoundDrawablePadding = 12
+                    editText.setCompoundDrawablesWithIntrinsicBounds(
+                        resource, null,
+                        resources.getDrawable(R.drawable.ic_subdued), null
+                    )
+                    editText.compoundDrawablePadding = 12
                 }
             }
         )
@@ -365,46 +409,115 @@ class InputActivity : AppCompatActivity() {
 
         editTextChannel?.isEnabled = isEditable
         editTextChannel?.setTextColor(textColor)
-        editTextChannel?.setFocusableInTouchMode(isEditable)
-        editTextChannel?.setFocusable(isEditable)
+        editTextChannel?.isFocusableInTouchMode = isEditable
+        editTextChannel?.isFocusable = isEditable
         editTextChannelLayout?.setBackgroundColor(backgroundColor)
 
         editTextAddress?.isEnabled = isEditable
         editTextAddress?.setTextColor(textColor)
-        editTextAddress?.setFocusableInTouchMode(isEditable)
-        editTextAddress?.setFocusable(isEditable)
+        editTextAddress?.isFocusableInTouchMode = isEditable
+        editTextAddress?.isFocusable = isEditable
         editTextAddressLayout?.setBackgroundColor(backgroundColor)
 
         editTextNote?.isEnabled = isEditable
         editTextNote?.setTextColor(textColor)
-        editTextNote?.setFocusableInTouchMode(isEditable)
-        editTextNote?.setFocusable(isEditable)
+        editTextNote?.isFocusableInTouchMode = isEditable
+        editTextNote?.isFocusable = isEditable
         editTextNoteLayout?.setBackgroundColor(backgroundColor)
 
         editTextPrice?.isEnabled = isEditable
         editTextPrice?.setTextColor(textColor)
-        editTextPrice?.setFocusableInTouchMode(isEditable)
-        editTextPrice?.setFocusable(isEditable)
+        editTextPrice?.isFocusableInTouchMode = isEditable
+        editTextPrice?.isFocusable = isEditable
         editTextPriceLayout?.setBackgroundColor(backgroundColor)
 
         editTextPayment?.isEnabled = isEditable
         editTextPayment?.setTextColor(textColor)
-        editTextPayment?.setFocusableInTouchMode(isEditable)
-        editTextPayment?.setFocusable(isEditable)
+        editTextPayment?.isFocusableInTouchMode = isEditable
+        editTextPayment?.isFocusable = isEditable
         editTextPaymentLayout?.setBackgroundColor(backgroundColor)
         editTextLogistic?.isEnabled = isEditable
 
         editTextLogistic?.setTextColor(textColor)
-        editTextLogistic?.setFocusableInTouchMode(isEditable)
-        editTextLogistic?.setFocusable(isEditable)
+        editTextLogistic?.isFocusableInTouchMode = isEditable
+        editTextLogistic?.isFocusable = isEditable
         editTextLogisticLayout?.setBackgroundColor(backgroundColor)
 
         editTextdeliveryFee?.isEnabled = isEditable
         editTextdeliveryFee?.setTextColor(textColor)
-        editTextdeliveryFee?.setFocusableInTouchMode(isEditable)
-        editTextdeliveryFee?.setFocusable(isEditable)
+        editTextdeliveryFee?.isFocusableInTouchMode = isEditable
+        editTextdeliveryFee?.isFocusable = isEditable
         editTextDeliveryFeeLayout?.setBackgroundColor(backgroundColor)
     }
 
+    private fun setActivityResultOK(model: TransactionModel) {
+        val intent = Intent()
+        intent.putExtra(EXTRA_DATA, model)
+        setResult(RESULT_OK, intent)
+        finish()
+    }
+
+    private fun addErrorTextView(
+        editText: EditText,
+        viewTag: String,
+        message: String = resources.getString(R.string.template_text_error_length)
+    ) {
+        // Create TextView programmatically.
+        val errorTextView = TextView(this)
+        val textInputLayout = editText.parent.parent as TextInputLayout
+        val errorTextId = textInputLayout.findViewWithTag<TextView>(viewTag)
+
+        if (errorTextId == null) {
+            errorTextView.tag = viewTag
+            errorTextView.text = message
+            errorTextView.setTextAppearance(R.style.error_edit_text)
+            textInputLayout.addView(errorTextView, 1)
+            textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextError, null)
+        }
+
+    }
+
+    private fun removeErrorTextView(editText: EditText, viewTag: String) {
+        val textInputLayout = editText.parent.parent as TextInputLayout
+        textInputLayout.let { til ->
+            til.findViewWithTag<TextView>(viewTag).let {
+                til.removeView(it)
+                til.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault, null)
+            }
+        }
+    }
+
+    private fun editTextLengthValidation(
+        editText: EditText,
+        minChar: Int,
+        maxChar: Int,
+        viewTag: String,
+        message: String = resources.getString(R.string.template_text_error_length)
+    ): Boolean {
+
+        if (editText.text.length > maxChar || editText.text.length < minChar) {
+            addErrorTextView(editText, viewTag, message)
+            return false
+        } else {
+            removeErrorTextView(editText, viewTag)
+            return true
+        }
+    }
+
+    private fun initBooleanArray(arr: BooleanArray, initVal: Boolean) {
+        for (i in arr.indices) {
+            arr[i] = initVal
+        }
+
+        // init required field
+        isValidFormArray[4] = false
+        isValidFormArray[5] = false
+    }
+
+    private fun isNotValid(): Boolean {
+        val test = isValidFormArray.any { b -> b.equals(false) }
+        println("isNotValid :: ${test.toString()}")
+        return test
+    }
 
 }

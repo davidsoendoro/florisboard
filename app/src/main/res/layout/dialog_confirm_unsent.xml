@@ -88,6 +88,7 @@
                         android:text="@string/kobold_transaction_unsent_button_no"
                         android:textAppearance="@style/kobold_button_text"
                         tools:layout_editor_absoluteY="0dp"
+                        android:backgroundTint="@android:color/white"
                         />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
