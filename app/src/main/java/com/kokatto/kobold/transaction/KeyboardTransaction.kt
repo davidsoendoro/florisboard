@@ -66,8 +66,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         transactionRecycler = findViewById(R.id.transaction_recycler)
 
         searchButton.setOnClickListener {
-//            florisboard?.inputFeedbackManager?.keyPress()
-//            florisboard?.openSearchEditor()
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.openSearchEditor(R.id.kobold_search_transaction)
         }
         createTemplateButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
