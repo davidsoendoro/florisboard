@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
@@ -202,9 +203,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         transactionRecycler?.vertical()
     }
 
-    override fun onClicked(data: String) {
+    override fun onClicked(data: TransactionModel) {
         florisboard?.inputFeedbackManager?.keyPress()
-//        florisboard?.textInputManager?.activeEditorInstance?.commitText(data)
+        florisboard?.textInputManager?.activeEditorInstance?.commitText(
+            createTransactionChat(data)
+        )
     }
 
 }
