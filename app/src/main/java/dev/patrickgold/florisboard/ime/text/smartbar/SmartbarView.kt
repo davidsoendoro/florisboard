@@ -19,6 +19,7 @@ package dev.patrickgold.florisboard.ime.text.smartbar
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.util.Size
 import android.view.View
 import android.view.ViewGroup
@@ -28,8 +29,15 @@ import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
+import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.databinding.SmartbarBinding
+import com.kokatto.kobold.extension.horizontal
+import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.roomdb.AutoTextDatabase
+import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
+import com.kokatto.kobold.template.recycleradapter.InlineChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.debug.*
 import dev.patrickgold.florisboard.ime.clip.provider.ClipboardItem
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
@@ -56,7 +64,8 @@ import kotlin.math.roundToInt
  * of FlorisBoard. The view automatically tries to get the current FlorisBoard instance, which it
  * needs to decide when a specific feature component is shown.
  */
-class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, ThemeManager.OnThemeUpdatedListener {
+class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, ThemeManager.OnThemeUpdatedListener,
+    InlineChatTemplateRecyclerAdapter.OnClick {
     private val florisboard = FlorisBoard.getInstanceOrNull()
     private val prefs get() = Preferences.default()
     private val themeManager = ThemeManager.default()
@@ -65,10 +74,16 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     private var lastSuggestionInitDate: Long = 0
 
     private var cachedActionStartAreaVisible: Boolean = false
-    @IdRes private var cachedActionStartAreaId: Int? = null
-    @IdRes private var cachedMainAreaId: Int? = null
+
+    @IdRes
+    private var cachedActionStartAreaId: Int? = null
+
+    @IdRes
+    private var cachedMainAreaId: Int? = null
     private var cachedActionEndAreaVisible: Boolean = false
-    @IdRes private var cachedActionEndAreaId: Int? = null
+
+    @IdRes
+    private var cachedActionEndAreaId: Int? = null
 
     private val cachedState: KeyboardState = KeyboardState.new(
         maskOfInterest = KeyboardState.INTEREST_TEXT
@@ -80,6 +95,10 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     private var indexedActionStartArea: MutableList<Int> = mutableListOf()
     private var indexedMainArea: MutableList<Int> = mutableListOf()
     private var indexedActionEndArea: MutableList<Int> = mutableListOf()
+
+    private var inlineChatTemplateRecycler: RecyclerView? = null
+    private var chatTemplateList: ArrayList<AutoTextModel> = arrayListOf()
+    private var inlineSuggestionRecyclerAdapter: InlineChatTemplateRecyclerAdapter? = null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -113,7 +132,10 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
 
         binding.backButton.setOnClickListener { eventListener.get()?.onSmartbarBackButtonPressed() }
 
-        binding.candidates.updateDisplaySettings(prefs.suggestion.displayMode, prefs.suggestion.clipboardContentTimeout * 1_000)
+        binding.candidates.updateDisplaySettings(
+            prefs.suggestion.displayMode,
+            prefs.suggestion.clipboardContentTimeout * 1_000
+        )
 
         mainScope.launch(Dispatchers.Default) {
             florisboard?.let {
@@ -162,6 +184,29 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
         configureFeatureVisibility()
 
         themeManager.registerOnThemeUpdatedListener(this)
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == VISIBLE) {
+            val chatTemplateItems = getChatTemplateList()
+
+            chatTemplateList.clear()
+            chatTemplateItems?.let { chatTemplateList.addAll(it) }
+
+            inlineChatTemplateRecycler = findViewById(R.id.kobold_rv_inline_suggestions)
+            if (inlineSuggestionRecyclerAdapter == null) {
+                inlineSuggestionRecyclerAdapter = InlineChatTemplateRecyclerAdapter(chatTemplateList, this)
+                inlineChatTemplateRecycler?.adapter = inlineSuggestionRecyclerAdapter
+            } else {
+                inlineChatTemplateRecycler?.adapter?.notifyItemRangeChanged(0, chatTemplateList.size)
+            }
+            inlineChatTemplateRecycler?.horizontal()
+        }
+    }
+
+    private fun getChatTemplateList(): List<AutoTextModel>? {
+        return AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList()?.subList(0, 5)
     }
 
     override fun onDetachedFromWindow() {
@@ -270,14 +315,16 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
                         KeyboardMode.PHONE2 -> R.id.clipboard_cursor_row
                         else -> when {
                             cachedState.isComposingEnabled && cachedState.isCursorMode -> R.id.candidates
-                            else -> R.id.clipboard_cursor_row
+//                            else -> R.id.clipboard_cursor_row
+                            else -> R.id.kobold_rv_inline_suggestions
                         }
                     }
                 },
-                actionEndAreaVisible = when (cachedState.keyVariation) {
-                    KeyVariation.PASSWORD -> false
-                    else -> true
-                },
+                actionEndAreaVisible = false,
+//                actionEndAreaVisible = when (cachedState.keyVariation) {
+//                    KeyVariation.PASSWORD -> false
+//                    else -> true
+//                },
                 actionEndAreaId = when {
                     cachedState.isPrivateMode -> R.id.private_mode_button
                     else -> null
@@ -289,7 +336,10 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     fun sync() {
         binding.numberRow.sync()
         binding.clipboardCursorRow.sync()
-        binding.candidates.updateDisplaySettings(prefs.suggestion.displayMode, prefs.suggestion.clipboardContentTimeout * 1_000)
+        binding.candidates.updateDisplaySettings(
+            prefs.suggestion.displayMode,
+            prefs.suggestion.clipboardContentTimeout * 1_000
+        )
     }
 
     fun onPrimaryClipChanged() {
@@ -382,11 +432,13 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
             }
             MeasureSpec.AT_MOST -> {
                 // Can't be bigger than...
-                (florisboard?.uiBinding?.inputView?.desiredSmartbarHeight ?: resources.getDimension(R.dimen.smartbar_baseHeight)).coerceAtMost(heightSize)
+                (florisboard?.uiBinding?.inputView?.desiredSmartbarHeight
+                    ?: resources.getDimension(R.dimen.smartbar_baseHeight)).coerceAtMost(heightSize)
             }
             else -> {
                 // Be whatever you want
-                florisboard?.uiBinding?.inputView?.desiredSmartbarHeight ?: resources.getDimension(R.dimen.smartbar_baseHeight)
+                florisboard?.uiBinding?.inputView?.desiredSmartbarHeight
+                    ?: resources.getDimension(R.dimen.smartbar_baseHeight)
             }
         }
 
@@ -411,8 +463,14 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
         fun onSmartbarBackButtonPressed() {}
         fun onSmartbarCandidatePressed(word: String) {}
         fun onSmartbarClipboardCandidatePressed(clipboardItem: ClipboardItem) {}
+
         //fun onSmartbarCandidateLongPressed() {}
         fun onSmartbarPrivateModeButtonClicked() {}
         fun onSmartbarQuickActionPressed(@IdRes quickActionId: Int) {}
+    }
+
+    override fun onClicked(data: AutoTextModel) {
+        florisboard?.inputFeedbackManager?.keyPress()
+        florisboard?.activeEditorInstance?.commitText(data.content.toString())
     }
 }

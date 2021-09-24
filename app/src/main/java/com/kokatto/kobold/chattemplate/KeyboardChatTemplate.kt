@@ -17,6 +17,7 @@ import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
@@ -86,6 +87,9 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                 isLoadingChatTemplate.set(it)
             },
             onSuccess = { it ->
+                it.data.contents.forEach { item ->
+                    AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
+                }
                 chatTemplateList.addAll(it.data.contents)
                 adapter?.notifyItemRangeChanged(0, it.data.contents.size)
             },
