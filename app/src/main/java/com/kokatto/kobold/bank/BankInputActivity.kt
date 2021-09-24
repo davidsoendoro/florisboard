@@ -27,7 +27,6 @@ class BankInputActivity : AppCompatActivity() {
     private var currentBank: BankModel? = null
     private var pickOptions = ArrayList<PropertiesModel>()
     private var selectedOption = PropertiesModel("", "", "", "")
-
     private var isChange = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,18 +39,18 @@ class BankInputActivity : AppCompatActivity() {
         activityModeFactory(mode!!)
 
         uiBinding.backButton.setOnClickListener {
-            if(isChange.get()) {
+            if (isChange.get()) {
                 confirmCancelData()
             } else {
                 onBackPressed()
             }
         }
 
-        uiBinding?.edittextBankAccount.addTextChangedListener{
+        uiBinding.edittextBankAccount.addTextChangedListener {
             isChange.set(true)
         }
 
-        uiBinding?.edittextBankHolder.addTextChangedListener{
+        uiBinding.edittextBankHolder.addTextChangedListener {
             isChange.set(true)
         }
 
@@ -74,7 +73,7 @@ class BankInputActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(isChange.get()) {
+        if (isChange.get()) {
             confirmCancelData()
         } else {
             super.onBackPressed()
@@ -287,6 +286,7 @@ class BankInputActivity : AppCompatActivity() {
 
     private fun apiCallBankSelection() {
         if (pickOptions.size <= 0) {
+            uiBinding.fullcreenLoading.visibility = View.VISIBLE
             dataViewModel?.getStandardListProperties(
                 type = PropertiesTypeConstant.bank,
                 onSuccess = { it ->
@@ -294,8 +294,10 @@ class BankInputActivity : AppCompatActivity() {
                         pickOptions.addAll(it.data)
                         uiBinding.recyclerViewBank.adapter?.notifyDataSetChanged()
                     }
+                    uiBinding.fullcreenLoading.visibility = View.GONE
                 },
                 onError = {
+                    uiBinding.fullcreenLoading.visibility = View.GONE
                     showToast(it)
                 })
         }

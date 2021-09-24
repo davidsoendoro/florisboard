@@ -18,7 +18,7 @@ class SpinnerBankAdapter(
     private val context: SpinnerBankSelector,
     private val options: ArrayList<BankModel>,
     private var selectedOption: BankModel,
-    private val callback: (result: BankModel) -> Unit
+    private val callback: (result: BankModel, callbackType: String) -> Unit,
 ) : RecyclerView.Adapter<SpinnerBankAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,7 +33,7 @@ class SpinnerBankAdapter(
 
         fun bindViewHolder(option: BankModel) {
 
-            if(option.accountNo.equals(CASH)) {
+            if(option.accountNo.uppercase().equals(CASH)) {
                 bankLabel?.text = ""
                 bankNo?.text = option.accountNo
                 bankHolder?.text = ""
@@ -69,7 +69,12 @@ class SpinnerBankAdapter(
 
             layout?.setOnClickListener {
                 selectedOption = option
-                callback(selectedOption)
+                callback(selectedOption, "onclick" )
+            }
+
+            bankEdit?.setOnClickListener {
+                selectedOption = option
+                callback(selectedOption, "onedit")
             }
         }
     }
