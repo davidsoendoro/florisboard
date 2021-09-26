@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcel
 import android.text.InputType
 import android.util.Size
 import android.view.ContextThemeWrapper
@@ -38,6 +39,8 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InlineSuggestion
+import android.view.inputmethod.InlineSuggestionInfo
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.view.inputmethod.InlineSuggestionsResponse
 import android.view.inputmethod.InputConnection
@@ -778,6 +781,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         applicationContext.startActivity(i)
     }
 
+    fun launchToDashboard() {
+
+    }
+
     fun launchExpandView(pickInput: String, nameInput: String, content: String) {
         requestHideSelf(0)
         val i = Intent(this, TemplateActivity::class.java).apply {
@@ -966,8 +973,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>)
-    {
+    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>) {
         uiBinding?.mainViewFlipper?.displayedChild = 7
 
         val spinnerOptions = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options)

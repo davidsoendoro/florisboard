@@ -700,4 +700,28 @@
     <string name="kobold_menu_transaction_data_unavailable_content">Daftar penjualan dengan pelanggan akan muncul disini.</string>
     <string name="kobold_transaction_courier">Kurir</string>
 
+
+    <string name="kobold_bank_toolbar_title">Rekening Bank</string>
+    <string name="kobold_bank_empty_title">Belum ada rekening bank terpasang</string>
+    <string name="kobold_bank_input_toolbar_title">Tambah rekening bank</string>
+    <string name="kobold_bank_edit_toolbar_title">Edit rekening bank</string>
+    <string name="kobold_bank_empty_desc">Pasang rekening bank untuk pencairan dana\nsetelah transaksi dengan pembeli.</string>
+    <string name="kobold_bank_empty_action_btn">Tambah rekening bank</string>
+    <string name="kobold_bank_input_selection">Pilih Bank</string>
+    <string name="kobold_bank_input_placeholder_other">Bank Lainnya</string>
+    <string name="kobold_bank_input_bank_no">Nomor Rekening</string>
+    <string name="kobold_bank_input_bank_holder">Nama Pemilik Rekening</string>
+    <string name="kobold_bank_input_action_submit">Simpan rekening</string>
+    <string name="kobold_bank_input_action_submit_success">Rekening berhasil ditambahkan.</string>
+    <string name="kobold_bank_input_action_delete">Hapus rekening</string>
+    <string name="kobold_bank_input_action_delete_success">Rekening berhasil dihapus.</string>
+    <string name="kobold_bank_dialog_delete_title">Hapus Rekening?</string>
+    <string name="kobold_bank_dialog_delete_desc">Rekening yang sudah dibuat akan terhapus.</string>
+    <string name="kobold_bank_dialog_delete_action_confirm">Ya, hapus rekening</string>
+    <string name="kobold_bank_dialog_delete_action_cancel">Nanti saja</string>
+    <string name="kobold_bank_dialog_cancel_title">Tidak jadi Buat Rekening?</string>
+    <string name="kobold_bank_dialog_cancel_desc">Form rekening yang sudah diisi akan dihapus dan\ntidak akan tersimpan.</string>
+    <string name="kobold_bank_dialog_cancel_action_confirm">Ya, hapus rekening</string>
+    <string name="kobold_bank_dialog_cancel_action_cancel">Nanti saja</string>
+
 </resources>
