@@ -20,14 +20,14 @@
             android:paddingVertical="@dimen/kobold_margin_16px">
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
-                android:id="@+id/kobold_template_select_input"
+                android:id="@+id/sender_address_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:hint="@string/kobold_sender_address_hint"
                 app:label="@string/kobold_sender_address_label" />
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
-                android:id="@+id/kobold_template_name_input"
+                android:id="@+id/receiver_address_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/kobold_margin_8px"
@@ -75,6 +75,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/minus_weight_button"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -83,6 +84,7 @@
                             android:src="@drawable/ic_minus_minor" />
 
                         <TextView
+                            android:id="@+id/package_weight_text"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -92,6 +94,7 @@
                             android:textColor="@color/text_secondary" />
 
                         <ImageView
+                            android:id="@+id/plus_weight_button"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -142,7 +145,7 @@
             app:layout_constraintTop_toBottomOf="@id/line" />
 
         <Button
-            android:id="@+id/save_button"
+            android:id="@+id/submit_button"
             style="@style/BlueButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

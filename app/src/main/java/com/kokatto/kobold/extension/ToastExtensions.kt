@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-
+import com.kokatto.kobold.R
 
 
 fun Context.showToast(message: String?, duration: Int? = null) {
@@ -34,8 +34,13 @@ fun View.showToast(message: String?, duration: Int? = null) {
     this.context.createToast(message, duration).show()
 }
 
-fun View.showSnackBar(message: String = "", duration: Int = Snackbar.LENGTH_LONG) {
+fun View.showSnackBar(
+    message: String = "",
+    backgroundColor: Int = R.color.snackbar_default,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
     val snackbar = Snackbar
         .make(this, message, duration)
+    snackbar.setBackgroundTint(resources.getColor(backgroundColor))
     snackbar.show()
 }
