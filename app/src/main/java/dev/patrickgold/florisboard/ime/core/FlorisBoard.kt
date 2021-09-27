@@ -27,7 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcel
 import android.text.InputType
 import android.util.Size
 import android.view.ContextThemeWrapper
@@ -39,8 +38,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InlineSuggestion
-import android.view.inputmethod.InlineSuggestionInfo
 import android.view.inputmethod.InlineSuggestionsRequest
 import android.view.inputmethod.InlineSuggestionsResponse
 import android.view.inputmethod.InputConnection
@@ -65,6 +62,7 @@ import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
+import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.transaction.KeyboardSearchTransaction
 import com.kokatto.kobold.uicomponent.KoboldEditText
@@ -78,6 +76,7 @@ import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
+import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -1050,6 +1049,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             }
             R.id.kobold_menu_create_transaction -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 9
+            }
+
+            R.id.kobold_menu_check_shippingcost -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 10
             }
         }
         textInputManager.isGlidePostEffect = false

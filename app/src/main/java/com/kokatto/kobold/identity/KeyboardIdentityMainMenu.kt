@@ -7,10 +7,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
-import dev.patrickgold.florisboard.ime.text.key.KeyCode
-import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 
-class KeyboardIdentityMainMenu: LinearLayout {
+class KeyboardIdentityMainMenu : LinearLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
     constructor(context: Context) : this(context, null)
@@ -21,9 +19,13 @@ class KeyboardIdentityMainMenu: LinearLayout {
         private set
 
     var chatTemplateButton: LinearLayout? = null
-    private set
+        private set
 
     var transactionButton: LinearLayout? = null
+        private set
+
+    var checkShippingcost: LinearLayout? = null
+        private set
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -36,6 +38,9 @@ class KeyboardIdentityMainMenu: LinearLayout {
 
         transactionButton = findViewById(R.id.create_transaction_button)
         transactionButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+
+        checkShippingcost = findViewById(R.id.check_shippingcost_button)
+        checkShippingcost?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
     }
 
     private fun onButtonClicked(view: View) {
@@ -44,6 +49,7 @@ class KeyboardIdentityMainMenu: LinearLayout {
             R.id.to_dashboard -> florisboard?.launchToDashboard()
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
             R.id.create_transaction_button -> florisboard?.setActiveInput(R.id.kobold_menu_transaction)
+            R.id.check_shippingcost_button -> florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
         }
     }
 }

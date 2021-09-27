@@ -71,4 +71,5 @@
     <color name="item_border">#EBEBEB</color>
     <color name="washedout_background">#F7F7F7</color>
     <color name="textBlack">#141414</color>
+    <color name="background_subtle">#F2F2F2</color>
 </resources>

@@ -83,10 +83,14 @@
             <include
                 android:id="@+id/kobold_menu_transaction"
                 layout="@layout/kobold_menu_transaction" />
-<!--            (9)-->
+            <!--            (9)-->
             <include
                 android:id="@+id/kobold_menu_create_transaction"
                 layout="@layout/kobold_menu_create_transaction" />
+            <!--            10-->
+            <include
+                android:id="@+id/kobold_menu_check_shippingcost"
+                layout="@layout/kobold_menu_check_shippingcost" />
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
         <dev.patrickgold.florisboard.ime.onehanded.OneHandedPanel
