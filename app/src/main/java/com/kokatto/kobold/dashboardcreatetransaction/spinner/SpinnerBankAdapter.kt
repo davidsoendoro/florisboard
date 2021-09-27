@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
@@ -32,6 +33,12 @@ class SpinnerBankAdapter(
 
 
         fun bindViewHolder(option: BankModel) {
+
+            icon?.let {
+                Glide.with(context)
+                    .load(option.asset)
+                    .placeholder(R.drawable.img_cash)
+                    .into(it) };
 
             if(option.accountNo.uppercase().equals(CASH)) {
                 bankLabel?.text = ""
