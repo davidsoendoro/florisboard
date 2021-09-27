@@ -29,10 +29,9 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="74dp"
+            android:layout_height="37dp"
             android:layout_marginStart="@dimen/kobold_margin_16px"
-            android:outlineAmbientShadowColor="@color/colorPrimary"
             android:paddingHorizontal="@dimen/kobold_margin_8px"
             android:paddingVertical="@dimen/kobold_margin_12px"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,14 +39,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="#EBEBEB"
             app:strokeWidth="1dp">
-
             <ImageView
+                android:layout_gravity="center"
                 android:id="@+id/spinner_bank_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/kobold_margin_8px"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/kobold_margin_8px"
                 android:src="@drawable/img_cash" />
-
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout

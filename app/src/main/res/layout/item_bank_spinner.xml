@@ -39,7 +39,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spinner_bank_radio"
         app:layout_constraintTop_toTopOf="parent"
-        app:hintEnabled="false">
+        app:hintEnabled="false"
+        android:clickable="true"
+        android:id="@+id/editText_bankOther_layout"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText_bankOther"
@@ -47,8 +50,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/kobold_bank_input_placeholder_other"
             android:textAppearance="@style/FormEditTextHint"
-            android:clickable="true"
-            android:visibility="gone"/>
+            android:clickable="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

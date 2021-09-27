@@ -14,6 +14,7 @@ import com.kokatto.kobold.bank.dialog.DialogBankDelete
 import com.kokatto.kobold.bank.recylerAdapeter.BankSpinnerAdapter
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_BANK
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
 import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.databinding.ActivityBankInputBinding
 import com.kokatto.kobold.extension.showToast
@@ -36,7 +37,6 @@ class BankInputActivity : AppCompatActivity() {
         }
 
         mode = intent.getIntExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
-        activityModeFactory(mode!!)
 
         uiBinding.backButton.setOnClickListener {
             if (isChange.get()) {
@@ -62,13 +62,14 @@ class BankInputActivity : AppCompatActivity() {
             confirmDeleteData()
         }
 
+        apiCallBankSelection()
+        activityModeFactory(mode!!)
+
         uiBinding.recyclerViewBank.layoutManager = LinearLayoutManager(this)
         uiBinding.recyclerViewBank.adapter = BankSpinnerAdapter(this, pickOptions, selectedOption) { result ->
             selectedOption = result
             isChange.set(true)
         }
-
-        apiCallBankSelection()
 
     }
 
@@ -92,12 +93,30 @@ class BankInputActivity : AppCompatActivity() {
                 intent.getParcelableExtra<BankModel>(ActivityConstantCode.EXTRA_DATA).let {
                     if (it != null) {
                         currentBank = it
-                        selectedOption = PropertiesModel(
-                            "",
-                            BANK_TYPE_BANK,
-                            it.asset,
-                            it.bank
-                        )
+
+                        val bankType = currentBank?.bankType?.uppercase()
+                        if(bankType == BANK_TYPE_OTHER) {
+                            selectedOption = PropertiesModel(
+                                "",
+                                BANK_TYPE_OTHER,
+                                it.asset,
+                                BANK_TYPE_OTHER,
+                                it.bank
+                            )
+                        } else {
+                            selectedOption = PropertiesModel(
+                                "",
+                                BANK_TYPE_BANK,
+                                it.asset,
+                                it.bank,
+                                "",
+                            )
+                        }
+
+                        println(":: ActivityConstantCode.EXTRA_EDIT ::")
+                        println(selectedOption)
+
+
                         constructDataFormIntentData(it)
                     }
                 }
@@ -139,7 +158,7 @@ class BankInputActivity : AppCompatActivity() {
                         currentBank = BankModel(
                             "",
                             "Other",
-                            it.assetUrl,
+                            it.param1,
                             uiBinding.edittextBankAccount.text.toString(),
                             uiBinding.edittextBankHolder.text.toString(),
                             ""
