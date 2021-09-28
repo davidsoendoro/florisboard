@@ -384,7 +384,10 @@ class InputActivity : AppCompatActivity() {
         model.notes.let { s -> editTextNote?.setText(s) }
         model.price.let { s -> editTextPrice?.setText(s.toString()) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
-        selectedBank = BankModel("", model.bankType, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
+        selectedBank = BankModel(
+            "",
+            model.bankType!!, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset
+        )
         model.logistic.let { s -> editTextLogistic?.setText(s) }
         selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }

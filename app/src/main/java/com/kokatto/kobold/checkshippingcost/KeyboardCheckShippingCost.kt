@@ -103,7 +103,10 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         }
 
         submitButton?.setOnClickListener {
-            showSnackBar("Koneksi internet tidak tersedia.", R.color.snackbar_error)
+//            error snackbar
+//            showSnackBar("Koneksi internet tidak tersedia.", R.color.snackbar_error)
+
+            florisboard?.setActiveInput(R.id.kobold_menu_choose_shippingcost)
         }
     }
 
