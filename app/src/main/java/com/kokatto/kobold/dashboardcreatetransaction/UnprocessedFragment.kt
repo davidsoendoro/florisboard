@@ -51,7 +51,7 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getUnprocessedTransactionList(it + 1)
             },
             onLast = { isLast.get() }

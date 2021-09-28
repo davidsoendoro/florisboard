@@ -47,7 +47,7 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getCompleteTransactionList(it + 1)
             },
             onLast = { isLast.get() }
