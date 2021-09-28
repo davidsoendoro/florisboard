@@ -164,7 +164,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         dialogAction?.onSendClick = {
-                            currentTransaction?.let { m -> onNotaDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
                     }
@@ -183,7 +183,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         dialogAction?.onChatClick = {
-                            currentTransaction?.let { m -> onChatDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
 
@@ -208,7 +208,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         dialogAction?.onChatClick = {
-                            currentTransaction?.let { m -> onChatDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
 
@@ -228,7 +228,7 @@ class DetailActivity : AppCompatActivity() {
                         dialogAction?.openDialog(supportFragmentManager)
 
                         dialogAction?.onChatClick = {
-                            currentTransaction?.let { m -> onChatDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
 
@@ -431,7 +431,7 @@ class DetailActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun onNotaDialog(model: TransactionModel) {
+    private fun onCopyChat(model: TransactionModel) {
         // Show Dialog Confirm
         val message = createTransactionChat(model)
         val myClipboard =
@@ -477,55 +477,6 @@ class DetailActivity : AppCompatActivity() {
                 }
                 else ->
                     showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
-            }
-        } else {
-            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-        }
-    }
-
-    private fun onChatDialog(model: TransactionModel) {
-        val message = createTransactionChat(model)
-        val myClipboard =
-            this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val myClip: ClipData = ClipData.newPlainText("Label", message)
-        myClipboard.setPrimaryClip(myClip)
-
-        if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA) {
-            when (model.channel) {
-                ActivityConstantCode.WHATSAPP -> {
-                    if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_PKG)
-                    } else {
-                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-                    }
-                }
-                ActivityConstantCode.WHATSAPP_BUSINESS -> {
-                    if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
-                    } else {
-                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-                    }
-                }
-                ActivityConstantCode.LINE -> {
-                    openApplicationActivity(this, ActivityConstantCode.LINE_PKG)
-                }
-                ActivityConstantCode.FACEBOOK_MESSENGER -> {
-                    openApplicationActivity(this, ActivityConstantCode.FACEBOOK_MESSENGER_PKG)
-                }
-                ActivityConstantCode.INSTAGRAM -> {
-                    openApplicationActivity(this, ActivityConstantCode.INSTAGRAM_PKG)
-                }
-                ActivityConstantCode.BUKALAPAK_CHAT -> {
-                    openApplicationActivity(this, ActivityConstantCode.BUKALAPAK_CHAT_PKG)
-                }
-                ActivityConstantCode.TOKOPEDIA_CHAT -> {
-                    openApplicationActivity(this, ActivityConstantCode.TOKOPEDIA_CHAT_PKG)
-                }
-                ActivityConstantCode.SHOPEE_CHAT -> {
-                    openApplicationActivity(this, ActivityConstantCode.SHOPEE_CHAT_PKG)
-                }
-                else ->
-                    showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
             }
         } else {
             showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
