@@ -21,6 +21,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
@@ -176,7 +177,7 @@ class InputActivity : AppCompatActivity() {
             spinnerBankSelector = SpinnerBankSelector().newInstance()
 
             if (selectedBank == null) {
-                selectedBank = BankModel("", "", "Cash", "", "")
+                selectedBank = BankModel("", BANK_TYPE_OTHER, "Cash", "", "", "")
             }
 
             spinnerBankSelector?.openSelector(supportFragmentManager, selectedBank!!)
@@ -288,6 +289,7 @@ class InputActivity : AppCompatActivity() {
                 notes = editTextNote?.text.toString(),
                 price = editTextPrice?.text.toString().toInt(),
                 payingMethod = editTextPayment?.text.toString(),
+                bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),
                 bankAccountName = selectedBank?.accountHolder.toString(),
                 bankAsset = selectedBank?.asset.toString(),
@@ -345,7 +347,7 @@ class InputActivity : AppCompatActivity() {
         btnSubmit?.isEnabled = !_isLoading
         btnSubmitText?.isVisible = !_isLoading
         btnSubmitProgress?.isVisible = _isLoading
-        btnSubmit?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
+        btnSubmit?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
     }
 
     private fun disableFormInput(_isEditable: Boolean) {
@@ -363,11 +365,11 @@ class InputActivity : AppCompatActivity() {
     private fun saveButtonDisable(_isDisable: Boolean) {
         if (_isDisable) {
             btnSubmit?.isEnabled = false
-            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
+            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
             btnSubmit?.preventCornerOverlap = true
         } else {
             btnSubmit?.isEnabled = true
-            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.colorPrimary50))
+            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.colorPrimary50, null))
             btnSubmit?.preventCornerOverlap = true
         }
     }
@@ -382,7 +384,7 @@ class InputActivity : AppCompatActivity() {
         model.notes.let { s -> editTextNote?.setText(s) }
         model.price.let { s -> editTextPrice?.setText(s.toString()) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
-        selectedBank = BankModel("", model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
+        selectedBank = BankModel("", model.bankType, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
         model.logistic.let { s -> editTextLogistic?.setText(s) }
         selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
@@ -395,7 +397,7 @@ class InputActivity : AppCompatActivity() {
                 override fun onLoadCleared(placeholder: Drawable?) {
                     editText.setCompoundDrawablesWithIntrinsicBounds(
                         placeholder, null,
-                        resources.getDrawable(R.drawable.ic_subdued), null
+                        resources.getDrawable(R.drawable.ic_subdued, null), null
                     )
                     editText.compoundDrawablePadding = 12
                 }
@@ -406,7 +408,7 @@ class InputActivity : AppCompatActivity() {
                 ) {
                     editText.setCompoundDrawablesWithIntrinsicBounds(
                         resource, null,
-                        resources.getDrawable(R.drawable.ic_subdued), null
+                        resources.getDrawable(R.drawable.ic_subdued, null), null
                     )
                     editText.compoundDrawablePadding = 12
                 }

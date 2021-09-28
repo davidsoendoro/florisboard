@@ -6,13 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
+import com.kokatto.kobold.extension.RoundedBottomSheet
 
-class TemplateDialogSelection : BottomSheetDialogFragment() {
+class TemplateDialogSelection : RoundedBottomSheet() {
 
     private var mListener: TemplateDialogSelectionClickListener? = null
     private var templatePick: String? = null
