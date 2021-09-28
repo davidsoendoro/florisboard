@@ -1,5 +1,6 @@
 package com.kokatto.kobold.extension
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.Toast
@@ -34,13 +35,23 @@ fun View.showToast(message: String?, duration: Int? = null) {
     this.context.createToast(message, duration).show()
 }
 
+fun Activity.showSnackBar(
+    view: View,
+    message: String = "",
+    backgroundColor: Int = R.color.snackbar_default,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
+    val snackbar = Snackbar.make(view, message, duration)
+    snackbar.setBackgroundTint(resources.getColor(backgroundColor))
+    snackbar.show()
+}
+
 fun View.showSnackBar(
     message: String = "",
     backgroundColor: Int = R.color.snackbar_default,
     duration: Int = Snackbar.LENGTH_LONG
 ) {
-    val snackbar = Snackbar
-        .make(this, message, duration)
+    val snackbar = Snackbar.make(this, message, duration)
     snackbar.setBackgroundTint(resources.getColor(backgroundColor))
     snackbar.show()
 }

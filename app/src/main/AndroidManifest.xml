@@ -15,6 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
         <activity
+            android:name=".dashboardcheckshippingcost.CheckShippingcost"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true" />
         <activity
@@ -125,11 +134,6 @@
         <activity
             android:name=".dashboardcreatetransaction.CreateTransactionActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".dashboardcreatetransaction.InputActivity"
