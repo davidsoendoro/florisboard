@@ -19,7 +19,6 @@ package dev.patrickgold.florisboard.ime.text.smartbar
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.util.Size
 import android.view.View
 import android.view.ViewGroup
@@ -34,11 +33,12 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.databinding.SmartbarBinding
 import com.kokatto.kobold.extension.horizontal
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
-import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import com.kokatto.kobold.template.recycleradapter.InlineChatTemplateRecyclerAdapter
-import dev.patrickgold.florisboard.debug.*
+import dev.patrickgold.florisboard.debug.LogTopic
+import dev.patrickgold.florisboard.debug.flogDebug
+import dev.patrickgold.florisboard.debug.flogInfo
+import dev.patrickgold.florisboard.debug.flogWarning
 import dev.patrickgold.florisboard.ime.clip.provider.ClipboardItem
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.core.Preferences
@@ -206,7 +206,7 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     }
 
     private fun getChatTemplateList(): List<AutoTextModel>? {
-        return AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList()?.subList(0, 5)
+        return AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList()?.subList(0, 5) ?: listOf()
     }
 
     override fun onDetachedFromWindow() {

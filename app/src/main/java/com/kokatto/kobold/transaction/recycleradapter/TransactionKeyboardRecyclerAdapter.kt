@@ -19,7 +19,7 @@ class TransactionKeyboardRecyclerAdapter(
 ) : RecyclerView.Adapter<TransactionKeyboardRecyclerAdapter.ViewHolder>() {
 
     interface OnClick {
-        fun onClicked(data: String)
+        fun onClicked(data: TransactionModel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -92,7 +92,7 @@ class TransactionKeyboardRecyclerAdapter(
             }
 
             layout.setOnClickListener {
-                onClick.onClicked(data.toString())
+                onClick.onClicked(data)
             }
         }
     }

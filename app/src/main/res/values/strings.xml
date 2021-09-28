@@ -723,5 +723,10 @@
     <string name="kobold_bank_dialog_cancel_desc">Form rekening yang sudah diisi akan dihapus dan\ntidak akan tersimpan.</string>
     <string name="kobold_bank_dialog_cancel_action_confirm">Ya, hapus rekening</string>
     <string name="kobold_bank_dialog_cancel_action_cancel">Nanti saja</string>
+    <string name="kobold_sender_address_hint">Isi kecamatan asal</string>
+    <string name="kobold_sender_address_label">Alamat Pengirim</string>
+    <string name="kobold_receiver_address_hint">Isi Kecamatan tujuan</string>
+    <string name="kobold_receiver_address_label">Alamat Penerima</string>
+    <string name="kobold_submit_checkshippingcost_button">Cek Ongkos Kirim</string>
 
 </resources>

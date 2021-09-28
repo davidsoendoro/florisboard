@@ -123,6 +123,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/check_shippingcost_button"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
