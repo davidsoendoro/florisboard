@@ -1,8 +1,7 @@
 package com.kokatto.kobold.api.model.basemodel
 
 data class ShippingCostModel(
-    val _id: String = "",
-    var senderAddress: String = "",
-    var receiverAddress: String = "",
+    val senderAddress: DeliveryAddressModel = DeliveryAddressModel(),
+    val receiverAddress: DeliveryAddressModel = DeliveryAddressModel(),
     var packageWeight: Int = 1
 )

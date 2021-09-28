@@ -57,7 +57,6 @@ class KeyboardCheckShippingCost : ConstraintLayout {
                 senderAddressEdittext?.label?.text.toString(),
                 senderAddressEdittext?.editText?.text.toString()
             ) { result ->
-                shippingCost.senderAddress = result
                 senderAddressEdittext?.editText?.text = result
                 invalidateSaveButton()
             }
@@ -74,7 +73,6 @@ class KeyboardCheckShippingCost : ConstraintLayout {
                 receiverAddressEdittext?.label?.text.toString(),
                 receiverAddressEdittext?.editText?.text.toString()
             ) { result ->
-                shippingCost.receiverAddress = result
                 receiverAddressEdittext?.editText?.text = result
                 invalidateSaveButton()
             }
