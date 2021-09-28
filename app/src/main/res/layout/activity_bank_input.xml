@@ -14,7 +14,7 @@
         android:layout_gravity="center|center_vertical"
         android:gravity="center|center_vertical"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -40,12 +40,13 @@
             android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/kobold_margin_8px"
                 android:padding="@dimen/kobold_margin_16px"
+                android:background="@color/colorWhite"
                 android:src="@drawable/ic_cross_svg"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

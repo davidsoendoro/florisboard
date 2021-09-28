@@ -39,11 +39,7 @@ class BankInputActivity : AppCompatActivity() {
         mode = intent.getIntExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
 
         uiBinding.backButton.setOnClickListener {
-            if (isChange.get()) {
-                confirmCancelData()
-            } else {
-                onBackPressed()
-            }
+            onBackPressed()
         }
 
         uiBinding.edittextBankAccount.addTextChangedListener {
@@ -74,7 +70,7 @@ class BankInputActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (isChange.get()) {
+        if (isChange.get() && mode == ActivityConstantCode.EXTRA_CREATE) {
             confirmCancelData()
         } else {
             super.onBackPressed()
