@@ -8,8 +8,10 @@ import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetBankResponse
+import com.kokatto.kobold.api.model.response.GetListDeliveryFeeResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
+import com.kokatto.kobold.api.model.response.GetPaginationDeliveryAddressResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
 import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
@@ -202,4 +204,28 @@ interface BankApi {
     suspend fun getStandardListProperties(
         @Path("type") typeAsset: String
     ): ApiResponse<GetStandardPropertiesResponse>
+}
+
+private const val deliveryUrl: String = "api/v1/courier/"
+interface DeliveryApi {
+    //    @RequiredAuth
+    @GET(deliveryUrl + "address")
+    suspend fun getPaginatedDeliveryAddress(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("search") search: String
+    ): ApiResponse<GetPaginationDeliveryAddressResponse>
+
+    //    @RequiredAuth
+    @GET(deliveryUrl + "delivery-fee")
+    suspend fun getListDeliveryFee(
+        @Query("from_city") fromCity: String,
+        @Query("from_district") fromDistrict: String,
+        @Query("from_postalcode") fromPostalcode: String,
+        @Query("to_city") toCity: String,
+        @Query("to_district") toDistrict: String,
+        @Query("to_postalcode") toPostalcode: String,
+        @Query("weight") weight: Int,
+    ): ApiResponse<GetListDeliveryFeeResponse>
+
 }
