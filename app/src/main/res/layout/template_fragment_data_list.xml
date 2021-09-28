@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:background="@color/colorPrimary"
-        app:cardCornerRadius="28dp"
+        app:cardCornerRadius="@dimen/kobold_margin_24px"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

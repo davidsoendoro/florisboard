@@ -564,6 +564,7 @@
     <string name="chat_template_not_found_content">Coba urutkan dengan data yang lain.</string>
     <string name="template_delete_success">Template berhasil dihapus.</string>
     <string name="template_create_success">Template berhasil dibuat.</string>
+    <string name="template_update_success">Template berhasil diperbaharui.</string>
     <string name="template_text_error_length">Melebihi karakter yang tersedia</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>

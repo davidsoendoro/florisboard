@@ -13,6 +13,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
@@ -159,8 +160,9 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
 //            startActivity(this)
 //        }
         Intent(requireContext(), TemplateActivityInput::class.java).apply {
-            putExtra(TemplateActivityInput.EXTRA_ID, TemplateActivityInput.EXTRA_STATE_EDIT)
-            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, data)
+            putExtra(TemplateActivityInput.EXTRA_ID, data._id)
+            putExtra(ActivityConstantCode.EXTRA_DATA, data)
+            putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
             startActivity(this)
         }
     }

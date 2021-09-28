@@ -1,8 +1,10 @@
 package com.kokatto.kobold.template
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.showToast
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -36,12 +39,13 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private var textInputTitle: TextInputEditText? = null
     private var textInputContent: TextInputEditText? = null
     private var buttonSave: Button? = null
-    private var buttonBack: ImageView? = null
-    private var buttonDelete: ImageView? = null
+    private var buttonBack: ImageButton? = null
+    private var buttonDelete: ImageButton? = null
     private var extraStateInput: Int? = -1
     private var extraId: String? = ""
     private val maxTitleLength = AtomicInteger(50)
     private val maxContentLength = AtomicInteger(1000)
+    private var data: AutoTextModel? = null
 
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
@@ -102,13 +106,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             }
         }
 
-        extraStateInput = intent.getIntExtra(EXTRA_STATE_INPUT, -1)
-        val data = intent.getParcelableExtra<AutoTextModel>(EXTRA_STATE_INPUT)
-//        extraId = intent.getStringExtra(EXTRA_ID)
-
-//        val extraTemplate = intent.getStringExtra(EXTRA_TEMPLATE)
-//        val extraTitle = intent.getStringExtra(EXTRA_TITLE)
-//        val extraContent = intent.getStringExtra(EXTRA_CONTENT)
+        extraStateInput = intent.getIntExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
+        data = intent.getParcelableExtra<AutoTextModel>(ActivityConstantCode.EXTRA_DATA)
 
         val extraTemplate = data?.template
         val extraTitle = data?.title
@@ -116,6 +115,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         markButtonSaveDisable(true)
 
         if (extraStateInput!! >= 0) {
+            extraId = intent.getStringExtra(EXTRA_ID)
             titleText?.text = resources.getString(R.string.detail_template)
             buttonDelete?.isVisible = true
             setEditTextValue(extraTemplate, extraTitle, extraContent)
@@ -134,11 +134,13 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 markButtonSaveDisable(false)
             }
         }
+
     }
 
 
     override fun onItemClick(item: String?) {
         textInputTemplate?.setText(item)
+        //prefillByTemplate(item)
     }
 
     private fun onClicked(view: View) {
@@ -159,7 +161,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                             model,
                             onSuccess = {
                                 super.finish()
-                                showToast(resources.getString(R.string.template_create_success))
+                                showToast(resources.getString(R.string.template_update_success))
                             },
                             onError = {
                                 showToast(it)
@@ -194,8 +196,33 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 modalSheetView.show(supportFragmentManager, TemplateDialogSelection.TAG)
             }
             R.id.delete_button -> {
-                val modalSheetView = extraId?.let { TemplateDialogDelete.newInstance(it) }
-                modalSheetView?.show(supportFragmentManager, TemplateDialogDelete.TAG)
+                val dialogDelete = extraId?.let { TemplateDialogDelete.newInstance(it) }
+                dialogDelete?.openDialog(supportFragmentManager)
+
+                dialogDelete?.onConfirmClick = { _id ->
+                    dialogDelete?.performLoading(true)
+                    chatTemplateViewModel?.deleteAutotextById(
+                        _id,
+                        onSuccess = { it ->
+                            showToast(resources.getString(R.string.template_delete_success))
+                            val intent = Intent()
+                            intent.putExtra(ActivityConstantCode.EXTRA_DATA, data)
+                            setResult(ActivityConstantCode.RESULT_OK_DELETED, intent)
+                            finish()
+                        },
+                        onError = {
+                            dialogDelete?.performLoading(false)
+                            showToast(it)
+                        }
+                    )
+                }
+
+                dialogDelete?.onCancelClick = {
+                    dialogDelete?.closeDialog()
+                }
+
+                //val modalSheetView = extraId?.let { TemplateDialogDelete.newInstance(it) }
+                //modalSheetView?.show(supportFragmentManager, TemplateDialogDelete.TAG)
             }
         }
     }
@@ -236,6 +263,52 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             markButtonSaveDisable(false)
         } else {
             markButtonSaveDisable(true)
+        }
+    }
+
+    private fun prefillByTemplate(template: String?) {
+        when(template) {
+            "Pesan Pembuka" -> {
+                val title = "Halo2"
+                val conntent = "Halo, selamat datang di [Nama Toko]. Ada yang bisa kami bantu?"
+                textInputTitle?.setText(title)
+                textInputContent?.setText(conntent)
+            }
+            "Form Pesanan" -> {
+                val title = "Form"
+                val conntent = "Agar pesanan lebih cepat diproses, silakan langsung isi data diri sesuai format berikut ya:" +
+                    "\nNama:" +
+                    "\nNo. handphone:" +
+                    "\nAlamat:" +
+                    "\nPesanan:" +
+                    "\n[nama barang] - [jumlah]" +
+                    "\n[nama barang] - [jumlah]" +
+                    "\nCatatan:"
+                textInputTitle?.setText(title)
+                textInputContent?.setText(conntent)
+            }
+            "Ucapan Terimakasih" -> {
+                val title = "Trims"
+                val conntent = "Terima kasih telah berbelanja di toko kami. Kami harap kamu puas dengan pelayanan kami. Ditunggu order berikutnya :)"
+                textInputTitle?.setText(title)
+                textInputContent?.setText(conntent)
+            }
+            "Ketersediaan Barang" -> {
+                val title = "Barang Ready"
+                val conntent = "Barang ready, kak. Silakan dipesan."
+                textInputTitle?.setText(title)
+                textInputContent?.setText(conntent)
+            }
+            "Cek Barang" -> {
+                val title = "Cek Dulu"
+                val conntent = "Baik kak, mohon tunggu sebentar. Kami akan cek ketersediaan barangnya terlebih dahulu ya."
+                textInputTitle?.setText(title)
+                textInputContent?.setText(conntent)
+            }
+            else -> {
+                textInputTitle?.setText("")
+                textInputContent?.setText("")
+            }
         }
     }
 
