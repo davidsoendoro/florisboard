@@ -728,5 +728,12 @@
     <string name="kobold_receiver_address_hint">Isi Kecamatan tujuan</string>
     <string name="kobold_receiver_address_label">Alamat Penerima</string>
     <string name="kobold_submit_checkshippingcost_button">Cek Ongkos Kirim</string>
+    <string name="check_shippingcost_title">Cek Ongkir</string>
+    <string name="check_shippingcost_sender_title">Asal</string>
+    <string name="check_shippingcost_sender_hint">Isi kecamatan asal</string>
+    <string name="check_shippingcost_receiver_title">Tujuan</string>
+    <string name="check_shippingcost_receiver_hint">Isi kecamatan tujuan</string>
+    <string name="check_shippingcost_button">Cek ongkos kirim</string>
+    <string name="check_shippingcost_reset">Reset</string>
 
 </resources>

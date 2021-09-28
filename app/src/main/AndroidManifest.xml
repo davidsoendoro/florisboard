@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
         <activity
+            android:name=".dashboardcheckshippingcost.CheckShippingcost"
+            android:exported="true" />
+        <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true" />
         <activity
@@ -133,13 +136,10 @@
         </activity>
         <activity
             android:name=".dashboardcreatetransaction.InputActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".dashboardcreatetransaction.DetailActivity"
-            android:exported="true">
-        </activity>
-        <!-- Crash Dialog Activity -->
+            android:exported="true"></activity> <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"
             android:icon="@mipmap/floris_app_icon"
