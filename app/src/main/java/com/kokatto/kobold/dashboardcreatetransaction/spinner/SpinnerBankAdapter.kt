@@ -3,6 +3,7 @@ package com.kokatto.kobold.dashboardcreatetransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,30 +30,37 @@ class SpinnerBankAdapter(
         var bankLabel: TextView? = view.findViewById(R.id.spinner_bank_label)
         var bankNo: TextView? = view.findViewById(R.id.spinner_bank_no)
         var bankHolder: TextView? = view.findViewById(R.id.spinner_bank_holder)
-        var bankEdit: ImageView? = view.findViewById(R.id.spinner_bank_edit)
+        var bankEdit: ImageButton? = view.findViewById(R.id.spinner_bank_edit)
 
 
         fun bindViewHolder(option: BankModel) {
-
-            icon?.let {
-                Glide.with(context)
-                    .load(option.asset)
-                    .placeholder(R.drawable.img_cash)
-                    .into(it) };
 
             if(option.accountNo.uppercase().equals(CASH)) {
                 bankLabel?.text = ""
                 bankNo?.text = option.accountNo
                 bankHolder?.text = ""
                 bankEdit?.visibility = View.GONE
+
+                icon?.let {
+                    Glide.with(context)
+                        .load(option.asset)
+                        .placeholder(R.drawable.img_cash)
+                        .into(it) };
+
             } else {
                 bankLabel?.text = option.bank
                 bankNo?.text = option.accountNo
                 bankHolder?.text = option.accountHolder
                 bankEdit?.visibility = View.VISIBLE
+
+                icon?.let {
+                    Glide.with(context)
+                        .load(option.asset)
+                        .placeholder(R.drawable.ic_bank_unknown)
+                        .into(it) };
             }
 
-            if (option.accountNo == selectedOption.accountNo) {
+            if (option._id == selectedOption._id) {
                 // Selected
                 radio?.setImageDrawable(
                     ResourcesCompat.getDrawable(

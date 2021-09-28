@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -39,7 +40,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
     var onItemClick: ((BankModel) -> Unit)? = null
     private var title: TextView? = null
     private var recyclerView: RecyclerView? = null
-    private var backButton: ImageView? = null
+    private var backButton: ImageButton? = null
     private var bottomActionButton: CardView? = null
     private var fullscreenLoading: LinearLayout? = null
 

@@ -16,12 +16,14 @@
         android:visibility="visible"
         >
 
-        <ImageView
+        <ImageButton
             android:id="@+id/spinner_selector_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="4dp"
+            android:padding="@dimen/kobold_margin_16px"
             android:src="@drawable/kobold_main_close"
+            android:background="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
