@@ -373,4 +373,9 @@
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
+    <style name="ItemChooseCourierInfo">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/text_subdued</item>
+    </style>
+
 </resources>
