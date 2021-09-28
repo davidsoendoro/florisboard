@@ -23,6 +23,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogAction
@@ -432,7 +433,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun onNotaDialog(model: TransactionModel) {
         // Show Dialog Confirm
-        val message = copyChat(model)
+        val message = createTransactionChat(model)
         val myClipboard =
             this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val myClip: ClipData = ClipData.newPlainText("Label", message)
@@ -482,36 +483,25 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun copyChat(model: TransactionModel): String {
-        return "Halo ini detail transaksi nya ya :" +
-            "\nPembeli: ${model.buyer}" +
-            "\nNomor Telp: ${model.phone}" +
-            "\nAlamat: ${model.address}" +
-            "\n\n===" +
-            "\n\nUntuk Pembayaran: ${model.notes}" +
-            "\nHarga: ${CurrencyUtility.currencyFormatter(model.price)}" +
-            "\nMetode Bayar: ${model.payingMethod}" +
-            "\nOngkir: ${CurrencyUtility.currencyFormatter(model.deliveryFee)}" +
-            "\nKurir: ${model.logistic}" +
-            "\n\nSilahkan, proses pembayaran bisa via:" +
-            "\n\n${model.payingMethod} - ${model.bankAccountNo} - ${model.bankAccountName}" +
-            "\n\nTerima Kasih :-)"
-    }
-
     private fun onChatDialog(model: TransactionModel) {
+        val message = createTransactionChat(model)
+        val myClipboard =
+            this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val myClip: ClipData = ClipData.newPlainText("Label", message)
+        myClipboard.setPrimaryClip(myClip)
 
         if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA) {
             when (model.channel) {
                 ActivityConstantCode.WHATSAPP -> {
                     if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, "", this, ActivityConstantCode.WHATSAPP_PKG)
+                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_PKG)
                     } else {
                         showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
                     }
                 }
                 ActivityConstantCode.WHATSAPP_BUSINESS -> {
                     if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, "", this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
+                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
                     } else {
                         showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
                     }
