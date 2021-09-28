@@ -91,6 +91,10 @@
             <include
                 android:id="@+id/kobold_menu_check_shippingcost"
                 layout="@layout/kobold_menu_check_shippingcost" />
+            <!--            11-->
+            <include
+                android:id="@+id/kobold_menu_choose_shippingcost"
+                layout="@layout/kobold_menu_choose_shippingcost" />
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
         <dev.patrickgold.florisboard.ime.onehanded.OneHandedPanel

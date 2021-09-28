@@ -1054,6 +1054,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             R.id.kobold_menu_check_shippingcost -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 10
             }
+
+            R.id.kobold_menu_choose_shippingcost -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 11
+            }
         }
         textInputManager.isGlidePostEffect = false
     }
