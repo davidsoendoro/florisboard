@@ -17,7 +17,7 @@ data class TransactionModel(
     val logisticAsset: String = "",
     val notes: String,
     val payingMethod: String,
-    val bankType: String = "",
+    val bankType: String? = "",
     val bankAccountNo: String = "",
     val bankAccountName: String = "",
     val bankAsset: String = "",
