@@ -28,4 +28,8 @@ object Network {
     val bankApi: BankApi by lazy {
         createNetwork(okHttpClient, Gson())
     }
+
+    val deliveryApi: DeliveryApi by lazy {
+        createNetwork(okHttpClient, Gson())
+    }
 }
