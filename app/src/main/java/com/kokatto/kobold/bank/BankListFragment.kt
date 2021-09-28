@@ -30,6 +30,7 @@ class BankListFragment : Fragment(R.layout.fragment_data_list), BankRecyclerAdap
     private val isLast = AtomicBoolean(false)
 
     var onEmptyResult: ((Boolean) -> Unit)? = null
+    var onRowClick: ((BankModel) -> Unit)? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +39,7 @@ class BankListFragment : Fragment(R.layout.fragment_data_list), BankRecyclerAdap
         bottomLoading = view.findViewById(R.id.bottom_loading)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
 
+        getPaginatedData()
         recyclerAdapter = BankRecyclerAdapter(dataList, this)
 
         DovesRecyclerViewPaginator(
@@ -58,7 +60,7 @@ class BankListFragment : Fragment(R.layout.fragment_data_list), BankRecyclerAdap
     }
 
     override fun onClicked(data: BankModel) {
-        showToast(data.toString())
+        onRowClick?.invoke(data)
     }
 
     private fun getPaginatedData(page: Int = 1) {

@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class PropertiesModel (
     val _id: String,
-    val typeProperty: String,
-    val assetUrl: String,
-    val assetDesc: String,
+    var typeProperty: String,
+    var assetUrl: String,
+    var assetDesc: String,
+    var param1: String = "",
 ): Parcelable

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+    android:backgroundTint="@color/colorWhite"
     android:orientation="vertical">
 
     <LinearLayout
@@ -84,10 +85,10 @@
                         android:paddingBottom="12dp"
                         android:text="@string/kobold_transaction_paid_button_no"
                         android:textAppearance="@style/kobold_button_text"
+                        android:textColor="@color/colorPrimary"
                         app:layout_constraintTop_toBottomOf="@id/confirm_button"
                         app:strokeColor="@color/stroke_primary"
-                        app:strokeWidth="1dp"
-                        tools:layout_editor_absoluteY="0dp" />
+                        app:strokeWidth="1dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

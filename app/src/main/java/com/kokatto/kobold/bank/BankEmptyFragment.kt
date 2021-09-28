@@ -5,15 +5,15 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.kokatto.kobold.R
-import com.kokatto.kobold.bank.dialog.DialogDelete
+import com.kokatto.kobold.bank.dialog.DialogBankDelete
 import com.kokatto.kobold.databinding.FragmentDataEmptyBinding
 
 class BankEmptyFragment : Fragment(R.layout.fragment_data_empty) {
 
     val TAG = "BankEmptyFragment"
 
-    fun newInstance(): DialogDelete? {
-        return DialogDelete()
+    fun newInstance(): DialogBankDelete? {
+        return DialogBankDelete()
     }
 
     private var binding: FragmentDataEmptyBinding? = null

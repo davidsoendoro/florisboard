@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
@@ -18,7 +19,7 @@ class SpinnerBankAdapter(
     private val context: SpinnerBankSelector,
     private val options: ArrayList<BankModel>,
     private var selectedOption: BankModel,
-    private val callback: (result: BankModel) -> Unit
+    private val callback: (result: BankModel, callbackType: String) -> Unit,
 ) : RecyclerView.Adapter<SpinnerBankAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,7 +34,13 @@ class SpinnerBankAdapter(
 
         fun bindViewHolder(option: BankModel) {
 
-            if(option.accountNo.equals(CASH)) {
+            icon?.let {
+                Glide.with(context)
+                    .load(option.asset)
+                    .placeholder(R.drawable.img_cash)
+                    .into(it) };
+
+            if(option.accountNo.uppercase().equals(CASH)) {
                 bankLabel?.text = ""
                 bankNo?.text = option.accountNo
                 bankHolder?.text = ""
@@ -69,7 +76,12 @@ class SpinnerBankAdapter(
 
             layout?.setOnClickListener {
                 selectedOption = option
-                callback(selectedOption)
+                callback(selectedOption, "onclick" )
+            }
+
+            bankEdit?.setOnClickListener {
+                selectedOption = option
+                callback(selectedOption, "onedit")
             }
         }
     }

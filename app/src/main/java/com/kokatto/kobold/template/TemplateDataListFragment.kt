@@ -13,7 +13,6 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
@@ -57,6 +56,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
         fullscreenLoading = view.findViewById<LinearLayout>(R.id.fullcreen_loading)
 
         if (chatTemplateRecyclerAdapter == null) {
+            fullscreenLoading?.isVisible = true
             getChatTemplateList(1)
 //            chatTemplateViewModel?.getChatTemplateList(
 //                onLoading = {
@@ -87,7 +87,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
             isLoading = { isLoadingChatTemplate.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getChatTemplateList(it + 1)
             },
             onLast = { isLastChatTemplate.get() }
@@ -128,7 +128,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
                 }
             },
             onError = {
-                showToast(it)
+                //showToast(it)
                 templateActivityListener?.openErrorFragment()
                 fullscreenLoading!!.isVisible = false
                 chatTemplateRecycler!!.isVisible = true

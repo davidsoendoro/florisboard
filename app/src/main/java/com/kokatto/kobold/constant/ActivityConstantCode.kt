@@ -5,6 +5,9 @@ class ActivityConstantCode {
     companion object {
         // Extra
         val EXTRA_DATA = "EXTRA_DATA"
+        val EXTRA_CREATE = -1
+        val EXTRA_EDIT = 1
+        val EXTRA_MODE = "MODE"
 
         // Activity result code
         val STATUS_TO_PAID = 100
@@ -33,12 +36,9 @@ class ActivityConstantCode {
         val SHOPEE_CHAT_PKG = "com.shopee.id"
 
         // VALUE
-        val CASH = "Cash"
-
-        //FRAGMENT
-        val FRAGMENT_DATA = "DATA"
-        val FRAGMENT_EMPTY = "EMPTY"
-        val FRAGMENT_ERROR = "ERROR"
+        val CASH = "CASH"
+        val BANK_TYPE_OTHER = "OTHER"
+        val BANK_TYPE_BANK = "BANK"
 
     }
 }

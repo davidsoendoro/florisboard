@@ -1,6 +1,7 @@
 package com.kokatto.kobold.dashboardcreatetransaction.spinner
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.bank.BankInputActivity
 import com.kokatto.kobold.bank.BankViewModel
+import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
+import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerBankAdapter
 import com.kokatto.kobold.extension.RoundedBottomSheet
 import com.kokatto.kobold.extension.showToast
+import dev.patrickgold.florisboard.setup.SetupActivity
 import timber.log.Timber
 
 class SpinnerBankSelector : RoundedBottomSheet() {
@@ -37,7 +44,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
     private var fullscreenLoading: LinearLayout? = null
 
     // get using API Function
-    private var selectedOption = BankModel("","Cash","Cash","", "")
+    private var selectedOption = BankModel("",BANK_TYPE_OTHER, CASH,"", "", "")
     private var pickOptions = ArrayList<BankModel>()
 
     private val bankViewModel: BankViewModel = BankViewModel()
@@ -64,9 +71,18 @@ class SpinnerBankSelector : RoundedBottomSheet() {
         recyclerView?.setHasFixedSize(true)
         getBankList()
         recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerView?.adapter = SpinnerBankAdapter(this, pickOptions, selectedOption) { result ->
-            onItemClick?.invoke(result)
-            dismiss()
+        recyclerView?.adapter = SpinnerBankAdapter(this, pickOptions, selectedOption) { result, type ->
+
+            if(type == "onclick"){
+                onItemClick?.invoke(result)
+                dismiss()
+            } else {
+                val intent = Intent(activity, BankInputActivity::class.java)
+                intent.putExtra(ActivityConstantCode.EXTRA_DATA, result)
+                intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
+                startActivity(intent)
+                dismiss()
+            }
         }
 
         backButton?.setOnClickListener {
@@ -74,8 +90,10 @@ class SpinnerBankSelector : RoundedBottomSheet() {
         }
 
         bottomActionButton?.setOnClickListener {
-            // open intent create bank
-            showToast("open Create Bank")
+            val intent = Intent(activity, BankInputActivity::class.java)
+            intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
+            startActivity(intent)
+            dismiss()
         }
     }
 
@@ -98,7 +116,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
             },
             onSuccess = {
                 if (it.data.totalRecord > 0) {
-                    pickOptions.add(BankModel("","Cash","Cash","", ""))
+                    pickOptions.add(BankModel("", BANK_TYPE_OTHER, CASH,"Cash","", ""))
                     pickOptions.addAll(it.data.contents)
                     recyclerView?.adapter?.notifyDataSetChanged()
                     fullscreenLoading!!.isVisible = false
