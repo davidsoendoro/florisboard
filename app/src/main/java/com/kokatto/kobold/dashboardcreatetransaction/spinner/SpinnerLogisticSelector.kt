@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -31,7 +32,7 @@ class SpinnerLogisticSelector : RoundedBottomSheet() {
 
     private var title: TextView? = null
     private var recyclerView: RecyclerView? = null
-    private var backButton: ImageView? = null
+    private var backButton: ImageButton? = null
     private var fullscreenLoading: LinearLayout? = null
     private var selectedOption = PropertiesModel("", "", "", "")
     private var pickOptions = ArrayList<PropertiesModel>()
@@ -50,7 +51,7 @@ class SpinnerLogisticSelector : RoundedBottomSheet() {
         super.onViewCreated(view, savedInstanceState)
         title = view.findViewById<TextView>(R.id.spinner_selector_title)
         title?.text = "Pilih Kurir"
-        backButton = view.findViewById<ImageView>(R.id.spinner_selector_back_button)
+        backButton = view.findViewById<ImageButton>(R.id.spinner_selector_back_button)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
         recyclerView = view.findViewById<RecyclerView>(R.id.spinner_selector_recycler_view)
         recyclerView?.setHasFixedSize(true)

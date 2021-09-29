@@ -14,6 +14,7 @@ class ActivityConstantCode {
         val STATUS_TO_SENT = 101
         val STATUS_TO_COMPLETE = 102
         val STATUS_TO_CANCEL = 103
+        val RESULT_OK_DELETED = 200
 
         // Kirim Nota
         val BELUM_ADA = "Belum ada"

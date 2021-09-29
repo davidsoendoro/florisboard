@@ -2,10 +2,13 @@ package com.kokatto.kobold.bank
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
@@ -30,6 +33,8 @@ class BankInputActivity : AppCompatActivity() {
     private var selectedOption = PropertiesModel("", "", "", "")
     private var isChange = AtomicBoolean(false)
 
+    private var isValidFormArray: BooleanArray = BooleanArray(3)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         uiBinding = ActivityBankInputBinding.inflate(layoutInflater).apply {
@@ -39,19 +44,21 @@ class BankInputActivity : AppCompatActivity() {
         mode = intent.getIntExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
 
         uiBinding.backButton.setOnClickListener {
-            if (isChange.get()) {
-                confirmCancelData()
-            } else {
-                onBackPressed()
-            }
+            onBackPressed()
         }
 
         uiBinding.edittextBankAccount.addTextChangedListener {
+            isValidFormArray[0] =
+                editTextLengthValidation(uiBinding.edittextBankAccount, true, 1, 50, "edittextBankAccountError")
             isChange.set(true)
+            formValidation()
         }
 
         uiBinding.edittextBankHolder.addTextChangedListener {
+            isValidFormArray[1] =
+                editTextLengthValidation(uiBinding.edittextBankHolder, true,1, 100, "edittextBankHolderError")
             isChange.set(true)
+            formValidation()
         }
 
         uiBinding.submitButton.setOnClickListener {
@@ -65,16 +72,20 @@ class BankInputActivity : AppCompatActivity() {
         apiCallBankSelection()
         activityModeFactory(mode!!)
 
+
         uiBinding.recyclerViewBank.layoutManager = LinearLayoutManager(this)
         uiBinding.recyclerViewBank.adapter = BankSpinnerAdapter(this, pickOptions, selectedOption) { result ->
             selectedOption = result
+            isValidFormArray[2] = true
             isChange.set(true)
+            formValidation()
         }
 
+        formValidation()
     }
 
     override fun onBackPressed() {
-        if (isChange.get()) {
+        if (isChange.get() && mode == ActivityConstantCode.EXTRA_CREATE) {
             confirmCancelData()
         } else {
             super.onBackPressed()
@@ -86,6 +97,7 @@ class BankInputActivity : AppCompatActivity() {
             ActivityConstantCode.EXTRA_CREATE -> {
                 uiBinding.titleText.text = resources.getString(R.string.kobold_bank_input_toolbar_title)
                 uiBinding.deleteButton.visibility = View.GONE
+                initBooleanArray(isValidFormArray, false)
             }
             ActivityConstantCode.EXTRA_EDIT -> {
                 uiBinding.titleText.text = resources.getString(R.string.kobold_bank_edit_toolbar_title)
@@ -95,7 +107,7 @@ class BankInputActivity : AppCompatActivity() {
                         currentBank = it
 
                         val bankType = currentBank?.bankType?.uppercase()
-                        if(bankType == BANK_TYPE_OTHER) {
+                        if (bankType == BANK_TYPE_OTHER) {
                             selectedOption = PropertiesModel(
                                 "",
                                 BANK_TYPE_OTHER,
@@ -113,13 +125,10 @@ class BankInputActivity : AppCompatActivity() {
                             )
                         }
 
-                        println(":: ActivityConstantCode.EXTRA_EDIT ::")
-                        println(selectedOption)
-
-
                         constructDataFormIntentData(it)
                     }
                 }
+                initBooleanArray(isValidFormArray, true)
             }
         }
     }
@@ -191,7 +200,7 @@ class BankInputActivity : AppCompatActivity() {
                             currentBank = BankModel(
                                 currentBank!!._id,
                                 "Other",
-                                it.assetDesc,
+                                it.param1,
                                 uiBinding.edittextBankAccount.text.toString(),
                                 uiBinding.edittextBankHolder.text.toString(),
                                 ""
@@ -264,6 +273,81 @@ class BankInputActivity : AppCompatActivity() {
         val bankAccount = uiBinding.edittextBankAccount.text.toString().isNotEmpty()
         val bankHolder = uiBinding.edittextBankHolder.text.toString().isNotEmpty()
         return (bank && bankAccount && bankHolder)
+    }
+
+    private fun addErrorTextView(
+        editText: EditText,
+        viewTag: String,
+        message: String = resources.getString(R.string.template_text_error_length)
+    ) {
+        // Create TextView programmatically.
+        val errorTextView = TextView(this)
+        val textInputLayout = editText.parent.parent as TextInputLayout
+        val errorTextId = textInputLayout.findViewWithTag<TextView>(viewTag)
+
+        if (errorTextId == null) {
+            errorTextView.tag = viewTag
+            errorTextView.text = message
+            errorTextView.setTextAppearance(R.style.error_edit_text)
+            textInputLayout.addView(errorTextView, 1)
+            textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextError, null)
+        }
+
+    }
+
+    private fun removeErrorTextView(editText: EditText, viewTag: String) {
+        val textInputLayout = editText.parent.parent as TextInputLayout
+        textInputLayout.let { til ->
+            til.findViewWithTag<TextView>(viewTag).let {
+                til.removeView(it)
+                til.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault, null)
+            }
+        }
+    }
+
+    private fun editTextLengthValidation(
+        editText: EditText,
+        required: Boolean = false,
+        minChar: Int,
+        maxChar: Int,
+        viewTag: String,
+        message: String = resources.getString(R.string.template_text_error_length)
+    ): Boolean {
+
+        if(required && editText.text.length < minChar) {
+            addErrorTextView(editText, viewTag, resources.getString(R.string.text_error_required))
+            return false
+        } else {
+            if (editText.text.length > maxChar || editText.text.length < minChar) {
+                addErrorTextView(editText, viewTag, message)
+                return false
+            } else {
+                removeErrorTextView(editText, viewTag)
+                return true
+            }
+        }
+    }
+
+    private fun initBooleanArray(arr: BooleanArray, initVal: Boolean) {
+        for (i in arr.indices) {
+            arr[i] = initVal
+        }
+    }
+
+    private fun formValidation() {
+        println("formValidation isNotValid :: ${isNotValid()}")
+        if (isNotValid()) {
+            uiBinding.submitButton.isEnabled = false
+            uiBinding.submitButtonText.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
+        } else {
+            uiBinding.submitButton.isEnabled = true
+            uiBinding.submitButtonText.setBackgroundColor(resources.getColor(R.color.kobold_blue_button, null))
+
+        }
+    }
+
+    private fun isNotValid(): Boolean {
+        return isValidFormArray.any { b -> !b }
     }
 
     private fun apiCallCreateBank(model: BankModel): Boolean {

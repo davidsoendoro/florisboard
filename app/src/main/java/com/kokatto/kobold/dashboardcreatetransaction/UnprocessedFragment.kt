@@ -51,7 +51,7 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getUnprocessedTransactionList(it + 1)
             },
             onLast = { isLast.get() }
@@ -78,7 +78,10 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
                 val data: Intent? = result.data
                 transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
                 unprocessedRecyclerAdapter!!.notifyDataSetChanged()
-                showToast(resources.getString(R.string.kobold_transaction_cancel_toast))
+
+                if(result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL) {
+                        showToast(resources.getString(R.string.kobold_transaction_cancel_toast))
+                }
             }
         }
     }
