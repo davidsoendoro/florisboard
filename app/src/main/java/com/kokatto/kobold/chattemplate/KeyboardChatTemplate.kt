@@ -15,13 +15,12 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
-import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.properties.Delegates
 
@@ -77,7 +76,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (changedView is KeyboardChatTemplate && visibility == View.VISIBLE) {
+        if (changedView is KeyboardChatTemplate && visibility == View.VISIBLE && changedView == this) {
             adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
             chatTemplateRecycler?.adapter = adapter
             adapter?.dataList?.clear()
