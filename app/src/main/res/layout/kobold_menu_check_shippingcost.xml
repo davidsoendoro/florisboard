@@ -24,7 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:hint="@string/kobold_sender_address_hint"
-                app:label="@string/kobold_sender_address_label" />
+                android:inputType="textCapSentences"
+                app:label="@string/kobold_sender_address_label"
+                app:isAutofill="true"/>
 
             <com.kokatto.kobold.uicomponent.KoboldEditText
                 android:id="@+id/receiver_address_edittext"
@@ -32,6 +34,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/kobold_margin_8px"
                 android:hint="@string/kobold_receiver_address_hint"
+                android:inputType="textCapSentences"
                 app:label="@string/kobold_receiver_address_label" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

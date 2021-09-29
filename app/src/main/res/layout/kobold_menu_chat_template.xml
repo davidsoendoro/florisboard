@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone" >
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -71,6 +72,12 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_chat_template"
+                android:layout_marginBottom="@dimen/footer_height"/>
+
+            <ProgressBar
+                android:id="@+id/chat_template_recycler_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/footer_height"/>
 
             <LinearLayout
