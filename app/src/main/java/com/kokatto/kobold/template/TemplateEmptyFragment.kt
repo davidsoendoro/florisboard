@@ -33,7 +33,7 @@ class TemplateEmptyFragment : Fragment(R.layout.template_fragment_empty) {
     private fun onButtonClicked(view: View) {
         when (view.id) {
             R.id.create_button -> {
-                templateActivityListener?.openCreateTemplate()
+                templateActivityListener?.openInputTemplate()
             }
         }
     }
