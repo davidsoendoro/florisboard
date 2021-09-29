@@ -6,13 +6,19 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.databinding.SettingsActivityBinding
 import com.kokatto.kobold.databinding.TemplateActivityBinding
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import dev.patrickgold.florisboard.settings.FRAGMENT_TAG
 import dev.patrickgold.florisboard.setup.SetupActivity
@@ -20,6 +26,8 @@ import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
 interface TemplateActivityListener {
     fun openCreateTemplate(pickInput: String? = null, nameInput: String? = null, content: String? = null)
+    fun openInputTemplate()
+    fun openEditTemplate(autoTextModel: AutoTextModel)
     fun openErrorFragment()
     fun openEmptyFragment()
     fun openDataListFragment()
@@ -37,6 +45,7 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
     private var searchButton: ImageView? = null
     private var warningLayout: LinearLayout? = null
     lateinit var binding: TemplateActivityBinding
+    private var launchInputActivity: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +86,20 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         if (templateNameInputValue != null || templatePickInputValue != null || templateContentValue != null) {
             openCreateTemplate(templatePickInputValue,templateNameInputValue,templateContentValue)
         }
+
+        launchInputActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when(result.resultCode) {
+                ActivityConstantCode.RESULT_OK_CREATED -> {
+                    showSnackBar(findViewById(R.id.parent_layout), resources.getString(R.string.template_create_success))
+                }
+                ActivityConstantCode.RESULT_OK_UPDATED -> {
+                    showSnackBar(findViewById(R.id.parent_layout), resources.getString(R.string.template_update_success))
+                }
+                ActivityConstantCode.RESULT_OK_DELETED -> {
+                    showSnackBar(findViewById(R.id.parent_layout), resources.getString(R.string.template_delete_success))
+                }
+            }
+        }
     }
 
     private fun onButtonClicked(view: View) {
@@ -97,19 +120,31 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
     }
 
     override fun openCreateTemplate(pickInput: String?, nameInput: String?, content: String?) {
-        Intent(this, TemplateActivityInput::class.java).apply {
-            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_CREATE)
-            pickInput?.let { _pickInput ->
-                putExtra(TemplateActivityInput.EXTRA_TEMPLATE, _pickInput)
+        val intent = Intent(this, TemplateActivityInput::class.java)
+        pickInput?.let { _pickInput ->
+                intent.putExtra(TemplateActivityInput.EXTRA_TEMPLATE, _pickInput)
             }
-            nameInput?.let { _nameInput ->
-                putExtra(TemplateActivityInput.EXTRA_TITLE, _nameInput)
+        nameInput?.let { _nameInput ->
+                        intent.putExtra(TemplateActivityInput.EXTRA_TITLE, _nameInput)
             }
-            content?.let { _content ->
-                putExtra(TemplateActivityInput.EXTRA_CONTENT, _content)
+        content?.let { _content ->
+                intent.putExtra(TemplateActivityInput.EXTRA_CONTENT, _content)
             }
-            startActivity(this)
-        }
+        launchInputActivity?.launch(intent)
+    }
+
+    override fun openInputTemplate() {
+        val intent = Intent(applicationContext, TemplateActivityInput::class.java)
+        intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
+        launchInputActivity?.launch(intent)
+    }
+
+    override fun openEditTemplate(model: AutoTextModel) {
+        val intent = Intent(applicationContext, TemplateActivityInput::class.java)
+        intent.putExtra(TemplateActivityInput.EXTRA_ID, model._id)
+        intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+        intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
+        launchInputActivity?.launch(intent)
     }
 
     override fun openErrorFragment() {
@@ -135,4 +170,7 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         super.onResume()
         openDataListFragment()
     }
+
+
+
 }
