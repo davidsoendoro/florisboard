@@ -13,7 +13,7 @@ class DeliveryFeeModel (
     var price_original: Int = 0,
     var price_adjustment: Int = 0,
     var price_adjustment_percentage: Int = 0,
-    var highlight: Int = 0,
+    var highlight: Boolean = false,
     var eta: String = "",
     var error_message: String = "",
     var need_geolocation: Boolean = false,

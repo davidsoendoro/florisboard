@@ -738,5 +738,7 @@
     <string name="check_shippingcost_receiver_hint">Isi kecamatan tujuan</string>
     <string name="check_shippingcost_button">Cek ongkos kirim</string>
     <string name="check_shippingcost_reset">Reset</string>
+    <string name="kobold_menu_choose_shippingcost_back_button">Cek Ongkir Lain</string>
+    <string name="kobold_menu_choose_shippingcost_submit_button">Pasang Info Ongkir</string>
 
 </resources>

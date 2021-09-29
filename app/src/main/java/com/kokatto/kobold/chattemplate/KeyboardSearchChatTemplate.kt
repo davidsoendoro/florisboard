@@ -46,11 +46,11 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
         adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
         chatTemplateRecycler?.adapter = adapter
 
-        loadChatTemplate()
+//        loadChatTemplate()
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        if (visibility == View.VISIBLE) {
+        if (visibility == View.VISIBLE && changedView == this) {
             adapter?.dataList?.clear()
             loadChatTemplate()
         }
