@@ -75,6 +75,7 @@
                 android:id="@+id/kobold_editor"
                 layout="@layout/kobold_editor" />
 
+<!--            7-->
             <include
                 android:id="@+id/kobold_spinner"
                 layout="@layout/kobold_spinner_editor" />

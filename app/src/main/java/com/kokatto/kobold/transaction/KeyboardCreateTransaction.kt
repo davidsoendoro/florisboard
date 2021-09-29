@@ -2,15 +2,19 @@ package com.kokatto.kobold.transaction
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
+import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.showSnackBar
@@ -31,15 +35,9 @@ class KeyboardCreateTransaction : ConstraintLayout {
     private var koboldExpandView: TextView? = null
     private var buyerNameText: KoboldEditText? = null
     private var chooseChannelText: KoboldEditText? = null
-    var selectedChannelOptions = SpinnerEditorItem("Belum Ada")
-    var pickChannelOptions = arrayOf(
-        SpinnerEditorItem("Belum Ada"),
-        SpinnerEditorItem("WhatsApp"),
-        SpinnerEditorItem("WhatsApp Business"),
-        SpinnerEditorItem("Line"),
-        SpinnerEditorItem("Facebook Messenger"),
-        SpinnerEditorItem("Instagram")
-    )
+
+    var selectedChannelOptions = SpinnerEditorWithAssetItem("")
+    var pickChannelOptions = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var phoneNumberText: KoboldEditText? = null
     private var addressText: KoboldEditText? = null
@@ -113,10 +111,8 @@ class KeyboardCreateTransaction : ConstraintLayout {
         chooseChannelText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
-                    context,
-//                    convert arraylist data to array
-                    pickChannelOptions, selectedChannelOptions
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
+                    context, pickChannelOptions, selectedChannelOptions
                 ) { result ->
                     florisboard.inputFeedbackManager.keyPress()
                     chooseChannelText?.editText?.text = result.label
@@ -271,6 +267,28 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     showSnackBar(it)
                 }
             )
+        }
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+
+        if (changedView == this && visibility == View.VISIBLE) {
+
+            transactionViewModel?.getStandardListProperties(
+                type = PropertiesTypeConstant.channel,
+                onSuccess = {
+                    it.data.forEach { it ->
+                        pickChannelOptions.add(
+                            SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                        )
+                    }
+                },
+                onError = {
+                    showSnackBar(it, R.color.snackbar_error)
+                }
+            )
+
         }
     }
 
