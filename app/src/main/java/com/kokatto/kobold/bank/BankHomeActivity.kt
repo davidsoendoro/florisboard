@@ -37,6 +37,7 @@ class BankHomeActivity : AppCompatActivity() {
         }
 
         findViewById<CardView>(R.id.action_create).setOnClickListener {
+            //validate max 15 bank account
             val intent = Intent(this, BankInputActivity::class.java)
             inputActivityResult!!.launch(intent)
         }

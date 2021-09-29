@@ -47,7 +47,7 @@ class BankListFragment : Fragment(R.layout.fragment_data_list), BankRecyclerAdap
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getPaginatedData(it + 1)
             },
             onLast = { isLast.get() }

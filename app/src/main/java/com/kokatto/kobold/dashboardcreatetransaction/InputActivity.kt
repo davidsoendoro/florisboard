@@ -185,7 +185,7 @@ class InputActivity : AppCompatActivity() {
                 selectedBank = it
 
                 if (it.accountNo == "Cash") {
-                    editTextPayment?.setText(it.accountNo)
+                    editTextPayment?.setText("Cash")
                 } else {
                     editTextPayment?.setText(it.bank)
                 }

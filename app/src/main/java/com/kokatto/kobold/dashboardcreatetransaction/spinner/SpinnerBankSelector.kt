@@ -3,6 +3,7 @@ package com.kokatto.kobold.dashboardcreatetransaction.spinner
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,11 @@ class SpinnerBankSelector : RoundedBottomSheet() {
         recyclerView?.setHasFixedSize(true)
         getBankList()
         recyclerView?.layoutManager = LinearLayoutManager(context)
+
+        val params: ViewGroup.LayoutParams? = recyclerView?.layoutParams
+        params?.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240f, resources.displayMetrics).toInt()
+        recyclerView?.layoutParams = params
+
         recyclerView?.adapter = SpinnerBankAdapter(this, pickOptions, selectedOption) { result, type ->
 
             if(type == "onclick"){
@@ -91,10 +97,16 @@ class SpinnerBankSelector : RoundedBottomSheet() {
         }
 
         bottomActionButton?.setOnClickListener {
-            val intent = Intent(activity, BankInputActivity::class.java)
-            intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
-            startActivity(intent)
-            dismiss()
+
+            //validate max 15 bank account
+            if(pickOptions.size >=15){
+                showToast(R.string.kobold_bank_maximum)
+            } else {
+                val intent = Intent(activity, BankInputActivity::class.java)
+                intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_CREATE)
+                startActivity(intent)
+                dismiss()
+            }
         }
     }
 
@@ -112,6 +124,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
         fullscreenLoading!!.isVisible = true
         bankViewModel.getPaginated(
             page = 1,
+            pageSize = 15,
             onLoading = {
                 Timber.e(it.toString())
             },

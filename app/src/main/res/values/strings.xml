@@ -701,7 +701,7 @@
     <string name="kobold_menu_transaction_data_unavailable_content">Daftar penjualan dengan pelanggan akan muncul disini.</string>
     <string name="kobold_transaction_courier">Kurir</string>
 
-
+    <string name="kobold_bank_maximum">Maksimal hanya 15 rekening bank</string>
     <string name="kobold_bank_toolbar_title">Rekening Bank</string>
     <string name="kobold_bank_empty_title">Belum ada rekening bank terpasang</string>
     <string name="kobold_bank_input_toolbar_title">Tambah rekening bank</string>
