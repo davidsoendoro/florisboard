@@ -18,10 +18,13 @@ class KeyboardIdentityMainMenu : LinearLayout {
     var toDashboardButton: TextView? = null
         private set
 
-    var chatTemplateButton: LinearLayout? = null
+    var transactionButton: LinearLayout? = null
         private set
 
-    var transactionButton: LinearLayout? = null
+    var orderStatusButton: LinearLayout? = null
+        private set
+
+    var chatTemplateButton: LinearLayout? = null
         private set
 
     var checkShippingcost: LinearLayout? = null
@@ -33,11 +36,14 @@ class KeyboardIdentityMainMenu : LinearLayout {
         toDashboardButton = findViewById(R.id.to_dashboard)
         toDashboardButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
 
-        chatTemplateButton = findViewById(R.id.chat_template_button)
-        chatTemplateButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
-
         transactionButton = findViewById(R.id.create_transaction_button)
         transactionButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+
+        orderStatusButton = findViewById(R.id.order_status_button)
+        orderStatusButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+
+        chatTemplateButton = findViewById(R.id.chat_template_button)
+        chatTemplateButton?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
 
         checkShippingcost = findViewById(R.id.check_shippingcost_button)
         checkShippingcost?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
@@ -47,8 +53,9 @@ class KeyboardIdentityMainMenu : LinearLayout {
         florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
             R.id.to_dashboard -> florisboard?.launchToDashboard()
+            R.id.create_transaction_button -> florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+            R.id.order_status_button -> florisboard?.setActiveInput(R.id.kobold_menu_transaction)
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
-            R.id.create_transaction_button -> florisboard?.setActiveInput(R.id.kobold_menu_transaction)
             R.id.check_shippingcost_button -> florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
         }
     }
