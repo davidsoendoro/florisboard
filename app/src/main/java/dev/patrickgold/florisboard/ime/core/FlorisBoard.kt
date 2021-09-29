@@ -48,6 +48,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
@@ -1020,9 +1021,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>) {
+    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>, title: String = "") {
         uiBinding?.mainViewFlipper?.displayedChild = 7
 
+        val spinnerTitle = uiBinding?.mainViewFlipper?.findViewById<TextView>(R.id.spinner_title_text)
+        spinnerTitle?.text =
+            if (title == "")
+                resources.getString(R.string.kobold_pick_template)
+            else
+                title
         val spinnerOptions = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options)
         val recyclerViewSpinner = spinnerOptions?.findViewById<RecyclerView>(R.id.spinner_options_recycler_view)
         recyclerViewSpinner?.adapter = spinnerAdapter
@@ -1230,16 +1237,22 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     ) {
         @Transient
         var currencySetNames: List<String> = listOf()
+
         @Transient
         var currencySetLabels: List<String> = listOf()
+
         @Transient
         var composerNames: List<String> = listOf()
+
         @Transient
         var composerLabels: List<String> = listOf()
+
         @Transient
         val composerFromName: Map<String, Composer> = composers.map { it.name to it }.toMap()
+
         @Transient
         var defaultSubtypesLanguageCodes: List<String> = listOf()
+
         @Transient
         var defaultSubtypesLanguageNames: List<String> = listOf()
 

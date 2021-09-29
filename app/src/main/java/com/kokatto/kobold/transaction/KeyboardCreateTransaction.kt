@@ -2,15 +2,19 @@ package com.kokatto.kobold.transaction
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
+import com.kokatto.kobold.bank.BankViewModel
+import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
-import com.kokatto.kobold.editor.SpinnerEditorAdapter
-import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
+import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.showSnackBar
@@ -27,43 +31,26 @@ class KeyboardCreateTransaction : ConstraintLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
+    private var bankViewModel: BankViewModel? = BankViewModel()
 
     private var koboldExpandView: TextView? = null
     private var buyerNameText: KoboldEditText? = null
     private var chooseChannelText: KoboldEditText? = null
-    var selectedChannelOptions = SpinnerEditorItem("Belum Ada")
-    var pickChannelOptions = arrayOf(
-        SpinnerEditorItem("Belum Ada"),
-        SpinnerEditorItem("WhatsApp"),
-        SpinnerEditorItem("WhatsApp Business"),
-        SpinnerEditorItem("Line"),
-        SpinnerEditorItem("Facebook Messenger"),
-        SpinnerEditorItem("Instagram")
-    )
+
+    var selectedChannelOptions = SpinnerEditorWithAssetItem("")
+    var pickChannelOptions = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var phoneNumberText: KoboldEditText? = null
     private var addressText: KoboldEditText? = null
     private var orderDetailText: KoboldEditText? = null
     private var itemPriceText: KoboldEditText? = null
     private var choosePaymentMethodText: KoboldEditText? = null
-    var selectedPaymentMethodOption = SpinnerEditorItem("Cash")
-    var pickPaymentMethodOption = arrayOf(
-        SpinnerEditorItem("Cash"),
-        SpinnerEditorItem("BCA"),
-        SpinnerEditorItem("Mandiri"),
-        SpinnerEditorItem("BTPN")
-    )
+    var selectedPaymentMethodOption = SpinnerEditorWithAssetItem("")
+    var pickPaymentMethodOption = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var chooseCourierText: KoboldEditText? = null
-    var selectedCourierOption = SpinnerEditorItem("JNE - Package A")
-    var pickCourierOption = arrayOf(
-        SpinnerEditorItem("JNE - Package A"),
-        SpinnerEditorItem("JNE - Package B"),
-        SpinnerEditorItem("J&T - Package A"),
-        SpinnerEditorItem("J&T - Package B"),
-        SpinnerEditorItem("Lion Parcel - Package A"),
-        SpinnerEditorItem("Lion Parcel - Package B"),
-    )
+    var selectedCourierOption = SpinnerEditorWithAssetItem("")
+    var pickCourierOption = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var shippingCostText: KoboldEditText? = null
     private var backButton: ImageView? = null
@@ -113,16 +100,15 @@ class KeyboardCreateTransaction : ConstraintLayout {
         chooseChannelText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
-                    context,
-//                    convert arraylist data to array
-                    pickChannelOptions, selectedChannelOptions
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
+                    context, pickChannelOptions, selectedChannelOptions
                 ) { result ->
                     florisboard.inputFeedbackManager.keyPress()
                     chooseChannelText?.editText?.text = result.label
                     florisboard.setActiveInput(R.id.kobold_menu_create_transaction)
                     selectedChannelOptions = result
-                }
+                },
+                "Pilih Channel"
             )
         }
 
@@ -205,7 +191,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         choosePaymentMethodText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
                     context,
 //                    convert arraylist data to array
                     pickPaymentMethodOption, selectedPaymentMethodOption
@@ -216,23 +202,25 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     selectedPaymentMethodOption = result
 
                     invalidateSaveButton()
-                }
+                },
+                "Pilih Metode pembayaran"
             )
         }
 
         chooseCourierText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
                     context,
 //                    convert arraylist data to array
-                    pickCourierOption, selectedCourierOption
+                    pickCourierOption, selectedCourierOption,
                 ) { result ->
                     florisboard.inputFeedbackManager.keyPress()
                     chooseCourierText?.editText?.text = result.label
                     florisboard.setActiveInput(R.id.kobold_menu_create_transaction)
                     selectedCourierOption = result
-                }
+                },
+                "Pilih Kurir"
             )
         }
 
@@ -271,6 +259,61 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     showSnackBar(it)
                 }
             )
+        }
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+
+        if (changedView == this && visibility == View.VISIBLE) {
+
+            if (pickChannelOptions.size == 0)
+                transactionViewModel?.getStandardListProperties(
+                    type = PropertiesTypeConstant.channel,
+                    onSuccess = {
+                        it.data.forEach { it ->
+                            pickChannelOptions.add(
+                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
+
+            if (pickCourierOption.size == 0)
+                transactionViewModel?.getStandardListProperties(
+                    type = PropertiesTypeConstant.logistic,
+                    onSuccess = {
+                        it.data.forEach { it ->
+                            pickCourierOption.add(
+                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
+
+            if (pickPaymentMethodOption.size == 0)
+                pickPaymentMethodOption.add(SpinnerEditorWithAssetItem("Cash", "cash"))
+
+            bankViewModel?.getPaginated(
+                onLoading = {},
+                onSuccess = {
+                    it.data.contents.forEach {
+                        pickPaymentMethodOption.add(
+                            SpinnerEditorWithAssetItem(getBankInfoStringFormat(it), it.asset)
+                        )
+                    }
+                },
+                onError = {
+                    showSnackBar(it, R.color.snackbar_error)
+                }
+            )
+
         }
     }
 

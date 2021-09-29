@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.kokatto.kobold.checkshippingcost.KeyboardChooseShippingCost xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/editorBackground">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/choose_courier_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_choose_courier" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/footer_layout"
