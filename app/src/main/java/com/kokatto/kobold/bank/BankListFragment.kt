@@ -95,4 +95,9 @@ class BankListFragment : Fragment(R.layout.fragment_data_list), BankRecyclerAdap
             }
         )
     }
+
+    fun isReachMaximum() : Boolean {
+        return dataList.size >= 15
+    }
+
 }
