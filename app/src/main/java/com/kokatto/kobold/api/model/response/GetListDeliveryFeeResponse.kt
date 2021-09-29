@@ -1,9 +1,9 @@
 package com.kokatto.kobold.api.model.response
 
-import com.kokatto.kobold.api.model.basemodel.PropertiesModel
+import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
 
 data class GetListDeliveryFeeResponse(
-    val data: List<PropertiesModel>,
+    val data: List<DeliveryFeeModel>,
     val statusCode: Int,
     val statusMessage: String
 )
