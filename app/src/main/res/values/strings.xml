@@ -628,6 +628,7 @@
     <string name="kobold_transaction_action_nota">Kirim nota pembelian</string>
     <string name="kobold_transaction_action_nota_toast">Pesan nota pembelian berhasil di copy, silahkan pasang di chat pembelimu.</string>
     <string name="kobold_transaction_action_nota_toast_error">Tidak ditemukan nomor telpon tersimpan.</string>
+    <string name="kobold_transaction_action_save_success">Transaksi berhasil disimpan</string>
     <string name="kobold_transaction_action_chat">Chat ke Pembeli</string>
     <string name="kobold_transaction_action_chat_toast">Tidak ditemukan nomor telpon tersimpan.</string>
     <string name="kobold_transaction_action_unpaid">Ganti ke belum dibayar</string>

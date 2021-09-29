@@ -115,6 +115,7 @@ class InputActivity : AppCompatActivity() {
             EDIT -> {
                 intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
                     if (model != null) {
+                        currentTransaction = model
                         layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
                         btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
                         disableFormInput(false)
@@ -129,6 +130,7 @@ class InputActivity : AppCompatActivity() {
             EDIT_COMPLETE -> {
                 intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
                     if (model != null) {
+                        currentTransaction = model
                         layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
                         btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
                         disableFormCompleteState()
@@ -307,6 +309,7 @@ class InputActivity : AppCompatActivity() {
                         onSuccess = {
                             setActivityResultOK(model)
                             progressSubmit(false)
+                            showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             progressSubmit(false)
@@ -321,6 +324,7 @@ class InputActivity : AppCompatActivity() {
                         onSuccess = {
                             setActivityResultOK(model)
                             progressSubmit(false)
+                            showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             super.finish()
