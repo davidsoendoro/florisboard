@@ -49,13 +49,15 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         senderAddressEdittext?.setOnClickListener {
             val imeOptions = senderAddressEdittext?.imeOptions ?: 0
             val inputType = senderAddressEdittext?.inputType ?: 0
+            val isAutofill = senderAddressEdittext?.isAutofill ?: false
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openEditor(
                 R.id.kobold_menu_check_shippingcost,
                 imeOptions,
                 inputType,
                 senderAddressEdittext?.label?.text.toString(),
-                senderAddressEdittext?.editText?.text.toString()
+                senderAddressEdittext?.editText?.text.toString(),
+                isAutofill
             ) { result ->
                 senderAddressEdittext?.editText?.text = result
                 invalidateSaveButton()

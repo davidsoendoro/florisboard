@@ -206,7 +206,11 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     }
 
     private fun getChatTemplateList(): List<AutoTextModel>? {
-        return AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList()?.subList(0, 5) ?: listOf()
+        var chatTemplateList = AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList()
+        if (chatTemplateList != null && chatTemplateList.size > 5) {
+            chatTemplateList = chatTemplateList.subList(0, 5)
+        }
+        return chatTemplateList
     }
 
     override fun onDetachedFromWindow() {

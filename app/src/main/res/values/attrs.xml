@@ -55,6 +55,7 @@
         <attr name="showChevron" format="boolean"/>
         <attr name="showCalculator" format="boolean"/>
         <attr name="maxAllowedCharacters" format="integer"/>
+        <attr name="isAutofill" format="boolean"/>
     </declare-styleable>
 
 </resources>
