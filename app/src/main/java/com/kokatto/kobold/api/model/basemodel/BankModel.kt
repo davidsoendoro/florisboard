@@ -12,3 +12,7 @@ data class BankModel(
     val accountHolder: String,
     val asset: String
 ) : Parcelable
+
+fun getBankInfoStringFormat(bank: BankModel): String {
+    return "(${bank.bank}) ${bank.accountNo} • ${bank.accountHolder}"
+}

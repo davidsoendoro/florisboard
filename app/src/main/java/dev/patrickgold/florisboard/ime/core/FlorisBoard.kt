@@ -45,6 +45,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
@@ -62,7 +63,6 @@ import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.transaction.KeyboardSearchTransaction
 import com.kokatto.kobold.uicomponent.KoboldEditText
@@ -76,7 +76,6 @@ import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
-import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -926,7 +925,14 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openEditor(destination: Int, imeOptions: Int = 0, editorInputType: Int = 0, label: String = "", value: String = "", callback: (result: String) -> Unit) {
+    fun openEditor(
+        destination: Int,
+        imeOptions: Int = 0,
+        editorInputType: Int = 0,
+        label: String = "",
+        value: String = "",
+        callback: (result: String) -> Unit
+    ) {
         val keyboardViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
 
@@ -972,9 +978,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>) {
+    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>, title: String = "") {
         uiBinding?.mainViewFlipper?.displayedChild = 7
 
+        val spinnerTitle = uiBinding?.mainViewFlipper?.findViewById<TextView>(R.id.spinner_title_text)
+        spinnerTitle?.text =
+            if (title == "")
+                resources.getString(R.string.kobold_pick_template)
+            else
+                title
         val spinnerOptions = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options)
         val recyclerViewSpinner = spinnerOptions?.findViewById<RecyclerView>(R.id.spinner_options_recycler_view)
         recyclerViewSpinner?.adapter = spinnerAdapter
@@ -1180,16 +1192,22 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     ) {
         @Transient
         var currencySetNames: List<String> = listOf()
+
         @Transient
         var currencySetLabels: List<String> = listOf()
+
         @Transient
         var composerNames: List<String> = listOf()
+
         @Transient
         var composerLabels: List<String> = listOf()
+
         @Transient
         val composerFromName: Map<String, Composer> = composers.map { it.name to it }.toMap()
+
         @Transient
         var defaultSubtypesLanguageCodes: List<String> = listOf()
+
         @Transient
         var defaultSubtypesLanguageNames: List<String> = listOf()
 

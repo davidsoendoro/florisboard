@@ -35,7 +35,14 @@ class SpinnerEditorWithAssetAdapter(
             label = layout?.findViewById(R.id.kobold_spinner_item_withasset_label)
             tick = layout?.findViewById(R.id.kobold_spinner_item_withasset_checklist)
 
-            Glide.with(item).load(option.assetUrl).into(asset!!)
+            Glide.with(item).load(
+                if (option.assetUrl == "cash")
+                    item.resources.getDrawable(R.drawable.img_cash)
+                else if (option.assetUrl == "")
+                    "https://kobold-test-asset.s3.ap-southeast-1.amazonaws.com/public/img_bank_unknown.png"
+                else
+                    option.assetUrl
+            ).into(asset!!)
 
             label?.text = option.label
 
