@@ -178,7 +178,6 @@
                         android:id="@+id/submit_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="0dp">
 

@@ -126,7 +126,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
 
             // accepted form expand view or button create
             if (extraTemplate == null || extraTemplate == "") {
-                setEditTextValue("Pesan Pembuka", "", "")
+                setEditTextValue("Custom", "", "")
                 markButtonSaveDisable(true)
             } else {
                 setEditTextValue(extraTemplate, extraTitle, extraContent)
@@ -140,7 +140,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
 
     override fun onItemClick(item: String?) {
         textInputTemplate?.setText(item)
-        //prefillByTemplate(item)
+        prefillByTemplate(item)
     }
 
     private fun onClicked(view: View) {

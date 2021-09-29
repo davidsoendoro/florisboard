@@ -566,6 +566,7 @@
     <string name="template_create_success">Template berhasil dibuat.</string>
     <string name="template_update_success">Template berhasil diperbaharui.</string>
     <string name="template_text_error_length">Melebihi karakter yang tersedia</string>
+    <string name="text_error_required">Wajib diisi</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>
