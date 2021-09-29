@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
@@ -160,8 +161,10 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                             _extraId,
                             model,
                             onSuccess = {
-                                super.finish()
-                                showToast(resources.getString(R.string.template_update_success))
+                                val intent = Intent()
+                                intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+                                setResult(ActivityConstantCode.RESULT_OK_UPDATED, intent)
+                                finish()
                             },
                             onError = {
                                 showToast(it)
@@ -177,8 +180,10 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                         chatTemplateViewModel?.createChatTemplate(
                             model,
                             onSuccess = {
-                                super.finish()
-                                showToast(resources.getString(R.string.template_create_success))
+                                val intent = Intent()
+                                intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+                                setResult(ActivityConstantCode.RESULT_OK_CREATED, intent)
+                                finish()
                             },
                             onError = {
                                 showToast(it)
@@ -204,7 +209,6 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                     chatTemplateViewModel?.deleteAutotextById(
                         _id,
                         onSuccess = { it ->
-                            showToast(resources.getString(R.string.template_delete_success))
                             val intent = Intent()
                             intent.putExtra(ActivityConstantCode.EXTRA_DATA, data)
                             setResult(ActivityConstantCode.RESULT_OK_DELETED, intent)

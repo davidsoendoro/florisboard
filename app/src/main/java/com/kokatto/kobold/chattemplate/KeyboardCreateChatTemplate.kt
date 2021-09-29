@@ -55,6 +55,8 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.activeEditorInstance?.activeEditText = null
             florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
+            koboldTemplateNameInput?.editText?.text = ""
+            koboldTemplateContent?.editText?.text = ""
         }
         koboldExpandView?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()

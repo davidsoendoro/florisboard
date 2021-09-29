@@ -17,6 +17,7 @@
 package dev.patrickgold.florisboard.ime.core
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -27,7 +28,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.Size
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -95,6 +98,7 @@ import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.AppVersionUtils
 import dev.patrickgold.florisboard.util.debugSummarize
 import dev.patrickgold.florisboard.util.findViewWithType
+import dev.patrickgold.florisboard.util.getActivity
 import dev.patrickgold.florisboard.util.refreshLayoutOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -106,6 +110,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
+import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -115,6 +120,11 @@ import java.util.concurrent.CopyOnWriteArrayList
  *  rework the codebase but it should be doable.
  */
 private var florisboardInstance: FlorisBoard? = null
+
+/**
+ * Additional Kobold Config
+ */
+const val DELAY: Long = 700
 
 /**
  * Core class responsible to link together both the text and media input managers as well as
@@ -175,7 +185,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     private var isWindowShown: Boolean = false
 
     private var responseState = ResponseState.RESET
-    var koboldState = KoboldState.NORMAL
+    var koboldState = KoboldState.TEMPLATE_LIST_RELOAD
     private var pendingResponse: Runnable? = null
     private val handler: Handler = Handler(Looper.getMainLooper())
 
@@ -927,14 +937,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openEditor(
-        destination: Int,
-        imeOptions: Int = 0,
-        editorInputType: Int = 0,
-        label: String = "",
-        value: String = "",
-        callback: (result: String) -> Unit
-    ) {
+    fun openEditor(destination: Int, imeOptions: Int = 0, editorInputType: Int = 0, label: String = "", value: String = "", isAutofill: Boolean = false, callback: (result: String) -> Unit) {
         val keyboardViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
 
@@ -956,6 +959,44 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         editTextEditor?.editable?.requestFocus()
         editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
         florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
+
+        if (isAutofill) {
+            editTextEditor?.editable?.addTextChangedListener(object : TextWatcher {
+                var timer: Timer? = null
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence, start: Int, before: Int,
+                    count: Int
+                ) {
+                    if (timer != null) timer?.cancel()
+                }
+
+                override fun afterTextChanged(s: Editable) {
+                    //avoid triggering event when text is too short
+                    if (s.length >= 3) {
+
+                        timer = Timer()
+                        timer?.schedule(object : TimerTask() {
+                            override fun run() {
+                                // TODO: do what you need here (refresh list)
+                                // you will probably need to use
+                                // runOnUiThread(Runnable action) for some specific
+                                // actions
+                                handler.run {
+                                    setActiveInput(R.id.kobold_spinner)
+                                }
+                            }
+                        }, DELAY)
+                    }
+                }
+            })
+        }
 
         val onEditCommitted = {
             val result = editTextEditor?.editable?.text.toString()
@@ -1047,6 +1088,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             //menu chat template
             R.id.kobold_menu_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 4
+                val keyboardChatTemplate = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.kobold_menu_chat_template)
+                keyboardChatTemplate?.visibility = View.VISIBLE
                 if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
                     uiBinding?.mainViewFlipper?.invalidate()
                 }
