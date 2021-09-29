@@ -53,15 +53,8 @@ class KeyboardCreateTransaction : ConstraintLayout {
     )
 
     private var chooseCourierText: KoboldEditText? = null
-    var selectedCourierOption = SpinnerEditorItem("JNE - Package A")
-    var pickCourierOption = arrayOf(
-        SpinnerEditorItem("JNE - Package A"),
-        SpinnerEditorItem("JNE - Package B"),
-        SpinnerEditorItem("J&T - Package A"),
-        SpinnerEditorItem("J&T - Package B"),
-        SpinnerEditorItem("Lion Parcel - Package A"),
-        SpinnerEditorItem("Lion Parcel - Package B"),
-    )
+    var selectedCourierOption = SpinnerEditorWithAssetItem("")
+    var pickCourierOption = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var shippingCostText: KoboldEditText? = null
     private var backButton: ImageView? = null
@@ -219,7 +212,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         chooseCourierText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
                     context,
 //                    convert arraylist data to array
                     pickCourierOption, selectedCourierOption
@@ -275,19 +268,35 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
         if (changedView == this && visibility == View.VISIBLE) {
 
-            transactionViewModel?.getStandardListProperties(
-                type = PropertiesTypeConstant.channel,
-                onSuccess = {
-                    it.data.forEach { it ->
-                        pickChannelOptions.add(
-                            SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
-                        )
+            if (pickChannelOptions.size == 0)
+                transactionViewModel?.getStandardListProperties(
+                    type = PropertiesTypeConstant.channel,
+                    onSuccess = {
+                        it.data.forEach { it ->
+                            pickChannelOptions.add(
+                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
                     }
-                },
-                onError = {
-                    showSnackBar(it, R.color.snackbar_error)
-                }
-            )
+                )
+
+            if (pickCourierOption.size == 0)
+                transactionViewModel?.getStandardListProperties(
+                    type = PropertiesTypeConstant.logistic,
+                    onSuccess = {
+                        it.data.forEach { it ->
+                            pickCourierOption.add(
+                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
 
         }
     }
