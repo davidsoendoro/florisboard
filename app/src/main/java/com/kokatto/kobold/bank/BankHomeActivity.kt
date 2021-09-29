@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.databinding.ActivityBankHomeBinding
+import com.kokatto.kobold.extension.showToast
 import dev.patrickgold.florisboard.settings.FRAGMENT_TAG
 
 class BankHomeActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class BankHomeActivity : AppCompatActivity() {
     lateinit var uiBinding: ActivityBankHomeBinding
 
     private var inputActivityResult: ActivityResultLauncher<Intent>? = null
+    private var bankListFragment: BankListFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +39,15 @@ class BankHomeActivity : AppCompatActivity() {
         }
 
         findViewById<CardView>(R.id.action_create).setOnClickListener {
-            val intent = Intent(this, BankInputActivity::class.java)
-            inputActivityResult!!.launch(intent)
+            //validate max 15 bank account
+            if(bankListFragment!=null) {
+                if(bankListFragment!!.isReachMaximum()) {
+                    showToast(resources.getString(R.string.kobold_bank_maximum))
+                } else {
+                    val intent = Intent(this, BankInputActivity::class.java)
+                    inputActivityResult!!.launch(intent)
+                }
+            }
         }
 
         loadFragment(openDataListFragment())
@@ -51,15 +60,15 @@ class BankHomeActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun openDataListFragment() : Fragment {
-        val fragment = BankListFragment()
+    private fun openDataListFragment() : BankListFragment {
+        bankListFragment = BankListFragment()
 
-        fragment.onEmptyResult = {
+        bankListFragment?.onEmptyResult = {
             uiBinding.actionCreate.visibility = View.GONE
             loadFragment(openEmptyFragment())
         }
 
-        fragment.onRowClick = {
+        bankListFragment?.onRowClick = {
             val intent = Intent(this, BankInputActivity::class.java)
             intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
             intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
@@ -67,7 +76,7 @@ class BankHomeActivity : AppCompatActivity() {
         }
 
         uiBinding.actionCreate.visibility = View.VISIBLE
-        return fragment
+        return bankListFragment as BankListFragment
     }
 
     private fun openEmptyFragment() : Fragment {

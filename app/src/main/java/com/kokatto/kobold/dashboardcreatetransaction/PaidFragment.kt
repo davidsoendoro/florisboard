@@ -53,7 +53,7 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getPaidTransactionList(it + 1)
             },
             onLast = { isLast.get() }

@@ -13,8 +13,8 @@ class DialogBankCancel : RoundedBottomSheet() {
 
     val TAG = "DialogBankCancel"
 
-    fun newInstance(): DialogBankDelete? {
-        return DialogBankDelete()
+    fun newInstance(): DialogBankCancel? {
+        return DialogBankCancel()
     }
 
     var onConfirmClick: ((Boolean) -> Unit)? = null

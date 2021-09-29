@@ -47,7 +47,7 @@ class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHome
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getCancelledTransactionList(it + 1)
             },
             onLast = { isLast.get() }

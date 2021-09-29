@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.extension.RoundedBottomSheet
 
-class DialogCancel : RoundedBottomSheet() {
+class DialogCancel : BottomSheetDialogFragment() {
 
     val TAG = "DialogCancel"
 

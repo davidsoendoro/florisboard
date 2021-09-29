@@ -8,13 +8,18 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.dashboardcreatetransaction.DetailActivity
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
@@ -39,6 +44,8 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
 
     private val isLoadingChatTemplate = AtomicBoolean(true)
     private val isLastChatTemplate = AtomicBoolean(false)
+
+    private var launchInputActivity: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +99,14 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
             onLast = { isLastChatTemplate.get() }
         ).run {
             threshold = 3
+        }
+
+        launchInputActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == ActivityConstantCode.RESULT_OK_DELETED) {
+                val data: Intent? = result.data
+                chatTemplateList.remove(data?.getParcelableExtra<AutoTextModel>(ActivityConstantCode.EXTRA_DATA))
+                chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
+            }
         }
     }
 
@@ -165,13 +180,15 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
     }
 
     override fun onClicked(data: AutoTextModel) {
-        Intent(applicationContext, TemplateActivityInput::class.java).apply {
-            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_EDIT)
-            putExtra(TemplateActivityInput.EXTRA_ID, data._id)
-            putExtra(TemplateActivityInput.EXTRA_TEMPLATE, data.template)
-            putExtra(TemplateActivityInput.EXTRA_TITLE, data.title)
-            putExtra(TemplateActivityInput.EXTRA_CONTENT, data.content)
-            startActivity(this)
-        }
+        val intent = Intent(applicationContext, TemplateActivityInput::class.java)
+        intent.putExtra(TemplateActivityInput.EXTRA_ID, data._id)
+        intent.putExtra(ActivityConstantCode.EXTRA_DATA, data)
+        intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
+        launchInputActivity?.launch(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        performSearch(1, search = searchEdittext?.text.toString())
     }
 }

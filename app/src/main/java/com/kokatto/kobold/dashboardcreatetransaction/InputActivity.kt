@@ -115,6 +115,7 @@ class InputActivity : AppCompatActivity() {
             EDIT -> {
                 intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
                     if (model != null) {
+                        currentTransaction = model
                         layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
                         btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
                         disableFormInput(false)
@@ -129,6 +130,7 @@ class InputActivity : AppCompatActivity() {
             EDIT_COMPLETE -> {
                 intent.getParcelableExtra<TransactionModel>(EXTRA_DATA).let { model ->
                     if (model != null) {
+                        currentTransaction = model
                         layoutTitleText?.text = resources.getString(R.string.form_trx_edit)
                         btnSubmitText?.text = resources.getString(R.string.form_trx_btn_edit)
                         disableFormCompleteState()
@@ -185,7 +187,7 @@ class InputActivity : AppCompatActivity() {
                 selectedBank = it
 
                 if (it.accountNo == "Cash") {
-                    editTextPayment?.setText(it.accountNo)
+                    editTextPayment?.setText("Cash")
                 } else {
                     editTextPayment?.setText(it.bank)
                 }
@@ -307,6 +309,7 @@ class InputActivity : AppCompatActivity() {
                         onSuccess = {
                             setActivityResultOK(model)
                             progressSubmit(false)
+                            showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             progressSubmit(false)
@@ -321,6 +324,7 @@ class InputActivity : AppCompatActivity() {
                         onSuccess = {
                             setActivityResultOK(model)
                             progressSubmit(false)
+                            showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             super.finish()
@@ -384,10 +388,14 @@ class InputActivity : AppCompatActivity() {
         model.notes.let { s -> editTextNote?.setText(s) }
         model.price.let { s -> editTextPrice?.setText(s.toString()) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
-        selectedBank = BankModel(
-            "",
-            model.bankType!!, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset
-        )
+
+        if(model.bankType !=null) {
+            selectedBank = BankModel(
+                "",
+                model.bankType, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset
+            )
+        }
+
         model.logistic.let { s -> editTextLogistic?.setText(s) }
         selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }

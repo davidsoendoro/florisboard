@@ -39,6 +39,6 @@ fun createTransactionChat(model: TransactionModel): String {
         "\nOngkir: ${CurrencyUtility.currencyFormatter(model.deliveryFee)}" +
         "\nKurir: ${model.logistic}" +
         "\n\nSilahkan, proses pembayaran bisa via:" +
-        "\n\n${model.bankAsset} - ${model.bankAccountNo} - ${model.bankAccountName}" +
+        "\n\n${model.payingMethod} - ${model.bankAccountNo} - ${model.bankAccountName}" +
         "\n\nTerima Kasih :-)"
 }
