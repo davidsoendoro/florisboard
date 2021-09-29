@@ -71,7 +71,7 @@ class BankInputActivity : AppCompatActivity() {
 
         apiCallBankSelection()
         activityModeFactory(mode!!)
-        initBooleanArray(isValidFormArray, false)
+
 
         uiBinding.recyclerViewBank.layoutManager = LinearLayoutManager(this)
         uiBinding.recyclerViewBank.adapter = BankSpinnerAdapter(this, pickOptions, selectedOption) { result ->
@@ -97,6 +97,7 @@ class BankInputActivity : AppCompatActivity() {
             ActivityConstantCode.EXTRA_CREATE -> {
                 uiBinding.titleText.text = resources.getString(R.string.kobold_bank_input_toolbar_title)
                 uiBinding.deleteButton.visibility = View.GONE
+                initBooleanArray(isValidFormArray, false)
             }
             ActivityConstantCode.EXTRA_EDIT -> {
                 uiBinding.titleText.text = resources.getString(R.string.kobold_bank_edit_toolbar_title)
@@ -124,13 +125,10 @@ class BankInputActivity : AppCompatActivity() {
                             )
                         }
 
-                        println(":: ActivityConstantCode.EXTRA_EDIT ::")
-                        println(selectedOption)
-
-
                         constructDataFormIntentData(it)
                     }
                 }
+                initBooleanArray(isValidFormArray, true)
             }
         }
     }
@@ -202,7 +200,7 @@ class BankInputActivity : AppCompatActivity() {
                             currentBank = BankModel(
                                 currentBank!!._id,
                                 "Other",
-                                it.assetDesc,
+                                it.param1,
                                 uiBinding.edittextBankAccount.text.toString(),
                                 uiBinding.edittextBankHolder.text.toString(),
                                 ""
