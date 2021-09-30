@@ -19,6 +19,7 @@ import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.template.dialog.DialogClearConfirm
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -140,8 +141,31 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
 
 
     override fun onItemClick(item: String?) {
-        textInputTemplate?.setText(item)
-        prefillByTemplate(item)
+
+        val titleLen = textInputTitle?.text.toString().length
+        val contentLen = textInputContent?.text.toString().length
+
+        if(titleLen > 0 || contentLen > 0) {
+            val dialog = DialogClearConfirm().newInstance()
+
+            dialog?.openDialog(supportFragmentManager)
+            dialog?.onConfirmClick = {
+                textInputTemplate?.setText(item)
+                prefillByTemplate(item)
+                dialog?.closeDialog()
+            }
+
+            dialog?.onCancelClick = {
+                textInputTemplate?.setText(item)
+                dialog?.closeDialog()
+            }
+
+
+        } else {
+            textInputTemplate?.setText(item)
+            prefillByTemplate(item)
+        }
+
     }
 
     private fun onClicked(view: View) {

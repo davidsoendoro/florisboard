@@ -1,5 +1,6 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -31,6 +32,8 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
 
+    private var archiveActivityListener: ArchiveActivityListener? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,9 +63,15 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
     }
 
     override fun onClicked(data: TransactionModel) {
-        Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_DATA, data)
-            startActivity(this)
+        archiveActivityListener?.openDetailActivity(data)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            archiveActivityListener = context as ArchiveActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
         }
     }
 
