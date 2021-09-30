@@ -185,11 +185,7 @@ class BankInputActivity : AppCompatActivity() {
                 }
 
                 currentBank?.let {
-                    if (apiCallCreateBank(it)) {
-                        intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentBank)
-                        setResult(RESULT_OK)
-                        finish()
-                    }
+                    apiCallCreateBank(it)
                 }
 
             } else {
@@ -218,11 +214,7 @@ class BankInputActivity : AppCompatActivity() {
                     }
 
                     currentBank?.let {
-                        if (apiCallUpdateBank(it)) {
-                            intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentBank)
-                            setResult(RESULT_OK)
-                            finish()
-                        }
+                        apiCallUpdateBank(it)
                     }
                 }
             }
@@ -246,8 +238,7 @@ class BankInputActivity : AppCompatActivity() {
                     onSuccess = {
                         dialog?.progressLoading(false)
                         dialog?.closeDialog()
-                        showToast(resources.getString(R.string.kobold_bank_input_action_delete_success))
-                        setActivityResult(RESULT_OK, bank)
+                        setActivityResult(ActivityConstantCode.RESULT_OK_DELETED, bank)
                     },
                     onError = {
                         showToast(it)
@@ -263,7 +254,7 @@ class BankInputActivity : AppCompatActivity() {
 
         dialog?.onConfirmClick = {
             dialog?.closeDialog()
-            setActivityResult(RESULT_OK, null)
+            finish()
         }
 
     }
@@ -350,41 +341,35 @@ class BankInputActivity : AppCompatActivity() {
         return isValidFormArray.any { b -> !b }
     }
 
-    private fun apiCallCreateBank(model: BankModel): Boolean {
+    private fun apiCallCreateBank(model: BankModel) {
         progressSubmit(true)
         dataViewModel?.create(
             model,
             onSuccess = {
-                setActivityResult(RESULT_OK, model)
                 progressSubmit(false)
-                return@create
+                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, model)
             },
             onError = {
                 progressSubmit(false)
                 showToast(it)
             }
         )
-
-        return false
     }
 
-    private fun apiCallUpdateBank(model: BankModel): Boolean {
+    private fun apiCallUpdateBank(model: BankModel) {
         progressSubmit(true)
         dataViewModel?.updateById(
             model._id,
             model,
             onSuccess = {
-                setActivityResult(RESULT_OK, model)
                 progressSubmit(false)
-                return@updateById
+                setActivityResult(ActivityConstantCode.RESULT_OK_UPDATED, model)
             },
             onError = {
                 progressSubmit(false)
                 showToast(it)
             }
         )
-
-        return false
     }
 
     private fun apiCallBankSelection() {

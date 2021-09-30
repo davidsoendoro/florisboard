@@ -11,7 +11,7 @@ data class TransactionModel(
     val buyer: String,
     val channel: String,
     val channelAsset: String = "",
-    val deliveryFee: Int,
+    val deliveryFee: Int = 0,
     val latestStatus: String = "",
     val logistic: String,
     val logisticAsset: String = "",
@@ -22,7 +22,7 @@ data class TransactionModel(
     val bankAccountName: String = "",
     val bankAsset: String = "",
     val phone: String,
-    val price: Int,
+    val price: Int = 0,
     val createdAt: Long = 0,
     val updatedAt: Long = 0,
 ) : Parcelable
