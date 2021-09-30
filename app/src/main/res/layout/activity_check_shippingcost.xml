@@ -87,7 +87,8 @@
                         android:hint="@string/check_shippingcost_sender_hint"
                         android:textAppearance="@style/FormEditTextHint"
                         android:focusable="false"
-                        android:clickable="true"/>
+                        android:clickable="true"
+                        android:maxLines="1"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +113,8 @@
                         android:hint="@string/check_shippingcost_receiver_hint"
                         android:textAppearance="@style/FormEditTextHint"
                         android:clickable="true"
-                        android:focusable="false"/>
+                        android:focusable="false"
+                        android:maxLines="1"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
