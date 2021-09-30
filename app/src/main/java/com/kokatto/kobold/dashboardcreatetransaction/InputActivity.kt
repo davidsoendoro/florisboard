@@ -392,7 +392,7 @@ class InputActivity : AppCompatActivity() {
         if(model.bankType !=null) {
             selectedBank = BankModel(
                 "",
-                model.bankType, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset
+                model.bankType!!, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset
             )
         }
 

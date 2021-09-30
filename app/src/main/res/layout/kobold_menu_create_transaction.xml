@@ -94,7 +94,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_8px"
                     android:layout_weight="1"
                     android:imeOptions="actionDone"
-                    android:inputType="number"
+                    android:inputType="phone"
                     app:label="@string/kobold_transaction_phone_number"
                     app:maxAllowedCharacters="50" />
 
@@ -141,7 +141,8 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="8dp"
                 android:hint="@string/kobold_transaction_price_hint"
-                android:inputType="textMultiLine|textCapSentences"
+                android:inputType="number"
+                app:isNeedThousandSeparator="true"
                 app:label="@string/kobold_transaction_price_item"
                 app:maxAllowedCharacters="1000" />
 
@@ -180,6 +181,7 @@
                     android:hint="@string/kobold_transaction_price_hint"
                     android:imeOptions="actionDone"
                     android:inputType="number"
+                    app:isNeedThousandSeparator="true"
                     app:label="@string/kobold_transaction_shippingcost"
                     app:maxAllowedCharacters="50"
                     app:showCalculator="true" />
