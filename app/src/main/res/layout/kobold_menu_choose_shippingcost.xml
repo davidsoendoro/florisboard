@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/editorBackground">
+    android:background="@color/background_subtle">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/choose_courier_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="70dp"
         android:clipToPadding="false"
         tools:listitem="@layout/item_choose_courier" />
 
