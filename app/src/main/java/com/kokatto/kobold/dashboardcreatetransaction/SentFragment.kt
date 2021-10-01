@@ -35,7 +35,7 @@ class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAd
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
 
-    private var launchActivity: ActivityResultLauncher<Intent>? = null
+    private var createTransactionActivityListener: CreateTransactionActivityListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +53,7 @@ class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAd
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getSentTransactionList(it + 1)
             },
             onLast = { isLast.get() }
@@ -66,22 +66,29 @@ class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAd
     }
 
     override fun onClicked(data: TransactionModel) {
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_DATA, data)
-        launchActivity?.launch(intent)
+        createTransactionActivityListener?.openDetailActivity(data)
     }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//        launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL
+//                || result.resultCode == ActivityConstantCode.STATUS_TO_SENT
+//                || result.resultCode == ActivityConstantCode.STATUS_TO_PAID) {
+//                val data: Intent? = result.data
+//                transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
+//                sentRecyclerAdapter!!.notifyDataSetChanged()
+//            }
+//        }
+//    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL
-                || result.resultCode == ActivityConstantCode.STATUS_TO_SENT
-                || result.resultCode == ActivityConstantCode.STATUS_TO_PAID) {
-                val data: Intent? = result.data
-                transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
-                sentRecyclerAdapter!!.notifyDataSetChanged()
-            }
+        try {
+            createTransactionActivityListener = context as CreateTransactionActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
         }
     }
 

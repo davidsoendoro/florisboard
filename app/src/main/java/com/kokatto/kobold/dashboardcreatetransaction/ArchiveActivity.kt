@@ -7,18 +7,35 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.PagerAdapter.POSITION_NONE
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
+import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
+import okhttp3.internal.notifyAll
 
-class ArchiveActivity : AppCompatActivity(), PagerAdapter.Delegate {
+interface ArchiveActivityListener {
+    fun openDetailActivity(dataModel: TransactionModel)
+}
+
+class ArchiveActivity : AppCompatActivity(), PagerAdapter.Delegate, ArchiveActivityListener {
     private var activeButton: Button? = null
     private var warningLayout: LinearLayout? = null
+    private var viewPager: ViewPager2? = null
+    private var tabLayout: TabLayout? = null
+    private var pageAdapter: PagerAdapter? = null
+
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +66,32 @@ class ArchiveActivity : AppCompatActivity(), PagerAdapter.Delegate {
             warningLayout?.let { layout -> layout.visibility = View.VISIBLE }
         }
 
-        val createTransactionPagerAdapter = PagerAdapter(supportFragmentManager, lifecycle, this)
-        val viewPager = findViewById<ViewPager2>(R.id.viewpager_layout)
-        viewPager.adapter = createTransactionPagerAdapter
+        pageAdapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+        viewPager = findViewById<ViewPager2>(R.id.viewpager_layout)
+        viewPager?.adapter = pageAdapter
 
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+        TabLayoutMediator(tabLayout!!, viewPager!!) { tab, position ->
             tab.text = fragmentEnabledCount[position]
         }.attach()
+
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when(result.resultCode) {
+                ActivityConstantCode.RESULT_OK_UPDATED -> {
+                    viewPager!!.refreshDrawableState()
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_action_edit_success))
+                }
+                ActivityConstantCode.RESULT_OPEN_EDIT_COMPLETE -> {
+                    val data: Intent? = result.data
+                    val model = data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA)
+                    val intent = Intent(this, InputActivity::class.java)
+                    intent.putExtra(InputActivity.EXTRA_DATA, model)
+                    intent.putExtra(InputActivity.MODE, InputActivity.EDIT_COMPLETE)
+                    activityResultLauncher?.launch(intent)
+                }
+            }
+
+        }
     }
 
     private companion object {
@@ -78,5 +113,12 @@ class ArchiveActivity : AppCompatActivity(), PagerAdapter.Delegate {
             CANCELLED -> CancelledFragment()
             else -> throw Error("${fragmentEnabledCount[position]} Not implemented yet")
         }
+    }
+
+
+    override fun openDetailActivity(dataModel: TransactionModel) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_DATA, dataModel)
+        activityResultLauncher?.launch(intent)
     }
 }

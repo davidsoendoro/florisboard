@@ -564,7 +564,13 @@
     <string name="chat_template_not_found_content">Coba urutkan dengan data yang lain.</string>
     <string name="template_delete_success">Template berhasil dihapus.</string>
     <string name="template_create_success">Template berhasil dibuat.</string>
+    <string name="template_update_success">Template berhasil diperbaharui.</string>
     <string name="template_text_error_length">Melebihi karakter yang tersedia</string>
+    <string name="text_error_required">Wajib diisi</string>
+    <string name="kobold_template_dialog_clear_title">Hapus isian template?</string>
+    <string name="kobold_template_dialog_clear_desc">Jika dihapus, maka data yang sudah diisi akan digantikan dengan data template yang dipilih</string>
+    <string name="kobold_template_dialog_clear_action_confirm">Hapus isi</string>
+    <string name="kobold_template_dialog_clear_action_cancel">Tidak</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>
@@ -626,6 +632,8 @@
     <string name="kobold_transaction_action_nota">Kirim nota pembelian</string>
     <string name="kobold_transaction_action_nota_toast">Pesan nota pembelian berhasil di copy, silahkan pasang di chat pembelimu.</string>
     <string name="kobold_transaction_action_nota_toast_error">Tidak ditemukan nomor telpon tersimpan.</string>
+    <string name="kobold_transaction_action_save_success">Transaksi berhasil disimpan</string>
+    <string name="kobold_transaction_action_edit_success">Transaksi berhasil diperbaharui</string>
     <string name="kobold_transaction_action_chat">Chat ke Pembeli</string>
     <string name="kobold_transaction_action_chat_toast">Tidak ditemukan nomor telpon tersimpan.</string>
     <string name="kobold_transaction_action_unpaid">Ganti ke belum dibayar</string>
@@ -700,7 +708,7 @@
     <string name="kobold_menu_transaction_data_unavailable_content">Daftar penjualan dengan pelanggan akan muncul disini.</string>
     <string name="kobold_transaction_courier">Kurir</string>
 
-
+    <string name="kobold_bank_maximum">Maksimal hanya 15 rekening bank</string>
     <string name="kobold_bank_toolbar_title">Rekening Bank</string>
     <string name="kobold_bank_empty_title">Belum ada rekening bank terpasang</string>
     <string name="kobold_bank_input_toolbar_title">Tambah rekening bank</string>
@@ -713,6 +721,7 @@
     <string name="kobold_bank_input_bank_holder">Nama Pemilik Rekening</string>
     <string name="kobold_bank_input_action_submit">Simpan rekening</string>
     <string name="kobold_bank_input_action_submit_success">Rekening berhasil ditambahkan.</string>
+    <string name="kobold_bank_input_action_update_success">Rekening berhasil diperbaharui.</string>
     <string name="kobold_bank_input_action_delete">Hapus rekening</string>
     <string name="kobold_bank_input_action_delete_success">Rekening berhasil dihapus.</string>
     <string name="kobold_bank_dialog_delete_title">Hapus Rekening?</string>
@@ -735,5 +744,12 @@
     <string name="check_shippingcost_receiver_hint">Isi kecamatan tujuan</string>
     <string name="check_shippingcost_button">Cek ongkos kirim</string>
     <string name="check_shippingcost_reset">Reset</string>
+    <string name="check_shippingcost_copy">Salin Ongkos Kirim</string>
+    <string name="kobold_menu_choose_shippingcost_back_button">Cek Ongkir Lain</string>
+    <string name="kobold_menu_choose_shippingcost_submit_button">Pasang Info Ongkir</string>
+    <string name="check_shippingcost_info">Pilih ekspedisi lalu klik Salin Ongkos Kirim untuk\nmenyalin info ongkir.</string>
+
+    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>
+    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>
 
 </resources>

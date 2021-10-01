@@ -30,6 +30,11 @@ class CurrencyUtility {
                 return "Rp"+numberFormat.format(beforeFormat).replace(",", ".")
         }
 
+        fun currencyFormatterNoPrepend(beforeFormat: Number): String {
+            val numberFormat = DecimalFormat("#,###")
+            return numberFormat.format(beforeFormat).replace(",", ".")
+        }
+
         fun roundToHundreds(number: Int, multiple: Int = 100): Number {
             var result= number
 

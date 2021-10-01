@@ -15,16 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
         <activity
-            android:name=".dashboardcheckshippingcost.CheckShippingcost"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true" />
         <activity
@@ -62,18 +52,22 @@
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round"
             android:theme="@style/SettingsTheme">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".template.TemplateActivity"
             android:icon="@mipmap/floris_app_icon"
-            android:label="Kobold Dashboard"
+            android:label="Kobold Dashboard Template"
             android:launchMode="singleTask"
-            android:roundIcon="@mipmap/floris_app_icon_round" />
+            android:roundIcon="@mipmap/floris_app_icon_round" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".template.TemplateActivityInput"
             android:icon="@mipmap/floris_app_icon"
@@ -134,7 +128,13 @@
         <!-- Dashboard Transaction Activity -->
         <activity
             android:name=".dashboardcreatetransaction.CreateTransactionActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Kobold Dashboard Transaction">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".dashboardcreatetransaction.InputActivity"
@@ -144,7 +144,19 @@
             android:name=".dashboardcreatetransaction.DetailActivity"
             android:exported="true">
         </activity>
-        <!-- Bank Management Activity -->
+        <!-- Dashboard Shipping Cost  -->
+        <activity
+            android:name=".dashboardcheckshippingcost.CheckShippingcost"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".dashboardcheckshippingcost.AddressShippingActivity"
+            android:exported="true"/>
+        <!-- Dashboard Bank Management Activity -->
         <activity
             android:name=".bank.BankHomeActivity"
             android:exported="true"/>

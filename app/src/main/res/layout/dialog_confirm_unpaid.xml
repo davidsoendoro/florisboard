@@ -86,6 +86,7 @@
                         app:strokeColor="@color/stroke_primary"
                         app:strokeWidth="1dp"
                         android:text="@string/kobold_transaction_unpaid_button_no"
+                        android:textColor="@color/text_primary"
                         android:textAppearance="@style/kobold_button_text"
                         tools:layout_editor_absoluteY="0dp"
                         />

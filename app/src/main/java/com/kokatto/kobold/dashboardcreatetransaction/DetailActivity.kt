@@ -23,6 +23,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogAction
@@ -32,7 +33,9 @@ import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogPaid
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogSent
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogUnpaid
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogUnsent
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.utility.CurrencyUtility
 
 class DetailActivity : AppCompatActivity() {
 
@@ -162,7 +165,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         dialogAction?.onSendClick = {
-                            currentTransaction?.let { m -> onNotaDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
                     }
@@ -181,7 +184,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         dialogAction?.onChatClick = {
-                            currentTransaction?.let { m -> onChatDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
 
@@ -206,7 +209,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         dialogAction?.onChatClick = {
-                            currentTransaction?.let { m -> onChatDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
 
@@ -226,7 +229,7 @@ class DetailActivity : AppCompatActivity() {
                         dialogAction?.openDialog(supportFragmentManager)
 
                         dialogAction?.onChatClick = {
-                            currentTransaction?.let { m -> onChatDialog(m) }
+                            currentTransaction?.let { m -> onCopyChat(m) }
                             dialogAction?.dismiss()
                         }
 
@@ -318,10 +321,10 @@ class DetailActivity : AppCompatActivity() {
         model.phone.let { s -> editTextPhone?.setText(s) }
         model.address.let { s -> editTextAddress?.setText(s) }
         model.notes.let { s -> editTextNote?.setText(s) }
-        model.price.let { s -> editTextPrice?.setText(s.toString()) }
+        model.price.let { s -> editTextPrice?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
         model.logistic.let { s -> editTextLogistic?.setText(s) }
-        model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
+        model.deliveryFee.let { s -> editTextdeliveryFee?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
     }
 
     private fun getTransactionModelFromIntent() {
@@ -400,7 +403,6 @@ class DetailActivity : AppCompatActivity() {
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
                     setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
                     finish()
-                    showToast(resources.getString(R.string.kobold_transaction_cancel_toast))
                 },
                 onError = {
                     progressLoading(false)
@@ -410,64 +412,51 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun onEditDialog(model: TransactionModel) {
-        val intent = Intent(this, InputActivity::class.java)
-        intent.putExtra(InputActivity.EXTRA_DATA, model)
-        intent.putExtra(InputActivity.MODE, InputActivity.EDIT)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
-            Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
+        val intent = Intent()
+        intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+        setResult(ActivityConstantCode.RESULT_OPEN_EDIT, intent)
+        finish()
     }
 
     private fun onEditCompleteDialog(model: TransactionModel) {
-        val intent = Intent(this, InputActivity::class.java)
-        intent.putExtra(InputActivity.EXTRA_DATA, model)
-        intent.putExtra(InputActivity.MODE, InputActivity.EDIT_COMPLETE)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
-            Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
+        val intent = Intent()
+        intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+        setResult(ActivityConstantCode.RESULT_OPEN_EDIT_COMPLETE, intent)
+        finish()
     }
 
-    private fun onNotaDialog(model: TransactionModel) {
+    private fun onCopyChat(model: TransactionModel) {
         // Show Dialog Confirm
-        val message = "Halo ini detail transaksi nya ya :\n" +
-            "Pembeli : " + model.buyer.toString() + "\n" +
-            "Nomor Telp : " + model.phone.toString() + "\n" +
-            "Alamat : " + model.address.toString() + "\n" +
-            "\n" +
-            "===\n" +
-            "\n" +
-            "Untuk Pembayaran :" + model.notes.toString() + "\n" +
-            "Harga : Rp." + model.price.toString() + "\n" +
-            "Metode Bayar : " + model.payingMethod.toString() + "\n" +
-            "Ongkir : Rp." + model.deliveryFee.toString() + "\n" +
-            "Kurir : " + model.logistic.toString() + "\n" +
-            "\n" +
-            "Silahkan, proses pembayaran bisa via :\n" +
-            "\n" +
-            "[Account No] - [Account Holder]\n" +
-            "\n" +
-            "Terima Kasih :-)"
+        val message = createTransactionChat(model)
         val myClipboard =
             this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val myClip: ClipData = ClipData.newPlainText("Label", message)
+        val myClip: ClipData = ClipData.newPlainText("chat", message)
         myClipboard.setPrimaryClip(myClip)
 
-        if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA) {
+        if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA && !model.phone.isEmpty()) {
             when (model.channel) {
                 ActivityConstantCode.WHATSAPP -> {
-                    if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_PKG)
+                    if (!model.phone.isEmpty()) {
+                        val phone = parsePhoneToCountryCode(model.phone)
+                        openWhatsappAndDirectToNumber(phone, message, this, ActivityConstantCode.WHATSAPP_PKG)
                     } else {
-                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+                        showSnackBar(
+                            findViewById(R.id.root_layout),
+                            resources.getString(R.string.kobold_transaction_action_nota_toast_error),
+                            R.color.snackbar_error
+                        )
                     }
                 }
                 ActivityConstantCode.WHATSAPP_BUSINESS -> {
-                    if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, message, this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
+                    if (!model.phone.isEmpty()) {
+                        val phone = parsePhoneToCountryCode(model.phone)
+                        openWhatsappAndDirectToNumber(phone, message, this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
                     } else {
-                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+                        showSnackBar(
+                            findViewById(R.id.root_layout),
+                            resources.getString(R.string.kobold_transaction_action_nota_toast_error),
+                            R.color.snackbar_error
+                        )
                     }
                 }
                 ActivityConstantCode.LINE -> {
@@ -489,54 +478,17 @@ class DetailActivity : AppCompatActivity() {
                     openApplicationActivity(this, ActivityConstantCode.SHOPEE_CHAT_PKG)
                 }
                 else ->
-                    showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
+                    showSnackBar(
+                        findViewById(R.id.root_layout),
+                        resources.getString(R.string.kobold_transaction_action_nota_toast)
+                    )
             }
         } else {
-            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-        }
-    }
-
-    private fun onChatDialog(model: TransactionModel) {
-
-        if (model.channel != null && model.channel !== ActivityConstantCode.BELUM_ADA) {
-            when (model.channel) {
-                ActivityConstantCode.WHATSAPP -> {
-                    if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, "", this, ActivityConstantCode.WHATSAPP_PKG)
-                    } else {
-                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-                    }
-                }
-                ActivityConstantCode.WHATSAPP_BUSINESS -> {
-                    if (!model.phone.isNullOrBlank()) {
-                        openWhatsappAndDirectToNumber(model.phone, "", this, ActivityConstantCode.WHATSAPP_BUSINESS_PKG)
-                    } else {
-                        showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-                    }
-                }
-                ActivityConstantCode.LINE -> {
-                    openApplicationActivity(this, ActivityConstantCode.LINE_PKG)
-                }
-                ActivityConstantCode.FACEBOOK_MESSENGER -> {
-                    openApplicationActivity(this, ActivityConstantCode.FACEBOOK_MESSENGER_PKG)
-                }
-                ActivityConstantCode.INSTAGRAM -> {
-                    openApplicationActivity(this, ActivityConstantCode.INSTAGRAM_PKG)
-                }
-                ActivityConstantCode.BUKALAPAK_CHAT -> {
-                    openApplicationActivity(this, ActivityConstantCode.BUKALAPAK_CHAT_PKG)
-                }
-                ActivityConstantCode.TOKOPEDIA_CHAT -> {
-                    openApplicationActivity(this, ActivityConstantCode.TOKOPEDIA_CHAT_PKG)
-                }
-                ActivityConstantCode.SHOPEE_CHAT -> {
-                    openApplicationActivity(this, ActivityConstantCode.SHOPEE_CHAT_PKG)
-                }
-                else ->
-                    showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
-            }
-        } else {
-            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast_error))
+            showSnackBar(
+                findViewById(R.id.root_layout),
+                resources.getString(R.string.kobold_transaction_action_nota_toast_error),
+                R.color.snackbar_error
+            )
         }
     }
 
@@ -553,9 +505,10 @@ class DetailActivity : AppCompatActivity() {
 
                     val intent = Intent()
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
-                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    setResult(ActivityConstantCode.STATUS_TO_UNPAID, intent)
                     finish()
-                    showToast(resources.getString(R.string.kobold_transaction_unpaid_toast))
+                    //showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_unpaid_toast))
+                    //showToast(resources.getString(R.string.kobold_transaction_unpaid_toast))
                 },
                 onError = {
                     progressLoading(false)
@@ -577,9 +530,10 @@ class DetailActivity : AppCompatActivity() {
 
                     val intent = Intent()
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
-                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    setResult(ActivityConstantCode.STATUS_TO_PAID, intent)
                     finish()
-                    showToast(resources.getString(R.string.kobold_transaction_paid_toast))
+                    //showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_paid_toast))
+                    //showToast(resources.getString(R.string.kobold_transaction_paid_toast))
                 },
                 onError = {
                     progressLoading(false)
@@ -601,9 +555,10 @@ class DetailActivity : AppCompatActivity() {
 
                     val intent = Intent()
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
-                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    setResult(ActivityConstantCode.STATUS_TO_SENT, intent)
                     finish()
-                    showToast(resources.getString(R.string.kobold_transaction_sent_toast))
+                    //showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_sent_toast))
+                    //showToast(resources.getString(R.string.kobold_transaction_sent_toast))
                 },
                 onError = {
                     progressLoading(false)
@@ -625,9 +580,10 @@ class DetailActivity : AppCompatActivity() {
 
                     val intent = Intent()
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
-                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    setResult(ActivityConstantCode.STATUS_TO_COMPLETE, intent)
                     finish()
-                    showToast(resources.getString(R.string.kobold_transaction_finish_toast))
+                    //showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_finish_toast) )
+                    //showToast(resources.getString(R.string.kobold_transaction_finish_toast))
                 },
                 onError = {
                     progressLoading(false)
@@ -651,7 +607,8 @@ class DetailActivity : AppCompatActivity() {
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
                     setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
                     finish()
-                    showToast(resources.getString(R.string.kobold_transaction_unsent_toast))
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_finish_toast))
+                    //showToast(resources.getString(R.string.kobold_transaction_unsent_toast))
                 },
                 onError = {
                     progressLoading(false)
@@ -695,6 +652,17 @@ class DetailActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
 
+    }
+
+    private fun parsePhoneToCountryCode(phone: String) : String {
+        if(phone.get(0).toString() == "0")
+        {
+            return "62${phone.substring(1)}"
+        } else if(phone.get(0).toString() == "6" && phone.get(1).toString() == "2") {
+            return "62${phone.substring(1)}"
+        } else {
+            return "62${phone}"
+        }
     }
 
 }

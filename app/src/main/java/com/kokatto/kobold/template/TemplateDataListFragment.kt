@@ -13,6 +13,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
@@ -58,25 +59,6 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
         if (chatTemplateRecyclerAdapter == null) {
             fullscreenLoading?.isVisible = true
             getChatTemplateList(1)
-//            chatTemplateViewModel?.getChatTemplateList(
-//                onLoading = {
-//                    Timber.e(it.toString())
-//                    isLoadingChatTemplate.set(it)
-//                },
-//                onSuccess = { it ->
-//                    chatTemplateList.addAll(it.data.contents)
-//                    fullscreenLoading.isVisible = false
-//                    chatTemplateRecycler.isVisible = true
-//                    //contoh insert data
-////                    autoTextDatabase?.autoTextDao()?.insertAutoText(it.data.contents[1])
-//                    chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
-//                },
-//                onError = {
-//                    showToast(it)
-//                    fullscreenLoading.isVisible = false
-//                    chatTemplateRecycler.isVisible = true
-//                }
-//            )
             chatTemplateRecyclerAdapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
             chatTemplateRecycler!!.adapter = chatTemplateRecyclerAdapter
             chatTemplateRecycler!!.vertical()
@@ -87,7 +69,6 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
             isLoading = { isLoadingChatTemplate.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                //showToast(it.toString())
                 getChatTemplateList(it + 1)
             },
             onLast = { isLastChatTemplate.get() }
@@ -139,7 +120,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
     private fun onCreateClicked(view: View) {
         when (view.id) {
             R.id.create_template_button -> {
-                templateActivityListener?.openCreateTemplate()
+                templateActivityListener?.openInputTemplate()
             }
         }
     }
@@ -150,19 +131,7 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
     }
 
     override fun onClicked(data: AutoTextModel) {
-//        Intent(requireContext(), TemplateActivityInput::class.java).apply {
-//            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, TemplateActivityInput.EXTRA_STATE_EDIT)
-//            putExtra(TemplateActivityInput.EXTRA_ID, data._id)
-//            putExtra(TemplateActivityInput.EXTRA_TEMPLATE, data.template)
-//            putExtra(TemplateActivityInput.EXTRA_TITLE, data.title)
-//            putExtra(TemplateActivityInput.EXTRA_CONTENT, data.content)
-//            startActivity(this)
-//        }
-        Intent(requireContext(), TemplateActivityInput::class.java).apply {
-            putExtra(TemplateActivityInput.EXTRA_ID, TemplateActivityInput.EXTRA_STATE_EDIT)
-            putExtra(TemplateActivityInput.EXTRA_STATE_INPUT, data)
-            startActivity(this)
-        }
+        templateActivityListener?.openEditTemplate(data)
     }
 
 }

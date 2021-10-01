@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
@@ -15,9 +16,9 @@ import com.kokatto.kobold.extension.showToast
 
 class TemplateDialogDelete : BottomSheetDialogFragment() {
 
+    val TAG = "DeleteBottomDialog"
 
     companion object {
-        const val TAG = "DeleteBottomDialog"
         const val ARG_ID = "ARG_ID"
         fun newInstance(_id: String): TemplateDialogDelete {
             return TemplateDialogDelete().apply {
@@ -34,6 +35,9 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
     private var buttonConfirmLoading: ProgressBar? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
+
+    var onCancelClick: ((Boolean) -> Unit)? = null
+    var onConfirmClick: ((id: String) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +62,16 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
         buttonConfirmLoading = view.findViewById(R.id.confirm_button_loading)
         buttonConfirmLoading?.isVisible = false
 
-        buttonConfirm?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
-        buttonCancel?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+        buttonConfirm?.setOnClickListener {
+            onConfirmClick?.invoke(argID!!)
+        }
+
+        buttonCancel?.setOnClickListener {
+            onCancelClick?.invoke(true)
+        }
+
+        //buttonConfirm?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
+        //buttonCancel?.let { button -> button.setOnClickListener { onButtonClicked(button) } }
     }
 
     private fun onButtonClicked(view: View) {
@@ -91,4 +103,20 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
             }
         }
     }
+
+    fun openDialog(fragmentManager: FragmentManager) {
+        this.show(fragmentManager, TAG)
+    }
+
+    fun closeDialog() {
+        dismiss()
+    }
+
+    fun performLoading(isLoading: Boolean) {
+        buttonConfirm?.isVisible = !isLoading
+        buttonCancel?.isVisible = !isLoading
+        buttonConfirmLoading?.isVisible = isLoading
+    }
+
+
 }

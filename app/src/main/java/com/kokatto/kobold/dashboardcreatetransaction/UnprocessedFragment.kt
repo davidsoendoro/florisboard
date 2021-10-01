@@ -1,19 +1,15 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
@@ -34,7 +30,8 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
 
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
-    private var launchActivity: ActivityResultLauncher<Intent>? = null
+
+    private var createTransactionActivityListener: CreateTransactionActivityListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +48,7 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
             isLoading = { isLoadingList.get() },
             loadMore = {
                 bottomLoading!!.isVisible = true
-                showToast(it.toString())
+                //showToast(it.toString())
                 getUnprocessedTransactionList(it + 1)
             },
             onLast = { isLast.get() }
@@ -64,22 +61,15 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
     }
 
     override fun onClicked(data: TransactionModel) {
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_DATA, data)
-        launchActivity?.launch(intent)
+        createTransactionActivityListener?.openDetailActivity(data)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL
-                || result.resultCode == ActivityConstantCode.STATUS_TO_PAID) {
-                val data: Intent? = result.data
-                transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
-                unprocessedRecyclerAdapter!!.notifyDataSetChanged()
-                showToast(resources.getString(R.string.kobold_transaction_cancel_toast))
-            }
+        try {
+            createTransactionActivityListener = context as CreateTransactionActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
         }
     }
 

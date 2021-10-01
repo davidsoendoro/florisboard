@@ -2,18 +2,23 @@ package com.kokatto.kobold.transaction
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
+import com.kokatto.kobold.bank.BankViewModel
+import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
-import com.kokatto.kobold.editor.SpinnerEditorAdapter
-import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
+import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.toThousandSeperatedString
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
@@ -27,43 +32,28 @@ class KeyboardCreateTransaction : ConstraintLayout {
     private val florisboard: FlorisBoard? = FlorisBoard.getInstanceOrNull()
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
+    private var bankViewModel: BankViewModel? = BankViewModel()
+
+    private var transactionModel = TransactionModel()
 
     private var koboldExpandView: TextView? = null
     private var buyerNameText: KoboldEditText? = null
     private var chooseChannelText: KoboldEditText? = null
-    var selectedChannelOptions = SpinnerEditorItem("Belum Ada")
-    var pickChannelOptions = arrayOf(
-        SpinnerEditorItem("Belum Ada"),
-        SpinnerEditorItem("WhatsApp"),
-        SpinnerEditorItem("WhatsApp Business"),
-        SpinnerEditorItem("Line"),
-        SpinnerEditorItem("Facebook Messenger"),
-        SpinnerEditorItem("Instagram")
-    )
+
+    var selectedChannelOptions = SpinnerEditorWithAssetItem("")
+    var pickChannelOptions = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var phoneNumberText: KoboldEditText? = null
     private var addressText: KoboldEditText? = null
     private var orderDetailText: KoboldEditText? = null
     private var itemPriceText: KoboldEditText? = null
     private var choosePaymentMethodText: KoboldEditText? = null
-    var selectedPaymentMethodOption = SpinnerEditorItem("Cash")
-    var pickPaymentMethodOption = arrayOf(
-        SpinnerEditorItem("Cash"),
-        SpinnerEditorItem("BCA"),
-        SpinnerEditorItem("Mandiri"),
-        SpinnerEditorItem("BTPN")
-    )
+    var selectedPaymentMethodOption = SpinnerEditorWithAssetItem("")
+    var pickPaymentMethodOption = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var chooseCourierText: KoboldEditText? = null
-    var selectedCourierOption = SpinnerEditorItem("JNE - Package A")
-    var pickCourierOption = arrayOf(
-        SpinnerEditorItem("JNE - Package A"),
-        SpinnerEditorItem("JNE - Package B"),
-        SpinnerEditorItem("J&T - Package A"),
-        SpinnerEditorItem("J&T - Package B"),
-        SpinnerEditorItem("Lion Parcel - Package A"),
-        SpinnerEditorItem("Lion Parcel - Package B"),
-    )
+    var selectedCourierOption = SpinnerEditorWithAssetItem("")
+    var pickCourierOption = arrayListOf<SpinnerEditorWithAssetItem>()
 
     private var shippingCostText: KoboldEditText? = null
     private var backButton: ImageView? = null
@@ -91,7 +81,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
 //            val nameInput = koboldTemplateNameInput?.editText?.text.toString()
 //            val content = koboldTemplateContent?.editText?.text.toString()
             florisboard?.launchExpandCreateTransactionView(
-                createTransactionModel()
+                transactionModel
             )
         }
 
@@ -106,6 +96,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 buyerNameText?.label?.text.toString(),
                 buyerNameText?.editText?.text.toString()
             ) { result ->
+                transactionModel.buyer = result
                 buyerNameText?.editText?.text = result
             }
         }
@@ -113,16 +104,17 @@ class KeyboardCreateTransaction : ConstraintLayout {
         chooseChannelText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
-                    context,
-//                    convert arraylist data to array
-                    pickChannelOptions, selectedChannelOptions
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
+                    context, pickChannelOptions, selectedChannelOptions
                 ) { result ->
                     florisboard.inputFeedbackManager.keyPress()
                     chooseChannelText?.editText?.text = result.label
                     florisboard.setActiveInput(R.id.kobold_menu_create_transaction)
+
+                    transactionModel.channel = result.label
                     selectedChannelOptions = result
-                }
+                },
+                "Pilih Channel"
             )
         }
 
@@ -137,6 +129,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 phoneNumberText?.label?.text.toString(),
                 phoneNumberText?.editText?.text.toString()
             ) { result ->
+                transactionModel.phone = result
                 phoneNumberText?.editText?.text = result
             }
         }
@@ -152,6 +145,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 addressText?.label?.text.toString(),
                 addressText?.editText?.text.toString()
             ) { result ->
+                transactionModel.address = result
                 addressText?.editText?.text = result
             }
         }
@@ -167,21 +161,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 orderDetailText?.label?.text.toString(),
                 orderDetailText?.editText?.text.toString()
             ) { result ->
-                orderDetailText?.editText?.text = result
-            }
-        }
-
-        orderDetailText?.setOnClickListener {
-            val imeOptions = orderDetailText?.imeOptions ?: 0
-            val inputType = orderDetailText?.inputType ?: 0
-            florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.openEditor(
-                R.id.kobold_menu_create_transaction,
-                imeOptions,
-                inputType,
-                orderDetailText?.label?.text.toString(),
-                orderDetailText?.editText?.text.toString()
-            ) { result ->
+                transactionModel.notes = result
                 orderDetailText?.editText?.text = result
             }
         }
@@ -197,7 +177,8 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 itemPriceText?.label?.text.toString(),
                 itemPriceText?.editText?.text.toString()
             ) { result ->
-                itemPriceText?.editText?.text = result
+                transactionModel.price = result.toInt()
+                itemPriceText?.editText?.text = result.toThousandSeperatedString("Rp")
                 invalidateSaveButton()
             }
         }
@@ -205,7 +186,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         choosePaymentMethodText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
                     context,
 //                    convert arraylist data to array
                     pickPaymentMethodOption, selectedPaymentMethodOption
@@ -213,26 +194,32 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     florisboard.inputFeedbackManager.keyPress()
                     choosePaymentMethodText?.editText?.text = result.label
                     florisboard.setActiveInput(R.id.kobold_menu_create_transaction)
+
+                    transactionModel.payingMethod = result.label
                     selectedPaymentMethodOption = result
 
                     invalidateSaveButton()
-                }
+                },
+                "Pilih Metode pembayaran"
             )
         }
 
         chooseCourierText?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSpinner(
-                R.id.kobold_menu_create_transaction, SpinnerEditorAdapter(
+                R.id.kobold_menu_create_transaction, SpinnerEditorWithAssetAdapter(
                     context,
 //                    convert arraylist data to array
-                    pickCourierOption, selectedCourierOption
+                    pickCourierOption, selectedCourierOption,
                 ) { result ->
                     florisboard.inputFeedbackManager.keyPress()
                     chooseCourierText?.editText?.text = result.label
                     florisboard.setActiveInput(R.id.kobold_menu_create_transaction)
+
+                    transactionModel.logistic = result.label
                     selectedCourierOption = result
-                }
+                },
+                "Pilih Kurir"
             )
         }
 
@@ -247,11 +234,26 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 shippingCostText?.label?.text.toString(),
                 shippingCostText?.editText?.text.toString()
             ) { result ->
-                shippingCostText?.editText?.text = result
+                transactionModel.deliveryFee = result.toInt()
+                shippingCostText?.editText?.text = result.toThousandSeperatedString("Rp")
             }
         }
 
         backButton?.setOnClickListener {
+//            clear edittext
+            buyerNameText?.editText?.text = ""
+            chooseChannelText?.editText?.text = ""
+            selectedChannelOptions = SpinnerEditorWithAssetItem("")
+            phoneNumberText?.editText?.text = ""
+            addressText?.editText?.text = ""
+            orderDetailText?.editText?.text = ""
+            itemPriceText?.editText?.text = ""
+            choosePaymentMethodText?.editText?.text = ""
+            selectedPaymentMethodOption = SpinnerEditorWithAssetItem("")
+            chooseCourierText?.editText?.text = ""
+            selectedCourierOption = SpinnerEditorWithAssetItem("")
+            shippingCostText?.editText?.text = ""
+
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.activeEditorInstance?.activeEditText = null
             florisboard?.setActiveInput(R.id.kobold_menu_transaction)
@@ -261,8 +263,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         createTransactionButton?.setOnClickListener {
 
             transactionViewModel?.createTransaction(
-                createTransactionRequest =
-                createTransactionModel(),
+                createTransactionRequest = transactionModel,
                 onSuccess = {
                     showSnackBar(it)
                     florisboard?.setActiveInput(R.id.kobold_menu_transaction)
@@ -271,6 +272,61 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     showSnackBar(it)
                 }
             )
+        }
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+
+        if (changedView == this && visibility == View.VISIBLE) {
+
+            if (pickChannelOptions.size == 0)
+                transactionViewModel?.getStandardListProperties(
+                    type = PropertiesTypeConstant.channel,
+                    onSuccess = {
+                        it.data.forEach { it ->
+                            pickChannelOptions.add(
+                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
+
+            if (pickCourierOption.size == 0)
+                transactionViewModel?.getStandardListProperties(
+                    type = PropertiesTypeConstant.logistic,
+                    onSuccess = {
+                        it.data.forEach { it ->
+                            pickCourierOption.add(
+                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
+
+            if (pickPaymentMethodOption.size == 0)
+                pickPaymentMethodOption.add(SpinnerEditorWithAssetItem("Cash", "cash"))
+
+            bankViewModel?.getPaginated(
+                onLoading = {},
+                onSuccess = {
+                    it.data.contents.forEach {
+                        pickPaymentMethodOption.add(
+                            SpinnerEditorWithAssetItem(getBankInfoStringFormat(it), it.asset)
+                        )
+                    }
+                },
+                onError = {
+                    showSnackBar(it, R.color.snackbar_error)
+                }
+            )
+
         }
     }
 
@@ -285,6 +341,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         createTransactionButton?.koboldSetEnabled(isInputValid)
     }
 
+    @Deprecated("use transaction model instead")
     fun createTransactionModel(): TransactionModel {
         return TransactionModel(
             buyer = buyerNameText?.editText?.text.toString(),

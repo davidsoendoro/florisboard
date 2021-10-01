@@ -10,10 +10,21 @@ class ActivityConstantCode {
         val EXTRA_MODE = "MODE"
 
         // Activity result code
-        val STATUS_TO_PAID = 100
-        val STATUS_TO_SENT = 101
-        val STATUS_TO_COMPLETE = 102
-        val STATUS_TO_CANCEL = 103
+        val STATUS_TO_UNPAID = 100
+        val STATUS_TO_PAID = 101
+        val STATUS_TO_SENT = 102
+        val STATUS_TO_COMPLETE = 103
+        val STATUS_TO_CANCEL = 104
+
+        val RESULT_OK_DELETED = 105
+        val RESULT_OK_CREATED = 106
+        val RESULT_OK_UPDATED = 107
+
+        val RESULT_OPEN_EDIT = 108
+        val RESULT_OPEN_EDIT_COMPLETE = 109
+
+        val RESULT_SENDER = 110
+        val RESULT_RECEIVER = 111
 
         // Kirim Nota
         val BELUM_ADA = "Belum ada"

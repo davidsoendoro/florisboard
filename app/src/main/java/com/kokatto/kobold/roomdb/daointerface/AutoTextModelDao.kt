@@ -21,4 +21,7 @@ interface AutoTextModelDao {
 
     @Delete
     fun deleteAutoText(autoTextModel: AutoTextModel)
+
+    @Query("DELETE FROM autotextmodel")
+    fun clearAutoTextTable()
 }

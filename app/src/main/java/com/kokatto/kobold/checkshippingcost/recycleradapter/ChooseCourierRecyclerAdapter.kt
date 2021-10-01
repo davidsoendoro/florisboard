@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
+<<<<<<< HEAD
+=======
+import com.kokatto.kobold.extension.vertical
+>>>>>>> f92ad8fe8e48b3aec333ea40e84d1ef092b82aa5
 
 class ChooseCourierRecyclerAdapter(
     val chooseCourierList: ArrayList<DeliveryFeeModel>,
@@ -32,8 +36,12 @@ class ChooseCourierRecyclerAdapter(
 
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
+<<<<<<< HEAD
         fun bindViewHolder(data: DeliveryFeeModel, index: Int) {
 
+=======
+        fun bindViewHolder(data1: DeliveryFeeModel, data: Int) {
+>>>>>>> f92ad8fe8e48b3aec333ea40e84d1ef092b82aa5
 
         }
     }

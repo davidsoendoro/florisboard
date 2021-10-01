@@ -22,9 +22,6 @@ import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHE
 import com.kokatto.kobold.extension.addRipple
 import androidx.core.content.ContextCompat.getSystemService
 
-
-
-
 class BankSpinnerAdapter(
     private val context: Context,
     private val options: ArrayList<PropertiesModel>,
@@ -67,9 +64,9 @@ class BankSpinnerAdapter(
                     println("selectedOption.assetDesc == \"Other\"")
                     println(selectedOption)
                     editTextBankOther?.setText(selectedOption.param1)
-                    editTextBankOther?.isFocusable = true
+                    //editTextBankOther?.isFocusable = true
                     editTextBankOther?.requestFocus()
-                    editTextBankOther?.setSelection(0)
+                    //editTextBankOther?.setSelection(0)
                 }
 
 
@@ -97,7 +94,12 @@ class BankSpinnerAdapter(
 
             editTextBankOther?.setOnClickListener {
                 selectedOption = option
-                notifyDataSetChanged()
+                //notifyDataSetChanged()
+                callback(selectedOption)
+                val text = editTextBankOther.text.toString()
+                selectedOption = PropertiesModel(
+                    "","bank", "","Other", text
+                )
                 callback(selectedOption)
             }
 

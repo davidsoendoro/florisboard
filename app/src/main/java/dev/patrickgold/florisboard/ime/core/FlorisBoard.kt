@@ -27,7 +27,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.util.Size
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -45,6 +47,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
@@ -105,6 +108,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
+import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -114,6 +118,11 @@ import java.util.concurrent.CopyOnWriteArrayList
  *  rework the codebase but it should be doable.
  */
 private var florisboardInstance: FlorisBoard? = null
+
+/**
+ * Additional Kobold Config
+ */
+const val DELAY: Long = 700
 
 /**
  * Core class responsible to link together both the text and media input managers as well as
@@ -174,7 +183,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     private var isWindowShown: Boolean = false
 
     private var responseState = ResponseState.RESET
-    var koboldState = KoboldState.NORMAL
+    var koboldState = KoboldState.TEMPLATE_LIST_RELOAD
     private var pendingResponse: Runnable? = null
     private val handler: Handler = Handler(Looper.getMainLooper())
 
@@ -926,7 +935,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openEditor(destination: Int, imeOptions: Int = 0, editorInputType: Int = 0, label: String = "", value: String = "", callback: (result: String) -> Unit) {
+    fun openEditor(
+        destination: Int,
+        imeOptions: Int = 0,
+        editorInputType: Int = 0,
+        label: String = "",
+        value: String? = "",
+        isAutofill: Boolean = false,
+        callback: (result: String) -> Unit
+    ) {
         val keyboardViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
 
@@ -948,6 +965,44 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         editTextEditor?.editable?.requestFocus()
         editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
         florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
+
+        if (isAutofill) {
+            editTextEditor?.editable?.addTextChangedListener(object : TextWatcher {
+                var timer: Timer? = null
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence, start: Int, before: Int,
+                    count: Int
+                ) {
+                    if (timer != null) timer?.cancel()
+                }
+
+                override fun afterTextChanged(s: Editable) {
+                    //avoid triggering event when text is too short
+                    if (s.length >= 3) {
+
+                        timer = Timer()
+                        timer?.schedule(object : TimerTask() {
+                            override fun run() {
+                                // TODO: do what you need here (refresh list)
+                                // you will probably need to use
+                                // runOnUiThread(Runnable action) for some specific
+                                // actions
+                                Runnable {
+                                    setActiveInput(R.id.kobold_autofill_editor)
+                                }.also { handler.post(it) }
+                            }
+                        }, DELAY)
+                    }
+                }
+            })
+        }
 
         val onEditCommitted = {
             val result = editTextEditor?.editable?.text.toString()
@@ -972,9 +1027,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>) {
+    fun openSpinner(destination: Int, spinnerAdapter: RecyclerView.Adapter<*>, title: String = "") {
         uiBinding?.mainViewFlipper?.displayedChild = 7
 
+        val spinnerTitle = uiBinding?.mainViewFlipper?.findViewById<TextView>(R.id.spinner_title_text)
+        spinnerTitle?.text =
+            if (title == "")
+                resources.getString(R.string.kobold_pick_template)
+            else
+                title
         val spinnerOptions = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options)
         val recyclerViewSpinner = spinnerOptions?.findViewById<RecyclerView>(R.id.spinner_options_recycler_view)
         recyclerViewSpinner?.adapter = spinnerAdapter
@@ -1033,6 +1094,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             //menu chat template
             R.id.kobold_menu_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 4
+                val keyboardChatTemplate = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.kobold_menu_chat_template)
+                keyboardChatTemplate?.visibility = View.VISIBLE
                 if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
                     uiBinding?.mainViewFlipper?.invalidate()
                 }
@@ -1057,6 +1120,20 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
             R.id.kobold_menu_choose_shippingcost -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 11
+            }
+
+            R.id.kobold_autofill_editor -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 0
+                textViewFlipper?.displayedChild = 1
+
+                val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
+                editTextEditor?.setOnClickListener {
+                    setActiveInput(R.id.text_input)
+                }
+
+                val keyboardViewFlipper =
+                    uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+                keyboardViewFlipper?.displayedChild = 3
             }
         }
         textInputManager.isGlidePostEffect = false
@@ -1180,16 +1257,22 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     ) {
         @Transient
         var currencySetNames: List<String> = listOf()
+
         @Transient
         var currencySetLabels: List<String> = listOf()
+
         @Transient
         var composerNames: List<String> = listOf()
+
         @Transient
         var composerLabels: List<String> = listOf()
+
         @Transient
         val composerFromName: Map<String, Composer> = composers.map { it.name to it }.toMap()
+
         @Transient
         var defaultSubtypesLanguageCodes: List<String> = listOf()
+
         @Transient
         var defaultSubtypesLanguageNames: List<String> = listOf()
 
