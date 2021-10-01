@@ -53,7 +53,10 @@ class KeyboardIdentityMainMenu : LinearLayout {
         florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
             R.id.to_dashboard -> florisboard?.launchToDashboard()
-            R.id.create_transaction_button -> florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+            R.id.create_transaction_button -> {
+                florisboard?.setActiveInputFromMainmenu = true
+                florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+            }
             R.id.order_status_button -> florisboard?.setActiveInput(R.id.kobold_menu_transaction)
             R.id.chat_template_button -> florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
             R.id.check_shippingcost_button -> florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)

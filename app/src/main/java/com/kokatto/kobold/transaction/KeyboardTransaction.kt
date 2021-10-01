@@ -112,7 +112,9 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
 //        on this layout not visible
         if (changedView == this && visibility == View.VISIBLE) {
-//        if (changedView == this && visibility == View.VISIBLE || florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
+//            set on backpress
+            florisboard?.setActiveInputFromMainmenu = false
+
             adapter?.dataList?.clear()
 //            if (isFirstLoad.get()) {
             Log.d("OkHttpClient", "first--------------------------------------")

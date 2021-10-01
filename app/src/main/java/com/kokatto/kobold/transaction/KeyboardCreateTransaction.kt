@@ -255,9 +255,15 @@ class KeyboardCreateTransaction : ConstraintLayout {
             selectedCourierOption = SpinnerEditorWithAssetItem("")
             shippingCostText?.editText?.text = ""
 
-            florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
-            florisboard?.activeEditorInstance?.activeEditText = null
-            florisboard?.setActiveInput(R.id.kobold_menu_transaction)
+            if (florisboard?.setActiveInputFromMainmenu == true) {
+                florisboard.inputFeedbackManager.keyPress(TextKeyData(code = KeyCode.CANCEL))
+                florisboard.activeEditorInstance.activeEditText = null
+                florisboard.setActiveInput(R.id.kobold_mainmenu)
+            } else {
+                florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
+                florisboard?.activeEditorInstance?.activeEditText = null
+                florisboard?.setActiveInput(R.id.kobold_menu_transaction)
+            }
         }
 
         invalidateSaveButton()
