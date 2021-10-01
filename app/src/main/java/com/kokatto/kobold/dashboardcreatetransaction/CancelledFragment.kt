@@ -1,6 +1,6 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -17,7 +17,7 @@ import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHomeRecyclerAdapter.OnClick {
+class CancelledFragment : Fragment(R.layout.fragment_cancelled), TransactionHomeRecyclerAdapter.OnClick {
 
     private var cancelledRecyclerAdapter: TransactionHomeRecyclerAdapter? = null
     private var cancelledRecycler: RecyclerView? = null
@@ -31,6 +31,8 @@ class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHome
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
 
+    private var archiveActivityListener: ArchiveActivityListener? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,7 +42,7 @@ class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHome
 
         getCancelledTransactionList()
 
-        cancelledRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList,this)
+        cancelledRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList, this)
 
         DovesRecyclerViewPaginator(
             recyclerView = cancelledRecycler!!,
@@ -60,9 +62,15 @@ class CancelledFragment: Fragment(R.layout.fragment_cancelled) , TransactionHome
     }
 
     override fun onClicked(data: TransactionModel) {
-        Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_DATA, data)
-            startActivity(this)
+        archiveActivityListener?.openDetailActivity(data)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            archiveActivityListener = context as ArchiveActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
         }
     }
 

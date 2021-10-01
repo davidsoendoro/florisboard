@@ -57,6 +57,8 @@ class ShippingCostViewModel {
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {
+                println("ERROR Response :: ${this.errorBody}")
+                println("ERROR Response :: ${this.response.errorBody()}")
                 onError.invoke(this.message())
             }.onException {
                 onError.invoke(this.message ?: "Unknown Error")
