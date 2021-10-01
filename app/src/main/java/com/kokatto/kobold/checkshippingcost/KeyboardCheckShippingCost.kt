@@ -46,6 +46,8 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         backButton = findViewById(R.id.back_button)
         submitButton = findViewById(R.id.submit_button)
 
+//        invalidateSaveButton()
+
         senderAddressEdittext?.setOnClickListener {
             val imeOptions = senderAddressEdittext?.imeOptions ?: 0
             val inputType = senderAddressEdittext?.inputType ?: 0

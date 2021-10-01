@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
-import com.kokatto.kobold.extension.vertical
 
 class ChooseCourierRecyclerAdapter(
     val chooseCourierList: ArrayList<DeliveryFeeModel>,
@@ -31,18 +30,11 @@ class ChooseCourierRecyclerAdapter(
         return chooseCourierList.size
     }
 
-    inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item), ChooseCourierPackageRecyclerAdapter.OnClick {
-        private val adapter = ChooseCourierPackageRecyclerAdapter(this)
-        private val choosePackageRecyclerView = item.findViewById<RecyclerView>(R.id.choose_package_recyclerview)
+    inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
-        fun bindViewHolder(data1: DeliveryFeeModel, data: Int) {
+        fun bindViewHolder(data: DeliveryFeeModel, index: Int) {
 
-            choosePackageRecyclerView.adapter = adapter
-            choosePackageRecyclerView.vertical()
         }
 
-        override fun onPackageClicked(data: Int) {
-            onClick.onPackageClicked(data)
-        }
     }
 }
