@@ -76,22 +76,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
-                    app:hintEnabled="false">
+                    app:hintEnabled="false"
+                    android:focusable="false"
+                    android:clickable="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/sender_address_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/check_shippingcost_sender_hint"
-                        android:textAppearance="@style/FormEditTextHint" />
-
-                    <TextView
-                        android:id="@+id/sender_address_edittext_error"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/template_text_error_length"
-                        android:textAppearance="@style/error_edit_text"
-                        android:visibility="gone" />
+                        android:textAppearance="@style/FormEditTextHint"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:maxLines="1"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,22 +102,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
-                    app:hintEnabled="false">
+                    app:hintEnabled="false"
+                    android:focusable="false"
+                    android:clickable="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/receiver_address_edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/check_shippingcost_receiver_hint"
-                        android:textAppearance="@style/FormEditTextHint" />
-
-                    <TextView
-                        android:id="@+id/receiver_address_edittext_error"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/template_text_error_length"
-                        android:textAppearance="@style/error_edit_text"
-                        android:visibility="gone" />
+                        android:textAppearance="@style/FormEditTextHint"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:maxLines="1"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
