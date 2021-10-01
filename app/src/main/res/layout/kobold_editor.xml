@@ -43,6 +43,7 @@
             android:layout_marginHorizontal="@dimen/kobold_margin_4px"
             app:label="@string/pilih_template"
             app:editable="true"
+            app:isClearable="true"
             />
 
         <ImageView

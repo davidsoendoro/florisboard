@@ -67,6 +67,16 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/kobold_edittext_clear"
+                android:layout_width="41dp"
+                android:layout_height="match_parent"
+                android:maxHeight="@dimen/kobold_margin_12px"
+                android:padding="@dimen/kobold_margin_8px"
+                android:src="@drawable/ic_ico_cross_circle"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <ImageView
                 android:id="@+id/kobold_edittext_chevron"
                 android:layout_width="41dp"
                 android:layout_height="match_parent"
