@@ -48,13 +48,15 @@
 
                 <EditText
                     android:id="@+id/search_edittext"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:maxLines="1"
                     android:paddingStart="@dimen/kobold_margin_8px"
-                    android:paddingVertical="@dimen/kobold_margin_8px"/>
+                    android:paddingVertical="@dimen/kobold_margin_8px"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    tools:ignore="RtlSymmetry" />
 
                 <ImageView
                     android:id="@+id/clear_button"

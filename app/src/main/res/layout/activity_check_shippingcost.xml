@@ -79,9 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
-                    app:hintEnabled="false"
-                    android:focusable="false"
-                    android:clickable="true">
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/sender_address_edittext"
@@ -89,13 +87,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/check_shippingcost_sender_hint"
                         android:textAppearance="@style/FormEditTextHint"
-                        android:focusable="false"
-                        android:clickable="true"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:singleLine="true"
+                        android:scrollHorizontally="false"
                         android:ellipsize="end"
-                        android:editable="false"/>
+                        android:singleLine="true"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:editable="false"
+                        tools:ignore="Deprecated" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,9 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
-                    app:hintEnabled="false"
-                    android:focusable="false"
-                    android:clickable="true">
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/receiver_address_edittext"
@@ -119,13 +116,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/check_shippingcost_receiver_hint"
                         android:textAppearance="@style/FormEditTextHint"
-                        android:clickable="true"
-                        android:focusable="false"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:singleLine="true"
+                        android:scrollHorizontally="false"
                         android:ellipsize="end"
-                        android:editable="false"/>
+                        android:singleLine="true"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:editable="false"
+                        tools:ignore="Deprecated" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -239,6 +237,7 @@
                     android:drawableTint="@color/icon_white"
                     android:gravity="center"
                     android:text="@string/check_shippingcost_reset"
+                    android:textStyle="bold"
                     android:textColor="@color/text_secondary" />
 
             </LinearLayout>
