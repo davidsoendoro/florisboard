@@ -286,11 +286,6 @@ class InputActivity : AppCompatActivity() {
                 }
             }
 
-            editTextPrice?.let {
-                if(!it.text.isNullOrBlank()){
-                    price = it.text.toString().replace(".","").toInt()
-                }
-            }
             if (editTextdeliveryFee!!.text.toString() == "") {
                 println("editTextdeliveryFee?.text.toString() == \"\"")
                 println(editTextdeliveryFee!!.text.toString())

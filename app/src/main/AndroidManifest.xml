@@ -60,7 +60,7 @@
         <activity
             android:name=".template.TemplateActivity"
             android:icon="@mipmap/floris_app_icon"
-            android:label="Kobold Dashboard Template"
+            android:label="Kobold Template"
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round" >
             <intent-filter>
@@ -71,12 +71,10 @@
         <activity
             android:name=".template.TemplateActivityInput"
             android:icon="@mipmap/floris_app_icon"
-            android:label="Kobold Dashboard"
             android:roundIcon="@mipmap/floris_app_icon_round" />
         <activity
             android:name=".template.TemplateActivitySearch"
             android:icon="@mipmap/floris_app_icon"
-            android:label="Kobold Dashboard"
             android:roundIcon="@mipmap/floris_app_icon_round" /> <!-- User Dictionary Manager Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.UdmActivity"
@@ -129,7 +127,7 @@
         <activity
             android:name=".dashboardcreatetransaction.CreateTransactionActivity"
             android:exported="true"
-            android:label="Kobold Dashboard Transaction">
+            android:label="Kobold Transaction">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -147,7 +145,8 @@
         <!-- Dashboard Shipping Cost  -->
         <activity
             android:name=".dashboardcheckshippingcost.CheckShippingcost"
-            android:exported="true">
+            android:exported="true"
+            android:label="Kobold Shipping Cost">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

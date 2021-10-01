@@ -60,8 +60,10 @@ import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
+import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
@@ -1049,6 +1051,23 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
+    fun loadAutofillSuggestion(destination: Int) {
+        var dataList: ArrayList<DeliveryAddressModel> = arrayListOf()
+        val autofillSuggestionAdapter = ShippingAddressRecyclerAdapter(themeContext, dataList)
+
+        val spinnerOptions = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options)
+        val recyclerViewSpinner = spinnerOptions?.findViewById<RecyclerView>(R.id.spinner_options_recycler_view)
+        recyclerViewSpinner?.adapter = autofillSuggestionAdapter
+        recyclerViewSpinner?.vertical()
+
+        val footerLayout = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.spinner_options_footer_layout)
+        val backButton = footerLayout?.findViewById<View>(R.id.back_button)
+        backButton?.setOnClickListener {
+            inputFeedbackManager.keyPress(TextKeyData(code = KeyCode.CANCEL))
+            setActiveInput(destination)
+        }
+    }
+
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {
         val koboldMainmenuViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_mainmenu_view_flipper)
@@ -1126,13 +1145,14 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 uiBinding?.mainViewFlipper?.displayedChild = 0
                 textViewFlipper?.displayedChild = 1
 
-                val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
-                editTextEditor?.setOnClickListener {
-                    setActiveInput(R.id.text_input)
-                }
-
                 val keyboardViewFlipper =
                     uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+
+                val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
+                editTextEditor?.editable?.setOnClickListener {
+                    keyboardViewFlipper?.displayedChild = 0
+                }
+
                 keyboardViewFlipper?.displayedChild = 3
             }
         }
