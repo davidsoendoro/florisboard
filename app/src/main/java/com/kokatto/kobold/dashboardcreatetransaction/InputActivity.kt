@@ -21,11 +21,14 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
+import com.kokatto.kobold.extension.addSeparator
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.utility.CurrencyUtility
 
 class InputActivity : AppCompatActivity() {
 
@@ -232,8 +235,7 @@ class InputActivity : AppCompatActivity() {
         }
 
         editTextPrice?.addTextChangedListener {
-            isValidFormArray[4] =
-                editTextLengthValidation(editTextPrice!!, 1, 15, "editTextPriceError", "Required Field")
+            isValidFormArray[4] = editTextLengthValidation(editTextPrice!!, 1, 15, "editTextPriceError", true)
             formValidation()
         }
 
@@ -246,6 +248,9 @@ class InputActivity : AppCompatActivity() {
             isValidFormArray[6] = editTextLengthValidation(editTextdeliveryFee!!, 0, 15, "editTextdeliveryFeeError")
             formValidation()
         }
+
+        editTextdeliveryFee?.addSeparator(editTextdeliveryFee,".",",")
+        editTextPrice?.addSeparator(editTextPrice,".",",")
 
         formValidation()
     }
@@ -281,6 +286,17 @@ class InputActivity : AppCompatActivity() {
                 }
             }
 
+            editTextPrice?.let {
+                if(!it.text.isNullOrBlank()){
+                    price = it.text.toString().replace(".","").toInt()
+                }
+            }
+            if (editTextdeliveryFee!!.text.toString() == "") {
+                println("editTextdeliveryFee?.text.toString() == \"\"")
+                println(editTextdeliveryFee!!.text.toString())
+                editTextdeliveryFee?.setText("0")
+            }
+
             val model = TransactionModel(
                 _id = _id,
                 buyer = editTextBuyer?.text.toString(),
@@ -298,8 +314,6 @@ class InputActivity : AppCompatActivity() {
                 logistic = editTextLogistic?.text.toString(),
                 logisticAsset = selectedLogistic?.assetUrl.toString(),
                 deliveryFee = deliveryFee,
-                latestStatus = "",
-                createdAt = 0L
             )
 
             when (mode) {
@@ -307,9 +321,9 @@ class InputActivity : AppCompatActivity() {
                     transactionViewModel?.createTransaction(
                         model,
                         onSuccess = {
-                            setActivityResultOK(model)
+                            setActivityResult(ActivityConstantCode.RESULT_OK_CREATED,model)
                             progressSubmit(false)
-                            showToast(resources.getString(R.string.kobold_transaction_action_save_success))
+                            //showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             progressSubmit(false)
@@ -322,9 +336,9 @@ class InputActivity : AppCompatActivity() {
                         _id,
                         model,
                         onSuccess = {
-                            setActivityResultOK(model)
+                            setActivityResult(ActivityConstantCode.RESULT_OK_UPDATED,model)
                             progressSubmit(false)
-                            showToast(resources.getString(R.string.kobold_transaction_action_save_success))
+                            //showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             super.finish()
@@ -386,7 +400,7 @@ class InputActivity : AppCompatActivity() {
         model.phone.let { s -> editTextPhone?.setText(s) }
         model.address.let { s -> editTextAddress?.setText(s) }
         model.notes.let { s -> editTextNote?.setText(s) }
-        model.price.let { s -> editTextPrice?.setText(s.toString()) }
+        model.price.let { s -> editTextPrice?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
 
         if(model.bankType !=null) {
@@ -398,11 +412,10 @@ class InputActivity : AppCompatActivity() {
 
         model.logistic.let { s -> editTextLogistic?.setText(s) }
         selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
-        model.deliveryFee.let { s -> editTextdeliveryFee?.setText(s.toString()) }
+        model.deliveryFee.let { s -> editTextdeliveryFee?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
     }
 
     private fun constructChannel(editText: EditText, assetUrl: String) {
-        println("constructChannel :: constructChannel")
         Glide.with(this).load(assetUrl).apply(RequestOptions().fitCenter()).into(
             object : CustomTarget<Drawable>(50, 50) {
                 override fun onLoadCleared(placeholder: Drawable?) {
@@ -475,10 +488,10 @@ class InputActivity : AppCompatActivity() {
         editTextDeliveryFeeLayout?.setBackgroundColor(backgroundColor)
     }
 
-    private fun setActivityResultOK(model: TransactionModel) {
+    private fun setActivityResult(result: Int, model: TransactionModel) {
         val intent = Intent()
         intent.putExtra(EXTRA_DATA, model)
-        setResult(RESULT_OK, intent)
+        setResult(result, intent)
         finish()
     }
 
@@ -517,8 +530,13 @@ class InputActivity : AppCompatActivity() {
         minChar: Int,
         maxChar: Int,
         viewTag: String,
+        required: Boolean = false,
         message: String = resources.getString(R.string.template_text_error_length)
     ): Boolean {
+
+        if(required && editText.text.length < minChar) {
+            addErrorTextView(editText, viewTag, "Wajib diisi")
+        }
 
         if (editText.text.length > maxChar || editText.text.length < minChar) {
             addErrorTextView(editText, viewTag, message)

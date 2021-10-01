@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 class DeliveryFeeModel (
     var service_name: String = "",
     var service: String = "",
+    var service_logo: String = "",
     var type: String = "",
     var price: Int = 0,
     var availability: Boolean = false,

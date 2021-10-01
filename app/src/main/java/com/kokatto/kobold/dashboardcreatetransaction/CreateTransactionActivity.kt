@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -15,17 +16,26 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
+import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
-import okhttp3.internal.notifyAll
 
-class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate {
+interface CreateTransactionActivityListener {
+    fun openInputActivity()
+    fun openDetailActivity(dataModel: TransactionModel)
+}
+
+class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, CreateTransactionActivityListener {
 
     private var activeButton: Button? = null
     private var warningLayout: LinearLayout? = null
     private var viewPager: ViewPager2? = null
+
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,15 +78,54 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate {
             tab.text = fragmentEnabledCount[position]
         }.attach()
 
-        var launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when(result.resultCode) {
+                ActivityConstantCode.RESULT_OK_CREATED -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_action_save_success))
+                }
+                ActivityConstantCode.RESULT_OK_UPDATED -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_action_edit_success))
+                }
+                ActivityConstantCode.RESULT_OK_DELETED -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.template_delete_success))
+                }
+                ActivityConstantCode.STATUS_TO_PAID -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_paid_toast))
+                }
+                ActivityConstantCode.STATUS_TO_UNPAID -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_unpaid_toast))
+                }
+                ActivityConstantCode.STATUS_TO_SENT -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_sent_toast))
+                }
+                ActivityConstantCode.STATUS_TO_COMPLETE -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_finish_toast))
+                }
+                ActivityConstantCode.STATUS_TO_CANCEL -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_cancel_toast))
+                }
+                ActivityConstantCode.RESULT_OPEN_EDIT -> {
+                    val data: Intent? = result.data
+                    val model = data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA)
+                    val intent = Intent(this, InputActivity::class.java)
+                    intent.putExtra(InputActivity.EXTRA_DATA, model)
+                    intent.putExtra(InputActivity.MODE, InputActivity.EDIT)
+                    activityResultLauncher?.launch(intent)
+                }
             }
         }
 
         findViewById<CardView>(R.id.create_transaction_button).setOnClickListener {
             val intent = Intent(this, InputActivity::class.java)
-            launchActivity.launch(intent)
+            activityResultLauncher?.launch(intent)
         }
     }
 
@@ -102,17 +151,15 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate {
         }
     }
 
-    fun openDetailActivity(model: TransactionModel){
+    override fun openInputActivity() {
+        val intent = Intent(this, InputActivity::class.java)
+        activityResultLauncher?.launch(intent)
+    }
+
+    override fun openDetailActivity(dataModel: TransactionModel){
         val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_DATA, model)
-
-        val launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-
-            }
-        }
-
-        launchActivity.launch(intent)
+        intent.putExtra(DetailActivity.EXTRA_DATA, dataModel)
+        activityResultLauncher?.launch(intent)
     }
 
     override fun onResume() {

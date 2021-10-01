@@ -994,9 +994,9 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                                 // you will probably need to use
                                 // runOnUiThread(Runnable action) for some specific
                                 // actions
-                                handler.run {
-                                    setActiveInput(R.id.kobold_spinner)
-                                }
+                                Runnable {
+                                    setActiveInput(R.id.kobold_autofill_editor)
+                                }.also { handler.post(it) }
                             }
                         }, DELAY)
                     }
@@ -1120,6 +1120,20 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
             R.id.kobold_menu_choose_shippingcost -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 11
+            }
+
+            R.id.kobold_autofill_editor -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 0
+                textViewFlipper?.displayedChild = 1
+
+                val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
+                editTextEditor?.setOnClickListener {
+                    setActiveInput(R.id.text_input)
+                }
+
+                val keyboardViewFlipper =
+                    uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+                keyboardViewFlipper?.displayedChild = 3
             }
         }
         textInputManager.isGlidePostEffect = false

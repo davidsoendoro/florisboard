@@ -35,7 +35,7 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
 
-    private var launchActivity: ActivityResultLauncher<Intent>? = null
+    private var createTransactionActivityListener: CreateTransactionActivityListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,23 +66,30 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
     }
 
     override fun onClicked(data: TransactionModel) {
-        val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_DATA, data)
-        launchActivity?.launch(intent)
+        createTransactionActivityListener?.openDetailActivity(data)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL
-                || result.resultCode == ActivityConstantCode.STATUS_TO_SENT) {
-                val data: Intent? = result.data
-                transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
-                paidRecyclerAdapter!!.notifyDataSetChanged()
-            }
+        try {
+            createTransactionActivityListener = context as CreateTransactionActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
         }
     }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//        launchActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == ActivityConstantCode.STATUS_TO_CANCEL
+//                || result.resultCode == ActivityConstantCode.STATUS_TO_SENT) {
+//                val data: Intent? = result.data
+//                transactionList.remove(data?.getParcelableExtra<TransactionModel>(ActivityConstantCode.EXTRA_DATA))
+//                paidRecyclerAdapter!!.notifyDataSetChanged()
+//            }
+//        }
+//    }
 
     private fun getPaidTransactionList(page: Int = 1) {
         transactionViewModel?.getTransactionList(

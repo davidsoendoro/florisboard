@@ -13,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.helpers.UiMetricHelper
+import dev.patrickgold.florisboard.ime.core.FlorisBoard
 
 class KoboldEditText : ConstraintLayout {
     constructor(context: Context) : this(context, null)
@@ -30,6 +31,7 @@ class KoboldEditText : ConstraintLayout {
         val showCalculator: Boolean = a.getBoolean(R.styleable.KoboldEditText_showCalculator, false)
         val maxAllowedCharacters: Int = a.getInt(R.styleable.KoboldEditText_maxAllowedCharacters, 0)
         val isAutofill: Boolean = a.getBoolean(R.styleable.KoboldEditText_isAutofill, false)
+        val isClearable: Boolean = a.getBoolean(R.styleable.KoboldEditText_isClearable, false)
         val isNeedThousandSeparator: Boolean = a.getBoolean(R.styleable.KoboldEditText_isNeedThousandSeparator, false)
 //        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
@@ -62,10 +64,11 @@ class KoboldEditText : ConstraintLayout {
             calculatorRight.visibility = GONE
         }
 
-//        Log.e("edittext", inputType.toString())
-//
-//        if (isNeedThousandSeparator)
-//            editable.setThousandSeparator()
+        if (isClearable) {
+            clearButton.visibility = VISIBLE
+        } else {
+            clearButton.visibility = GONE
+        }
 
         a.recycle()
     }
@@ -73,6 +76,7 @@ class KoboldEditText : ConstraintLayout {
     val label: TextView
     val editText: TextView
     val editable: AppCompatEditText
+    val clearButton: ImageView
     val chevronRight: ImageView
     val calculatorRight: ImageView
     val errorText: TextView
@@ -90,6 +94,7 @@ class KoboldEditText : ConstraintLayout {
         label = findViewById(R.id.kobold_edittext_label)
         editText = findViewById(R.id.kobold_edittext_text)
         editable = findViewById(R.id.kobold_edittext_editable)
+        clearButton = findViewById(R.id.kobold_edittext_clear)
         chevronRight = findViewById(R.id.kobold_edittext_chevron)
         calculatorRight = findViewById(R.id.kobold_edittext_calculator)
         errorText = findViewById(R.id.kobold_edittext_errorText)
@@ -117,6 +122,11 @@ class KoboldEditText : ConstraintLayout {
                 editTextLayout.strokeColor = resources.getColor(R.color.gray_1, null)
                 errorText.visibility = View.GONE
             }
+        }
+
+        clearButton.setOnClickListener {
+            FlorisBoard.getInstance().inputFeedbackManager.keyPress()
+            editable.text?.clear()
         }
     }
 

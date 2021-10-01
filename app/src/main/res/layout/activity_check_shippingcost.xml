@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent_layout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -15,6 +15,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary80"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -45,181 +47,294 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/kobold_margin_16px"
-        android:layout_marginVertical="@dimen/kobold_margin_24px"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title_layout"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_shippingcost_sender_title" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/kobold_margin_24px"
-            app:hintEnabled="false">
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sender_address_edittext"
+            <LinearLayout
+                android:id="@+id/layout_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/check_shippingcost_sender_hint"
-                android:textAppearance="@style/FormEditTextHint" />
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginVertical="@dimen/kobold_margin_24px"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/sender_address_edittext_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/template_text_error_length"
-                android:textAppearance="@style/error_edit_text"
-                android:visibility="gone" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_shippingcost_receiver_title" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/kobold_margin_24px"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/receiver_address_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/check_shippingcost_receiver_hint"
-                android:textAppearance="@style/FormEditTextHint" />
-
-            <TextView
-                android:id="@+id/receiver_address_edittext_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/template_text_error_length"
-                android:textAppearance="@style/error_edit_text"
-                android:visibility="gone" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/kobold_margin_24px">
-
-            <TextView
-                android:id="@+id/package_weight_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Berat Paket"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Maks. 7kg"
-                android:textColor="@color/text_disabled"
-                android:textSize="10sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/package_weight_title" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                app:cardCornerRadius="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="@color/gray_1"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:text="@string/check_shippingcost_sender_title" />
 
-                    <ImageView
-                        android:id="@+id/minus_weight_button"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    app:hintEnabled="false"
+                    android:focusable="false"
+                    android:clickable="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sender_address_edittext"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@color/background_subtle"
-                        android:paddingHorizontal="12dp"
-                        android:src="@drawable/ic_minus_minor" />
+                        android:layout_height="wrap_content"
+                        android:hint="@string/check_shippingcost_sender_hint"
+                        android:textAppearance="@style/FormEditTextHint"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:maxLines="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/check_shippingcost_receiver_title" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    app:hintEnabled="false"
+                    android:focusable="false"
+                    android:clickable="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/receiver_address_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/check_shippingcost_receiver_hint"
+                        android:textAppearance="@style/FormEditTextHint"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:maxLines="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/kobold_margin_24px">
 
                     <TextView
-                        android:id="@+id/package_weight_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:id="@+id/package_weight_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Berat Paket"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Maks. 7kg"
+                        android:textColor="@color/text_disabled"
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/package_weight_title" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/gray_1"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/minus_weight_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/background_subtle"
+                                android:paddingHorizontal="12dp"
+                                android:src="@drawable/ic_minus_minor" />
+
+                            <TextView
+                                android:id="@+id/package_weight_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="10dp"
+                                android:gravity="center"
+                                android:text="1 kg"
+                                android:textColor="@color/text_secondary" />
+
+                            <ImageView
+                                android:id="@+id/plus_weight_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/background_subtle"
+                                android:paddingHorizontal="12dp"
+                                android:src="@drawable/ic_add_minor" />
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/submit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="46dp"
+                    android:background="@color/colorPrimary"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="0dp">
+
+                    <ProgressBar
+                        android:id="@+id/submit_button_loading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="10dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/submit_button_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/kobold_blue_button_disabled"
+                        android:drawableTint="@color/icon_white"
                         android:gravity="center"
-                        android:text="1 kg"
-                        android:textColor="@color/text_secondary" />
+                        android:paddingVertical="12dp"
+                        android:text="@string/check_shippingcost_button"
+                        android:textColor="@color/text_color_white" />
 
-                    <ImageView
-                        android:id="@+id/plus_weight_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@color/background_subtle"
-                        android:paddingHorizontal="12dp"
-                        android:src="@drawable/ic_add_minor" />
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </com.google.android.material.card.MaterialCardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/reset_button_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="@dimen/kobold_margin_12px"
+                    android:drawableTint="@color/icon_white"
+                    android:gravity="center"
+                    android:text="@string/check_shippingcost_reset"
+                    android:textColor="@color/text_secondary" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/submit_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="46dp"
-            android:background="@color/colorPrimary"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp">
+            </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/submit_button_loading"
+            <LinearLayout
+                android:id="@+id/bottom_loading"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+                android:layout_height="56dp"
+                android:layout_gravity="center|center_vertical"
+                android:gravity="center|center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/submit_button_text"
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:paddingVertical="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/kobold_blue_button_disabled"
-                android:drawableTint="@color/icon_white"
-                android:gravity="center"
-                android:paddingVertical="12dp"
-                android:text="@string/check_shippingcost_button"
-                android:textColor="@color/text_color_white" />
+                android:layout_marginBottom="8dp"
+                android:background="#D6E4FE"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/kobold_margin_12px"
+                android:paddingVertical="@dimen/kobold_margin_8px"
+                android:visibility="gone">
 
-        </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/check_shippingcost_info"
+                    android:textColor="#3A5FD6"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/close_info_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:src="@drawable/ic_cross_blue" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginBottom="160dp"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_shippingcost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_shippingcost"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/copy_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        app:cardCornerRadius="@dimen/kobold_margin_24px"
+        android:layout_marginBottom="@dimen/kobold_margin_32px"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/reset_button_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:background="@color/colorPrimary60"
+            android:drawableLeft="@drawable/ic_copy"
+            android:drawablePadding="12dp"
             android:drawableTint="@color/icon_white"
             android:gravity="center"
-            android:text="@string/check_shippingcost_reset"
-            android:textColor="@color/text_secondary" />
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:text="@string/check_shippingcost_copy"
+            android:textColor="@color/text_color_white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    </LinearLayout>
-</LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

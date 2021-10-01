@@ -1,6 +1,5 @@
 package com.kokatto.kobold.bank
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.databinding.ActivityBankHomeBinding
-import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.settings.FRAGMENT_TAG
 
 class BankHomeActivity : AppCompatActivity() {
@@ -29,8 +30,30 @@ class BankHomeActivity : AppCompatActivity() {
         }
 
         inputActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                loadFragment(openDataListFragment())
+            println("inputActivityResult ::: ${result.resultCode}")
+
+            when (result.resultCode) {
+                ActivityConstantCode.RESULT_OK_DELETED -> {
+                    showSnackBar(
+                        uiBinding.rootLayout,
+                        resources.getString(R.string.kobold_bank_input_action_delete_success)
+                    )
+                    loadFragment(openDataListFragment())
+                }
+                ActivityConstantCode.RESULT_OK_CREATED -> {
+                    showSnackBar(
+                        uiBinding.rootLayout,
+                        resources.getString(R.string.kobold_bank_input_action_submit_success)
+                    )
+                    loadFragment(openDataListFragment())
+                }
+                ActivityConstantCode.RESULT_OK_UPDATED -> {
+                    showSnackBar(
+                        uiBinding.rootLayout,
+                        resources.getString(R.string.kobold_bank_input_action_update_success)
+                    )
+                    loadFragment(openDataListFragment())
+                }
             }
         }
 
@@ -40,9 +63,13 @@ class BankHomeActivity : AppCompatActivity() {
 
         findViewById<CardView>(R.id.action_create).setOnClickListener {
             //validate max 15 bank account
-            if(bankListFragment!=null) {
-                if(bankListFragment!!.isReachMaximum()) {
-                    showToast(resources.getString(R.string.kobold_bank_maximum))
+            if (bankListFragment != null) {
+                if (bankListFragment!!.isReachMaximum()) {
+                    showSnackBar(
+                        findViewById(R.id.root_layout),
+                        resources.getString(R.string.kobold_bank_maximum),
+                        R.color.snackbar_error
+                    )
                 } else {
                     val intent = Intent(this, BankInputActivity::class.java)
                     inputActivityResult!!.launch(intent)
@@ -60,7 +87,7 @@ class BankHomeActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun openDataListFragment() : BankListFragment {
+    private fun openDataListFragment(): BankListFragment {
         bankListFragment = BankListFragment()
 
         bankListFragment?.onEmptyResult = {
@@ -72,23 +99,21 @@ class BankHomeActivity : AppCompatActivity() {
             val intent = Intent(this, BankInputActivity::class.java)
             intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
             intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
-            inputActivityResult!!.launch(intent)
+            inputActivityResult?.launch(intent)
         }
 
         uiBinding.actionCreate.visibility = View.VISIBLE
         return bankListFragment as BankListFragment
     }
 
-    private fun openEmptyFragment() : Fragment {
+    private fun openEmptyFragment(): Fragment {
         val fragment = BankEmptyFragment()
 
         fragment.onActionClick = {
             val intent = Intent(this, BankInputActivity::class.java)
-            inputActivityResult!!.launch(intent)
+            inputActivityResult?.launch(intent)
         }
 
         return fragment
     }
-
-
 }
