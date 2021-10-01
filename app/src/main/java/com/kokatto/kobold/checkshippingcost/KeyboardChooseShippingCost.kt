@@ -64,11 +64,8 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
                     showSnackBar(it, R.color.snackbar_error)
                 }
             )
-<<<<<<< HEAD
         } else {
             chooseCourierList.clear()
-=======
->>>>>>> f92ad8fe8e48b3aec333ea40e84d1ef092b82aa5
         }
 
         super.onVisibilityChanged(changedView, visibility)
