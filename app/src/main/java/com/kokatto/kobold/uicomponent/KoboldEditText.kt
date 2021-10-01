@@ -30,6 +30,7 @@ class KoboldEditText : ConstraintLayout {
         val showCalculator: Boolean = a.getBoolean(R.styleable.KoboldEditText_showCalculator, false)
         val maxAllowedCharacters: Int = a.getInt(R.styleable.KoboldEditText_maxAllowedCharacters, 0)
         val isAutofill: Boolean = a.getBoolean(R.styleable.KoboldEditText_isAutofill, false)
+        val isNeedThousandSeparator: Boolean = a.getBoolean(R.styleable.KoboldEditText_isNeedThousandSeparator, false)
 //        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
         label.text = labelText
@@ -61,7 +62,12 @@ class KoboldEditText : ConstraintLayout {
             calculatorRight.visibility = GONE
         }
 
-        a.recycle();
+//        Log.e("edittext", inputType.toString())
+//
+//        if (isNeedThousandSeparator)
+//            editable.setThousandSeparator()
+
+        a.recycle()
     }
 
     val label: TextView

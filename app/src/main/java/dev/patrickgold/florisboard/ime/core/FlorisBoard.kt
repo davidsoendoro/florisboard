@@ -17,7 +17,6 @@
 package dev.patrickgold.florisboard.ime.core
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -98,7 +97,6 @@ import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.AppVersionUtils
 import dev.patrickgold.florisboard.util.debugSummarize
 import dev.patrickgold.florisboard.util.findViewWithType
-import dev.patrickgold.florisboard.util.getActivity
 import dev.patrickgold.florisboard.util.refreshLayoutOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -937,7 +935,15 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
-    fun openEditor(destination: Int, imeOptions: Int = 0, editorInputType: Int = 0, label: String = "", value: String = "", isAutofill: Boolean = false, callback: (result: String) -> Unit) {
+    fun openEditor(
+        destination: Int,
+        imeOptions: Int = 0,
+        editorInputType: Int = 0,
+        label: String = "",
+        value: String? = "",
+        isAutofill: Boolean = false,
+        callback: (result: String) -> Unit
+    ) {
         val keyboardViewFlipper =
             uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
 
