@@ -17,6 +17,7 @@ import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.koboldSetEnabled
+import com.kokatto.kobold.extension.removeThousandSeparatedString
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.toThousandSeperatedString
 import com.kokatto.kobold.uicomponent.KoboldEditText
@@ -175,7 +176,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 imeOptions,
                 inputType,
                 itemPriceText?.label?.text.toString(),
-                itemPriceText?.editText?.text.toString()
+                itemPriceText?.editText?.text.toString().removeThousandSeparatedString()
             ) { result ->
                 transactionModel.price = result.toDouble()
                 itemPriceText?.editText?.text = result.toThousandSeperatedString("Rp")
@@ -232,7 +233,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 imeOptions,
                 inputType,
                 shippingCostText?.label?.text.toString(),
-                shippingCostText?.editText?.text.toString()
+                shippingCostText?.editText?.text.toString().removeThousandSeparatedString()
             ) { result ->
                 transactionModel.deliveryFee = result.toDouble()
                 shippingCostText?.editText?.text = result.toThousandSeperatedString("Rp")
@@ -310,23 +311,28 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     }
                 )
 
-            if (pickPaymentMethodOption.size == 0)
+            if (pickPaymentMethodOption.size == 0) {
                 pickPaymentMethodOption.add(SpinnerEditorWithAssetItem("Cash", "cash"))
 
-            bankViewModel?.getPaginated(
-                onLoading = {},
-                onSuccess = {
-                    it.data.contents.forEach {
-                        pickPaymentMethodOption.add(
-                            SpinnerEditorWithAssetItem(getBankInfoStringFormat(it), it.asset)
-                        )
+                bankViewModel?.getPaginated(
+                    onLoading = {},
+                    onSuccess = {
+                        it.data.contents.forEach {
+                            pickPaymentMethodOption.add(
+                                SpinnerEditorWithAssetItem(getBankInfoStringFormat(it), it.asset)
+                            )
+                        }
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
                     }
-                },
-                onError = {
-                    showSnackBar(it, R.color.snackbar_error)
-                }
-            )
+                )
+            }
 
+        } else {
+//            pickChannelOptions.clear()
+//            pickCourierOption.clear()
+//            pickPaymentMethodOption.clear()
         }
     }
 
