@@ -27,6 +27,7 @@ import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
 import com.kokatto.kobold.extension.addSeparator
+import com.kokatto.kobold.extension.convertSeparatorToDouble
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
 
@@ -278,24 +279,10 @@ class InputActivity : AppCompatActivity() {
         if (!isNotValid()) {
             progressSubmit(true)
 
-            var deliveryFee = 0.0
-
-            editTextdeliveryFee?.let { editText ->
-                if (!editText.text.isEmpty()) {
-                    deliveryFee = editText.text.toString().toDouble()
-                }
-            }
-
-            editTextPrice?.let {
-                if(!it.text.isNullOrBlank()){
-                    price = it.text.toString().replace(".","").toInt()
-                }
-            }
             if (editTextdeliveryFee!!.text.toString() == "") {
-                println("editTextdeliveryFee?.text.toString() == \"\"")
-                println(editTextdeliveryFee!!.text.toString())
                 editTextdeliveryFee?.setText("0")
             }
+
 
             val model = TransactionModel(
                 _id = _id,
@@ -305,7 +292,7 @@ class InputActivity : AppCompatActivity() {
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
-                price = editTextPrice?.text.toString().toDouble(),
+                price = editTextPrice!!.convertSeparatorToDouble(editTextPrice),
                 payingMethod = editTextPayment?.text.toString(),
                 bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),
@@ -313,7 +300,7 @@ class InputActivity : AppCompatActivity() {
                 bankAsset = selectedBank?.asset.toString(),
                 logistic = editTextLogistic?.text.toString(),
                 logisticAsset = selectedLogistic?.assetUrl.toString(),
-                deliveryFee = deliveryFee,
+                deliveryFee = editTextdeliveryFee!!.convertSeparatorToDouble(editTextdeliveryFee),
             )
 
             when (mode) {
