@@ -177,7 +177,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 itemPriceText?.label?.text.toString(),
                 itemPriceText?.editText?.text.toString()
             ) { result ->
-                transactionModel.price = result.toInt()
+                transactionModel.price = result.toDouble()
                 itemPriceText?.editText?.text = result.toThousandSeperatedString("Rp")
                 invalidateSaveButton()
             }
@@ -234,7 +234,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                 shippingCostText?.label?.text.toString(),
                 shippingCostText?.editText?.text.toString()
             ) { result ->
-                transactionModel.deliveryFee = result.toInt()
+                transactionModel.deliveryFee = result.toDouble()
                 shippingCostText?.editText?.text = result.toThousandSeperatedString("Rp")
             }
         }
@@ -351,16 +351,16 @@ class KeyboardCreateTransaction : ConstraintLayout {
             notes = orderDetailText?.editText?.text.toString(),
             price =
             if (itemPriceText?.editText?.text.toString() == "")
-                0
+                0.0
             else
-                itemPriceText?.editText?.text.toString().toInt(),
+                itemPriceText?.editText?.text.toString().toDouble(),
             payingMethod = choosePaymentMethodText?.editText?.text.toString(),
             logistic = chooseCourierText?.editText?.text.toString(),
             deliveryFee =
             if (shippingCostText?.editText?.text.toString() == "")
-                0
+                0.0
             else
-                shippingCostText?.editText?.text.toString().toInt()
+                shippingCostText?.editText?.text.toString().toDouble()
         )
     }
 }

@@ -273,11 +273,11 @@ class InputActivity : AppCompatActivity() {
         if (!isNotValid()) {
             progressSubmit(true)
 
-            var deliveryFee = 0
+            var deliveryFee = 0.0
 
             editTextdeliveryFee?.let { editText ->
                 if (!editText.text.isEmpty()) {
-                    deliveryFee = editText.text.toString().toInt()
+                    deliveryFee = editText.text.toString().toDouble()
                 }
             }
 
@@ -289,7 +289,7 @@ class InputActivity : AppCompatActivity() {
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
-                price = editTextPrice?.text.toString().toInt(),
+                price = editTextPrice?.text.toString().toDouble(),
                 payingMethod = editTextPayment?.text.toString(),
                 bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),

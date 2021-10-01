@@ -11,7 +11,7 @@ data class TransactionModel(
     var buyer: String = "",
     var channel: String = "",
     var channelAsset: String = "",
-    var deliveryFee: Int = 0,
+    var deliveryFee: Double = 0.0,
     var latestStatus: String = "",
     var logistic: String = "",
     var logisticAsset: String = "",
@@ -22,7 +22,7 @@ data class TransactionModel(
     var bankAccountName: String = "",
     var bankAsset: String = "",
     var phone: String = "",
-    var price: Int = 0,
+    var price: Double = 0.0,
     var createdAt: Long = 0,
     var updatedAt: Long = 0,
 ) : Parcelable
