@@ -21,7 +21,9 @@ import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.os.Build
 import android.os.SystemClock
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.InputDevice
 import android.view.KeyCharacterMap
 import android.view.KeyEvent
@@ -72,6 +74,28 @@ class EditorInstance private constructor(
     private var wasPhantomSpaceActiveLastUpdate: Boolean = false
 
     var activeEditText: AppCompatEditText? = null
+        set(value) {
+            value?.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {}
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int,
+                    count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence, start: Int,
+                    before: Int, count: Int
+                ) {
+                    // disable shift
+                    activeState.caps = s.isEmpty() && count == 0
+                    FlorisBoard.getInstance().dispatchCurrentStateToInputUi()
+                }
+            })
+            field = value
+        }
 
     companion object {
         fun default(): EditorInstance {
@@ -197,6 +221,7 @@ class EditorInstance private constructor(
             ic.finishComposingText()
             if (rm != 0) ic.deleteSurroundingText(rm, 0)
             if (activeEditText == null) {
+                ic.requestCursorUpdates(InputConnection.CURSOR_UPDATE_IMMEDIATE)
                 ic.commitText(finalText, 1)
             } else {
                 ic.requestCursorUpdates(InputConnection.CURSOR_UPDATE_IMMEDIATE)
@@ -795,13 +820,14 @@ class Selection(private val editorInstance: EditorInstance) : Region(editorInsta
     val isSelectionMode: Boolean
         get() = length != 0 && isValid
 
-    val icText: String get() = when {
-        !isValid -> ""
-        else -> when (val ic = editorInstance.inputConnection) {
-            null -> ""
-            else -> ic.getSelectedText(0).toString()
+    val icText: String
+        get() = when {
+            !isValid -> ""
+            else -> when (val ic = editorInstance.inputConnection) {
+                null -> ""
+                else -> ic.getSelectedText(0).toString()
+            }
         }
-    }
 
     /**
      * Same as [update], but also notifies the input connection linked by [editorInstance] of this

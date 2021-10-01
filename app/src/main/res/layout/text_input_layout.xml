@@ -38,6 +38,11 @@
             android:id="@+id/kobold_search_transaction"
             layout="@layout/kobold_search_transaction" />
 
+        <!-- Autofill   3-->
+        <include
+            android:id="@+id/kobold_autofill_editor"
+            layout="@layout/kobold_autofill_editor" />
+
     </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
 </LinearLayout>
