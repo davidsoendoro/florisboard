@@ -141,10 +141,6 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
         layoutEmpty?.isVisible = true
         layoutNotFound?.isVisible = false
         buttonClear?.isVisible = false
-
-        searchEdittext?.requestFocus()
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(searchEdittext, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun callAPIShippingAddress(address: String = "") {

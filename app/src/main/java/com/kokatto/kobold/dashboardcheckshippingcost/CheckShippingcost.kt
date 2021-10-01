@@ -298,6 +298,7 @@ class CheckShippingcost : AppCompatActivity() {
         layoutForm?.isVisible = true
         layoutNoInternet?.isVisible = false
         copyButton?.isVisible = false
+        validateForm()
     }
 
     private fun showNoInternet() {
