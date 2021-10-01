@@ -27,7 +27,6 @@ import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
 import com.kokatto.kobold.extension.addSeparator
-import com.kokatto.kobold.extension.convertSeparatorToDouble
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
 
@@ -279,6 +278,20 @@ class InputActivity : AppCompatActivity() {
         if (!isNotValid()) {
             progressSubmit(true)
 
+            var deliveryFee = 0.0
+            var price = 0.0
+
+            editTextdeliveryFee?.let {
+                if (!it.text.isNullOrBlank()) {
+                    deliveryFee = it.text.toString().replace(".", "").toDouble()
+                }
+            }
+
+            editTextPrice?.let {
+                if (!it.text.isNullOrBlank()) {
+                    price = it.text.toString().replace(".", "").toDouble()
+                }
+            }
             if (editTextdeliveryFee!!.text.toString() == "") {
                 editTextdeliveryFee?.setText("0")
             }
@@ -292,7 +305,7 @@ class InputActivity : AppCompatActivity() {
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
-                price = editTextPrice!!.convertSeparatorToDouble(editTextPrice),
+                price = price,
                 payingMethod = editTextPayment?.text.toString(),
                 bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),
@@ -300,7 +313,7 @@ class InputActivity : AppCompatActivity() {
                 bankAsset = selectedBank?.asset.toString(),
                 logistic = editTextLogistic?.text.toString(),
                 logisticAsset = selectedLogistic?.assetUrl.toString(),
-                deliveryFee = editTextdeliveryFee!!.convertSeparatorToDouble(editTextdeliveryFee),
+                deliveryFee = deliveryFee,
             )
 
             when (mode) {

@@ -56,3 +56,8 @@ fun thousandSeparator(editText: EditText): TextWatcher {
         }
     }
 }
+
+
+fun String.removeThousandSeparatedString(): String {
+    return this.filter { it.isDigit() }
+}
