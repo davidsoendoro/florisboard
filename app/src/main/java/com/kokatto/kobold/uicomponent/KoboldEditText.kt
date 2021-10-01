@@ -32,6 +32,7 @@ class KoboldEditText : ConstraintLayout {
         val maxAllowedCharacters: Int = a.getInt(R.styleable.KoboldEditText_maxAllowedCharacters, 0)
         val isAutofill: Boolean = a.getBoolean(R.styleable.KoboldEditText_isAutofill, false)
         val isClearable: Boolean = a.getBoolean(R.styleable.KoboldEditText_isClearable, false)
+        val isNeedThousandSeparator: Boolean = a.getBoolean(R.styleable.KoboldEditText_isNeedThousandSeparator, false)
 //        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
         label.text = labelText
@@ -69,7 +70,7 @@ class KoboldEditText : ConstraintLayout {
             clearButton.visibility = GONE
         }
 
-        a.recycle();
+        a.recycle()
     }
 
     val label: TextView

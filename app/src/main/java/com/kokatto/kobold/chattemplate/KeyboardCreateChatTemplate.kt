@@ -5,16 +5,15 @@ import android.util.AttributeSet
 import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.uicomponent.KoboldEditText
-import com.kokatto.kobold.R
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
-import android.os.ResultReceiver
-import com.kokatto.kobold.api.model.basemodel.AutoTextModel
-import com.kokatto.kobold.extension.showToast
 
 
 class KeyboardCreateChatTemplate : ConstraintLayout {

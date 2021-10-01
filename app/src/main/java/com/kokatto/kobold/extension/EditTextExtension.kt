@@ -7,6 +7,10 @@ import java.lang.Exception
 import java.text.DecimalFormat
 import java.util.*
 
+/**
+ * Adds thousand separator
+ */
+
 fun EditText.addSeparator(
     targetEdit: EditText?,
     thousand: String = ",",
@@ -71,4 +75,20 @@ fun getDecimalFormattedString(value: String, thousand: String = ",", decimal: St
         i++
         k--
     }
+}
+
+/**
+ * Adds TextWatcher to the EditText
+ */
+fun EditText.onTextChanged(listener: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+
+        override fun afterTextChanged(s: Editable?) {
+            listener(s.toString())
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    })
 }
