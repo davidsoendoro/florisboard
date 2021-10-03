@@ -44,10 +44,12 @@
             android:id="@+id/login_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/bukalapakBrandColor"
-            app:cornerRadius="4dp"
+            android:backgroundTint="@color/kobold_blue_button"
+            app:cornerRadius="24dp"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="@dimen/kobold_margin_24px"
+            android:layout_marginEnd="@dimen/kobold_margin_24px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -56,14 +58,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_marginVertical="10dp">
 
                 <TextView
                     android:id="@+id/login_button_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Login sekarang"/>
+                    android:drawableStart="@drawable/ic_arrow_increase_white"
+                    android:drawableLeft="@drawable/ic_arrow_increase_white"
+                    app:drawableStartCompat="@drawable/ic_arrow_increase_white"
+                    app:drawableLeftCompat="@drawable/ic_arrow_increase_white"
+                    android:drawablePadding="@dimen/kobold_margin_8px"
+                    android:textStyle="bold"
+                    android:text="@string/login_now"/>
 
             </LinearLayout>
 

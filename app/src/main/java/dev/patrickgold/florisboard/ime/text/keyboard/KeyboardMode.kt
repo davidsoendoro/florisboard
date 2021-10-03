@@ -16,6 +16,8 @@
 
 package dev.patrickgold.florisboard.ime.text.keyboard
 
+import android.text.InputType
+
 enum class KeyboardMode(val value: Int) {
     CHARACTERS(0),
     EDITING(1),
@@ -30,6 +32,13 @@ enum class KeyboardMode(val value: Int) {
 
     companion object {
         fun fromInt(int: Int) = values().firstOrNull { it.value == int } ?: CHARACTERS
+        fun fromInputType(editorInputType: Int): KeyboardMode {
+            return when(editorInputType) {
+                InputType.TYPE_CLASS_NUMBER -> NUMERIC
+                InputType.TYPE_CLASS_PHONE -> PHONE
+                else -> CHARACTERS
+            }
+        }
     }
 
     fun toInt() = value

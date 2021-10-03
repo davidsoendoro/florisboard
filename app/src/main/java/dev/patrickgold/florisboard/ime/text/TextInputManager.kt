@@ -373,7 +373,7 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
     /**
      * Sets the active keyboard mode and updates the [KeyboardState.isQuickActionsVisible] state.
      */
-    private fun setActiveKeyboardMode(mode: KeyboardMode, updateState: Boolean = true) {
+    fun setActiveKeyboardMode(mode: KeyboardMode, updateState: Boolean = true) {
         activeState.keyboardMode = mode
         isManualSelectionMode = false
         isManualSelectionModeStart = false

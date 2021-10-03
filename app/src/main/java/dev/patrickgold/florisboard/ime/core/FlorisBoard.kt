@@ -92,6 +92,7 @@ import dev.patrickgold.florisboard.ime.text.composing.Composer
 import dev.patrickgold.florisboard.ime.text.gestures.SwipeAction
 import dev.patrickgold.florisboard.ime.text.key.CurrencySet
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
+import dev.patrickgold.florisboard.ime.text.keyboard.KeyboardMode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeManager
@@ -968,6 +969,9 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
         florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
 
+        val keyboardMode = KeyboardMode.fromInputType(editorInputType)
+        textInputManager.setActiveKeyboardMode(keyboardMode, true)
+
         if (isAutofill) {
             editTextEditor?.editable?.addTextChangedListener(object : TextWatcher {
                 var timer: Timer? = null
@@ -1150,6 +1154,11 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
                 val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
                 editTextEditor?.editable?.setOnClickListener {
+                    editTextEditor.editable.text?.length?.let { textLength ->
+                        activeState.caps = textLength > 0
+                        dispatchCurrentStateToInputUi()
+                    }
+
                     keyboardViewFlipper?.displayedChild = 0
                 }
 
