@@ -749,6 +749,9 @@
     <string name="kobold_menu_choose_shippingcost_submit_button">Pasang Info Ongkir</string>
     <string name="check_shippingcost_info">Pilih ekspedisi lalu klik Salin Ongkos Kirim untuk\nmenyalin info ongkir.</string>
 
+    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>
+    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>
+    <string name="kobold_submit_check_shippingcost">Informasi ongkir berhasil disalin</string>
     <string name="kobold_shipping_not_found_title">Lokasi tidak ditemukan</string>
     <string name="kobold_shipping_not_found_desc">Oops, mohon maaf. Periksa keyword kamu sekarang</string>
     <string name="kobold_shipping_empty_title">Cari Lokasimu</string>
