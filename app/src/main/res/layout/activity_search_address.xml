@@ -48,13 +48,15 @@
 
                 <EditText
                     android:id="@+id/search_edittext"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:maxLines="1"
                     android:paddingStart="@dimen/kobold_margin_8px"
-                    android:paddingVertical="@dimen/kobold_margin_8px"/>
+                    android:paddingVertical="@dimen/kobold_margin_8px"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                    tools:ignore="RtlSymmetry" />
 
                 <ImageView
                     android:id="@+id/clear_button"
@@ -89,7 +91,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line">
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:visibility="gone">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -101,7 +104,6 @@
     </LinearLayout>
 
     <!--   search result found-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -114,10 +116,9 @@
         tools:listitem="@layout/item_choose_address"
         tools:visibility="gone" />
 
-
-    <!--        search result not found-->
+    <!-- result not found-->
     <LinearLayout
-        android:id="@+id/search_result_not_found_layout"
+        android:id="@+id/layout_not_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -130,7 +131,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_medium_location" />
+            android:src="@drawable/img_medium_search_question" />
 
         <TextView
             android:layout_marginTop="@dimen/kobold_margin_24px"
@@ -150,5 +151,42 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
+    <!-- empty layout -->
+    <LinearLayout
+        android:id="@+id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingVertical="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_medium_location" />
+
+        <TextView
+            android:layout_marginTop="@dimen/kobold_margin_24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kobold_shipping_empty_title"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"/>
+
+        <TextView
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/kobold_margin_8px"
+            android:text="@string/kobold_shipping_empty_desc"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

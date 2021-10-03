@@ -749,7 +749,18 @@
     <string name="kobold_menu_choose_shippingcost_submit_button">Pasang Info Ongkir</string>
     <string name="check_shippingcost_info">Pilih ekspedisi lalu klik Salin Ongkos Kirim untuk\nmenyalin info ongkir.</string>
 
-    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>
-    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>
+    <string name="kobold_shipping_not_found_title">Lokasi tidak ditemukan</string>
+    <string name="kobold_shipping_not_found_desc">Oops, mohon maaf. Periksa keyword kamu sekarang</string>
+    <string name="kobold_shipping_empty_title">Cari Lokasimu</string>
+    <string name="kobold_shipping_empty_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>
+
+
+    <string name="kobold_intro_term">Dengan masuk dan daftar, kamu menyetujui <u>syarat dan \nketentuan</u> Konekin.</string>
+    <string name="kobold_into_slide1_title">Selamat Datang di Konekin!</string>
+    <string name="kobold_into_slide1_desc">Aplikasi gratis dengan segudang fitur \nyang bikin jualan online mu jadi lebih mudah.</string>
+    <string name="kobold_into_slide2_title">Jualan Online langsung di chat</string>
+    <string name="kobold_into_slide2_desc">Kelola pembeli, bikin transaksi, kirim resi \npembayaran bisa sambil ngobrol tanpa pindah \naplikasi.</string>
+    <string name="kobold_into_slide3_title">Alat tempur jualan online untuk siapapun</string>
+    <string name="kobold_into_slide3_desc">Semua fitur di Konekin dirancang untuk \nmemudahkan jualan online siapa saja, \npedagang besar, warung, perintis, semuanya!</string>
 
 </resources>
