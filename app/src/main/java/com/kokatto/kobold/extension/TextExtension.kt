@@ -1,9 +1,11 @@
 package com.kokatto.kobold.extension
 
+import android.graphics.Paint
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
+import android.widget.TextView
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -57,6 +59,11 @@ fun thousandSeparator(editText: EditText): TextWatcher {
     }
 }
 
+fun TextView.showStrikeThrough(show: Boolean) {
+    paintFlags =
+        if (show) paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+}
 
 fun String.removeThousandSeparatedString(): String {
     return this.filter { it.isDigit() }
