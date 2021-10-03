@@ -147,7 +147,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                 }
 
                 transactionList.addAll(it.data.contents)
-                adapter?.notifyItemRangeChanged(0, it.data.contents.size)
+                adapter?.notifyItemRangeInserted(0, it.data.contents.size)
             },
             onError = {
                 showToast(it)
@@ -184,8 +184,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                             }
 
                             transactionList.addAll(successData.data.contents)
-                            val finalSize = transactionList.size
-                            adapter?.notifyItemRangeChanged(initialSize, finalSize)
+                            val finalSize = successData.data.contents.size
+                            adapter?.notifyItemRangeInserted(initialSize, finalSize)
 
                             bottomLoading.isVisible = false
                         },

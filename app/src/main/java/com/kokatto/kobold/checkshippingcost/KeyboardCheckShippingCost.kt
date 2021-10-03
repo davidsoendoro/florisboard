@@ -1,22 +1,40 @@
 package com.kokatto.kobold.checkshippingcost
 
 import android.content.Context
+import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.ShippingCostModel
+import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.dashboardcheckshippingcost.AddressShippingActivity
+import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
 import com.kokatto.kobold.extension.addAffixToString
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.uicomponent.KoboldEditText
+import dev.patrickgold.florisboard.common.FlorisViewFlipper
+import dev.patrickgold.florisboard.ime.core.DELAY
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
+import timber.log.Timber
+import java.util.*
+import kotlin.properties.Delegates
 
 class KeyboardCheckShippingCost : ConstraintLayout {
     constructor(context: Context) : super(context)
@@ -35,6 +53,113 @@ class KeyboardCheckShippingCost : ConstraintLayout {
     private var backButton: TextView? = null
     private var submitButton: Button? = null
 
+    private var layoutEmpty: LinearLayout? = null
+    private var layoutNotFound: LinearLayout? = null
+    private var searchEdittext: EditText? = null
+    private var fullscreenLoading: ProgressBar? = null
+
+    private var dataList: ArrayList<DeliveryAddressModel> = arrayListOf()
+    private var recyclerView: RecyclerView? = null
+    private var recyclerAdapter: ShippingAddressRecyclerAdapter? = null
+    private var shippingCostViewModel: ShippingCostViewModel? = ShippingCostViewModel()
+
+    private var isLoading: Boolean by Delegates.observable(true) { _, oldValue, newValue ->
+        if (oldValue != newValue) {
+            if (newValue) {
+                recyclerView?.visibility = GONE
+                fullscreenLoading?.visibility = VISIBLE
+            } else {
+                recyclerView?.visibility = VISIBLE
+                fullscreenLoading?.visibility = GONE
+            }
+        }
+    }
+
+    private var mode: String? = null
+
+    private fun getTextWatcher(_mode: String): TextWatcher {
+        return object : TextWatcher {
+            var timer: Timer? = null
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int
+            ) {
+                if (timer != null) timer?.cancel()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                mode = _mode
+                //avoid triggering event when text is too short
+                if (s.length >= 3) {
+
+                    timer = Timer()
+                    timer?.schedule(object : TimerTask() {
+                        override fun run() {
+                            // TODO: do what you need here (refresh list)
+                            // you will probably need to use
+                            // runOnUiThread(Runnable action) for some specific
+                            // actions
+                            Runnable {
+                                florisboard?.setActiveInput(R.id.kobold_autofill_editor)
+                                loadAddressSuggestion(s.toString())
+                            }.also { florisboard?.updateOnUiThread(it) }
+                        }
+                    }, DELAY)
+                }
+            }
+        }
+    }
+
+    fun loadAddressSuggestion(address: String) {
+        layoutEmpty?.isVisible = false
+        layoutNotFound?.isVisible = false
+        recyclerView?.isVisible = false
+        fullscreenLoading?.isVisible = true
+
+        val previousSize = dataList.size
+        dataList.clear()
+        if (previousSize > 0) {
+            recyclerAdapter?.notifyItemRangeRemoved(0, previousSize)
+        }
+        shippingCostViewModel?.getPaginatedDeliveryAddress(
+            page = 1,
+            pageSize = 15,
+            onLoading = {
+                isLoading = it
+            },
+            search = address,
+            onSuccess = { it ->
+                if (it.data.contents.isNotEmpty()) {
+                    dataList.addAll(it.data.contents)
+                    recyclerAdapter?.notifyItemInserted(dataList.size)
+
+                    recyclerView?.isVisible = true
+                    layoutEmpty?.isVisible = false
+                    layoutNotFound?.isVisible = false
+                } else {
+                    layoutNotFound?.isVisible = true
+                    recyclerView?.isVisible = false
+                    layoutEmpty?.isVisible = false
+                }
+
+                fullscreenLoading?.isVisible = false
+            },
+            onError = {
+                fullscreenLoading?.isVisible = false
+                recyclerView?.isVisible = false
+                layoutEmpty?.isVisible = false
+                layoutNotFound?.isVisible = true
+            }
+        )
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
@@ -45,6 +170,30 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         plusWeightButton = findViewById(R.id.plus_weight_button)
         backButton = findViewById(R.id.back_button)
         submitButton = findViewById(R.id.submit_button)
+
+        val keyboardViewFlipper =
+            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
+        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
+
+        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerAdapter = ShippingAddressRecyclerAdapter(context, dataList)
+        recyclerView?.adapter = recyclerAdapter
+
+        recyclerAdapter?.onItemClick = {
+            when (mode) {
+                AddressShippingActivity.SENDER -> {
+                    shippingCost.senderAddress = it
+                    senderAddressEdittext?.editText?.text = it.writtenAddress()
+                    florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                }
+                AddressShippingActivity.RECEIVER -> {
+                    shippingCost.receiverAddress = it
+                    receiverAddressEdittext?.editText?.text = it.writtenAddress()
+                    florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                }
+            }
+        }
 
 //        invalidateSaveButton()
 
@@ -59,7 +208,8 @@ class KeyboardCheckShippingCost : ConstraintLayout {
                 inputType,
                 senderAddressEdittext?.label?.text.toString(),
                 senderAddressEdittext?.editText?.text.toString(),
-                isAutofill
+                isAutofill,
+                textWatcher = getTextWatcher(AddressShippingActivity.SENDER)
             ) { result ->
                 senderAddressEdittext?.editText?.text = result
                 invalidateSaveButton()
@@ -69,13 +219,16 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         receiverAddressEdittext?.setOnClickListener {
             val imeOptions = receiverAddressEdittext?.imeOptions ?: 0
             val inputType = receiverAddressEdittext?.inputType ?: 0
+            val isAutofill = senderAddressEdittext?.isAutofill ?: false
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openEditor(
                 R.id.kobold_menu_check_shippingcost,
                 imeOptions,
                 inputType,
                 receiverAddressEdittext?.label?.text.toString(),
-                receiverAddressEdittext?.editText?.text.toString()
+                receiverAddressEdittext?.editText?.text.toString(),
+                isAutofill,
+                textWatcher = getTextWatcher(AddressShippingActivity.RECEIVER)
             ) { result ->
                 receiverAddressEdittext?.editText?.text = result
                 invalidateSaveButton()
@@ -83,18 +236,22 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         }
 
         minusWeightButton?.setOnClickListener {
-            if (shippingCost.packageWeight == 1)
+            if (shippingCost.packageWeight == 1) {
+                florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
                 showSnackBar("Paket tidak boleh lebih ringan dari 1 kg")
-            else {
+            } else {
+                florisboard?.inputFeedbackManager?.keyPress()
                 shippingCost.packageWeight--
                 packageWeightText?.text = shippingCost.packageWeight.addAffixToString(suffix = " kg")
             }
         }
 
         plusWeightButton?.setOnClickListener {
-            if (shippingCost.packageWeight == 7)
+            if (shippingCost.packageWeight == 7) {
+                florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
                 showSnackBar("Paket tidak boleh lebih berat dari 7 kg")
-            else {
+            } else {
+                florisboard?.inputFeedbackManager?.keyPress()
                 shippingCost.packageWeight++
                 packageWeightText?.text = shippingCost.packageWeight.addAffixToString(suffix = " kg")
             }
@@ -110,7 +267,11 @@ class KeyboardCheckShippingCost : ConstraintLayout {
 //            error snackbar
 //            showSnackBar("Koneksi internet tidak tersedia.", R.color.snackbar_error)
 
-            florisboard?.setActiveInput(R.id.kobold_menu_choose_shippingcost)
+            florisboard?.openShippingCost(
+                shippingCost.senderAddress,
+                shippingCost.receiverAddress,
+                shippingCost.packageWeight
+            )
         }
     }
 

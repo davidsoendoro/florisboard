@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
 import com.kokatto.kobold.api.model.basemodel.format
 import com.kokatto.kobold.api.model.basemodel.toText
@@ -19,6 +20,7 @@ import com.kokatto.kobold.checkshippingcost.recycleradapter.ChooseCourierRecycle
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.vertical
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
+import timber.log.Timber
 
 class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapter.OnClick {
     constructor(context: Context) : super(context)
@@ -39,6 +41,10 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
     var submitButton: Button? = null
 
     var adapter: ChooseCourierRecyclerAdapter? = null
+
+    var senderAddress: DeliveryAddressModel? = null
+    var receiverAddress: DeliveryAddressModel? = null
+    var weight: Int = 0
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -78,31 +84,35 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
-
         if (changedView == this && visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
-            shippingCostViewModel?.getListDeliveryFee(
-                fromCity = "Jakarta Selatan",
-                fromDistrict = "Mampang Prapatan",
-                fromPostalcode = "43123",
-                toCity = "Jakarta Selatan",
-                toDistrict = "Pasar Minggu",
-                toPostalcode = "43124",
-                weight = 250,
-                onSuccess = {
-                    fullscreenLoading?.isVisible = false
-                    chooseCourierRecyclerView?.isVisible = true
+            senderAddress?.let { _senderAddress ->
+                receiverAddress?.let { _receiverAddress ->
+                    shippingCostViewModel?.getListDeliveryFee(
+                        fromCity = _senderAddress.city,
+                        fromDistrict = _senderAddress.district,
+                        fromPostalcode = _senderAddress.postalcode,
+                        toCity = _receiverAddress.city,
+                        toDistrict = _receiverAddress.district,
+                        toPostalcode = _receiverAddress.postalcode,
+                        weight = weight,
+                        onSuccess = {
+                            fullscreenLoading?.isVisible = false
+                            chooseCourierRecyclerView?.isVisible = true
 
-                    chooseCourierList.addAll(it.data.format())
-                    Log.e("courierlist", chooseCourierList.toString())
-                    adapter?.notifyDataSetChanged()
-                },
-                onError = {
-                    fullscreenLoading?.isVisible = false
-                    chooseCourierRecyclerView?.isVisible = true
+                            val initialSize = chooseCourierList.size
+                            chooseCourierList.addAll(it.data.format())
+                            Timber.e("courierlist: $chooseCourierList")
+                            adapter?.notifyItemRangeInserted(initialSize, it.data.size)
+                        },
+                        onError = {
+                            fullscreenLoading?.isVisible = false
+                            chooseCourierRecyclerView?.isVisible = true
 
-                    showSnackBar(it, R.color.snackbar_error)
+                            showSnackBar(it, R.color.snackbar_error)
+                        }
+                    )
                 }
-            )
+            }
         } else {
             chooseCourierList.clear()
 
