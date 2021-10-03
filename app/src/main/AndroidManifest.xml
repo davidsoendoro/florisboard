@@ -63,6 +63,10 @@
             android:label="Kobold Template"
             android:launchMode="singleTask"
             android:roundIcon="@mipmap/floris_app_icon_round" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".template.TemplateActivityInput"
@@ -124,8 +128,10 @@
             android:name=".dashboardcreatetransaction.CreateTransactionActivity"
             android:exported="true"
             android:label="Kobold Transaction">
-
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".dashboardcreatetransaction.InputActivity"
