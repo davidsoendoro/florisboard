@@ -293,10 +293,9 @@ class InputActivity : AppCompatActivity() {
                 }
             }
             if (editTextdeliveryFee!!.text.toString() == "") {
-                println("editTextdeliveryFee?.text.toString() == \"\"")
-                println(editTextdeliveryFee!!.text.toString())
                 editTextdeliveryFee?.setText("0")
             }
+
 
             val model = TransactionModel(
                 _id = _id,
@@ -366,7 +365,7 @@ class InputActivity : AppCompatActivity() {
         btnSubmit?.isEnabled = !_isLoading
         btnSubmitText?.isVisible = !_isLoading
         btnSubmitProgress?.isVisible = _isLoading
-        btnSubmit?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
+        btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
     }
 
     private fun disableFormInput(_isEditable: Boolean) {

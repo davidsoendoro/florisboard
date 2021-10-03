@@ -1,9 +1,11 @@
 package com.kokatto.kobold.dashboardcheckshippingcost
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -37,8 +39,8 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
 
     private var buttonBack: ImageButton? = null
     private var buttonClear: ImageView? = null
-    private var searchResultFound: LinearLayout? = null
-    private var searchResultNotFoundLayout: LinearLayout? = null
+    private var layoutEmpty: LinearLayout? = null
+    private var layoutNotFound: LinearLayout? = null
     private var searchEdittext: EditText? = null
     private var fullscreenLoading: LinearLayout? = null
 
@@ -59,7 +61,8 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
         buttonBack = findViewById(R.id.back_button)
         buttonClear = findViewById(R.id.clear_button)
         searchEdittext = findViewById(R.id.search_edittext)
-        searchResultNotFoundLayout = findViewById(R.id.search_result_not_found_layout)
+        layoutEmpty = findViewById(R.id.layout_empty)
+        layoutNotFound = findViewById(R.id.layout_not_found)
         fullscreenLoading = findViewById(R.id.fullscreen_loading)
         recyclerView = findViewById(R.id.recycler_view)
 
@@ -135,13 +138,17 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
         mode = intent.getStringExtra(ActivityConstantCode.EXTRA_MODE)
         fullscreenLoading?.isVisible = false
         recyclerView?.isVisible = false
-        searchResultNotFoundLayout?.isVisible = true
+        layoutEmpty?.isVisible = true
+        layoutNotFound?.isVisible = false
         buttonClear?.isVisible = false
     }
 
     private fun callAPIShippingAddress(address: String = "") {
-        searchResultNotFoundLayout?.isVisible = false
+        layoutEmpty?.isVisible = false
+        layoutNotFound?.isVisible = false
+        recyclerView?.isVisible = false
         fullscreenLoading?.isVisible = true
+
         dataList.clear()
         shippingCostViewModel?.getPaginatedDeliveryAddress(
             page = 1,
@@ -157,7 +164,12 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
                     recyclerAdapter!!.notifyDataSetChanged()
 
                     recyclerView?.isVisible = true
-                    searchResultNotFoundLayout?.isVisible = false
+                    layoutEmpty?.isVisible = false
+                    layoutNotFound?.isVisible = false
+                } else {
+                    layoutNotFound?.isVisible = true
+                    recyclerView?.isVisible = false
+                    layoutEmpty?.isVisible = false
                 }
 
                 fullscreenLoading?.isVisible = false
@@ -165,7 +177,8 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
             onError = {
                 fullscreenLoading?.isVisible = false
                 recyclerView?.isVisible = false
-                searchResultNotFoundLayout?.isVisible = true
+                layoutEmpty?.isVisible = false
+                layoutNotFound?.isVisible = true
             }
         )
     }

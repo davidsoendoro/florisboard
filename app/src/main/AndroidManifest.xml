@@ -145,7 +145,8 @@
         </activity>
         <activity
             android:name=".dashboardcheckshippingcost.AddressShippingActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:windowSoftInputMode="stateVisible"/>
         <!-- Dashboard Bank Management Activity -->
         <activity
             android:name=".bank.BankHomeActivity"
