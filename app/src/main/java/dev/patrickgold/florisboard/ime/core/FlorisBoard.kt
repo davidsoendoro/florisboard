@@ -60,14 +60,18 @@ import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
+import com.kokatto.kobold.checkshippingcost.KeyboardChooseShippingCost
+import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.transaction.KeyboardSearchTransaction
 import com.kokatto.kobold.uicomponent.KoboldEditText
+import com.kokatto.kobold.extension.vertical
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.common.ViewUtils
 import dev.patrickgold.florisboard.crashutility.CrashUtility
@@ -78,6 +82,7 @@ import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
+import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -88,6 +93,7 @@ import dev.patrickgold.florisboard.ime.text.composing.Composer
 import dev.patrickgold.florisboard.ime.text.gestures.SwipeAction
 import dev.patrickgold.florisboard.ime.text.key.CurrencySet
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
+import dev.patrickgold.florisboard.ime.text.keyboard.KeyboardMode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import dev.patrickgold.florisboard.ime.theme.Theme
 import dev.patrickgold.florisboard.ime.theme.ThemeManager
@@ -514,6 +520,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         uiBinding?.inputView?.updateKeyboardState(activeState)
     }
 
+    fun updateOnUiThread(runnable: Runnable) {
+        handler.post(runnable)
+    }
+
     override fun onWindowShown() {
         super.onWindowShown()
         if (isWindowShown) {
@@ -933,6 +943,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
+    val textWatchers = arrayListOf<TextWatcher>()
     fun openEditor(
         destination: Int,
         imeOptions: Int = 0,
@@ -940,6 +951,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         label: String = "",
         value: String? = "",
         isAutofill: Boolean = false,
+        textWatcher: TextWatcher? = null,
         callback: (result: String) -> Unit
     ) {
         val keyboardViewFlipper =
@@ -964,42 +976,17 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         editTextEditor?.editable?.setSelection(editTextEditor.editable.length())
         florisboardInstance?.activeEditorInstance?.activeEditText = editTextEditor?.editable
 
+        val keyboardMode = KeyboardMode.fromInputType(editorInputType)
+        textInputManager.setActiveKeyboardMode(keyboardMode, true)
+
+        textWatchers.forEach { textWatcherItem ->
+            editTextEditor?.editable?.removeTextChangedListener(textWatcherItem)
+        }
         if (isAutofill) {
-            editTextEditor?.editable?.addTextChangedListener(object : TextWatcher {
-                var timer: Timer? = null
-
-                override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(
-                    s: CharSequence, start: Int, before: Int,
-                    count: Int
-                ) {
-                    if (timer != null) timer?.cancel()
-                }
-
-                override fun afterTextChanged(s: Editable) {
-                    //avoid triggering event when text is too short
-                    if (s.length >= 3) {
-
-                        timer = Timer()
-                        timer?.schedule(object : TimerTask() {
-                            override fun run() {
-                                // TODO: do what you need here (refresh list)
-                                // you will probably need to use
-                                // runOnUiThread(Runnable action) for some specific
-                                // actions
-                                Runnable {
-                                    setActiveInput(R.id.kobold_autofill_editor)
-                                }.also { handler.post(it) }
-                            }
-                        }, DELAY)
-                    }
-                }
-            })
+            textWatcher?.let { _textWatcher ->
+                editTextEditor?.editable?.addTextChangedListener(_textWatcher)
+                textWatchers.add(_textWatcher)
+            }
         }
 
         val onEditCommitted = {
@@ -1045,6 +1032,16 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             inputFeedbackManager.keyPress(TextKeyData(code = KeyCode.CANCEL))
             setActiveInput(destination)
         }
+    }
+
+    fun openShippingCost(senderAddress: DeliveryAddressModel, receiverAddress: DeliveryAddressModel, weight: Int) {
+        val keyboardChooseShippingCost =
+            uiBinding?.mainViewFlipper?.findViewById<KeyboardChooseShippingCost>(R.id.kobold_menu_choose_shippingcost)
+        keyboardChooseShippingCost?.senderAddress = senderAddress
+        keyboardChooseShippingCost?.receiverAddress = receiverAddress
+        keyboardChooseShippingCost?.weight = weight
+
+        setActiveInput(R.id.kobold_menu_choose_shippingcost)
     }
 
     var setActiveInputFromMainmenu: Boolean = false
@@ -1093,7 +1090,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             //menu chat template
             R.id.kobold_menu_chat_template -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 4
-                val keyboardChatTemplate = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.kobold_menu_chat_template)
+                val keyboardChatTemplate =
+                    uiBinding?.mainViewFlipper?.findViewById<View>(R.id.kobold_menu_chat_template)
                 keyboardChatTemplate?.visibility = View.VISIBLE
                 if (koboldState == KoboldState.TEMPLATE_LIST_RELOAD) {
                     uiBinding?.mainViewFlipper?.invalidate()
@@ -1125,13 +1123,19 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
                 uiBinding?.mainViewFlipper?.displayedChild = 0
                 textViewFlipper?.displayedChild = 1
 
-                val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
-                editTextEditor?.setOnClickListener {
-                    setActiveInput(R.id.text_input)
-                }
-
                 val keyboardViewFlipper =
                     uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+
+                val editTextEditor = textViewFlipper?.findViewById<KoboldEditText>(R.id.kobold_edittext_input)
+                editTextEditor?.editable?.setOnClickListener {
+                    editTextEditor.editable.text?.length?.let { textLength ->
+                        activeState.caps = textLength == 0
+                        dispatchCurrentStateToInputUi()
+                    }
+
+                    keyboardViewFlipper?.displayedChild = 0
+                }
+
                 keyboardViewFlipper?.displayedChild = 3
             }
         }

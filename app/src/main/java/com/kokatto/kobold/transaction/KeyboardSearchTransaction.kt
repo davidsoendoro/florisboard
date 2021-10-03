@@ -70,8 +70,9 @@ class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerA
                 val totalRecord = it.data.totalRecord
                 textViewResultCount?.text = String.format("%d hasil ditemukan", totalRecord)
 
+                val previousSize = transactionList.size
                 transactionList.addAll(it.data.contents)
-                adapter?.notifyItemRangeChanged(0, it.data.contents.size)
+                adapter?.notifyItemRangeInserted(previousSize, it.data.contents.size)
             },
             onError = {
                 showToast(it)
@@ -99,8 +100,8 @@ class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerA
                             isLoadingChatTemplate.set(false)
                             val initialSize = transactionList.size
                             transactionList.addAll(successData.data.contents)
-                            val finalSize = transactionList.size
-                            adapter?.notifyItemRangeChanged(initialSize, finalSize)
+                            val finalSize = successData.data.contents.size
+                            adapter?.notifyItemRangeInserted(initialSize, finalSize)
 
                             bottomLoading.isVisible = false
                         },

@@ -10,4 +10,8 @@ class DeliveryAddressModel(
     var city: String = "",
     var district: String = "",
     var postalcode: String = "",
-) : Parcelable
+) : Parcelable {
+    fun writtenAddress(): String {
+        return "$district, $city, $province, $country"
+    }
+}

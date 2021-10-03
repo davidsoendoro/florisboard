@@ -191,7 +191,14 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
         if (visibility == VISIBLE) {
             val chatTemplateItems = getChatTemplateList()
 
+            val previousSize = chatTemplateItems?.size
             chatTemplateList.clear()
+            previousSize?.let { _previousSize ->
+                inlineChatTemplateRecycler?.adapter?.notifyItemRangeRemoved(
+                    0,
+                    _previousSize
+                )
+            }
             chatTemplateItems?.let { chatTemplateList.addAll(it) }
 
             inlineChatTemplateRecycler = findViewById(R.id.kobold_rv_inline_suggestions)
@@ -199,7 +206,7 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
                 inlineSuggestionRecyclerAdapter = InlineChatTemplateRecyclerAdapter(chatTemplateList, this)
                 inlineChatTemplateRecycler?.adapter = inlineSuggestionRecyclerAdapter
             } else {
-                inlineChatTemplateRecycler?.adapter?.notifyItemRangeChanged(0, chatTemplateList.size)
+                inlineChatTemplateRecycler?.adapter?.notifyItemRangeInserted(0, chatTemplateList.size)
             }
             inlineChatTemplateRecycler?.horizontal()
         }

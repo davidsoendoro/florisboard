@@ -182,7 +182,7 @@ class CheckShippingcost : AppCompatActivity() {
                     val data = result.data?.getParcelableExtra<DeliveryAddressModel>(ActivityConstantCode.EXTRA_DATA)
                     if (data != null) {
                         shippingCost.senderAddress = data
-                        senderAddressEdittext?.setText("${data.district}, ${data.city}, ${data.province}, ${data.country}")
+                        senderAddressEdittext?.setText(data.writtenAddress())
                     }
                     validateForm()
                 }
@@ -190,7 +190,7 @@ class CheckShippingcost : AppCompatActivity() {
                     val data = result.data?.getParcelableExtra<DeliveryAddressModel>(ActivityConstantCode.EXTRA_DATA)
                     if (data != null) {
                         shippingCost.receiverAddress = data
-                        receiverAddressEdittext?.setText("${data.district}, ${data.city}, ${data.province}, ${data.country}")
+                        receiverAddressEdittext?.setText(data.writtenAddress())
                     }
                     validateForm()
                 }

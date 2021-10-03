@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#123279</color><!-- Green 500 -->
-    <color name="colorPrimaryDark">#2464F2</color><!-- Green 700 -->
+    <color name="colorPrimaryDark">#123279</color><!-- Green 700 -->
     <color name="colorAccent">#FF9800</color><!-- Orange 500 -->
     <color name="colorAccentDark">#F57C00</color><!-- Orange 700 -->
 
@@ -17,7 +17,7 @@
     <color name="ic_app_icon_beta_background">@color/ic_app_icon_background</color>
     <color name="ic_app_icon_debug_background">@color/ic_app_icon_background</color>
 
-    <color name="bukalapakBrandColor">#E31E52</color>
+    <color name="bukalapakBrandColor">#123279</color>
 
     <color name="cardViewBackgroundColor">#FFFFFF</color><!-- White -->
     <color name="navigationBarColor">#000000</color><!-- Black -->

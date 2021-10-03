@@ -79,7 +79,9 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
         if (changedView is KeyboardChatTemplate && visibility == View.VISIBLE && changedView == this) {
             adapter = ChatTemplateRecyclerAdapter(chatTemplateList, this)
             chatTemplateRecycler?.adapter = adapter
+            val previousSize = adapter?.dataList?.size
             adapter?.dataList?.clear()
+            previousSize?.let { adapter?.notifyItemRangeRemoved(0, it) }
             isLastChatTemplate.set(false)
             loadChatTemplate()
         }
@@ -100,7 +102,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                     AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
                 }
                 chatTemplateList.addAll(it.data.contents)
-                adapter?.notifyItemRangeChanged(0, it.data.contents.size)
+                adapter?.notifyItemRangeInserted(0, it.data.contents.size)
 
                 isLoadingChatTemplate = false
             },
@@ -131,8 +133,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                             successData.data.contents.forEach { item ->
                                 AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
                             }
-                            val finalSize = chatTemplateList.size
-                            adapter?.notifyItemRangeChanged(initialSize, finalSize)
+                            val finalSize = successData.data.contents.size
+                            adapter?.notifyItemRangeInserted(initialSize, finalSize)
 
                             isLoadingChatTemplate = false
                             bottomLoading.isVisible = false

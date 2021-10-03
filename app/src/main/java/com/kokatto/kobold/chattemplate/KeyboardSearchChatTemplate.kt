@@ -51,7 +51,9 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         if (visibility == View.VISIBLE && changedView == this) {
+            val previousSize = adapter?.dataList?.size
             adapter?.dataList?.clear()
+            previousSize?.let { adapter?.notifyItemRangeRemoved(0, it) }
             loadChatTemplate()
         }
         super.onVisibilityChanged(changedView, visibility)
@@ -69,7 +71,7 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
                 textViewResultCount?.text = String.format("%d hasil ditemukan", totalRecord)
 
                 chatTemplateList.addAll(it.data.contents)
-                adapter?.notifyItemRangeChanged(0, it.data.contents.size)
+                adapter?.notifyItemRangeInserted(0, it.data.contents.size)
             },
             onError = {
                 showToast(it)
@@ -97,8 +99,8 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
                             isLoadingChatTemplate.set(false)
                             val initialSize = chatTemplateList.size
                             chatTemplateList.addAll(successData.data.contents)
-                            val finalSize = chatTemplateList.size
-                            adapter?.notifyItemRangeChanged(initialSize, finalSize)
+                            val finalSize = successData.data.contents.size
+                            adapter?.notifyItemRangeInserted(initialSize, finalSize)
 
                             bottomLoading.isVisible = false
                         },

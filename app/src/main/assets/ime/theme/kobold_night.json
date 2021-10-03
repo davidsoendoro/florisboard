@@ -6,8 +6,8 @@
   "isNightTheme": true,
   "attributes": {
     "window": {
-      "colorPrimary": "#E31E52",
-      "colorPrimaryDark": "#B2002D",
+      "colorPrimary": "#123279",
+      "colorPrimaryDark": "#123279",
       "colorAccent": "#FF9800",
       "navigationBarColor": "@keyboard/background",
       "navigationBarLight": "true",
