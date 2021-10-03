@@ -279,18 +279,23 @@ class InputActivity : AppCompatActivity() {
             progressSubmit(true)
 
             var deliveryFee = 0.0
+            var price = 0.0
 
-            editTextdeliveryFee?.let { editText ->
-                if (!editText.text.isEmpty()) {
-                    deliveryFee = editText.text.toString().toDouble()
+            editTextdeliveryFee?.let {
+                if (!it.text.isNullOrBlank()) {
+                    deliveryFee = it.text.toString().replace(".", "").toDouble()
                 }
             }
 
+            editTextPrice?.let {
+                if (!it.text.isNullOrBlank()) {
+                    price = it.text.toString().replace(".", "").toDouble()
+                }
+            }
             if (editTextdeliveryFee!!.text.toString() == "") {
-                println("editTextdeliveryFee?.text.toString() == \"\"")
-                println(editTextdeliveryFee!!.text.toString())
                 editTextdeliveryFee?.setText("0")
             }
+
 
             val model = TransactionModel(
                 _id = _id,
@@ -300,7 +305,7 @@ class InputActivity : AppCompatActivity() {
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
-                price = editTextPrice?.text.toString().toDouble(),
+                price = price,
                 payingMethod = editTextPayment?.text.toString(),
                 bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),
@@ -360,7 +365,7 @@ class InputActivity : AppCompatActivity() {
         btnSubmit?.isEnabled = !_isLoading
         btnSubmitText?.isVisible = !_isLoading
         btnSubmitProgress?.isVisible = _isLoading
-        btnSubmit?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
+        btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
     }
 
     private fun disableFormInput(_isEditable: Boolean) {

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
@@ -43,6 +45,8 @@ class CheckShippingcost : AppCompatActivity() {
     private var closeInfoButton: ImageView? = null
     private var infoLayout: LinearLayout? = null
     private var bottomLoading: LinearLayout? = null
+    private var layoutNoInternet: LinearLayout? = null
+    private var layoutForm: NestedScrollView? = null
 
     private var recyclerView: RecyclerView? = null
     private var recyclerAdapter: ShippingCostRecylerAdapter? = null
@@ -50,6 +54,7 @@ class CheckShippingcost : AppCompatActivity() {
     private var submitButton: CardView? = null
     private var copyButton: CardView? = null
     private var resetButton: TextView? = null
+    private var reloadButton: Button? = null
     private var lastPosition: String? = null
 
     private var shippingCostViewModel: ShippingCostViewModel? = ShippingCostViewModel()
@@ -66,6 +71,7 @@ class CheckShippingcost : AppCompatActivity() {
         setContentView(R.layout.activity_check_shippingcost)
 
         backButton = findViewById(R.id.back_button)
+        reloadButton = findViewById(R.id.reload_internet_button)
         senderAddressEdittext = findViewById(R.id.sender_address_edittext)
         receiverAddressEdittext = findViewById(R.id.receiver_address_edittext)
 
@@ -78,6 +84,9 @@ class CheckShippingcost : AppCompatActivity() {
         closeInfoButton = findViewById(R.id.close_info_button)
         infoLayout = findViewById(R.id.layout_info)
         bottomLoading = findViewById(R.id.bottom_loading)
+
+        layoutNoInternet = findViewById(R.id.no_internet_layout)
+        layoutForm = findViewById(R.id.form_layout)
 
         recyclerView = findViewById(R.id.recycler_view_shippingcost)
         recyclerView?.layoutManager = LinearLayoutManager(this)
@@ -111,6 +120,10 @@ class CheckShippingcost : AppCompatActivity() {
             layoutInfo.visibility = View.GONE
         }
 
+        backButton?.setOnClickListener {
+            onBackPressed()
+        }
+
         resetButton?.setOnClickListener {
             resetLayout()
         }
@@ -129,6 +142,18 @@ class CheckShippingcost : AppCompatActivity() {
         }
 
         submitButton?.setOnClickListener {
+            lastPosition = null
+            shippingCostDataList.clear()
+            selectedDataList.clear()
+            infoLayout?.isVisible = false
+
+            shippingCost.packageWeight = packageWeightText?.text.toString().replace(suffixKilogram, "").toInt()
+
+            callAPIShippingCost(shippingCost)
+        }
+
+        reloadButton?.setOnClickListener{
+            showForm()
             lastPosition = null
             shippingCostDataList.clear()
             selectedDataList.clear()
@@ -171,6 +196,8 @@ class CheckShippingcost : AppCompatActivity() {
                 }
             }
         }
+
+        initView()
 
     }
 
@@ -262,7 +289,28 @@ class CheckShippingcost : AppCompatActivity() {
                 processSubmit(false)
                 showSnackBar(findViewById(R.id.parent_layout), "Tidak dapat mendapatkan kurir", R.color.snackbar_error)
                 recyclerView!!.isVisible = true
+                showNoInternet()
             }
         )
     }
+
+    private fun initView() {
+        layoutForm?.isVisible = true
+        layoutNoInternet?.isVisible = false
+        copyButton?.isVisible = false
+        validateForm()
+    }
+
+    private fun showNoInternet() {
+        layoutNoInternet?.isVisible = true
+        copyButton?.isVisible = false
+        layoutForm?.isVisible = false
+    }
+
+    private fun showForm() {
+        layoutForm?.isVisible = true
+        layoutNoInternet?.isVisible = false
+        copyButton?.isVisible = false
+    }
+
 }

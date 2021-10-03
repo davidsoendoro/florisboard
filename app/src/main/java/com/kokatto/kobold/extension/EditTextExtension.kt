@@ -92,3 +92,8 @@ fun EditText.onTextChanged(listener: (String) -> Unit) {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     })
 }
+
+fun EditText.convertSeparatorToDouble(editText: EditText? = null, defaultSeparator: String = ".") : Double {
+    return if(editText == null || editText.text.toString().isEmpty()) 0.0
+    else editText.text.toString().replace(defaultSeparator, "").toDouble()
+}
