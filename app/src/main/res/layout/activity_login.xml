@@ -136,8 +136,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone"
-        android:foreground="@color/colorWhite">
+        android:visibility="gone">
         <ProgressBar
             android:layout_gravity="center"
             android:paddingVertical="@dimen/kobold_margin_12px"

@@ -138,7 +138,7 @@ class LoginActivity : FragmentActivity() {
         val phone = uiBinding.edittextPhone.text.toString()
         uiBinding.edittextPhoneTrigger.setText(phone)
         uiBinding.fullcreenLoading.isVisible = true
-        uiBinding.fullcreenLoading.foreground.alpha = 80;
+//        uiBinding.fullcreenLoading.foreground.alpha = 80;
         uiBinding.edittextPhone.hideKeyboard()
 
         authenticationViewModel?.requestOTP(
@@ -150,14 +150,14 @@ class LoginActivity : FragmentActivity() {
                 startActivity(intent)
 
                 uiBinding.fullcreenLoading.isVisible = false
-                uiBinding.fullcreenLoading.foreground.alpha = 0;
+//                uiBinding.fullcreenLoading.foreground.alpha = 0;
                 uiBinding.edittextPhone.text?.clear()
                 uiBinding.edittextPhoneTrigger.text?.clear()
             },
             onError = {
                 uiBinding.edittextPhoneTrigger.text?.clear()
                 uiBinding.fullcreenLoading.isVisible = false
-                uiBinding.fullcreenLoading.foreground.alpha = 0;
+//                uiBinding.fullcreenLoading.foreground.alpha = 0;
                 showToast(it)
             }
         )
