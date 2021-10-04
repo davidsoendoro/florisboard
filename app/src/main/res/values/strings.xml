@@ -775,6 +775,8 @@
     <string name="kobold_cancel_registration_desc">Bila batal, kamu harus ulangi isi informasi dan verifikasi.</string>
     <string name="kobold_cancel_registration_action_confirm">Iya, batalkan pendaftaran</string>
     <string name="kobold_cancel_registration_action_cancel">Nanti saja</string>
+    <string name="kobold_otp_change_number">Ganti Nomor</string>
+    <string name="kobold_otp_change_number_hint">Masukkan nomor WhatsApp</string>
 
 
 </resources>

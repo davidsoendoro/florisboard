@@ -1,7 +1,9 @@
 package com.kokatto.kobold.login
 
 import com.kokatto.kobold.api.Network
+import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
+import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -23,6 +25,24 @@ class AuthenticationViewModel {
         scope.launch {
 //            delay(5000)
             val response = Network.authenticationApi.login(phone, media)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
+    fun verifyOTP(
+        request: PostOTPVerificationRequest,
+        onSuccess: (PostOTPVerificationResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+//            delay(5000)
+            val response = Network.authenticationApi.otpVerification(request)
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {

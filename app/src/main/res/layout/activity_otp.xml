@@ -123,6 +123,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAlignment="center"
+                    android:inputType="number"
                     android:textAppearance="@style/kobold_otp_input" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -145,6 +146,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAlignment="center"
+                    android:inputType="number"
                     android:textAppearance="@style/kobold_otp_input" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -167,6 +169,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAlignment="center"
+                    android:inputType="number"
                     android:textAppearance="@style/kobold_otp_input" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -189,6 +192,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAlignment="center"
+                    android:inputType="number"
                     android:textAppearance="@style/kobold_otp_input" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -210,6 +214,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAlignment="center"
+                    android:inputType="number"
                     android:textAppearance="@style/kobold_otp_input" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -217,11 +222,13 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/error_otp"
             android:layout_marginTop="@dimen/kobold_margin_4px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kode tidak sesuai."
-            style="@style/kobold_otp_error"/>
+            style="@style/kobold_otp_error"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_marginTop="@dimen/kobold_margin_12px"
@@ -254,6 +261,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>
