@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,10 +9,9 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/intro_slider_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/kobold_margin_16px"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/login_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/kobold_margin_16px"
-        app:layout_constraintBottom_toTopOf="@+id/term"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -44,18 +44,19 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edittext_bankAccount"
+                android:id="@+id/edittext_phone_trigger"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorWhite"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
                 android:hint="Masukkan nomor WhatsApp"
                 android:textAppearance="@style/FormEditTextHint" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#B6CBFB"
@@ -64,18 +65,85 @@
             android:text="Lanjut"
             android:textAppearance="@style/kobold_materialbutton_disable" />
 
+        <TextView
+            android:id="@+id/term"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/kobold_margin_24px"
+            android:gravity="center"
+            android:text="@string/kobold_intro_term"
+            android:textColor="#8D8D8D"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/term"
+    <LinearLayout
+        android:id="@+id/layout_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/kobold_margin_16px"
+        android:paddingVertical="@dimen/kobold_margin_16px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#F0F5FF"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Masuk atau daftar dengan WhatsApp"
+            android:textSize="14sp"
+            android:textColor="#3D3D3D"
+            android:layout_marginBottom="@dimen/kobold_margin_4px"
+
+        />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            app:boxStrokeColor="#d6d6d6"
+            app:hintEnabled="false"
+            android:layout_marginBottom="@dimen/kobold_margin_12px">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorWhite"
+                android:textAppearance="@style/FormEditTextHint"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2464F2"
+            android:paddingVertical="@dimen/kobold_margin_12px"
+            android:stateListAnimator="@null"
+            android:text="Lanjut"
+            android:textAppearance="@style/kobold_materialbutton_disable" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fullcreen_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:text="@string/kobold_intro_term"
-        android:textColor="#8D8D8D"
-        android:textSize="12sp"
-        android:layout_marginBottom="@dimen/kobold_margin_24px"
-        android:layout_marginTop="@dimen/kobold_item_42px"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:visibility="gone"
+        android:foreground="@color/colorWhite">
+        <ProgressBar
+            android:layout_gravity="center"
+            android:paddingVertical="@dimen/kobold_margin_12px"
+            android:indeterminate="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
