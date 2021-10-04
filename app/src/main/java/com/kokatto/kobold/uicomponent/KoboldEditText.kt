@@ -2,6 +2,7 @@ package com.kokatto.kobold.uicomponent
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +69,10 @@ class KoboldEditText : ConstraintLayout {
             clearButton.visibility = VISIBLE
         } else {
             clearButton.visibility = GONE
+        }
+
+        if ((inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE) > 0) {
+            editText.isSingleLine = false
         }
 
         a.recycle()

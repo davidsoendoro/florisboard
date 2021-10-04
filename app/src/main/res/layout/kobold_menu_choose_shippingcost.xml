@@ -6,14 +6,61 @@
     android:layout_height="match_parent"
     android:background="@color/background_subtle">
 
+    <LinearLayout
+        android:id="@+id/fullcreen_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|center_vertical"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:paddingVertical="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/choose_courier_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="70dp"
         android:clipToPadding="false"
+        android:visibility="gone"
         tools:listitem="@layout/item_choose_courier" />
+
+    <LinearLayout
+        android:id="@+id/info_banner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_informational"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:text="Klik ekspedisi yang sesuai kebutuhan"
+            android:textColor="@color/text_informational"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/close_info_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:paddingHorizontal="12dp"
+            android:src="@drawable/ic_cross_blue" />
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/footer_layout"

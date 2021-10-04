@@ -52,6 +52,8 @@
                     android:focusable="false"
                     android:textColor="@color/textColorDark"
                     android:textSize="8pt"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     tools:text="Lorem ipsum dolor sit amet" />
 
                 <androidx.appcompat.widget.AppCompatEditText
