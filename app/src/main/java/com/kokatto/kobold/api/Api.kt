@@ -3,11 +3,14 @@ package com.kokatto.kobold.api
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetBankResponse
+import com.kokatto.kobold.api.model.response.GetBusinessFieldResponse
+import com.kokatto.kobold.api.model.response.GetBusinessTypeResponse
 import com.kokatto.kobold.api.model.response.GetListDeliveryFeeResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
@@ -228,4 +231,19 @@ interface DeliveryApi {
         @Query("weight") weight: Int,
     ): ApiResponse<GetListDeliveryFeeResponse>
 
+}
+
+private const val merchantUrl: String = "api/v1/merchant/"
+
+interface MerchantApi {
+    //    @RequiredAuth
+    @GET(merchantUrl + "business-type")
+    suspend fun getBusinessType(): ApiResponse<GetBusinessTypeResponse>
+
+
+    @GET(merchantUrl + "business-field")
+    suspend fun getBusinessField(): ApiResponse<GetBusinessFieldResponse>
+
+    @POST(merchantUrl + "create")
+    suspend fun postCreateMerchant(request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
 }
