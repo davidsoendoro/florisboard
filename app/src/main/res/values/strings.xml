@@ -749,8 +749,8 @@
     <string name="kobold_menu_choose_shippingcost_submit_button">Pasang Info Ongkir</string>
     <string name="check_shippingcost_info">Pilih ekspedisi lalu klik Salin Ongkos Kirim untuk\nmenyalin info ongkir.</string>
 
-<!--    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>-->
-<!--    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>-->
+    <!--    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>-->
+    <!--    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>-->
     <string name="login_now">Login sekarang</string>
     <string name="kobold_submit_check_shippingcost">Informasi ongkir berhasil disalin</string>
     <string name="kobold_shipping_not_found_title">Lokasi tidak ditemukan</string>
@@ -766,5 +766,30 @@
     <string name="kobold_into_slide2_desc">Kelola pembeli, bikin transaksi, kirim resi \npembayaran bisa sambil ngobrol tanpa pindah \naplikasi.</string>
     <string name="kobold_into_slide3_title">Alat tempur jualan online untuk siapapun</string>
     <string name="kobold_into_slide3_desc">Semua fitur di Konekin dirancang untuk \nmemudahkan jualan online siapa saja, \npedagang besar, warung, perintis, semuanya!</string>
-
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="kobold_dashboard_manage_sales">Kelola Jualan</string>
+    <string name="kobold_dashboard_manage_customer">Atur Pembeli</string>
+    <string name="kobold_dashboard_manage_customer_detail">Nambah dan kelola kontak, sampai lihat catatan hutang pembeli.</string>
+    <string name="kobold_dashboard_manage_transaction_detail">Buat dan kelola transaksi dengan pembeli.</string>
+    <string name="kobold_dashboard_profit_support_tools_label">Alat Pendukung Cuan</string>
+    <string name="kobold_seller_keyboard_header">Keyboard Jualan</string>
+    <string name="kobold_active">Aktif</string>
+    <string name="kobold_watch_tutorial">Nonton Tutorial</string>
+    <string name="kobold_dashboard_template_chat_detail">Balas chat pembeli tanpa capek ketik ulang tulisannya.</string>
+    <string name="kobold_dashboard_check_delivery_fee">Cek Ongkir</string>
+    <string name="kobold_dashboard_check_delivery_fee_detail">Lihat semua tarif kirim dengan kurir yang lengkap.</string>
+    <string name="kobold_dashboard_deliver_order">Kirim Barang</string>
+    <string name="kobold_dashboard_deliver_order_detail">Pakai Bukasend pengiriman barang jadi murah dan aman.</string>
+    <string name="kobold_dashboard_support_header">Ada yang mau ditanyakan?</string>
+    <string name="kobold_help_center">Pusat Bantuan</string>
+    <string name="kobold_contact_cs">Hubungi CS</string>
+    <string name="kobold_welcome_to_konekin">Selamat datang di Konekin</string>
+    <string name="kobold_welcome_to_konekin_detail">Yuk jadi ahli cuan dengan pelajari semua fitur supaya jualanmu makin maksimal!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kobold_become_profit_master">Mau jadi ahli cuan</string>
+    <string name="kobold_later">Nanti aja</string>
+    <string name="kobold_activate_keyboard_header">Jualan pakai Whatsapp atau aplikasi chat lain?</string>
+    <string name="kobold_activate_keyboard_detail">Kelola pembeli dan transaksi langsung di chat tanpa pindah aplikasi.</string>
+    <string name="kobold_activate_keyboard">Aktifin keyboard</string>
 </resources>
