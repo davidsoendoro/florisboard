@@ -775,4 +775,16 @@
     <string name="registration_next_button_text">Selanjutnya</string>
     <string name="bottomsheet_business_field_title">Pilih Bidang Bisnis</string>
 
+    <string name="kobold_otp_page_title">Verifikasi Nomor</string>
+    <string name="kobold_otp_form_title">Masukkan Kode Rahasia yang\nditerima via WhatsApp di:</string>
+    <string name="kobold_otp_resend_info">Belum terima kode?</string>
+    <string name="kobold_otp_resend_action">Kirim ulang</string>
+    <string name="kobold_cancel_registration_title">Batalkan pendaftaran?</string>
+    <string name="kobold_cancel_registration_desc">Bila batal, kamu harus ulangi isi informasi dan verifikasi.</string>
+    <string name="kobold_cancel_registration_action_confirm">Iya, batalkan pendaftaran</string>
+    <string name="kobold_cancel_registration_action_cancel">Nanti saja</string>
+    <string name="kobold_otp_change_number">Ganti Nomor</string>
+    <string name="kobold_otp_change_number_hint">Masukkan nomor WhatsApp</string>
+
+
 </resources>

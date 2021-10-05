@@ -13,7 +13,7 @@ object Network {
         .writeTimeout(1, TimeUnit.MINUTES)
 
     val authenticationApi: AuthenticationApi by lazy {
-        createNetwork(okHttpClient, Gson())
+        callNetworkIdentity(okHttpClient, Gson())
     }
 
     val chatTemplateApi: ChatTemplateApi by lazy {
