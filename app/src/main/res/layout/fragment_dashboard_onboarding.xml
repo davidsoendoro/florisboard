@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_welcome_screen_background"
+    android:padding="@dimen/kobold_margin_12px"
+    android:paddingHorizontal="@dimen/kobold_margin_32px"
+    android:layout_margin="@dimen/kobold_margin_12px"
+    tools:context=".dashboard.DashboardOnboardingFragment">
+
+    <TextView
+        android:id="@+id/kobold_WelcomeKonekinHeader"
+        style="@style/kobold_primaryLabel18spBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kobold_welcome_to_konekin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kobold_WelcomeKonekinPageText"
+        style="@style/kobold_subduedLabel10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1/2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kobold_WelcomeKonekinDetail"
+        style="@style/kobold_secondaryLabel14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kobold_welcome_to_konekin_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kobold_WelcomeKonekinHeader" />
+
+    <Button
+        android:id="@+id/kobold_DashboardOnboardingBecomeProfitMasterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_32px"
+        android:backgroundTint="@color/kobold_blue_button"
+        android:text="@string/kobold_become_profit_master"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kobold_WelcomeKonekinDetail" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_32px"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        android:backgroundTint="@color/kobold_blue_button"
+        android:text="@string/kobold_later"
+        android:textAllCaps="false"
+        android:background="#00000000"
+        style="@style/kobold_keyboard_transparent_button"
+        app:layout_constraintStart_toEndOf="@+id/kobold_DashboardOnboardingBecomeProfitMasterButton"
+        app:layout_constraintTop_toBottomOf="@id/kobold_WelcomeKonekinDetail" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
