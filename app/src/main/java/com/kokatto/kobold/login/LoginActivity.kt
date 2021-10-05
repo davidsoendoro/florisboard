@@ -35,7 +35,6 @@ class LoginActivity : FragmentActivity() {
     private lateinit var indicatorContainer: LinearLayout
     private lateinit var uiBinding: ActivityLoginBinding
     private var authenticationViewModel: AuthenticationViewModel? = AuthenticationViewModel()
-    private var phoneEditText: PhoneKeyboardLifecycleObserver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +57,7 @@ class LoginActivity : FragmentActivity() {
         uiBinding.introSliderViewpager.adapter = sliderAdapter
 
         setupIndicator()
-        setCurrentIndicator(0)
+        //setCurrentIndicator(0)
 
         uiBinding.introSliderViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -123,12 +122,21 @@ class LoginActivity : FragmentActivity() {
                     )
                 )
             } else {
-                imageView.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        applicationContext,
-                        R.drawable.ic_indicator_active
+                if( i < index){
+                    imageView.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            applicationContext,
+                            R.drawable.ic_indicator_active
+                        )
                     )
-                )
+                } else {
+                    imageView.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            applicationContext,
+                            R.drawable.ic_indicator_default
+                        )
+                    )
+                }
             }
 
         }
@@ -138,26 +146,22 @@ class LoginActivity : FragmentActivity() {
         val phone = uiBinding.edittextPhone.text.toString()
         uiBinding.edittextPhoneTrigger.setText(phone)
         uiBinding.fullcreenLoading.isVisible = true
-//        uiBinding.fullcreenLoading.foreground.alpha = 80;
         uiBinding.edittextPhone.hideKeyboard()
 
         authenticationViewModel?.requestOTP(
             phone,
             onSuccess = {
-
                 val intent = Intent(this, OtpActivity::class.java)
                 intent.putExtra(ActivityConstantCode.EXTRA_DATA, phone)
                 startActivity(intent)
 
                 uiBinding.fullcreenLoading.isVisible = false
-//                uiBinding.fullcreenLoading.foreground.alpha = 0;
                 uiBinding.edittextPhone.text?.clear()
                 uiBinding.edittextPhoneTrigger.text?.clear()
             },
             onError = {
                 uiBinding.edittextPhoneTrigger.text?.clear()
                 uiBinding.fullcreenLoading.isVisible = false
-//                uiBinding.fullcreenLoading.foreground.alpha = 0;
                 showToast(it)
             }
         )
