@@ -168,7 +168,7 @@
             android:windowSoftInputMode="stateVisible" /> <!-- Dashboard Bank Management Activity -->
         <activity
             android:name=".bank.BankHomeActivity"
-            android:exported="true" />
+            android:exported="true"
             android:label="Kobold Bank">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

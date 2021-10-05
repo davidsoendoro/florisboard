@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -19,6 +20,7 @@ import com.kokatto.kobold.transaction.recycleradapter.TransactionKeyboardRecycle
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.properties.Delegates
 
 class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter.OnClick {
     constructor(context: Context) : this(context, null)
@@ -33,10 +35,19 @@ class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerA
 
     private var textViewResultCount: TextView? = null
     private var chatTemplateRecycler: RecyclerView? = null
+    private var loadingView: LinearLayout? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
-    private val isLoadingChatTemplate = AtomicBoolean(true)
+    private var isLoadingChatTemplate: Boolean by Delegates.observable(true) { _, oldValue, newValue ->
+        if (oldValue != newValue) {
+            if (newValue) {
+                loadingView?.visibility = VISIBLE
+            } else {
+                loadingView?.visibility = GONE
+            }
+        }
+    }
     private val isLastChatTemplate = AtomicBoolean(false)
 
     var query: String = ""
@@ -45,6 +56,7 @@ class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerA
         super.onAttachedToWindow()
         textViewResultCount = findViewById(R.id.kobold_searchtemplate_resultcount)
         chatTemplateRecycler = findViewById(R.id.kobold_searchtemplate_searchresult)
+        loadingView = findViewById(R.id.bottom_loading)
 
         adapter = TransactionKeyboardRecyclerAdapter(transactionList, this)
         chatTemplateRecycler?.adapter = adapter
@@ -64,7 +76,7 @@ class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerA
             search = query,
             onLoading = {
                 Timber.e(it.toString())
-                isLoadingChatTemplate.set(it)
+                isLoadingChatTemplate = it
             },
             onSuccess = { it ->
                 val totalRecord = it.data.totalRecord
@@ -80,34 +92,32 @@ class KeyboardSearchTransaction : ConstraintLayout, TransactionKeyboardRecyclerA
         )
 
         chatTemplateRecycler?.let {
-            val bottomLoading = findViewById<LinearLayout>(R.id.bottom_loading)
-
             DovesRecyclerViewPaginator(
                 recyclerView = it,
-                isLoading = { isLoadingChatTemplate.get() },
+                isLoading = { isLoadingChatTemplate },
                 loadMore = { loadMoreData ->
-                    bottomLoading.isVisible = true
+                    loadingView?.isVisible = true
                     transactionViewModel?.getTransactionList(
                         page = loadMoreData + 1,
                         search = query,
                         onLoading = { loadData ->
                             Timber.e(loadData.toString())
-                            isLoadingChatTemplate.set(loadData)
+                            isLoadingChatTemplate = loadData
                         },
                         onSuccess = { successData ->
                             isLastChatTemplate.set(successData.data.totalPages <= successData.data.page)
 
-                            isLoadingChatTemplate.set(false)
+                            isLoadingChatTemplate = false
                             val initialSize = transactionList.size
                             transactionList.addAll(successData.data.contents)
                             val finalSize = successData.data.contents.size
                             adapter?.notifyItemRangeInserted(initialSize, finalSize)
 
-                            bottomLoading.isVisible = false
+                            loadingView?.isVisible = false
                         },
                         onError = { errorMessage ->
                             showToast(errorMessage)
-                            bottomLoading.isVisible = false
+                            loadingView?.isVisible = false
                         }
                     )
                 },

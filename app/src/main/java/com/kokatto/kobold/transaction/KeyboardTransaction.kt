@@ -27,6 +27,7 @@ import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.properties.Delegates
 
 class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter.OnClick {
     constructor(context: Context) : this(context, null)
@@ -42,10 +43,19 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
     private var adapter: TransactionKeyboardRecyclerAdapter? = null
 
     private var transactionRecycler: RecyclerView? = null
+    private var loadingView: LinearLayout? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
-    private val isLoadingTransaction = AtomicBoolean(true)
+    private var isLoadingTransaction: Boolean by Delegates.observable(true) { _, oldValue, newValue ->
+        if (oldValue != newValue) {
+            if (newValue) {
+                loadingView?.visibility = VISIBLE
+            } else {
+                loadingView?.visibility = GONE
+            }
+        }
+    }
     private val isLastTransaction = AtomicBoolean(false)
     private val isFirstLoad = AtomicBoolean(true)
 
@@ -64,6 +74,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         val pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
+        loadingView = findViewById(R.id.bottom_loading)
 
         searchButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -135,12 +146,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
             status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],
             onLoading = {
                 Timber.e(it.toString())
-                isLoadingTransaction.set(it)
+                isLoadingTransaction = it
 //                dataUnavailableLayout?.isVisible = false
             },
             onSuccess = { it ->
 //                clear page first
-                Log.e("data", it.data.toString())
                 if (it.data.page == 1) {
                     transactionList.clear()
                     adapter?.notifyDataSetChanged()
@@ -155,28 +165,25 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         )
 
         transactionRecycler?.let {
-            val bottomLoading = findViewById<LinearLayout>(R.id.bottom_loading)
-
             DovesRecyclerViewPaginator(
                 recyclerView = it,
-                isLoading = { isLoadingTransaction.get() },
+                isLoading = { isLoadingTransaction },
                 loadMore = { loadMoreData ->
-                    bottomLoading.isVisible = true
+                    isLoadingTransaction = true
                     transactionViewModel?.getTransactionList(
                         status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],
                         page = loadMoreData + 1,
                         onLoading = { loadData ->
                             Timber.e(loadData.toString())
-                            isLoadingTransaction.set(loadData)
+                            isLoadingTransaction = loadData
                         },
                         onSuccess = { successData ->
                             isLastTransaction.set(successData.data.totalPages <= successData.data.page)
 //                            dataUnavailableLayout?.isVisible = successData.data.contents.isEmpty()
 
-                            isLoadingTransaction.set(false)
+                            isLoadingTransaction = false
                             val initialSize = transactionList.size
 //                            clear page first
-                            Log.e("data", successData.data.toString())
                             if (successData.data.page == 1) {
                                 showToast("first page")
                                 transactionList.clear()
@@ -186,14 +193,12 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                             transactionList.addAll(successData.data.contents)
                             val finalSize = successData.data.contents.size
                             adapter?.notifyItemRangeInserted(initialSize, finalSize)
-
-                            bottomLoading.isVisible = false
                         },
                         onError = { errorMessage ->
                             showToast(errorMessage)
 
 //                            dataUnavailableLayout?.isVisible = false
-                            bottomLoading.isVisible = false
+                            isLoadingTransaction = false
                         }
                     )
                 },
