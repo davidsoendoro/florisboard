@@ -41,6 +41,7 @@
     <color name="text_color_white">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
 
+    <color name="text_ink01">#1843A1</color>
     <color name="text_primary">#141414</color>
     <color name="text_disabled">#B6B6B6</color>
     <color name="text_secondary">#3D3D3D</color>
@@ -75,7 +76,8 @@
     <color name="washedout_background">#F7F7F7</color>
     <color name="textBlack">#141414</color>
     <color name="background_subtle">#F2F2F2</color>
-
+    <color name="background_highlight">#F0F5FF</color>
+    i
     <color name="snackbar_default">#2E2E2E</color>
     <color name="snackbar_error">#CB0B04</color>
 

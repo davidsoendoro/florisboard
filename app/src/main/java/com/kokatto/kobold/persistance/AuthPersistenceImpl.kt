@@ -7,15 +7,21 @@ import com.kokatto.kobold.provider.SharedPreferencesProvider
 class AuthPersistenceImpl(private val persistence: SharedPreferencesProvider) : AuthPersistence {
 
     companion object {
-        private const val ACCESS_TOKEN = "accessToken"
+        private const val TOKEN = "token"
+        private const val REFRESH_TOKEN = "refreshToken"
         private const val EXPIRES_IN = "expiresIn"
-        private const val FIREBASE_TOKEN = "firebaseToken"
     }
 
-    override var accessToken: String?
-        get() = persistence.private[ACCESS_TOKEN]
+    override var token: String?
+        get() = persistence.private[TOKEN]
         set(value) {
-            persistence.private[ACCESS_TOKEN] = value
+            persistence.private[TOKEN] = value
+        }
+
+    override var refreshToken: String?
+        get() = persistence.private[REFRESH_TOKEN]
+        set(value) {
+            persistence.private[REFRESH_TOKEN] = value
         }
 
     override var expiresIn: Long?
@@ -23,13 +29,11 @@ class AuthPersistenceImpl(private val persistence: SharedPreferencesProvider) : 
         set(value) {
             persistence.private[EXPIRES_IN] = value
         }
-    override var firebaseToken: String?
-        get() = persistence.private[FIREBASE_TOKEN]
-        set(value) {
-            persistence.private[FIREBASE_TOKEN] = value
-        }
+
 
     override fun clear() {
-        persistence.private[ACCESS_TOKEN] = null
+        persistence.private[TOKEN] = null
+        persistence.private[REFRESH_TOKEN] = null
+        persistence.private[EXPIRES_IN] = null
     }
 }

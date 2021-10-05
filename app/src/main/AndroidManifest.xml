@@ -15,6 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
         <activity
+            android:name=".registration.RegistrationActivity"
+            android:exported="true"
+            android:label="Kobold Registration">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true" />
         <activity
@@ -54,6 +64,7 @@
             android:theme="@style/SettingsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,9 +73,10 @@
             android:icon="@mipmap/floris_app_icon"
             android:label="Kobold Template"
             android:launchMode="singleTask"
-            android:roundIcon="@mipmap/floris_app_icon_round" >
+            android:roundIcon="@mipmap/floris_app_icon_round">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -130,38 +142,58 @@
             android:label="Kobold Transaction">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".dashboardcreatetransaction.InputActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".dashboardcreatetransaction.DetailActivity"
-            android:exported="true">
-        </activity>
-        <!-- Dashboard Shipping Cost  -->
+            android:exported="true"></activity> <!-- Dashboard Shipping Cost -->
         <activity
             android:name=".dashboardcheckshippingcost.CheckShippingcost"
             android:exported="true"
             android:label="Kobold Shipping Cost">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".dashboardcheckshippingcost.AddressShippingActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateVisible"/>
-        <!-- Dashboard Bank Management Activity -->
+            android:windowSoftInputMode="stateVisible" /> <!-- Dashboard Bank Management Activity -->
         <activity
             android:name=".bank.BankHomeActivity"
-            android:exported="true"/>
+            android:exported="true" />
+            android:label="Kobold Bank">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".bank.BankInputActivity"
             android:exported="true"/>
+        <!-- Login  -->
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Kobold Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".login.OtpActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
         <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"

@@ -749,8 +749,8 @@
     <string name="kobold_menu_choose_shippingcost_submit_button">Pasang Info Ongkir</string>
     <string name="check_shippingcost_info">Pilih ekspedisi lalu klik Salin Ongkos Kirim untuk\nmenyalin info ongkir.</string>
 
-<!--    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>-->
-<!--    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>-->
+    <!--    <string name="kobold_shipping_not_found_title">Cari Lokasimu</string>-->
+    <!--    <string name="kobold_shipping_not_found_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>-->
     <string name="login_now">Login sekarang</string>
     <string name="kobold_submit_check_shippingcost">Informasi ongkir berhasil disalin</string>
     <string name="kobold_shipping_not_found_title">Lokasi tidak ditemukan</string>
@@ -766,5 +766,25 @@
     <string name="kobold_into_slide2_desc">Kelola pembeli, bikin transaksi, kirim resi \npembayaran bisa sambil ngobrol tanpa pindah \naplikasi.</string>
     <string name="kobold_into_slide3_title">Alat tempur jualan online untuk siapapun</string>
     <string name="kobold_into_slide3_desc">Semua fitur di Konekin dirancang untuk \nmemudahkan jualan online siapa saja, \npedagang besar, warung, perintis, semuanya!</string>
+    <string name="registration_header_title">Kenalan Yuk!</string>
+    <string name="registration_store_name">Nama Tokomu</string>
+    <string name="registration_business_field_title">Bidang Bisnis</string>
+    <string name="registration_business_type_title">Type Bisnis</string>
+    <string name="registration_business_type_hint">Pilih Tipe Bisnis</string>
+    <string name="registration_business_field_hint">Pilih Bidang Bisnis</string>
+    <string name="registration_next_button_text">Selanjutnya</string>
+    <string name="bottomsheet_business_field_title">Pilih Bidang Bisnis</string>
+
+    <string name="kobold_otp_page_title">Verifikasi Nomor</string>
+    <string name="kobold_otp_form_title">Masukkan Kode Rahasia yang\nditerima via WhatsApp di:</string>
+    <string name="kobold_otp_resend_info">Belum terima kode?</string>
+    <string name="kobold_otp_resend_action">Kirim ulang</string>
+    <string name="kobold_cancel_registration_title">Batalkan pendaftaran?</string>
+    <string name="kobold_cancel_registration_desc">Bila batal, kamu harus ulangi isi informasi dan verifikasi.</string>
+    <string name="kobold_cancel_registration_action_confirm">Iya, batalkan pendaftaran</string>
+    <string name="kobold_cancel_registration_action_cancel">Nanti saja</string>
+    <string name="kobold_otp_change_number">Ganti Nomor</string>
+    <string name="kobold_otp_change_number_hint">Masukkan nomor WhatsApp</string>
+
 
 </resources>
