@@ -55,3 +55,13 @@ fun View.showSnackBar(
     snackbar.setBackgroundTint(resources.getColor(backgroundColor))
     snackbar.show()
 }
+
+fun Fragment.showSnackBar(
+    message: String = "",
+    backgroundColor: Int = R.color.snackbar_default,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
+    val snackbar = Snackbar.make(this.requireView(), message, duration)
+    snackbar.setBackgroundTint(resources.getColor(backgroundColor))
+    snackbar.show()
+}

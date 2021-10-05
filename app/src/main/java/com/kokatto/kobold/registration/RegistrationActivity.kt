@@ -4,28 +4,36 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
-import com.kokatto.kobold.registration.spinner.SpinnerBusinessFieldSelector
+import com.kokatto.kobold.api.model.basemodel.BusinessTypeModel
+import com.kokatto.kobold.api.model.basemodel.toBundle
+import com.kokatto.kobold.api.model.basemodel.toTextFormat
+import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
+import com.kokatto.kobold.registration.spinner.DialogBusinessTypeSelector
 
-class RegistrationActivity : AppCompatActivity() {
+class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.OnBusinessFieldClicked,
+    DialogBusinessTypeSelector.OnBusinessTypeClicked {
 
-    val BUSINESS_FIELD_TAG = "businessfield"
+    companion object {
+        val BUSINESS_FIELD_TAG = "businessfield"
+        val BUSINESS_TYPE_TAG = "businesstype"
+    }
 
     var storeName: EditText? = null
     var storeNameError: TextView? = null
 
     var businessFieldLayout: TextInputLayout? = null
-    var businessFieldEditText: TextInputEditText? = null
+    var businessFieldEditText: EditText? = null
+    var businessFieldList = arrayListOf<BusinessFieldModel>()
+    var businessTypeList = arrayListOf<BusinessTypeModel>()
 
     var businessTypeLayout: TextInputLayout? = null
-    var businessTypeEditText: TextInputEditText? = null
+    var businessTypeEditText: EditText? = null
 
-    var selectedBusinessField: BusinessFieldModel? = null
-
-    private var spinnerBusinessFieldSelector: SpinnerBusinessFieldSelector? = SpinnerBusinessFieldSelector()
+    private var spinnerBusinessFieldSelector: DialogBusinessFieldSelector? = DialogBusinessFieldSelector()
+    private var spinnerBusinessTypeSelector: DialogBusinessTypeSelector? = DialogBusinessTypeSelector()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,18 +49,39 @@ class RegistrationActivity : AppCompatActivity() {
         businessTypeEditText = findViewById(R.id.edittext_business_type)
 
         businessFieldEditText?.setOnClickListener {
-            val channel = businessFieldEditText?.text.toString()
-            spinnerBusinessFieldSelector = SpinnerBusinessFieldSelector().newInstance()
+            spinnerBusinessFieldSelector = DialogBusinessFieldSelector().newInstance()
 
-            if (selectedBusinessField == null) {
-                selectedBusinessField = BusinessFieldModel("", "")
-            }
-
+            spinnerBusinessFieldSelector?.arguments = businessFieldList.toBundle()
             spinnerBusinessFieldSelector?.show(supportFragmentManager, BUSINESS_FIELD_TAG)
-//            spinnerBusinessFieldSelector?.onItemClick = {
-//                selectedBusinessField = it
-//                businessFieldEditText?.setText(it.assetDesc)
-//            }
         }
+
+        businessTypeEditText?.setOnClickListener {
+            spinnerBusinessTypeSelector = DialogBusinessTypeSelector().newInstance()
+
+            spinnerBusinessTypeSelector?.arguments = businessTypeList.toBundle()
+            spinnerBusinessTypeSelector?.show(supportFragmentManager, BUSINESS_TYPE_TAG)
+        }
+    }
+
+    override fun onDataBusinessFieldPass(data: ArrayList<BusinessFieldModel>) {
+        businessFieldList.clear()
+        businessFieldList.addAll(data)
+
+        val temp = businessFieldList.filter { it.isSelected }
+        businessFieldEditText?.setText(temp.toTextFormat())
+    }
+
+    override fun onDestroy() {
+        businessFieldList.clear()
+
+        super.onDestroy()
+    }
+
+    override fun onDataBusinessTypePass(data: ArrayList<BusinessTypeModel>) {
+        businessTypeList.clear()
+        businessTypeList.addAll(data)
+
+        val temp = businessTypeList.filter { it.isSelected }
+        businessTypeEditText?.setText(temp.toTextFormat())
     }
 }

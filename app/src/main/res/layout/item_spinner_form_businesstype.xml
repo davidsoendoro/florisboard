@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/selection_item_image_radio"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/inner_border"
+        app:strokeWidth="2dp"></com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/business_type_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/kobold_margin_12px"
+        android:text="Makanan dan minuman"
+        android:textColor="@color/textColorDark"
+        app:layout_constraintBottom_toBottomOf="@id/selection_item_image_radio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/selection_item_image_radio"
+        app:layout_constraintTop_toTopOf="@id/selection_item_image_radio" />
+
+    <TextView
+        android:id="@+id/business_type_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/kobold_margin_12px"
+        android:layout_marginTop="4dp"
+        android:lines="2"
+        android:text="Makanan dan minuman"
+        android:textColor="@color/text_subdued"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/selection_item_image_radio"
+        app:layout_constraintTop_toBottomOf="@id/business_type_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

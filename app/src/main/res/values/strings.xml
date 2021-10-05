@@ -774,5 +774,6 @@
     <string name="registration_business_field_hint">Pilih Bidang Bisnis</string>
     <string name="registration_next_button_text">Selanjutnya</string>
     <string name="bottomsheet_business_field_title">Pilih Bidang Bisnis</string>
+    <string name="bottomsheet_business_type_title">Pilih Tipe Bisnis</string>
 
 </resources>
