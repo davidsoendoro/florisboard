@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.BusinessTypeModel
 import com.kokatto.kobold.api.model.basemodel.toBundle
 import com.kokatto.kobold.api.model.basemodel.toTextFormat
+import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 import com.kokatto.kobold.registration.spinner.DialogBusinessTypeSelector
 
@@ -26,6 +28,7 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
 
     var businessFieldLayout: TextInputLayout? = null
     var businessFieldEditText: EditText? = null
+    var skipButton: TextView? = null
     var businessFieldList = arrayListOf<BusinessFieldModel>()
     var businessTypeList = arrayListOf<BusinessTypeModel>()
 
@@ -47,6 +50,12 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
 
         businessTypeLayout = findViewById(R.id.edittext_business_type_layout)
         businessTypeEditText = findViewById(R.id.edittext_business_type)
+
+        skipButton = findViewById(R.id.skip_button)
+
+        skipButton?.setOnClickListener {
+            createConfirmationDialog()
+        }
 
         businessFieldEditText?.setOnClickListener {
             spinnerBusinessFieldSelector = DialogBusinessFieldSelector().newInstance()
@@ -83,5 +92,32 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
 
         val temp = businessTypeList.filter { it.isSelected }
         businessTypeEditText?.setText(temp.toTextFormat())
+    }
+
+    private fun createConfirmationDialog() {
+        val bottomDialog = createBottomSheetDialog(
+            layoutInflater.inflate(
+                R.layout.dialog_skip_confirmation,
+                null
+            )
+        )
+
+        val acceptButton = bottomDialog.findViewById<MaterialCardView>(R.id.save_button)
+        val discardButton = bottomDialog.findViewById<MaterialCardView>(R.id.cancel_button)
+
+        acceptButton?.setOnClickListener {
+//            hotelNavigationArgs.contactDetail = contactDetails
+//            hotelNavigationArgs.guestDetail = guestDetails
+//            hotelNavigationArgs.isContactSameAsGuest = binding.contactSameasGuestSwitch.isChecked
+//            hotelViewModel.postCreateBookingHotel(createPostCreateBookingHotel())
+
+            bottomDialog.dismiss()
+        }
+
+        discardButton?.setOnClickListener {
+            bottomDialog.dismiss()
+        }
+
+        bottomDialog.show()
     }
 }
