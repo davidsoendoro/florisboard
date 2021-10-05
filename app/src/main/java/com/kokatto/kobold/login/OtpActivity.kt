@@ -17,7 +17,7 @@ import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.login.dialog.DialogCancelRegister
 import com.kokatto.kobold.login.dialog.DialogChangeNumber
 import com.kokatto.kobold.login.dialog.DialogLoading
-
+import com.kokatto.kobold.persistance.AppPersistence
 
 class OtpActivity : AppCompatActivity() {
 
@@ -50,7 +50,8 @@ class OtpActivity : AppCompatActivity() {
         }
 
         uiBinding.resendAction.setOnClickListener {
-            resendOTP()
+            val phone = uiBinding.textviewPhone.text.toString()
+            resendOTP(phone)
         }
 
         itemViews.add(uiBinding.edittextOtp1)
@@ -141,6 +142,7 @@ class OtpActivity : AppCompatActivity() {
         authenticationViewModel?.verifyOTP(
             model,
             onSuccess = {
+                AppPersistence.token = it.data.token
                 loading.isDismiss()
                 showToast("SUCCESS")
 
@@ -156,13 +158,24 @@ class OtpActivity : AppCompatActivity() {
         dialog.openDialog(supportFragmentManager)
 
         dialog.onComplete = {
-
+            resendOTP(it)
         }
 
     }
 
-    private fun resendOTP() {
+    private fun resendOTP(phone: String) {
+        authenticationViewModel?.requestOTP(
+            phone,
+            onSuccess = {
+                   //  show message
+            },
+            onError = {
+                showToast(it)
+            }
+        )
+
         resetTimer()
+
     }
 
     private fun confirmCancel() {
