@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:visibility="gone" >
+    android:visibility="gone"
+    android:background="@color/editorBackground">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -69,7 +70,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chat_template_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_chat_template"
                 android:layout_marginBottom="@dimen/footer_height"/>
