@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.ShippingCostModel
+import com.kokatto.kobold.chattemplate.KeyboardChatTemplate
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcheckshippingcost.AddressShippingActivity
 import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
@@ -186,16 +187,16 @@ class KeyboardCheckShippingCost : ConstraintLayout {
                     shippingCost.senderAddress = it
                     senderAddressEdittext?.editText?.text = it.writtenAddress()
                     florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                    invalidateSaveButton()
                 }
                 AddressShippingActivity.RECEIVER -> {
                     shippingCost.receiverAddress = it
                     receiverAddressEdittext?.editText?.text = it.writtenAddress()
                     florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                    invalidateSaveButton()
                 }
             }
         }
-
-//        invalidateSaveButton()
 
         senderAddressEdittext?.setOnClickListener {
             val imeOptions = senderAddressEdittext?.imeOptions ?: 0
@@ -261,6 +262,10 @@ class KeyboardCheckShippingCost : ConstraintLayout {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.activeEditorInstance?.activeEditText = null
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
+
+            senderAddressEdittext?.editText?.text = ""
+            receiverAddressEdittext?.editText?.text = ""
+            shippingCost = ShippingCostModel()
         }
 
         submitButton?.setOnClickListener {
@@ -277,8 +282,8 @@ class KeyboardCheckShippingCost : ConstraintLayout {
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (changedView == this.rootView && visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
-
+        if (changedView is KeyboardCheckShippingCost && visibility == View.VISIBLE && changedView == this) {
+            invalidateSaveButton()
         }
     }
 

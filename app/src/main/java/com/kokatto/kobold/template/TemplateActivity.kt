@@ -106,7 +106,7 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         when (view.id) {
             R.id.popup_keyboard_active_button -> {
                 Intent(this, SetupActivity::class.java).apply {
-                    putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.FINISH)
+                    putExtra(SetupActivity.EXTRA_SHOW_SINGLE_STEP, SetupActivity.Step.MAKE_DEFAULT)
                     startActivity(this)
                     warningLayout?.let { layout -> layout.visibility = View.GONE }
                 }

@@ -168,10 +168,33 @@
             android:windowSoftInputMode="stateVisible" /> <!-- Dashboard Bank Management Activity -->
         <activity
             android:name=".bank.BankHomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Kobold Bank">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".bank.BankInputActivity"
-            android:exported="true" /> <!-- Crash Dialog Activity -->
+            android:exported="true"/>
+        <!-- Login  -->
+        <activity
+            android:name=".login.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Kobold Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".login.OtpActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
+        <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"
             android:icon="@mipmap/floris_app_icon"

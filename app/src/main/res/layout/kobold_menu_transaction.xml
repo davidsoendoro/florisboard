@@ -102,7 +102,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/transaction_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/footer_height"
                     android:background="@color/background"
                     android:nestedScrollingEnabled="false"
@@ -111,7 +111,7 @@
 
                 <LinearLayout
                     android:id="@+id/bottom_loading"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="56dp"
                     android:layout_gravity="center|center_vertical"
                     android:gravity="center|center_vertical"
