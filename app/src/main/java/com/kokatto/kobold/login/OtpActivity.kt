@@ -1,7 +1,5 @@
 package com.kokatto.kobold.login
 
-import android.R
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -21,9 +19,10 @@ import com.kokatto.kobold.login.dialog.DialogCancelRegister
 import com.kokatto.kobold.login.dialog.DialogChangeNumber
 import com.kokatto.kobold.login.dialog.DialogLoading
 import com.kokatto.kobold.persistance.AppPersistence
-import android.app.Activity
 import android.content.Intent
+import android.view.KeyEvent
 import android.view.View
+import com.kokatto.kobold.R
 import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
 import com.kokatto.kobold.extension.hideKeyboard
 import com.kokatto.kobold.extension.showKeyboard
@@ -73,6 +72,10 @@ class OtpActivity : AppCompatActivity() {
         itemViews.add(uiBinding.edittextOtp3)
         itemViews.add(uiBinding.edittextOtp4)
         itemViews.add(uiBinding.edittextOtp5)
+
+        for(view in itemViews){
+            view.setOnKeyListener { v, keyCode, event -> onKeyEdit(v, keyCode, event) }
+        }
 
         uiBinding.edittextOtp1.addTextChangedListener(CustomTextWatcher(
             afterChanged = {
@@ -302,6 +305,41 @@ class OtpActivity : AppCompatActivity() {
         return itemViews.map { editText -> editText.text.toString() }.joinToString("")
     }
 
+    private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
+        when (view.id) {
+            R.id.edittext_otp1 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp1.text.toString().length <= 0) {
+                    return true
+                }
+            }
+            R.id.edittext_otp2 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp2.text.toString().length <= 0) {
+                    uiBinding.edittextOtp1.requestFocus()
+                    return true
+                }
+            }
+            R.id.edittext_otp3 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp3.text.toString().length <= 0) {
+                    uiBinding.edittextOtp2.requestFocus()
+                    return true
+                }
+            }
+            R.id.edittext_otp4 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp4.text.toString().length <= 0) {
+                    uiBinding.edittextOtp3.requestFocus()
+                    return true
+                }
+            }
+            R.id.edittext_otp5 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp5.text.toString().length <= 0) {
+                    uiBinding.edittextOtp4.requestFocus()
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
     inner class CustomTextWatcher(
         private val afterChanged: ((Editable?) -> Unit) = {},
         private val beforeChanged: ((CharSequence?, Int, Int, Int) -> Unit) = { _, _, _, _ -> },
@@ -319,5 +357,6 @@ class OtpActivity : AppCompatActivity() {
             onChanged(s, start, before, count)
         }
     }
+
 
 }
