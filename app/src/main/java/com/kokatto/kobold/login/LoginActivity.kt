@@ -24,6 +24,7 @@ import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.databinding.ActivityLoginBinding
 import com.kokatto.kobold.extension.hideKeyboard
 import com.kokatto.kobold.extension.showKeyboard
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.login.listener.PhoneKeyboardLifecycleObserver
 import com.kokatto.kobold.login.slider.SliderAdapter
@@ -67,7 +68,12 @@ class LoginActivity : FragmentActivity() {
         })
 
         uiBinding.buttonNext.setOnClickListener {
-            apiCallRequestOTP()
+            if(uiBinding.edittextPhone.text.toString().length > 0){
+                apiCallRequestOTP()
+            } else {
+                showSnackBar(uiBinding.rootLayout, resources.getString(R.string.kobold_into_empty_phone), R.color.snackbar_error )
+            }
+
         }
 
         uiBinding.edittextPhoneTrigger.setOnClickListener {

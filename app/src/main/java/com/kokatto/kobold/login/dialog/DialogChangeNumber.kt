@@ -1,5 +1,6 @@
 package com.kokatto.kobold.login.dialog
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.textfield.TextInputEditText
@@ -14,8 +16,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.databinding.DialogChangeOtpBinding
 import com.kokatto.kobold.extension.RoundedBottomSheet
-import com.kokatto.kobold.extension.hideKeyboard
 import com.kokatto.kobold.extension.showKeyboard
+import com.kokatto.kobold.extension.showSnackBar
 
 class DialogChangeNumber : RoundedBottomSheet() {
 
@@ -26,8 +28,11 @@ class DialogChangeNumber : RoundedBottomSheet() {
     }
 
     var onComplete: ((phone: String) -> Unit)? = null
+    var onClose: ((Boolean) -> Unit)? = null
+    var onShow: ((Boolean) -> Unit)? = null
 
     private var uiBinding: DialogChangeOtpBinding? = null
+    private var imm: InputMethodManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,25 +48,36 @@ class DialogChangeNumber : RoundedBottomSheet() {
         }
 
         uiBinding?.closeButton?.setOnClickListener {
-            uiBinding?.edittextNewNumber?.hideKeyboard()
+            closeDialog()
         }
 
         setDefaultColor(uiBinding!!.edittextNewNumber)
+
+        uiBinding?.edittextNewNumber?.showKeyboard()
+        uiBinding?.edittextNewNumber?.requestFocus()
+
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+
         return binding.root
     }
 
     override fun onDestroyView() {
         uiBinding = null
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.HIDE_IMPLICIT_ONLY)
         super.onDestroyView()
     }
 
     fun openDialog(fragmentManager: FragmentManager) {
-        this.show(fragmentManager, TAG)
-        uiBinding?.edittextNewNumber?.requestFocus()
         uiBinding?.edittextNewNumber?.showKeyboard()
+        uiBinding?.edittextNewNumber?.requestFocus()
+        this.show(fragmentManager, TAG)
     }
 
     fun closeDialog() {
+        uiBinding?.edittextNewNumber?.text?.clear()
+        onClose?.invoke(true)
         dismiss()
     }
 
@@ -69,7 +85,14 @@ class DialogChangeNumber : RoundedBottomSheet() {
         when (view.id) {
             R.id.edittext_new_number -> {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                    onComplete?.invoke(uiBinding?.edittextNewNumber?.text.toString())
+
+                    if(uiBinding?.edittextNewNumber?.text.toString().length > 0){
+                        onComplete?.invoke(uiBinding?.edittextNewNumber?.text.toString())
+                        dismiss()
+                    } else {
+                        //showSnackBar(requireView(), resources.getString(R.string.kobold_into_empty_phone), R.color.snackbar_error )
+                    }
+
                 }
             }
         }

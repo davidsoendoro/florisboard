@@ -21,6 +21,12 @@ object AppPersistence {
             thePrivate["applicationToken"] = value
         }
 
+    var refreshToken: String
+        get() = thePrivate["refreshToken"] ?: ""
+        set(value) {
+            thePrivate["refreshToken"] = value
+        }
+
     fun init(context: Application) {
         thePrivate = context.getSharedPreferences("private", Context.MODE_PRIVATE)
     }
