@@ -100,15 +100,12 @@ fun EditText.convertSeparatorToDouble(editText: EditText? = null, defaultSeparat
     else editText.text.toString().replace(defaultSeparator, "").toDouble()
 }
 
-fun EditText.showKeyboard(
-) {
-    requestFocus()
+fun EditText.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
-fun EditText.hideKeyboard(
-) {
+fun EditText.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(this.windowToken, 0)
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
