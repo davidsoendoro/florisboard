@@ -71,6 +71,7 @@ class LoginActivity : FragmentActivity() {
         }
 
         uiBinding.edittextPhoneTrigger.setOnClickListener {
+            uiBinding.edittextPhone.requestFocus()
             uiBinding.edittextPhone.showKeyboard()
         }
 
@@ -145,6 +146,7 @@ class LoginActivity : FragmentActivity() {
     private fun apiCallRequestOTP() {
         val phone = uiBinding.edittextPhone.text.toString()
         uiBinding.edittextPhoneTrigger.setText(phone)
+        uiBinding.edittextPhoneTrigger.isEnabled = false
         uiBinding.fullcreenLoading.isVisible = true
         uiBinding.edittextPhone.hideKeyboard()
 
@@ -158,10 +160,12 @@ class LoginActivity : FragmentActivity() {
                 uiBinding.fullcreenLoading.isVisible = false
                 uiBinding.edittextPhone.text?.clear()
                 uiBinding.edittextPhoneTrigger.text?.clear()
+                uiBinding.edittextPhoneTrigger.isEnabled = true
             },
             onError = {
                 uiBinding.edittextPhoneTrigger.text?.clear()
                 uiBinding.fullcreenLoading.isVisible = false
+                uiBinding.edittextPhoneTrigger.isEnabled = true
                 showToast(it)
             }
         )
