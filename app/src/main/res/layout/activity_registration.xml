@@ -26,9 +26,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/skip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:paddingEnd="20dp"
             android:text="Lewati"
             android:textColor="@color/text_ink01"
             android:textSize="14sp"
