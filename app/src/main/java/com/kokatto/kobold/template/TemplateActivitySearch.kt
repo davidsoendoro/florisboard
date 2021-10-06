@@ -15,11 +15,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
-import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.ActivityConstantCode
-import com.kokatto.kobold.dashboardcreatetransaction.DetailActivity
+import com.kokatto.kobold.extension.showKeyboard
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
@@ -63,7 +62,7 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
 
         buttonBack?.let { button -> button.setOnClickListener { onClicked(button) } }
         buttonClear?.let { button -> button.setOnClickListener { onClicked(button) } }
-        searchEdittext!!.requestFocus()
+        //searchEdittext!!.requestFocus()
         searchEdittext?.let { editText ->
             editText.setOnKeyListener { v, keyCode, event ->
                 onKeyEdit(
@@ -108,6 +107,10 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
                 chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
             }
         }
+
+        // init Keyboard
+        searchEdittext!!.requestFocus()
+        searchEdittext!!.showKeyboard()
     }
 
     private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
@@ -153,7 +156,6 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
                     chatTemplateRecycler!!.isVisible = true
                 } else {
                     isLoadingChatTemplate.set(false)
-
                     bottomLoading!!.isVisible = false
                 }
                 //contoh insert data
@@ -189,6 +191,8 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
 
     override fun onResume() {
         super.onResume()
-        performSearch(1, search = searchEdittext?.text.toString())
+        searchEdittext!!.requestFocus()
+        searchEdittext!!.showKeyboard()
+        //performSearch(1, search = searchEdittext?.text.toString())
     }
 }
