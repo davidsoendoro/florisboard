@@ -23,7 +23,6 @@ import com.kokatto.kobold.bank.BankViewModel
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
-import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerBankAdapter
 import com.kokatto.kobold.extension.RoundedBottomSheet
 import com.kokatto.kobold.extension.showToast
@@ -46,7 +45,8 @@ class SpinnerBankSelector : RoundedBottomSheet() {
     private var fullscreenLoading: LinearLayout? = null
 
     // get using API Function
-    private var selectedOption = BankModel("",BANK_TYPE_OTHER, CASH,"", "", "")
+    private var selectedOption : BankModel? = null
+    private var defaultBankCash = BankModel("",BANK_TYPE_OTHER, CASH,"", "", "")
     private var pickOptions = ArrayList<BankModel>()
 
     private val bankViewModel: BankViewModel = BankViewModel()
@@ -78,7 +78,7 @@ class SpinnerBankSelector : RoundedBottomSheet() {
         params?.height = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 240f, resources.displayMetrics).toInt()
         recyclerView?.layoutParams = params
 
-        recyclerView?.adapter = SpinnerBankAdapter(this, pickOptions, selectedOption) { result, type ->
+        recyclerView?.adapter = SpinnerBankAdapter(this, pickOptions, selectedOption!!) { result, type ->
 
             if(type == "onclick"){
                 onItemClick?.invoke(result)
@@ -111,11 +111,8 @@ class SpinnerBankSelector : RoundedBottomSheet() {
     }
 
     fun openSelector(fragmentManager: FragmentManager, selectedItem: BankModel) {
-        selectedItem.let {
-            if(it.accountNo.isNotBlank()){
-                selectedOption = selectedItem
-            }
-        }
+        selectedOption = selectedItem
+        recyclerView?.adapter?.notifyDataSetChanged()
         this.show(fragmentManager, TAG)
     }
 
@@ -129,8 +126,9 @@ class SpinnerBankSelector : RoundedBottomSheet() {
                 Timber.e(it.toString())
             },
             onSuccess = {
+                pickOptions.add(defaultBankCash) // adding cash for default payment
+
                 if (it.data.totalRecord > 0) {
-                    pickOptions.add(BankModel("", BANK_TYPE_OTHER, CASH,"Cash","", ""))
                     pickOptions.addAll(it.data.contents)
                     recyclerView?.adapter?.notifyDataSetChanged()
                     fullscreenLoading!!.isVisible = false

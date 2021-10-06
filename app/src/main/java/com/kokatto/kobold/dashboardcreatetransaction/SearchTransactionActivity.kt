@@ -15,6 +15,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
+import com.kokatto.kobold.extension.showKeyboard
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivityInput
@@ -56,7 +57,7 @@ class SearchTransactionActivity : AppCompatActivity() , TransactionHomeRecyclerA
 
         buttonBack?.let { button -> button.setOnClickListener { onClicked(button) } }
         buttonClear?.let { button -> button.setOnClickListener { onClicked(button) } }
-        searchEdittext!!.requestFocus()
+        //searchEdittext!!.requestFocus()
         searchEdittext?.let { editText ->
             editText.setOnKeyListener { v, keyCode, event ->
                 onKeyEdit(
@@ -93,6 +94,9 @@ class SearchTransactionActivity : AppCompatActivity() , TransactionHomeRecyclerA
         ).run {
             threshold = 3
         }
+
+        searchEdittext!!.requestFocus()
+        searchEdittext!!.showKeyboard()
     }
 
     private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
@@ -161,5 +165,11 @@ class SearchTransactionActivity : AppCompatActivity() , TransactionHomeRecyclerA
             putExtra(DetailActivity.EXTRA_DATA, data)
             startActivity(this)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchEdittext!!.requestFocus()
+        searchEdittext!!.showKeyboard()
     }
 }
