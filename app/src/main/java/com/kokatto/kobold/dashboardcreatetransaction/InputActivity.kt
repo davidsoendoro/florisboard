@@ -294,7 +294,6 @@ class InputActivity : AppCompatActivity() {
                 _id = _id,
                 buyer = editTextBuyer?.text.toString(),
                 channel = editTextChannel?.text.toString(),
-                channelAsset = selectedChannel?.assetUrl.toString(),
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
@@ -303,9 +302,7 @@ class InputActivity : AppCompatActivity() {
                 bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),
                 bankAccountName = selectedBank?.accountHolder.toString(),
-                bankAsset = selectedBank?.asset.toString(),
                 logistic = editTextLogistic?.text.toString(),
-                logisticAsset = selectedLogistic?.assetUrl.toString(),
                 deliveryFee = deliveryFee,
             )
 
