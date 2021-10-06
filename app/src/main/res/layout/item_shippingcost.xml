@@ -69,6 +69,7 @@
                 android:text="Rp8.500"
                 android:textColor="#B6B6B6"
                 android:textSize="12sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/item_text_price"
                 app:layout_constraintTop_toTopOf="parent" />

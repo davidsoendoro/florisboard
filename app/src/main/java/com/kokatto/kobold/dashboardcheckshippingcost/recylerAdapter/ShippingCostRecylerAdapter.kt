@@ -45,7 +45,7 @@ class ShippingCostRecylerAdapter(
 
         fun bindViewHolder(data: DeliveryFeeModel) {
 
-            item_text_price.text = "${CurrencyUtility.currencyFormatter(data.price)}"
+            item_text_price.text = "${CurrencyUtility.currencyFormatter(data.price_original)}"
             item_text_price_sub.text = "${CurrencyUtility.currencyFormatter(data.price_original)}"
             item_text_courier.text = "${data.service_name}  •"
             item_text_period.text = data.eta.toString()

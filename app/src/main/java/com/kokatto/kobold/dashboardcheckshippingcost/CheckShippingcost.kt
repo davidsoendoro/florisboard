@@ -206,7 +206,7 @@ class CheckShippingcost : AppCompatActivity() {
 
             var message = ""
             selectedDataList.forEach { model ->
-                message += "${model.service} - ${CurrencyUtility.currencyFormatter(model.price)}・${model.service} (${model.eta})\n\n"
+                message += "${model.service} - ${CurrencyUtility.currencyFormatter(model.price_original)}・${model.service} (${model.eta})\n\n"
             }
 
             if (message != "") {
