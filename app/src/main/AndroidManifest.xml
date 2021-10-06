@@ -181,6 +181,16 @@
         <activity
             android:name=".bank.BankInputActivity"
             android:exported="true"/>
+        <activity
+            android:name=".dashboard.DashboardActivity"
+            android:exported="true"
+            android:label="Kobold Dashboard"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Login  -->
         <activity

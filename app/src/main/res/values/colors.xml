@@ -76,8 +76,12 @@
     <color name="washedout_background">#F7F7F7</color>
     <color name="textBlack">#141414</color>
     <color name="background_subtle">#F2F2F2</color>
+    <color name="kobold_blue_background">#ECF3FF</color>
+    <color name="transparent">#00000000</color>
+    <color name="kobold_yellow_background">#FBF9F3</color>
+    <color name="kobold_grape_background">#F5F5F7</color>
     <color name="background_highlight">#F0F5FF</color>
-    i
+
     <color name="snackbar_default">#2E2E2E</color>
     <color name="snackbar_error">#CB0B04</color>
 
