@@ -85,6 +85,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/kobold_DashboardManageTransactionLayout"
                     style="@style/kobold_card_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,6 +149,7 @@
                 android:text="@string/kobold_dashboard_profit_support_tools_label" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/kobold_DashboardSellerKeyboardLayout"
                 style="@style/kobold_card_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -227,6 +229,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/kobold_DashboardChatTemplateLayout"
                 style="@style/kobold_card_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -277,6 +280,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/kobold_CheckDeliveryFeeLayout"
                 style="@style/kobold_card_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -327,6 +331,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/kobold_DashboardDeliverOrderLayout"
                 style="@style/kobold_card_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
