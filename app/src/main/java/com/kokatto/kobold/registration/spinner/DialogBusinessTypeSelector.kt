@@ -109,9 +109,8 @@ class DialogBusinessTypeSelector : RoundedBottomSheet(), DialogBusinessTypeAdapt
     override fun onDismiss(dialog: DialogInterface) {
         if (fromSubmitButton.not())
             businessTypeList.forEach { it.isSelected = false }
-
-
-        onBusinessTypeClicked?.onDataBusinessTypePass(businessTypeList)
+        else
+            onBusinessTypeClicked?.onDataBusinessTypePass(businessTypeList)
 
         super.onDismiss(dialog)
     }
