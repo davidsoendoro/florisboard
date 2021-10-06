@@ -26,7 +26,9 @@
         </activity>
         <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name=".dashboardcreatetransaction.ArchiveActivity"
             android:exported="true" /> <!-- IME service -->
@@ -87,6 +89,7 @@
         <activity
             android:name=".template.TemplateActivitySearch"
             android:icon="@mipmap/floris_app_icon"
+            android:windowSoftInputMode="adjustResize"
             android:roundIcon="@mipmap/floris_app_icon_round" /> <!-- User Dictionary Manager Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.UdmActivity"
@@ -159,7 +162,6 @@
             android:label="Kobold Shipping Cost">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
