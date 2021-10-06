@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
@@ -18,6 +19,16 @@ import com.kokatto.kobold.login.dialog.DialogCancelRegister
 import com.kokatto.kobold.login.dialog.DialogChangeNumber
 import com.kokatto.kobold.login.dialog.DialogLoading
 import com.kokatto.kobold.persistance.AppPersistence
+import android.content.Intent
+import android.view.KeyEvent
+import android.view.View
+import com.kokatto.kobold.R
+import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
+import com.kokatto.kobold.extension.hideKeyboard
+import com.kokatto.kobold.extension.showKeyboard
+import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.registration.RegistrationActivity
+
 
 class OtpActivity : AppCompatActivity() {
 
@@ -30,6 +41,7 @@ class OtpActivity : AppCompatActivity() {
     private var time_in_milli_seconds = 0L
 
     private var authenticationViewModel: AuthenticationViewModel? = AuthenticationViewModel()
+    private var imm: InputMethodManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +58,7 @@ class OtpActivity : AppCompatActivity() {
         }
 
         uiBinding.changeButton.setOnClickListener {
+            uiBinding.edittextOtp1.hideKeyboard()
             showChangeNumberDialog()
         }
 
@@ -59,6 +72,10 @@ class OtpActivity : AppCompatActivity() {
         itemViews.add(uiBinding.edittextOtp3)
         itemViews.add(uiBinding.edittextOtp4)
         itemViews.add(uiBinding.edittextOtp5)
+
+        for(view in itemViews){
+            view.setOnKeyListener { v, keyCode, event -> onKeyEdit(v, keyCode, event) }
+        }
 
         uiBinding.edittextOtp1.addTextChangedListener(CustomTextWatcher(
             afterChanged = {
@@ -128,6 +145,10 @@ class OtpActivity : AppCompatActivity() {
 
         setDefaultColor()
         startTimer(START_MILLI_SECONDS)
+        //imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        //imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        uiBinding.edittextOtp1.showKeyboard()
+        uiBinding.edittextOtp1.requestFocus()
     }
 
     private fun submitOTP() {
@@ -143,11 +164,13 @@ class OtpActivity : AppCompatActivity() {
             model,
             onSuccess = {
                 AppPersistence.token = it.data.token
+                AppPersistence.refreshToken = it.data.refreshToken
                 loading.isDismiss()
-                showToast("SUCCESS")
-
+                startActivity(Intent(this, RegistrationActivity::class.java))
             },
             onError = {
+                loading.isDismiss()
+                setErrorColor()
                 showToast(it)
             }
         )
@@ -158,7 +181,18 @@ class OtpActivity : AppCompatActivity() {
         dialog.openDialog(supportFragmentManager)
 
         dialog.onComplete = {
+            uiBinding.textviewPhone.setText(it)
+
+            for (v in itemViews){
+                v.text?.clear()
+            }
+
             resendOTP(it)
+
+        }
+
+        dialog.onClose = {
+            //imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         }
 
     }
@@ -167,15 +201,13 @@ class OtpActivity : AppCompatActivity() {
         authenticationViewModel?.requestOTP(
             phone,
             onSuccess = {
-                   //  show message
+                showSnackBar(uiBinding.rootLayout, "Kode Rahasia berhasil dikirim ulang")
+                resetTimer()
             },
             onError = {
                 showToast(it)
             }
         )
-
-        resetTimer()
-
     }
 
     private fun confirmCancel() {
@@ -273,6 +305,41 @@ class OtpActivity : AppCompatActivity() {
         return itemViews.map { editText -> editText.text.toString() }.joinToString("")
     }
 
+    private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
+        when (view.id) {
+            R.id.edittext_otp1 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp1.text.toString().length <= 0) {
+                    return true
+                }
+            }
+            R.id.edittext_otp2 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp2.text.toString().length <= 0) {
+                    uiBinding.edittextOtp1.requestFocus()
+                    return true
+                }
+            }
+            R.id.edittext_otp3 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp3.text.toString().length <= 0) {
+                    uiBinding.edittextOtp2.requestFocus()
+                    return true
+                }
+            }
+            R.id.edittext_otp4 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp4.text.toString().length <= 0) {
+                    uiBinding.edittextOtp3.requestFocus()
+                    return true
+                }
+            }
+            R.id.edittext_otp5 -> {
+                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp5.text.toString().length <= 0) {
+                    uiBinding.edittextOtp4.requestFocus()
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
     inner class CustomTextWatcher(
         private val afterChanged: ((Editable?) -> Unit) = {},
         private val beforeChanged: ((CharSequence?, Int, Int, Int) -> Unit) = { _, _, _, _ -> },
@@ -290,5 +357,6 @@ class OtpActivity : AppCompatActivity() {
             onChanged(s, start, before, count)
         }
     }
+
 
 }

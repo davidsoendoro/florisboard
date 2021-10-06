@@ -141,6 +141,7 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
         layoutEmpty?.isVisible = true
         layoutNotFound?.isVisible = false
         buttonClear?.isVisible = false
+        searchEdittext!!.requestFocus()
     }
 
     private fun callAPIShippingAddress(address: String = "") {

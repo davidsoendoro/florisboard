@@ -17,7 +17,7 @@ class DialogLoading(val mActivity: Activity) {
         bulider.setView(dialogView)
         bulider.setCancelable(false)
         isdialog = bulider.create()
-       // isdialog.window?.getDecorView()?.setBackgroundResource(android.R.color.transparent);
+        isdialog.window?.getDecorView()?.setBackgroundResource(android.R.color.transparent);
         isdialog.show()
     }
 

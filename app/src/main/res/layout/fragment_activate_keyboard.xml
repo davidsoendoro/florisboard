@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_activate_keyboard_background"
+    android:padding="@dimen/kobold_margin_12px"
+    android:layout_margin="@dimen/kobold_margin_12px"
+    android:paddingHorizontal="@dimen/kobold_margin_32px"
+    tools:context=".dashboard.ActivateKeyboardFragment">
+
+    <TextView
+        android:id="@+id/kobold_ActivateKeyboardHeader"
+        style="@style/kobold_primaryLabel18spBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kobold_activate_keyboard_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kobold_ActivateKeyboardPageText"
+        style="@style/kobold_subduedLabel10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2/2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kobold_ActivateKeyboardDetail"
+        style="@style/kobold_secondaryLabel14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kobold_activate_keyboard_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kobold_ActivateKeyboardHeader" />
+
+    <Button
+        android:id="@+id/kobold_ActivateKeyboardBecomeProfitMasterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_16px"
+        android:backgroundTint="@color/kobold_blue_button"
+        android:text="@string/kobold_activate_keyboard"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/kobold_ActivateKeyboardDetail" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_16px"
+        android:layout_marginStart="@dimen/kobold_margin_16px"
+        android:text="@string/kobold_later"
+        android:textAllCaps="false"
+        android:background="#00000000"
+        style="@style/kobold_keyboard_transparent_button"
+        app:layout_constraintStart_toEndOf="@+id/kobold_ActivateKeyboardBecomeProfitMasterButton"
+        app:layout_constraintTop_toBottomOf="@id/kobold_ActivateKeyboardDetail" />
+</androidx.constraintlayout.widget.ConstraintLayout>

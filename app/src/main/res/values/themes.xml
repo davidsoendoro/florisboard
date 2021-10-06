@@ -64,4 +64,13 @@
 
     <style name="CrashDialogTheme" parent="Theme.MaterialComponents.DayNight"/>
 
+    <style name="SettingsTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="SettingsTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="SettingsTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
