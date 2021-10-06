@@ -766,6 +766,7 @@
     <string name="kobold_into_slide2_desc">Kelola pembeli, bikin transaksi, kirim resi \npembayaran bisa sambil ngobrol tanpa pindah \naplikasi.</string>
     <string name="kobold_into_slide3_title">Alat tempur jualan online untuk siapapun</string>
     <string name="kobold_into_slide3_desc">Semua fitur di Konekin dirancang untuk \nmemudahkan jualan online siapa saja, \npedagang besar, warung, perintis, semuanya!</string>
+    <string name="kobold_into_empty_phone">Nomor WhatsApp wajib diisi</string>
     <string name="registration_header_title">Kenalan Yuk!</string>
     <string name="registration_store_name">Nama Tokomu</string>
     <string name="registration_business_field_title">Bidang Bisnis</string>
@@ -777,6 +778,7 @@
 
     <string name="kobold_otp_page_title">Verifikasi Nomor</string>
     <string name="kobold_otp_form_title">Masukkan Kode Rahasia yang\nditerima via WhatsApp di:</string>
+    <string name="kobold_otp_resend_success">Kode Rahasia berhasil dikirim ulang</string>
     <string name="kobold_otp_resend_info">Belum terima kode?</string>
     <string name="kobold_otp_resend_action">Kirim ulang</string>
     <string name="kobold_cancel_registration_title">Batalkan pendaftaran?</string>
