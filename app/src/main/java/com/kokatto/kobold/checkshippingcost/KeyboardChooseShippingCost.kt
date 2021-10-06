@@ -2,7 +2,6 @@ package com.kokatto.kobold.checkshippingcost
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -85,6 +84,8 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         if (changedView == this && visibility == View.VISIBLE && florisboard?.koboldState == FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD) {
+            shippingCostViewModel = ShippingCostViewModel()
+
             senderAddress?.let { _senderAddress ->
                 receiverAddress?.let { _receiverAddress ->
                     shippingCostViewModel?.getListDeliveryFee(
@@ -95,14 +96,16 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
                         toDistrict = _receiverAddress.district,
                         toPostalcode = _receiverAddress.postalcode,
                         weight = weight,
+                        onLoading = {
+                            fullscreenLoading?.isVisible = it
+                            chooseCourierRecyclerView?.isVisible = it.not()
+                        },
                         onSuccess = {
-                            fullscreenLoading?.isVisible = false
-                            chooseCourierRecyclerView?.isVisible = true
-
                             val initialSize = chooseCourierList.size
                             chooseCourierList.addAll(it.data.format())
                             Timber.e("courierlist: $chooseCourierList")
-                            adapter?.notifyItemRangeInserted(initialSize, it.data.size)
+                            adapter?.notifyDataSetChanged()
+//                            adapter?.notifyItemRangeInserted(initialSize, it.data.size)
                         },
                         onError = {
                             fullscreenLoading?.isVisible = false
@@ -115,6 +118,7 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
             }
         } else {
             chooseCourierList.clear()
+            shippingCostViewModel?.onDestroy()
 
             fullscreenLoading?.isVisible = true
             chooseCourierRecyclerView?.isVisible = false

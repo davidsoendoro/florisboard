@@ -269,6 +269,7 @@ class CheckShippingcost : AppCompatActivity() {
             toDistrict = shippingcost.receiverAddress.district,
             toPostalcode = shippingcost.receiverAddress.postalcode,
             weight = shippingcost.packageWeight * 1000,
+            onLoading = {},
             onSuccess = { it ->
                 if (it.data.size > 0) {
                     val sorted = it.data.sortedBy { model -> model.service }
