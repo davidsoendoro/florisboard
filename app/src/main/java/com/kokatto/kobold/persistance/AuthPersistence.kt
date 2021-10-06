@@ -1,8 +1,8 @@
 package com.kokatto.kobold.persistance
 
 interface AuthPersistence {
-    var accessToken: String?
+    var token: String?
+    var refreshToken: String?
     var expiresIn: Long?
-    var firebaseToken: String?
     fun clear()
 }

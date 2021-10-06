@@ -41,6 +41,7 @@
     <color name="text_color_white">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
 
+    <color name="text_ink01">#1843A1</color>
     <color name="text_primary">#141414</color>
     <color name="text_disabled">#B6B6B6</color>
     <color name="text_secondary">#3D3D3D</color>
@@ -79,6 +80,8 @@
     <color name="transparent">#00000000</color>
     <color name="kobold_yellow_background">#FBF9F3</color>
     <color name="kobold_grape_background">#F5F5F7</color>
+    <color name="background_highlight">#F0F5FF</color>
+
     <color name="snackbar_default">#2E2E2E</color>
     <color name="snackbar_error">#CB0B04</color>
 

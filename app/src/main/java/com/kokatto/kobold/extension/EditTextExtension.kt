@@ -1,7 +1,9 @@
 package com.kokatto.kobold.extension
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import java.lang.Exception
 import java.text.DecimalFormat
@@ -96,4 +98,14 @@ fun EditText.onTextChanged(listener: (String) -> Unit) {
 fun EditText.convertSeparatorToDouble(editText: EditText? = null, defaultSeparator: String = ".") : Double {
     return if(editText == null || editText.text.toString().isEmpty()) 0.0
     else editText.text.toString().replace(defaultSeparator, "").toDouble()
+}
+
+fun EditText.showKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+fun EditText.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
