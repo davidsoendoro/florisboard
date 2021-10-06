@@ -14,14 +14,15 @@ import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
 import com.kokatto.kobold.utility.CurrencyUtility
+import kotlin.math.log
 
 class ShippingCostRecylerAdapter(
-    private var lastService: String? = null,
     private val context: Context,
     val dataList: ArrayList<DeliveryFeeModel> = arrayListOf(),
     val selectedDataList: ArrayList<DeliveryFeeModel> = arrayListOf(),
 ) : RecyclerView.Adapter<ShippingCostRecylerAdapter.ViewHolder>() {
 
+    private var lastService: String? = null
     var onItemClick: ((item: DeliveryFeeModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,14 +44,14 @@ class ShippingCostRecylerAdapter(
         private val item_text_courier = item.findViewById<TextView>(R.id.item_text_courier)
         private val item_text_period = item.findViewById<TextView>(R.id.item_text_period)
 
-        fun bindViewHolder(data: DeliveryFeeModel) {
-
+        fun bindViewHolder(data: DeliveryFeeModel, position: Int) {
             item_text_price.text = "${CurrencyUtility.currencyFormatter(data.price_original)}"
             item_text_price_sub.text = "${CurrencyUtility.currencyFormatter(data.price_original)}"
             item_text_courier.text = "${data.service_name}  •"
             item_text_period.text = data.eta.toString()
 
             if(lastService == null || lastService != data.service){
+
                 service_logo?.let {
                     Glide.with(context)
                         .load(data.service_logo)
@@ -92,10 +93,14 @@ class ShippingCostRecylerAdapter(
                 lastService = null
                 onItemClick?.invoke(data)
             }
+
+            if(position == (dataList.size - 1)){
+                lastService = null
+            }
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindViewHolder(dataList[position])
+        holder.bindViewHolder(dataList[position], position)
     }
 }
