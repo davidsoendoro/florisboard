@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
@@ -114,6 +115,8 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
                     transactionModel.channel = result.label
                     selectedChannelOptions = result
+
+                    Glide.with(this).load(result.assetUrl).into(chooseChannelText!!.imageLeft)
                 },
                 "Pilih Channel"
             )
@@ -244,6 +247,9 @@ class KeyboardCreateTransaction : ConstraintLayout {
 //            clear edittext
             buyerNameText?.editText?.text = ""
             chooseChannelText?.editText?.text = ""
+            chooseChannelText?.imageLeft?.setImageResource(0)
+//            or
+//            chooseChannelText?.imageLeft?.setImageResource(android.R.color.transparent)
             selectedChannelOptions = SpinnerEditorWithAssetItem("")
             phoneNumberText?.editText?.text = ""
             addressText?.editText?.text = ""
