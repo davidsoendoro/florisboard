@@ -2,8 +2,13 @@ package com.kokatto.kobold.registration
 
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
@@ -11,9 +16,12 @@ import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.BusinessTypeModel
 import com.kokatto.kobold.api.model.basemodel.toBundle
 import com.kokatto.kobold.api.model.basemodel.toTextFormat
+import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.extension.createBottomSheetDialog
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 import com.kokatto.kobold.registration.spinner.DialogBusinessTypeSelector
+import com.kokatto.kobold.registration.viewmodel.MerchantViewModel
 
 class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.OnBusinessFieldClicked,
     DialogBusinessTypeSelector.OnBusinessTypeClicked {
@@ -23,6 +31,8 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
         val BUSINESS_TYPE_TAG = "businesstype"
     }
 
+    var merchantViewModel: MerchantViewModel? = null
+
     var storeName: EditText? = null
     var storeNameError: TextView? = null
 
@@ -31,9 +41,14 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
     var skipButton: TextView? = null
     var businessFieldList = arrayListOf<BusinessFieldModel>()
     var businessTypeList = arrayListOf<BusinessTypeModel>()
+    var submitButton: CardView? = null
+    var mainLayout: ConstraintLayout? = null
+    var fullscreenLoading: LinearLayout? = null
 
     var businessTypeLayout: TextInputLayout? = null
     var businessTypeEditText: EditText? = null
+
+    var createMerchantRequest: PostCreateMerchantRequest? = null
 
     private var spinnerBusinessFieldSelector: DialogBusinessFieldSelector? = DialogBusinessFieldSelector()
     private var spinnerBusinessTypeSelector: DialogBusinessTypeSelector? = DialogBusinessTypeSelector()
@@ -41,6 +56,8 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+
+        merchantViewModel = MerchantViewModel()
 
         storeName = findViewById(R.id.edittext_storename)
         storeNameError = findViewById(R.id.edittext_storename_error)
@@ -50,11 +67,21 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
 
         businessTypeLayout = findViewById(R.id.edittext_business_type_layout)
         businessTypeEditText = findViewById(R.id.edittext_business_type)
+        submitButton = findViewById(R.id.submit_button)
+        mainLayout = findViewById(R.id.main_layout)
+        fullscreenLoading = findViewById(R.id.fullcreen_loading)
+
+        createMerchantRequest = PostCreateMerchantRequest()
 
         skipButton = findViewById(R.id.skip_button)
 
         skipButton?.setOnClickListener {
             createConfirmationDialog()
+        }
+
+        storeName?.doAfterTextChanged {
+            createMerchantRequest?.name = it.toString()
+            isSaveButtonValid()
         }
 
         businessFieldEditText?.setOnClickListener {
@@ -70,6 +97,24 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
             spinnerBusinessTypeSelector?.arguments = businessTypeList.toBundle()
             spinnerBusinessTypeSelector?.show(supportFragmentManager, BUSINESS_TYPE_TAG)
         }
+
+        submitButton?.setOnClickListener {
+
+            if (isSaveButtonValid()) {
+                merchantViewModel?.createMerchant(
+                    createMerchantRequest!!,
+                    onLoading = {
+                        fullscreenLoading?.isVisible = it
+                        mainLayout?.isVisible = it.not()
+                    },
+                    onSuccess = {
+                        showSnackBar("Merchant created")
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    })
+            }
+        }
     }
 
     override fun onDataBusinessFieldPass(data: ArrayList<BusinessFieldModel>) {
@@ -78,12 +123,10 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
 
         val temp = businessFieldList.filter { it.isSelected }
         businessFieldEditText?.setText(temp.toTextFormat())
-    }
 
-    override fun onDestroy() {
-        businessFieldList.clear()
-
-        super.onDestroy()
+        createMerchantRequest?.businessField = listOf()
+        createMerchantRequest?.businessField = businessFieldList.filter { it.isSelected }.map { it.filedName }
+        isSaveButtonValid()
     }
 
     override fun onDataBusinessTypePass(data: ArrayList<BusinessTypeModel>) {
@@ -92,6 +135,9 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
 
         val temp = businessTypeList.filter { it.isSelected }
         businessTypeEditText?.setText(temp.toTextFormat())
+
+        createMerchantRequest?.businessType = temp.toTextFormat()
+        isSaveButtonValid()
     }
 
     private fun createConfirmationDialog() {
@@ -106,10 +152,7 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
         val discardButton = bottomDialog.findViewById<MaterialCardView>(R.id.cancel_button)
 
         acceptButton?.setOnClickListener {
-//            hotelNavigationArgs.contactDetail = contactDetails
-//            hotelNavigationArgs.guestDetail = guestDetails
-//            hotelNavigationArgs.isContactSameAsGuest = binding.contactSameasGuestSwitch.isChecked
-//            hotelViewModel.postCreateBookingHotel(createPostCreateBookingHotel())
+
 
             bottomDialog.dismiss()
         }
@@ -119,5 +162,24 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
         }
 
         bottomDialog.show()
+    }
+
+    fun isSaveButtonValid(): Boolean {
+        var isInputValid =
+            createMerchantRequest!!.name != "" && createMerchantRequest!!.businessField.isNotEmpty() && createMerchantRequest!!.businessType != ""
+
+        if (isInputValid)
+            submitButton!!.setBackgroundColor(resources.getColor(R.color.kobold_blue_button))
+        else
+            submitButton!!.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
+
+        return isInputValid
+    }
+
+    override fun onDestroy() {
+        businessFieldList.clear()
+        merchantViewModel?.onDestroy()
+
+        super.onDestroy()
     }
 }

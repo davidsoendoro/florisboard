@@ -109,11 +109,9 @@ class DialogBusinessFieldSelector : RoundedBottomSheet(), DialogBusinessFieldAda
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        if (fromSubmitButton.not())
-            businessFieldList.forEach { it.isSelected = false }
-
-
-        onBusinessFieldClicked?.onDataBusinessFieldPass(businessFieldList)
+        if (fromSubmitButton.not()) {
+        } else
+            onBusinessFieldClicked?.onDataBusinessFieldPass(businessFieldList)
 
         super.onDismiss(dialog)
     }

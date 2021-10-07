@@ -48,19 +48,31 @@ class ShippingCostViewModel {
         toDistrict: String,
         toPostalcode: String,
         weight: Int,
+        onLoading: (Boolean) -> Unit,
         onSuccess: (GetListDeliveryFeeResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
-            val response = Network.deliveryApi.getListDeliveryFee(fromCity, fromDistrict, fromPostalcode, toCity
-                ,toDistrict, toPostalcode, weight)
+            onLoading.invoke(true)
+            val response = Network.deliveryApi.getListDeliveryFee(
+                fromCity,
+                fromDistrict,
+                fromPostalcode,
+                toCity,
+                toDistrict,
+                toPostalcode,
+                weight
+            )
             response.onSuccess {
+                onLoading.invoke(false)
                 onSuccess.invoke(this.data)
             }.onError {
+                onLoading.invoke(false)
                 println("ERROR Response :: ${this.errorBody}")
                 println("ERROR Response :: ${this.response.errorBody()}")
                 onError.invoke(this.message())
             }.onException {
+                onLoading.invoke(false)
                 onError.invoke(this.message ?: "Unknown Error")
             }
         }

@@ -46,6 +46,16 @@ fun Activity.showSnackBar(
     snackbar.show()
 }
 
+fun Activity.showSnackBar(
+    message: String = "",
+    backgroundColor: Int = R.color.snackbar_default,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
+    val snackbar = Snackbar.make(this.window.decorView, message, duration)
+    snackbar.setBackgroundTint(resources.getColor(backgroundColor))
+    snackbar.show()
+}
+
 fun View.showSnackBar(
     message: String = "",
     backgroundColor: Int = R.color.snackbar_default,
