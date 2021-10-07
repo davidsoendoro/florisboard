@@ -76,7 +76,7 @@ class DashboardActivity : AppCompatActivity() {
                 startActivity(Intent(this@DashboardActivity, TemplateActivity::class.java))
             }
 
-            koboldCheckDeliveryFeeLayout.setOnClickListener{
+            koboldCheckDeliveryFeeLayout.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, CheckShippingcost::class.java))
             }
             koboldDashboardContactCustomerServiceButton.setOnClickListener {
@@ -86,6 +86,17 @@ class DashboardActivity : AppCompatActivity() {
             koboldDashboardDeliverOrderLayout.setOnClickListener {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.bukalapak.com/bukasend/"))
                 startActivity(browserIntent)
+            }
+
+            koboldDashboardSellerKeyboardWatchVideoButton.setOnClickListener {
+                //TODO: change youtube url
+                val intent =
+                    Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/c/bukalapak/videos"))
+                startActivity(intent)
+            }
+
+            koboldDashboardSellerKeyboardActivateButton.setOnClickListener {
+                startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
         }
 
