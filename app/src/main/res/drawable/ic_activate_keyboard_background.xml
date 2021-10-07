@@ -9,4 +9,10 @@
     <item
         android:gravity="center|top"
         android:drawable="@drawable/ic_confetti"/>
+    <item
+        android:gravity="bottom|start"
+        android:drawable="@drawable/img_small_logo_whatsapp"
+        android:height="104dp"
+        android:width="104dp"
+    />
 </layer-list>
