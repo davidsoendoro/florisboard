@@ -53,6 +53,8 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:maxLines="1"
+                    android:singleLine="true"
+                    android:imeOptions="actionSearch"
                     android:paddingStart="@dimen/kobold_margin_8px"
                     android:paddingVertical="@dimen/kobold_margin_8px"
                     android:textCursorDrawable="@drawable/black_cursor"

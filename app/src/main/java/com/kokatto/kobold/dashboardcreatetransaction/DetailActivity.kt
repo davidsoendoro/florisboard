@@ -641,7 +641,8 @@ class DetailActivity : AppCompatActivity() {
 
         if (intent != null) {
             // We found the activity now start the activity
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.setFlags(0);
             context.startActivity(intent)
             showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
         } else {

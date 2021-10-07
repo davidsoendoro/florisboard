@@ -92,7 +92,7 @@ class CheckShippingcost : AppCompatActivity() {
         recyclerView?.layoutManager = LinearLayoutManager(this)
         recyclerView?.setHasFixedSize(true)
 
-        recyclerAdapter = ShippingCostRecylerAdapter(lastPosition, this, shippingCostDataList, selectedDataList)
+        recyclerAdapter = ShippingCostRecylerAdapter(this, shippingCostDataList, selectedDataList)
         recyclerAdapter?.onItemClick = {
             if (selectedDataList.contains(it)) {
                 selectedDataList.remove(it)
@@ -206,7 +206,7 @@ class CheckShippingcost : AppCompatActivity() {
 
             var message = ""
             selectedDataList.forEach { model ->
-                message += "${model.service} - ${CurrencyUtility.currencyFormatter(model.price)}・${model.service} (${model.eta})\n\n"
+                message += "${model.service} - ${CurrencyUtility.currencyFormatter(model.price_original)}・${model.service} (${model.eta})\n\n"
             }
 
             if (message != "") {
@@ -270,11 +270,13 @@ class CheckShippingcost : AppCompatActivity() {
             toPostalcode = shippingcost.receiverAddress.postalcode,
             weight = shippingcost.packageWeight * 1000,
             onSuccess = { it ->
+                lastPosition = null
                 if (it.data.size > 0) {
                     val sorted = it.data.sortedBy { model -> model.service }
                     shippingCostDataList.addAll(sorted)
                     recyclerAdapter!!.notifyDataSetChanged()
                     infoLayout?.isVisible = true
+
                 } else {
                     showSnackBar(
                         findViewById(R.id.parent_layout),
