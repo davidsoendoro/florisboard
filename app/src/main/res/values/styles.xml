@@ -411,6 +411,11 @@
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/text_subdued</item>
     </style>
+    <style name="informationalLabel14sp">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_informational</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="kobold_primaryLabel16sp">
         <item name="android:textSize">16sp</item>

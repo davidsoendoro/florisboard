@@ -815,5 +815,8 @@
     <string name="kobold_cancel_registration_action_cancel">Nanti saja</string>
     <string name="kobold_otp_change_number">Ganti Nomor</string>
     <string name="kobold_otp_change_number_hint">Masukkan nomor WhatsApp</string>
+    <string name="kobold_activate_magical_keyboard">Aktifin Keyboard Ajaib</string>
+    <string name="kobold_activate_magical_keyboard_header">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
+    <string name="kobold_dashboard_manage_transaction">Atur Transaksi</string>
 
 </resources>

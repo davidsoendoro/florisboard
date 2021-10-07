@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.kokatto.kobold.R
@@ -45,24 +46,13 @@ class DashboardActivity : AppCompatActivity() {
         if (totalFragments == 0) {
             binding.koboldDashboardContent.koboldDashboardWelcomeViewPager.visibility = View.GONE
         }
-//        viewPager?.let{
-//            it.registerOnPageChangeCallback((object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageScrolled(
-//                position: Int,
-//                positionOffset: Float,
-//                positionOffsetPixels: Int
-//            ) {
-//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-//                if (position > 0 && positionOffset == 0.0f && positionOffsetPixels == 0) {
-//                    it.layoutParams.height =
-//                        it.getChildAt(0).height
-//                }
-//            }
-//        }))
-//        }
 
         viewPager?.adapter = adapter
 
+        binding.koboldDashboardSettingsButton.setOnClickListener {
+            //TODO: change activity after ready
+            Toast.makeText(this, "Activity still not ready", Toast.LENGTH_LONG).show()
+        }
         binding.koboldDashboardContent.apply {
             koboldDashboardSellerKeyboardActivateButton.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
@@ -96,6 +86,10 @@ class DashboardActivity : AppCompatActivity() {
             }
 
             koboldDashboardSellerKeyboardActivateButton.setOnClickListener {
+                startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
+            }
+
+            koboldDashboardActivateMagicKeyboardBannerBtn.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
         }
