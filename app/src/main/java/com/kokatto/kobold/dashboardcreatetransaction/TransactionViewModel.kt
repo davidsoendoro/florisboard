@@ -30,8 +30,6 @@ class TransactionViewModel {
         onError: (String) -> Unit
     ) {
         scope.launch {
-//            delay(5000)
-
             onLoading.invoke(true)
             val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, status, search)
             response.onSuccess {
