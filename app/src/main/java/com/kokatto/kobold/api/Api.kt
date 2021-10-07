@@ -245,5 +245,5 @@ interface MerchantApi {
     suspend fun getBusinessField(): ApiResponse<GetBusinessFieldResponse>
 
     @POST(merchantUrl + "create")
-    suspend fun postCreateMerchant(request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
+    suspend fun postCreateMerchant(@Body request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
 }

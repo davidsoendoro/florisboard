@@ -20,6 +20,7 @@ import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_BANK
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
 import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.databinding.ActivityBankInputBinding
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -351,7 +352,7 @@ class BankInputActivity : AppCompatActivity() {
             },
             onError = {
                 progressSubmit(false)
-                showToast(it)
+                showSnackBar(uiBinding.rootLayout, resources.getString(R.string.kobold_bank_maximum), R.color.snackbar_error)
             }
         )
     }

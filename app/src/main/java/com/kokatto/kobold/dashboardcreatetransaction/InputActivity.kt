@@ -66,11 +66,9 @@ class InputActivity : AppCompatActivity() {
 
     private var mode: Int? = -1
     private var isValidFormArray: BooleanArray = BooleanArray(7)
-    private var isEditable: Boolean = true
     private var isLoading: Boolean = false
-    private var extraID: String = ""
 
-    private var selectedBank: BankModel? = null
+    private var selectedBank: BankModel = BankModel("", BANK_TYPE_OTHER, "Cash", "", "", "")
     private var selectedLogistic: PropertiesModel? = null
     private var selectedChannel: PropertiesModel? = null
     private var currentTransaction: TransactionModel? = null
@@ -180,12 +178,7 @@ class InputActivity : AppCompatActivity() {
 
         editTextPayment?.setOnClickListener {
             spinnerBankSelector = SpinnerBankSelector().newInstance()
-
-            if (selectedBank == null) {
-                selectedBank = BankModel("", BANK_TYPE_OTHER, "Cash", "", "", "")
-            }
-
-            spinnerBankSelector?.openSelector(supportFragmentManager, selectedBank!!)
+            spinnerBankSelector?.openSelector(supportFragmentManager, selectedBank)
             spinnerBankSelector?.onItemClick = {
                 selectedBank = it
 
@@ -301,7 +294,6 @@ class InputActivity : AppCompatActivity() {
                 _id = _id,
                 buyer = editTextBuyer?.text.toString(),
                 channel = editTextChannel?.text.toString(),
-                channelAsset = selectedChannel?.assetUrl.toString(),
                 phone = editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
@@ -310,9 +302,7 @@ class InputActivity : AppCompatActivity() {
                 bankType = selectedBank?.bankType.toString(),
                 bankAccountNo = selectedBank?.accountNo.toString(),
                 bankAccountName = selectedBank?.accountHolder.toString(),
-                bankAsset = selectedBank?.asset.toString(),
                 logistic = editTextLogistic?.text.toString(),
-                logisticAsset = selectedLogistic?.assetUrl.toString(),
                 deliveryFee = deliveryFee,
             )
 
@@ -355,7 +345,6 @@ class InputActivity : AppCompatActivity() {
     }
 
     private fun formValidation() {
-        println("formValidation ::")
         isValidFormArray.forEach { println(it.toString()) }
         saveButtonDisable(isNotValid())
     }
@@ -396,23 +385,17 @@ class InputActivity : AppCompatActivity() {
         model.buyer.let { s -> editTextBuyer?.setText(s) }
         model.channel.let { s -> editTextChannel?.setText(s) }
         constructChannel(editTextChannel!!, model.channelAsset)
-        selectedChannel = PropertiesModel("", "", model.channelAsset, model.channel)
         model.phone.let { s -> editTextPhone?.setText(s) }
         model.address.let { s -> editTextAddress?.setText(s) }
         model.notes.let { s -> editTextNote?.setText(s) }
         model.price.let { s -> editTextPrice?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
         model.payingMethod.let { s -> editTextPayment?.setText(s) }
-
-        if(model.bankType !=null) {
-            selectedBank = BankModel(
-                "",
-                model.bankType!!, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset
-            )
-        }
-
         model.logistic.let { s -> editTextLogistic?.setText(s) }
-        selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
+
+        selectedChannel = PropertiesModel("", "", model.channelAsset, model.channel)
+        selectedBank = BankModel("", model.bankType!!, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
+        selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
     }
 
     private fun constructChannel(editText: EditText, assetUrl: String) {

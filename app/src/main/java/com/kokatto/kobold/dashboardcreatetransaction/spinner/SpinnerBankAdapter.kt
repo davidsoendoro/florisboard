@@ -32,20 +32,19 @@ class SpinnerBankAdapter(
         var bankHolder: TextView? = view.findViewById(R.id.spinner_bank_holder)
         var bankEdit: ImageButton? = view.findViewById(R.id.spinner_bank_edit)
 
-
         fun bindViewHolder(option: BankModel) {
 
-            if(option.accountNo.uppercase().equals(CASH)) {
+            if (option.bank.uppercase().equals(CASH)) {
                 bankLabel?.text = ""
-                bankNo?.text = option.accountNo
+                bankNo?.text = "Uang Tunai"
                 bankHolder?.text = ""
                 bankEdit?.visibility = View.GONE
 
                 icon?.let {
                     Glide.with(context)
-                        .load(option.asset)
-                        .placeholder(R.drawable.img_cash)
-                        .into(it) };
+                        .load(R.drawable.img_cash)
+                        .into(it)
+                }
 
             } else {
                 bankLabel?.text = option.bank
@@ -57,10 +56,16 @@ class SpinnerBankAdapter(
                     Glide.with(context)
                         .load(option.asset)
                         .placeholder(R.drawable.ic_bank_unknown)
-                        .into(it) };
+                        .into(it)
+                }
             }
 
-            if (option._id == selectedOption._id) {
+            if (
+                option.bankType == selectedOption.bankType
+                && option.bank == selectedOption.bank
+                && option.accountNo == selectedOption.accountNo
+                && option.accountHolder == selectedOption.accountHolder
+            ) {
                 // Selected
                 radio?.setImageDrawable(
                     ResourcesCompat.getDrawable(
@@ -84,7 +89,7 @@ class SpinnerBankAdapter(
 
             layout?.setOnClickListener {
                 selectedOption = option
-                callback(selectedOption, "onclick" )
+                callback(selectedOption, "onclick")
             }
 
             bankEdit?.setOnClickListener {
