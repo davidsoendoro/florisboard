@@ -20,7 +20,10 @@ fun ArrayList<BusinessFieldModel>.toBundle(): Bundle {
 }
 
 fun ArrayList<BusinessFieldModel>.fromBundle(bundle: Bundle?) {
-    this.addAll(bundle?.getParcelableArrayList<BusinessFieldModel>("businessFieldList") as ArrayList<BusinessFieldModel>)
+    this.clear()
+    (bundle?.getParcelableArrayList<BusinessFieldModel>("businessFieldList") as ArrayList<BusinessFieldModel>).forEach { businessFieldModel ->
+        this.add(businessFieldModel.copy())
+    }
 }
 
 fun List<BusinessFieldModel>.toTextFormat(): String {
