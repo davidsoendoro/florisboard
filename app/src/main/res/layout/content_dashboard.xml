@@ -33,6 +33,7 @@
                 app:layout_constraintTop_toBottomOf="@id/kobold_DashboardWelcomeViewPager"
                 android:padding="@dimen/kobold_margin_16px"
                 android:background="#FFF2E0"
+                android:visibility="gone"
                 >
                 <ImageView
                     android:id="@+id/kobold_DashboardActivateMagicKeyboardBannerImage"
@@ -60,7 +61,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_8px"
                     android:text="@string/kobold_activate_magical_keyboard"
                     style="@style/informationalLabel14sp"
-                    android:padding=""
+                    android:padding="@dimen/kobold_margin_8px"
                     app:layout_constraintStart_toEndOf="@id/kobold_DashboardActivateMagicKeyboardBannerImage"
                     app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerText" />
 
@@ -209,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/kobold_margin_16px"
-                    android:text="@string/kobold_seller_keyboard_header"
+                    android:text="@string/kobold_dashboard_seller_keyboard_header"
                     app:layout_constraintStart_toEndOf="@id/kobold_DashboardSellerKeyboardImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -234,6 +235,7 @@
                     android:backgroundTint="@color/kobold_blue_button"
                     android:paddingHorizontal="@dimen/kobold_margin_16px"
                     android:text="@string/kobold_activate"
+                    android:textColor="@color/text_color_white"
                     android:textAllCaps="false"
                     app:layout_constraintStart_toEndOf="@id/kobold_DashboardSellerKeyboardImage"
                     app:layout_constraintTop_toBottomOf="@id/kobold_DashboardSellerKeyboardStatus" />

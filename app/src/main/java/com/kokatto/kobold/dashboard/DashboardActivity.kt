@@ -53,6 +53,9 @@ class DashboardActivity : AppCompatActivity() {
             //TODO: change activity after ready
             Toast.makeText(this, "Activity still not ready", Toast.LENGTH_LONG).show()
         }
+        binding.koboldDashboardTutorialButton.setOnClickListener {
+            startActivity(Intent(this@DashboardActivity, DashboardMasterProfitActivity::class.java))
+        }
         binding.koboldDashboardContent.apply {
             koboldDashboardSellerKeyboardActivateButton.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
@@ -93,7 +96,5 @@ class DashboardActivity : AppCompatActivity() {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
         }
-
     }
-
 }
