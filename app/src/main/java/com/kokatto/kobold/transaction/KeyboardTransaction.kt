@@ -2,7 +2,6 @@ package com.kokatto.kobold.transaction
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -10,6 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
@@ -59,7 +59,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
     private val isLastTransaction = AtomicBoolean(false)
     private val isFirstLoad = AtomicBoolean(true)
 
-//    var dataUnavailableLayout: LinearLayout? = null
+    var dataUnavailableLayout: LinearLayout? = null
+    var dataAvailableLayout: LinearLayout? = null
 
     private var messageSnackbar: Snackbar? = null
 
@@ -69,18 +70,24 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         val backButton: TextView = findViewById(R.id.back_button)
         val statusLayout: LinearLayout = findViewById(R.id.status_layout)
         val statusText = findTextViewId(R.id.status_text)
-//        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
+        dataAvailableLayout = findViewById(R.id.data_available_layout)
+        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
 //        define as arraylist first
         val pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
-        val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
+        val createTransactionButton: MaterialCardView = findViewById(R.id.create_transaction_button)
+        val toolbarCreateTemplateButton: LinearLayout = findViewById(R.id.toolbar_create_transaction_button)
         transactionRecycler = findViewById(R.id.transaction_recycler)
-        loadingView = findViewById(R.id.bottom_loading)
+        loadingView = findViewById(R.id.fullcreen_loading)
 
         searchButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSearchEditor(R.id.kobold_search_transaction)
         }
-        createTemplateButton.setOnClickListener {
+        createTransactionButton.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+        }
+        toolbarCreateTemplateButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
         }
@@ -121,21 +128,22 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
-//        on this layout not visible
+//        on this layout visible
         if (changedView == this && visibility == View.VISIBLE) {
+            transactionViewModel = TransactionViewModel()
 //            set on backpress
             florisboard?.setActiveInputFromMainmenu = false
 
             adapter?.dataList?.clear()
 //            if (isFirstLoad.get()) {
-            Log.d("OkHttpClient", "first--------------------------------------")
             loadTransaction()
 //                isFirstLoad.set(false)
 //            }
         }
-//        on this layout visible
+//        on this layout not visible
         else {
             transactionList.clear()
+            transactionViewModel?.onDestroy()
         }
         super.onVisibilityChanged(changedView, visibility)
     }
@@ -146,8 +154,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
             status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],
             onLoading = {
                 Timber.e(it.toString())
-                isLoadingTransaction = it
-//                dataUnavailableLayout?.isVisible = false
+//                isLoadingTransaction = it
+                loadingView?.isVisible = it
             },
             onSuccess = { it ->
 //                clear page first
@@ -157,7 +165,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                 }
 
                 transactionList.addAll(it.data.contents)
+                adapter?.notifyDataSetChanged()
                 adapter?.notifyItemRangeInserted(0, it.data.contents.size)
+
+                dataAvailableLayout?.isVisible = transactionList.isNullOrEmpty().not()
+                dataUnavailableLayout?.isVisible = transactionList.isNullOrEmpty()
             },
             onError = {
                 showToast(it)

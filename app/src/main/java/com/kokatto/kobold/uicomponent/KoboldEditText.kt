@@ -34,6 +34,7 @@ class KoboldEditText : ConstraintLayout {
         val isAutofill: Boolean = a.getBoolean(R.styleable.KoboldEditText_isAutofill, false)
         val isClearable: Boolean = a.getBoolean(R.styleable.KoboldEditText_isClearable, false)
         val isNeedThousandSeparator: Boolean = a.getBoolean(R.styleable.KoboldEditText_isNeedThousandSeparator, false)
+        val imageLeft: String? = a.getString(R.styleable.KoboldEditText_imageLeft)
 //        val entries = a.getTextArray(R.styleable.KoboldEditText_android_entries)
 
         label.text = labelText
@@ -89,6 +90,7 @@ class KoboldEditText : ConstraintLayout {
     var inputType: Int = 0
     var maxAllowedCharacters: Int = 0
     var isAutofill = false
+    val imageLeft: ImageView
 
     var entries = arrayOf<CharSequence>()
 
@@ -103,6 +105,7 @@ class KoboldEditText : ConstraintLayout {
         chevronRight = findViewById(R.id.kobold_edittext_chevron)
         calculatorRight = findViewById(R.id.kobold_edittext_calculator)
         errorText = findViewById(R.id.kobold_edittext_errorText)
+        imageLeft = findViewById(R.id.kobold_edittext_imageleft)
 
         editText.addTextChangedListener { text ->
             val editTextLayout = findViewById<MaterialCardView>(R.id.layout_kobold_edittext)
