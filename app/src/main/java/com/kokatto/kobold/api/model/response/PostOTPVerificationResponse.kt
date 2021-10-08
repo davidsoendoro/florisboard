@@ -7,6 +7,7 @@ data class PostOTPVerificationResponse (
 ) {
     data class Data(
         val token: String,
-        val refreshToken: String
+        val refreshToken: String,
+        val isNew: Boolean
     )
 }

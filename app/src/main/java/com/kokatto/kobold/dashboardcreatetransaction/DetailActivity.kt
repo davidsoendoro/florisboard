@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -36,6 +37,12 @@ import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogUnsent
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
+import android.content.pm.ResolveInfo
+import android.content.ComponentName
+import android.content.pm.ActivityInfo
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -618,15 +625,25 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun openWhatsappAndDirectToNumber(phoneNo: String, message: String, context: Context, packageName: String) {
-        var intent = context.packageManager.getLaunchIntentForPackage(packageName)
-        if (intent != null) {
-            val sendIntent = Intent("android.intent.action.MAIN")
-            sendIntent.action = Intent.ACTION_SEND
-            sendIntent.type = "text/plain"
-            sendIntent.putExtra(Intent.EXTRA_TEXT, message)
-            sendIntent.putExtra("jid", phoneNo + "@s.whatsapp.net")
-            sendIntent.setPackage(packageName)
-            startActivity(sendIntent)
+
+        if(checkAppInstalledOrNot(packageName)) {
+            val url = Uri.parse("https://api.whatsapp.com/send?phone=${phoneNo}&text=${message}")
+            val intent = Intent(Intent.ACTION_VIEW, url)
+            intent.setPackage(packageName)
+            startActivity(intent);
+
+//            var intent = context.packageManager.getLaunchIntentForPackage(packageName)
+//            if (intent != null) {
+//                val sendIntent = Intent("android.intent.action.MAIN")
+//                sendIntent.action = Intent.ACTION_SEND
+//                sendIntent.type = "text/plain"
+//                sendIntent.putExtra(Intent.EXTRA_TEXT, message)
+//                sendIntent.putExtra("jid", phoneNo + "@s.whatsapp.net")
+//                sendIntent.setPackage(packageName)
+//                startActivity(sendIntent)
+//            } else {
+//
+//            }
         } else {
             // Bring user to the market or let them choose an app?
             intent = Intent(Intent.ACTION_VIEW)
@@ -637,14 +654,29 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun openApplicationActivity(context: Context, packageName: String) {
-        var intent = context.packageManager.getLaunchIntentForPackage(packageName)
 
-        if (intent != null) {
-            // We found the activity now start the activity
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.setFlags(0);
-            context.startActivity(intent)
-            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
+        if(checkAppInstalledOrNot(packageName)){
+            var packMan: PackageManager = packageManager
+            val intent = Intent(Intent.ACTION_MAIN, null)
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.setPackage(packageName)
+            val launchables: List<ResolveInfo> = packMan.queryIntentActivities(intent, 0)
+
+            if(launchables.size > 0) {
+                val activity: ActivityInfo = launchables.get(0).activityInfo
+                val name = ComponentName(
+                    activity.applicationInfo.packageName,
+                    activity.name
+                )
+                val intentToLauch = Intent(Intent.ACTION_MAIN)
+                intentToLauch.addCategory(Intent.CATEGORY_LAUNCHER)
+                intentToLauch.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                intentToLauch.component = name
+                startActivity(intentToLauch)
+                showToast(resources.getString(R.string.kobold_transaction_action_nota_toast), Toast.LENGTH_LONG)
+            } else {
+
+            }
         } else {
             // Bring user to the market or let them choose an app?
             intent = Intent(Intent.ACTION_VIEW)
@@ -652,7 +684,27 @@ class DetailActivity : AppCompatActivity() {
             intent.data = Uri.parse("market://details?id=$packageName")
             context.startActivity(intent)
         }
+//        var intent = context.packageManager.getLaunchIntentForPackage(packageName)
+//
+//        if (intent != null) {
+//            // We found the activity now start the activity
+//            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            intent.setFlags(0);
+//            context.startActivity(intent)
+//            showToast(resources.getString(R.string.kobold_transaction_action_nota_toast))
+//        } else {
+//
+//        }
+    }
 
+    fun checkAppInstalledOrNot(packageName: String) : Boolean {
+        var packageManager: PackageManager = packageManager
+        try {
+            packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            return true
+        } catch (e: PackageManager.NameNotFoundException) {
+            return false
+        }
     }
 
     private fun parsePhoneToCountryCode(phone: String) : String {

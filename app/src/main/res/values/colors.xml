@@ -40,6 +40,7 @@
     <color name="text_subdued">#8D8D8D</color>
     <color name="text_color_white">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorIconDisable">#B6B6B6</color>
 
     <color name="text_ink01">#1843A1</color>
     <color name="text_primary">#141414</color>

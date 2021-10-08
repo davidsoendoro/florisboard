@@ -23,6 +23,7 @@ import android.content.Intent
 import android.view.KeyEvent
 import android.view.View
 import com.kokatto.kobold.R
+import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
 import com.kokatto.kobold.extension.hideKeyboard
 import com.kokatto.kobold.extension.showKeyboard
@@ -165,13 +166,19 @@ class OtpActivity : AppCompatActivity() {
             onSuccess = {
                 AppPersistence.token = it.data.token
                 AppPersistence.refreshToken = it.data.refreshToken
+
+                if(it.data.isNew){
+                    startActivity(Intent(this, RegistrationActivity::class.java))
+                } else {
+                    startActivity(Intent(this, DashboardActivity::class.java))
+                }
+
                 loading.isDismiss()
-                startActivity(Intent(this, RegistrationActivity::class.java))
             },
             onError = {
                 loading.isDismiss()
                 setErrorColor()
-                showToast(it)
+                //showToast(it)
             }
         )
     }
