@@ -781,7 +781,8 @@
     <string name="kobold_dashboard_manage_customer_detail">Nambah dan kelola kontak, sampai lihat catatan hutang pembeli.</string>
     <string name="kobold_dashboard_manage_transaction_detail">Buat dan kelola transaksi dengan pembeli.</string>
     <string name="kobold_dashboard_profit_support_tools_label">Alat Pendukung Cuan</string>
-    <string name="kobold_seller_keyboard_header">Keyboard Jualan</string>
+    <string name="kobold_dashboard_seller_keyboard_header">Keyboard Jualan</string>
+    <string name="kobold_dashboard_seller_keyboard_detail">Ngatur transaksi dan pembeli langsung di chat, tanpa pindah aplikasi. Cocok kalo kamu jualan pakai WhatsApp atau aplikasi chat lainnya</string>
     <string name="kobold_active">Aktif</string>
     <string name="kobold_watch_tutorial">Nonton Tutorial</string>
     <string name="kobold_dashboard_template_chat_detail">Balas chat pembeli tanpa capek ketik ulang tulisannya.</string>
@@ -826,5 +827,14 @@
     <string name="kobold_activate_magical_keyboard">Aktifin Keyboard Ajaib</string>
     <string name="kobold_activate_magical_keyboard_header">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
     <string name="kobold_dashboard_manage_transaction">Atur Transaksi</string>
+    <string name="title_activity_dashboard_master_profit">DashboardMasterProfitActivity</string>
+    <string name="kobold_feature">fitur</string>
+    <string name="kobold_features_completed_number">%1$d dari 6</string>
+    <string name="kobold_profit_master_banner_header">Kamu sudah pelajari</string>
+    <string name="kobold_see_feature">Lihat Fitur</string>
+    <string name="kobold_watch_how_to">Nonton cara pakai</string>
+    <string name="kobold_rewatch">Tonton Ulang</string>
+    <string name="kobold_feature_accessed">Sudah Akses</string>
+    <string name="kobold_DashboardProfitMasterCompletedNoneLabel">Belum ada yang dipelajari. Fitur yang sudah kamu lihat dan tonton akan pindah kesini.</string>
 
 </resources>
