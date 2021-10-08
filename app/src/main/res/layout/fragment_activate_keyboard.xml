@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/kobold_ActivateKeyboardHeader" />
 
     <Button
-        android:id="@+id/kobold_ActivateKeyboardBecomeProfitMasterButton"
+        android:id="@+id/kobold_ActivateKeyboardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/kobold_margin_16px"
@@ -58,6 +58,6 @@
         android:textAllCaps="false"
         android:background="#00000000"
         style="@style/kobold_keyboard_transparent_button"
-        app:layout_constraintStart_toEndOf="@+id/kobold_ActivateKeyboardBecomeProfitMasterButton"
+        app:layout_constraintStart_toEndOf="@+id/kobold_ActivateKeyboardButton"
         app:layout_constraintTop_toBottomOf="@id/kobold_ActivateKeyboardDetail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

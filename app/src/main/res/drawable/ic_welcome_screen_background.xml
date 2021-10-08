@@ -9,4 +9,10 @@
     <item
         android:gravity="center|top"
         android:drawable="@drawable/ic_confetti"/>
+    <item
+        android:gravity="bottom|start"
+        android:drawable="@drawable/ic_star"
+        android:height="104dp"
+        android:width="104dp"
+        />
 </layer-list>

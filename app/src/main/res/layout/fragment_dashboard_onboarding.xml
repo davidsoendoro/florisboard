@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/kobold_DashboardOnboardingLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +13,7 @@
     tools:context=".dashboard.DashboardOnboardingFragment">
 
     <TextView
-        android:id="@+id/kobold_WelcomeKonekinHeader"
+        android:id="@+id/kobold_DashboardOnboardingHeader"
         style="@style/kobold_primaryLabel18spBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/kobold_WelcomeKonekinPageText"
+        android:id="@+id/kobold_DashboardOnboardingPageText"
         style="@style/kobold_subduedLabel10sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,13 +31,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/kobold_WelcomeKonekinDetail"
+        android:id="@+id/kobold_DashboardOnboardingDetail"
         style="@style/kobold_secondaryLabel14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/kobold_welcome_to_konekin_detail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/kobold_WelcomeKonekinHeader" />
+        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardOnboardingHeader" />
 
     <Button
         android:id="@+id/kobold_DashboardOnboardingBecomeProfitMasterButton"
@@ -47,7 +49,7 @@
         android:textAllCaps="false"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/kobold_WelcomeKonekinDetail" />
+        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardOnboardingDetail" />
 
     <Button
         android:layout_width="wrap_content"
@@ -60,7 +62,7 @@
         android:background="#00000000"
         style="@style/kobold_keyboard_transparent_button"
         app:layout_constraintStart_toEndOf="@+id/kobold_DashboardOnboardingBecomeProfitMasterButton"
-        app:layout_constraintTop_toBottomOf="@id/kobold_WelcomeKonekinDetail" />
+        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardOnboardingDetail" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
