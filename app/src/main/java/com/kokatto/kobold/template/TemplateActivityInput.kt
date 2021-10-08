@@ -5,13 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
@@ -20,6 +18,8 @@ import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.template.dialog.DialogClearConfirm
+import com.kokatto.kobold.template.dialog.DialogCloseConfirm
+import com.kokatto.kobold.template.dialog.DialogCloseEditConfirm
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -48,7 +48,6 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     private val maxTitleLength = AtomicInteger(50)
     private val maxContentLength = AtomicInteger(1000)
     private var data: AutoTextModel? = null
-
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -121,6 +120,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             titleText?.text = resources.getString(R.string.detail_template)
             buttonDelete?.isVisible = true
             setEditTextValue(extraTemplate, extraTitle, extraContent)
+            markButtonSaveDisable(true)
         } else {
             extraId = "NEW"
             titleText?.text = resources.getString(R.string.buat_template)
@@ -128,7 +128,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
 
             // accepted form expand view or button create
             if (extraTemplate == null || extraTemplate == "") {
-                setEditTextValue("Custom", "", "")
+                setEditTextValue("Pesan Pembuka", "", "")
                 markButtonSaveDisable(true)
             } else {
                 setEditTextValue(extraTemplate, extraTitle, extraContent)
@@ -139,13 +139,12 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
 
     }
 
-
     override fun onItemClick(item: String?) {
 
         val titleLen = textInputTitle?.text.toString().length
         val contentLen = textInputContent?.text.toString().length
 
-        if(titleLen > 0 || contentLen > 0) {
+        if (titleLen > 0 || contentLen > 0) {
             val dialog = DialogClearConfirm().newInstance()
 
             dialog?.openDialog(supportFragmentManager)
@@ -165,6 +164,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             textInputTemplate?.setText(item)
             prefillByTemplate(item)
         }
+
+        validateInput()
 
     }
 
@@ -217,7 +218,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 }
             }
             R.id.back_button -> {
-                super.onBackPressed()
+                onCloseEvent()
             }
             R.id.choose_template_edittext -> {
                 // val modalSheetView = TemplateDialogActionBottom.newInstance()
@@ -287,7 +288,9 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
         }
 
 
-        if (titleLength < maxTitleLength.toInt() && contentLength < maxContentLength.toInt()) {
+        if (titleLength < maxTitleLength.toInt() && contentLength < maxContentLength.toInt()
+            && titleLength > 0 && contentLength > 0
+        ) {
             markButtonSaveDisable(false)
         } else {
             markButtonSaveDisable(true)
@@ -295,7 +298,7 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
     }
 
     private fun prefillByTemplate(template: String?) {
-        when(template) {
+        when (template) {
             "Pesan Pembuka" -> {
                 val title = "Halo2"
                 val conntent = "Halo, selamat datang di [Nama Toko]. Ada yang bisa kami bantu?"
@@ -304,20 +307,22 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             }
             "Form Pesanan" -> {
                 val title = "Form"
-                val conntent = "Agar pesanan lebih cepat diproses, silakan langsung isi data diri sesuai format berikut ya:" +
-                    "\nNama:" +
-                    "\nNo. handphone:" +
-                    "\nAlamat:" +
-                    "\nPesanan:" +
-                    "\n[nama barang] - [jumlah]" +
-                    "\n[nama barang] - [jumlah]" +
-                    "\nCatatan:"
+                val conntent =
+                    "Agar pesanan lebih cepat diproses, silakan langsung isi data diri sesuai format berikut ya:" +
+                        "\nNama:" +
+                        "\nNo. handphone:" +
+                        "\nAlamat:" +
+                        "\nPesanan:" +
+                        "\n[nama barang] - [jumlah]" +
+                        "\n[nama barang] - [jumlah]" +
+                        "\nCatatan:"
                 textInputTitle?.setText(title)
                 textInputContent?.setText(conntent)
             }
             "Ucapan Terimakasih" -> {
                 val title = "Trims"
-                val conntent = "Terima kasih telah berbelanja di toko kami. Kami harap kamu puas dengan pelayanan kami. Ditunggu order berikutnya :)"
+                val conntent =
+                    "Terima kasih telah berbelanja di toko kami. Kami harap kamu puas dengan pelayanan kami. Ditunggu order berikutnya :)"
                 textInputTitle?.setText(title)
                 textInputContent?.setText(conntent)
             }
@@ -329,7 +334,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
             }
             "Cek Barang" -> {
                 val title = "Cek Dulu"
-                val conntent = "Baik kak, mohon tunggu sebentar. Kami akan cek ketersediaan barangnya terlebih dahulu ya."
+                val conntent =
+                    "Baik kak, mohon tunggu sebentar. Kami akan cek ketersediaan barangnya terlebih dahulu ya."
                 textInputTitle?.setText(title)
                 textInputContent?.setText(conntent)
             }
@@ -337,6 +343,36 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                 textInputTitle?.setText("")
                 textInputContent?.setText("")
             }
+        }
+    }
+
+    private fun onCloseEvent(){
+        if (buttonSave?.isEnabled == true) {
+
+            if(extraStateInput!! >= 0) {
+                val dialog = DialogCloseEditConfirm().newInstance()
+                dialog.openDialog(supportFragmentManager)
+                dialog.onConfirmClick = {
+                    onBackPressed()
+                }
+
+                dialog.onCancelClick = {
+                    dialog.closeDialog()
+                }
+            } else {
+                val dialog = DialogCloseConfirm().newInstance()
+                dialog.openDialog(supportFragmentManager)
+                dialog.onConfirmClick = {
+                    onBackPressed()
+                }
+
+                dialog.onCancelClick = {
+                    dialog.closeDialog()
+                }
+            }
+
+        } else {
+            super.onBackPressed()
         }
     }
 

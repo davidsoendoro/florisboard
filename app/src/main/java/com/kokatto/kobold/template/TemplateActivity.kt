@@ -1,6 +1,7 @@
 package com.kokatto.kobold.template
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -10,16 +11,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.constant.ActivityConstantCode
-import com.kokatto.kobold.databinding.SettingsActivityBinding
 import com.kokatto.kobold.databinding.TemplateActivityBinding
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 import dev.patrickgold.florisboard.settings.FRAGMENT_TAG
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
@@ -84,21 +80,34 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         val templateContentValue = intent.getStringExtra(FromKeyboardRequest.templateContentKey)
 
         if (templateNameInputValue != null || templatePickInputValue != null || templateContentValue != null) {
-            openCreateTemplate(templatePickInputValue,templateNameInputValue,templateContentValue)
+            openCreateTemplate(templatePickInputValue, templateNameInputValue, templateContentValue)
         }
 
         launchInputActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when(result.resultCode) {
+            when (result.resultCode) {
                 ActivityConstantCode.RESULT_OK_CREATED -> {
-                    showSnackBar(findViewById(R.id.parent_layout), resources.getString(R.string.template_create_success))
+                    showSnackBar(
+                        findViewById(R.id.parent_layout),
+                        resources.getString(R.string.template_create_success)
+                    )
                 }
                 ActivityConstantCode.RESULT_OK_UPDATED -> {
-                    showSnackBar(findViewById(R.id.parent_layout), resources.getString(R.string.template_update_success))
+                    showSnackBar(
+                        findViewById(R.id.parent_layout),
+                        resources.getString(R.string.template_update_success)
+                    )
                 }
                 ActivityConstantCode.RESULT_OK_DELETED -> {
-                    showSnackBar(findViewById(R.id.parent_layout), resources.getString(R.string.template_delete_success))
+                    showSnackBar(
+                        findViewById(R.id.parent_layout),
+                        resources.getString(R.string.template_delete_success)
+                    )
                 }
             }
+        }
+
+        binding.backButton.setOnClickListener {
+            onBackPressed()
         }
     }
 
@@ -122,14 +131,14 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
     override fun openCreateTemplate(pickInput: String?, nameInput: String?, content: String?) {
         val intent = Intent(this, TemplateActivityInput::class.java)
         pickInput?.let { _pickInput ->
-                intent.putExtra(TemplateActivityInput.EXTRA_TEMPLATE, _pickInput)
-            }
+            intent.putExtra(TemplateActivityInput.EXTRA_TEMPLATE, _pickInput)
+        }
         nameInput?.let { _nameInput ->
-                        intent.putExtra(TemplateActivityInput.EXTRA_TITLE, _nameInput)
-            }
+            intent.putExtra(TemplateActivityInput.EXTRA_TITLE, _nameInput)
+        }
         content?.let { _content ->
-                intent.putExtra(TemplateActivityInput.EXTRA_CONTENT, _content)
-            }
+            intent.putExtra(TemplateActivityInput.EXTRA_CONTENT, _content)
+        }
         launchInputActivity?.launch(intent)
     }
 
@@ -148,14 +157,17 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
     }
 
     override fun openErrorFragment() {
+        toggleSearchIconToDisable()
         loadFragment(TemplateErrorFragment())
     }
 
     override fun openEmptyFragment() {
+        toggleSearchIconToDisable()
         loadFragment(TemplateEmptyFragment())
     }
 
     override fun openDataListFragment() {
+        toggleSearchIconToDisable(false)
         loadFragment(TemplateDataListFragment())
     }
 
@@ -171,6 +183,14 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         openDataListFragment()
     }
 
-
+    fun toggleSearchIconToDisable(disable: Boolean = true) {
+        if (disable) {
+            binding.searchButton.isEnabled = false
+            binding.searchButton.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.gray_1, null))
+        } else {
+            binding.searchButton.isEnabled = true
+            binding.searchButton.imageTintList = ColorStateList.valueOf(resources.getColor(R.color.colorWhite, null))
+        }
+    }
 
 }

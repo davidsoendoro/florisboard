@@ -571,6 +571,14 @@
     <string name="kobold_template_dialog_clear_desc">Jika dihapus, maka data yang sudah diisi akan digantikan dengan data template yang dipilih</string>
     <string name="kobold_template_dialog_clear_action_confirm">Hapus isi</string>
     <string name="kobold_template_dialog_clear_action_cancel">Tidak</string>
+    <string name="kobold_template_dialog_exit_title">Tidak jadi Buat Template?</string>
+    <string name="kobold_template_dialog_exit_desc">Form template yang sudah diisi akan dihapus dan tidak akan tersimpan.</string>
+    <string name="kobold_template_dialog_exit_action_confirm">Ya, hapus template</string>
+    <string name="kobold_template_dialog_exit_action_cancel">Nanti saja</string>
+    <string name="kobold_template_dialog_exit_edit_title">Tidak jadi Ubah Template?</string>
+    <string name="kobold_template_dialog_exit_edit_desc">Form template yang sudah diisi akan dihapus dan tidak akan tersimpan.</string>
+    <string name="kobold_template_dialog_exit_edit_action_confirm">Ya, tidak jadi</string>
+    <string name="kobold_template_dialog_exit_edit_action_cancel">Nanti saja</string>
 
     <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>

@@ -6,83 +6,73 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite">
 
-    <ImageView
-        android:id="@+id/img_medium"
-        android:layout_width="200dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="228dp"
-        android:contentDescription="image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_medium_fun_error_user" />
-
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="312dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="24dp"
-        android:ellipsize="end"
-        android:lineSpacingExtra="1sp"
-        android:maxLines="2"
-        android:text="Maaf, ada kesalahan dalam memuat halaman. Silahkan coba lagi ya."
-        android:textAlignment="center"
-        android:textColor="@color/text_subtitle"
-        android:textSize="14sp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/reload_button"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:text="Muat Ulang"
-        android:textAllCaps="false"
-        android:textColor="@color/text_primary"
-        app:cornerRadius="4dp"
-        app:icon="@drawable/ic_refresh"
-        app:iconGravity="textStart"
-        app:iconPadding="11.31dp"
-        app:iconSize="13dp"
-        app:iconTint="@color/text_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content"
-        app:strokeColor="@color/stroke_primary"
-        app:strokeWidth="1dp" />
+        <ImageView
+            android:id="@+id/img_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="image"
+            app:srcCompat="@drawable/img_medium_fun_error_user" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="312dp"
-        android:layout_height="22dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="24dp"
-        android:lineSpacingExtra="1sp"
-        android:text="Halaman tidak dapat dimuat"
-        android:textAlignment="center"
-        android:textColor="@color/text_primary"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_medium" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="24dp"
+            android:lineSpacingExtra="1sp"
+            android:text="Halaman tidak dapat dimuat"
+            android:textAlignment="center"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="24dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="1sp"
+            android:maxLines="2"
+            android:text="Maaf, ada kesalahan dalam memuat halaman.\nSilahkan coba lagi ya."
+            android:textAlignment="center"
+            android:textColor="@color/text_subtitle"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/reload_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="Muat Ulang"
+            android:textAllCaps="false"
+            android:textColor="@color/text_primary"
+            app:cornerRadius="4dp"
+            app:icon="@drawable/ic_refresh"
+            app:iconGravity="textStart"
+            app:iconPadding="11.31dp"
+            app:iconSize="13dp"
+            app:iconTint="@color/text_primary"
+            app:strokeColor="@color/stroke_primary"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

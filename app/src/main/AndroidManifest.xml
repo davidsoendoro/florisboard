@@ -6,6 +6,17 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+        <package android:name="jp.naver.line.android" />
+        <package android:name="com.facebook.orca" />
+        <package android:name="com.instagram.android" />
+        <package android:name="com.bukalapak.android" />
+        <package android:name="com.tokopedia.tkpd" />
+        <package android:name="com.shopee.id" />
+    </queries>
+
     <application
         android:name="dev.patrickgold.florisboard.FlorisApplication"
         android:allowBackup="false"
