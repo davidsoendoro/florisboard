@@ -45,16 +45,16 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(getDrawable(R.drawable.kobold_main_close))
 
-        tutorialViewModel = TutorialViewModel()
-        tutorialViewModel.getTutorialProgress({
-            Timber.d("Result: $it")
-            binding.koboldDashboardProfitMasterContent.completedFeatures = it.data.complete
-            it.data.contents.map {
-                //assign to each cardview
-            }
-        }, {
-            Toast.makeText(this, "Failed getting tutorial progress", Toast.LENGTH_LONG).show()
-        })
+//        tutorialViewModel = TutorialViewModel()
+//        tutorialViewModel.getTutorialProgress({
+//            Timber.d("Result: $it")
+//            binding.koboldDashboardProfitMasterContent.completedFeatures = it.data.complete
+//            it.data.contents.map {
+//                //assign to each cardview
+//            }
+//        }, {
+//            Toast.makeText(this, "Failed getting tutorial progress", Toast.LENGTH_LONG).show()
+//        })
 
         binding.koboldDashboardProfitMasterContent.apply {
             isChatTemplateDone = true
