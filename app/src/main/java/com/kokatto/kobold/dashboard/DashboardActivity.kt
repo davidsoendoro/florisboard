@@ -16,6 +16,8 @@ import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
+import dev.patrickgold.florisboard.util.checkIfImeIsSelected
+import timber.log.Timber
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
@@ -97,7 +99,7 @@ class DashboardActivity : AppCompatActivity() {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
 
-            keyboardActivated = checkIfImeIsEnabled(this@DashboardActivity)
+            keyboardActivated = checkIfImeIsSelected(this@DashboardActivity)
         }
     }
 }
