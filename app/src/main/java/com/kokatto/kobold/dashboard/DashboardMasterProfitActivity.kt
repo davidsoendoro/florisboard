@@ -12,6 +12,8 @@ import timber.log.Timber
 import android.R.id.toggle
 import android.content.Intent
 import android.net.Uri
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.template.TemplateActivity
@@ -21,7 +23,7 @@ import dev.patrickgold.florisboard.settings.SettingsMainActivity
 class DashboardMasterProfitActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashboardMasterProfitBinding
-
+    private lateinit var tutorialViewModel: TutorialViewModel
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -42,6 +44,18 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(getDrawable(R.drawable.kobold_main_close))
+
+        tutorialViewModel = TutorialViewModel()
+        tutorialViewModel.getTutorialProgress({
+            Timber.d("Result: $it")
+            binding.koboldDashboardProfitMasterContent.completedFeatures = it.data.complete
+            it.data.contents.map {
+                //assign to each cardview
+            }
+        }, {
+            Toast.makeText(this, "Failed getting tutorial progress", Toast.LENGTH_LONG).show()
+        })
+
         binding.koboldDashboardProfitMasterContent.apply {
             isChatTemplateDone = true
             isCheckDeliveryFeeDone = false
@@ -52,8 +66,8 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
             completedFeatures = 4
 
             koboldDashboardProfitMasterManageSellHeaderLayout.setOnClickListener {
-                if(isManageCustomerDone == false || isManageTransactionDone == false){
-                    if(koboldDashboardProfitMasterManageSellContentLayout.visibility == View.GONE){
+                if (isManageCustomerDone == false || isManageTransactionDone == false) {
+                    if (koboldDashboardProfitMasterManageSellContentLayout.visibility == View.GONE) {
                         koboldDashboardProfitMasterManageSellContentLayout.visibility = View.VISIBLE
                         koboldDashboardProfitMasterManageSellHeaderArrow.rotation = -90f
                     } else {
@@ -64,8 +78,8 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
             }
 
             koboldDashboardProfitMasterProfitSupportHeaderLayout.setOnClickListener {
-                if(isSellerKeyboardDone == false || isChatTemplateDone == false || isDeliverOrderDone == false || isCheckDeliveryFeeDone == false){
-                    if(koboldDashboardProfitMasterProfitSupportContentLayout.visibility == View.GONE ){
+                if (isSellerKeyboardDone == false || isChatTemplateDone == false || isDeliverOrderDone == false || isCheckDeliveryFeeDone == false) {
+                    if (koboldDashboardProfitMasterProfitSupportContentLayout.visibility == View.GONE) {
                         koboldDashboardProfitMasterProfitSupportContentLayout.visibility = View.VISIBLE
                         koboldDashboardProfitMasterProfitSupportHeaderArrow.rotation = -90f
                     } else {
@@ -75,7 +89,7 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
                 }
             }
             koboldDashboardProfitMasterCompletedTutorialHeaderLayout.setOnClickListener {
-                if(koboldDashboardProfitMasterCompletedTutorialContentLayout.visibility == View.GONE){
+                if (koboldDashboardProfitMasterCompletedTutorialContentLayout.visibility == View.GONE) {
                     koboldDashboardProfitMasterCompletedTutorialContentLayout.visibility = View.VISIBLE
                     koboldDashboardProfitMasterCompletedTutorialHeaderArrow.rotation = -90f
                 } else {
@@ -86,13 +100,19 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
 
             when (completedFeatures) {
                 6 -> {
-                    koboldDashboardProfitMasterBannerFinishedImg.setImageDrawable(resources.getDrawable(R.drawable.ic_kobold_done_complete, null));
+                    koboldDashboardProfitMasterBannerFinishedImg.setImageDrawable(
+                        ContextCompat.getDrawable(this@DashboardMasterProfitActivity, R.drawable.ic_kobold_done_complete)
+                    )
                 }
-                in(3..5) -> {
-                    koboldDashboardProfitMasterBannerFinishedImg.setImageDrawable(resources.getDrawable(R.drawable.ic_kobold_done_progress_half, null));
+                in (3..5) -> {
+                    koboldDashboardProfitMasterBannerFinishedImg.setImageDrawable(
+                        ContextCompat.getDrawable(this@DashboardMasterProfitActivity, R.drawable.ic_kobold_done_progress_half)
+                    )
                 }
                 else -> {
-                    koboldDashboardProfitMasterBannerFinishedImg.setImageDrawable(resources.getDrawable(R.drawable.ic_kobold_done_progress_0, null));
+                    koboldDashboardProfitMasterBannerFinishedImg.setImageDrawable(
+                        ContextCompat.getDrawable(this@DashboardMasterProfitActivity, R.drawable.ic_kobold_done_progress_0)
+                    )
                 }
             }
 
