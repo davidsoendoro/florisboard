@@ -19,6 +19,7 @@ import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
 import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
+import com.kokatto.kobold.api.model.response.GetTutorialPaginatedResponse
 import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
 import com.kokatto.kobold.api.model.response.PostTokenRefreshResponse
 import com.skydoves.sandwich.ApiResponse
@@ -246,4 +247,13 @@ interface MerchantApi {
 
     @POST(merchantUrl + "create")
     suspend fun postCreateMerchant(@Body request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
+}
+
+private const val tutorialUrl: String = "api/v1/tutorial/"
+interface TutorialApi {
+    @GET(tutorialUrl + "progress")
+    suspend fun getTutorialProgress(): ApiResponse<GetTutorialPaginatedResponse>
+
+    @POST(tutorialUrl + "access/{tutorId}")
+    suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
 }
