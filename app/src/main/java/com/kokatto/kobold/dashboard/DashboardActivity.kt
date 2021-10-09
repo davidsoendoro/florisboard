@@ -15,6 +15,7 @@ import com.kokatto.kobold.databinding.ActivityDashboardBinding
 import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
+import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
@@ -95,6 +96,8 @@ class DashboardActivity : AppCompatActivity() {
             koboldDashboardActivateMagicKeyboardBannerBtn.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
+
+            keyboardActivated = checkIfImeIsEnabled(this@DashboardActivity)
         }
     }
 }

@@ -784,6 +784,7 @@
     <string name="kobold_dashboard_seller_keyboard_header">Keyboard Jualan</string>
     <string name="kobold_dashboard_seller_keyboard_detail">Ngatur transaksi dan pembeli langsung di chat, tanpa pindah aplikasi. Cocok kalo kamu jualan pakai WhatsApp atau aplikasi chat lainnya</string>
     <string name="kobold_active">Aktif</string>
+    <string name="kobold_inactive">Belum Aktif</string>
     <string name="kobold_watch_tutorial">Nonton Tutorial</string>
     <string name="kobold_dashboard_template_chat_detail">Balas chat pembeli tanpa capek ketik ulang tulisannya.</string>
     <string name="kobold_dashboard_check_delivery_fee">Cek Ongkir</string>

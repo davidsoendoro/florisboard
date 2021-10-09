@@ -444,7 +444,12 @@
         <item name="android:elevation">4dp</item>
         <item name="android:layout_marginStart">@dimen/kobold_margin_16px</item>
         <item name="android:layout_marginEnd">@dimen/kobold_margin_16px</item>
-
+    </style>
+    <style name="kobold_card_button_yellow">
+        <item name="android:background">@drawable/kobold_card_yellow</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:layout_marginStart">@dimen/kobold_margin_16px</item>
+        <item name="android:layout_marginEnd">@dimen/kobold_margin_16px</item>
     </style>
     <style name="kobold_into_slide1_title_style">
         <item name="android:textStyle">bold</item>
