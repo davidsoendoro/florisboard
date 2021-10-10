@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit
 
 object Network {
     private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(AuthInterceptor())
         .authenticator(TokenAuthenticator())
+        .addInterceptor(AuthInterceptor())
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
         .writeTimeout(1, TimeUnit.MINUTES)

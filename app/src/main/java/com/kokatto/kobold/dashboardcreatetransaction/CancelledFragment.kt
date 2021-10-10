@@ -3,7 +3,9 @@ package com.kokatto.kobold.dashboardcreatetransaction
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +35,9 @@ class CancelledFragment : Fragment(R.layout.fragment_cancelled), TransactionHome
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
 
+    private var emptyLayout: ConstraintLayout? = null
+    private var createEmptyButton: Button? = null
+
     private var archiveActivityListener: ArchiveActivityListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +46,9 @@ class CancelledFragment : Fragment(R.layout.fragment_cancelled), TransactionHome
         cancelledRecycler = view.findViewById(R.id.recycler_view)
         bottomLoading = view.findViewById(R.id.bottom_loading)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
+
+        emptyLayout = view.findViewById(R.id.pending_layout_empty)
+        createEmptyButton = view.findViewById(R.id.empty_create_button)
 
         getCancelledTransactionList()
 
@@ -85,6 +93,12 @@ class CancelledFragment : Fragment(R.layout.fragment_cancelled), TransactionHome
                 isLoadingList.set(it)
             },
             onSuccess = { it ->
+                if(it.data.totalRecord > 0){
+                    showDataState()
+                } else {
+                    showEmptyState()
+                }
+
                 transactionList.addAll(it.data.contents)
                 isLast.set(it.data.totalPages <= it.data.page)
 //                if first page
@@ -106,5 +120,17 @@ class CancelledFragment : Fragment(R.layout.fragment_cancelled), TransactionHome
                 cancelledRecycler!!.isVisible = true
             }
         )
+    }
+
+    private fun showEmptyState(){
+        emptyLayout?.isVisible = true
+        cancelledRecycler?.isVisible = false
+        createEmptyButton?.isVisible = false
+    }
+
+    private fun showDataState(){
+        emptyLayout?.isVisible = false
+        cancelledRecycler?.isVisible = true
+        createEmptyButton?.isVisible = false
     }
 }

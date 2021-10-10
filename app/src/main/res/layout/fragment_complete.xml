@@ -62,4 +62,9 @@
             android:paddingRight="8dp" />
     </LinearLayout>
 
+    <include
+        android:id="@+id/pending_layout_empty"
+        android:visibility="gone"
+        layout="@layout/content_empty_transaction" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

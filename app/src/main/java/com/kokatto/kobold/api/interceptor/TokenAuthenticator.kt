@@ -1,5 +1,6 @@
 package com.kokatto.kobold.api.interceptor
 
+import android.util.Log
 import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.internal.*
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
@@ -15,7 +16,7 @@ import java.io.IOException
 internal class TokenAuthenticator() : Authenticator {
 
     private var isSessionExpiredException: IsSessionExpiredException = DefaultIsSessionExpiredException()
-    private var setAuthorizationHeader: SetAuthorizationHeader = SetAuthorizationHeader(AppPersistence.token)
+    private var setAuthorizationHeader: SetAuthorizationHeader = SetAuthorizationHeader()
 
     @Throws(IOException::class)
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -44,9 +45,7 @@ internal class TokenAuthenticator() : Authenticator {
                         }
 
                         // retry request with the new tokens
-                        return response.request.newBuilder()
-                            .addHeader("Authorization", "Bearer ${AppPersistence.refreshToken}")
-                            .build()
+                        return setAuthorizationHeader(response.request)
 
                     } else {
                         throw HttpException(refreshTokenResponse)

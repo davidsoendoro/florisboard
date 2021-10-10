@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +31,8 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
 
     private var bottomLoading: LinearLayout? = null
     private var fullscreenLoading: LinearLayout? = null
+    private var emptyLayout: ConstraintLayout? = null
+    private var createEmptyButton: Button? = null
 
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
@@ -41,6 +45,7 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
         unprocesedRecycler = view.findViewById(R.id.recycler_view)
         bottomLoading = view.findViewById(R.id.bottom_loading)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
+
 
         getUnprocessedTransactionList()
         unprocessedRecyclerAdapter = TransactionHomeRecyclerAdapter(transactionList, this)
@@ -60,6 +65,14 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
 
         unprocesedRecycler!!.adapter = unprocessedRecyclerAdapter
         unprocesedRecycler!!.vertical()
+
+        emptyLayout = view.findViewById(R.id.pending_layout_empty)
+        createEmptyButton = view.findViewById(R.id.empty_create_button)
+
+        createEmptyButton!!.setOnClickListener{
+            createTransactionActivityListener?.openInputActivity()
+        }
+
     }
 
     override fun onClicked(data: TransactionModel) {
@@ -84,6 +97,13 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
                 isLoadingList.set(it)
             },
             onSuccess = { it ->
+
+                if(it.data.totalRecord > 0){
+                    showDataState()
+                } else {
+                    showEmptyState()
+                }
+
                 transactionList.addAll(it.data.contents)
                 isLast.set(it.data.totalPages <= it.data.page)
 //                if first page
@@ -92,7 +112,6 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
                     unprocesedRecycler!!.isVisible = true
                 } else {
                     isLoadingList.set(false)
-
                     bottomLoading!!.isVisible = false
                 }
                 //contoh insert data
@@ -109,5 +128,18 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
             }
         )
     }
+
+    private fun showEmptyState(){
+        emptyLayout?.isVisible = true
+        unprocesedRecycler?.isVisible = false
+        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+    }
+
+    private fun showDataState(){
+        emptyLayout?.isVisible = false
+        unprocesedRecycler?.isVisible = true
+        createTransactionActivityListener?.setHasTransaction(true)
+    }
+
 
 }

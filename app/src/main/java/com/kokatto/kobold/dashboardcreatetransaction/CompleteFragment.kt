@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +33,9 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
     private var bottomLoading: LinearLayout? = null
     private var fullscreenLoading: LinearLayout? = null
 
+    private var emptyLayout: ConstraintLayout? = null
+    private var createEmptyButton: Button? = null
+
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
 
@@ -42,6 +47,9 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
         completeRecycler = view.findViewById(R.id.recycler_view)
         bottomLoading = view.findViewById(R.id.bottom_loading)
         fullscreenLoading = view.findViewById(R.id.fullcreen_loading)
+
+        emptyLayout = view.findViewById(R.id.pending_layout_empty)
+        createEmptyButton = view.findViewById(R.id.empty_create_button)
 
         getCompleteTransactionList()
 
@@ -86,6 +94,12 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
                 isLoadingList.set(it)
             },
             onSuccess = { it ->
+                if(it.data.totalRecord > 0){
+                    showDataState()
+                } else {
+                    showEmptyState()
+                }
+
                 transactionList.addAll(it.data.contents)
                 isLast.set(it.data.totalPages <= it.data.page)
 //                if first page
@@ -107,5 +121,17 @@ class CompleteFragment: Fragment(R.layout.fragment_complete) , TransactionHomeRe
                 completeRecycler!!.isVisible = true
             }
         )
+    }
+
+    private fun showEmptyState(){
+        emptyLayout?.isVisible = true
+        completeRecycler?.isVisible = false
+        createEmptyButton?.isVisible = false
+    }
+
+    private fun showDataState(){
+        emptyLayout?.isVisible = false
+        completeRecycler?.isVisible = true
+        createEmptyButton?.isVisible = false
     }
 }
