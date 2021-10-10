@@ -8,8 +8,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val baseUrl: String = "http://192.168.8.109:3000/local/"
-private const val baseUrlIdentity: String = "http://192.168.8.109:3200/local/"
+//private const val baseUrl: String = "http://192.168.8.109:3000/local/"
+//private const val baseUrlIdentity: String = "http://192.168.8.109:3200/local/"
+private const val baseUrl: String = "https://xnuhystuwl.execute-api.ap-southeast-1.amazonaws.com/dev/"
+private const val baseUrlIdentity: String = "https://084n8vblr6.execute-api.ap-southeast-1.amazonaws.com/dev/"
 val logging = HttpLoggingInterceptor()
 
 internal inline fun <reified T> createNetwork(
