@@ -21,6 +21,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
 import com.kokatto.kobold.api.model.basemodel.ShippingCostModel
@@ -288,7 +290,9 @@ class CheckShippingcost : AppCompatActivity() {
                 processSubmit(false)
             },
             onError = {
-                //showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(this).onSessionExpired()
+
                 processSubmit(false)
                 showSnackBar(findViewById(R.id.parent_layout), "Tidak dapat mendapatkan kurir", R.color.snackbar_error)
                 recyclerView!!.isVisible = true

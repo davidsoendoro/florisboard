@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.TransactionStatusConstant
@@ -98,7 +100,8 @@ class CancelledFragment : Fragment(R.layout.fragment_cancelled), TransactionHome
                 cancelledRecyclerAdapter!!.notifyDataSetChanged()
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
                 fullscreenLoading!!.isVisible = false
                 cancelledRecycler!!.isVisible = true
             }

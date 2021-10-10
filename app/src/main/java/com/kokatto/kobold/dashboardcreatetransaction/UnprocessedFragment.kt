@@ -2,17 +2,19 @@ package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
@@ -98,7 +100,10 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
                 unprocessedRecyclerAdapter!!.notifyDataSetChanged()
             },
             onError = {
-                showToast(it)
+
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
+
                 fullscreenLoading!!.isVisible = false
                 unprocesedRecycler!!.isVisible = true
             }

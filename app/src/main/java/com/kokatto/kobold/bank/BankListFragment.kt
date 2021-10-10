@@ -7,6 +7,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.bank.recylerAdapeter.BankRecyclerAdapter
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
@@ -89,7 +91,8 @@ class BankListFragment : Fragment(R.layout.fragment_data_list), BankRecyclerAdap
                 }
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
                 fullscreenLoading!!.isVisible = false
                 recyclerView!!.isVisible = true
             }

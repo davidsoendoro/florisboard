@@ -42,6 +42,8 @@ import android.content.ComponentName
 import android.content.pm.ActivityInfo
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 
 
 class DetailActivity : AppCompatActivity() {
@@ -412,6 +414,9 @@ class DetailActivity : AppCompatActivity() {
                     finish()
                 },
                 onError = {
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
+
                     progressLoading(false)
                 }
             )
@@ -519,6 +524,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }

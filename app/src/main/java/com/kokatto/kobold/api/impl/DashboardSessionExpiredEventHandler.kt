@@ -7,7 +7,7 @@ import android.os.Looper
 import com.kokatto.kobold.api.internal.SessionExpiredEventHandler
 import com.kokatto.kobold.login.LoginActivity
 
-class SessionExpiredEventHandlerImpl(private val context: Context) : SessionExpiredEventHandler {
+class DashboardSessionExpiredEventHandler(private val context: Context) : SessionExpiredEventHandler {
     override fun onSessionExpired() {
         Handler(Looper.getMainLooper()).post {
             // todo navigate to sign in
