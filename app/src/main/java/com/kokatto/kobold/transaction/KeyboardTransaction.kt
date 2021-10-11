@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
@@ -172,7 +173,11 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                 dataUnavailableLayout?.isVisible = transactionList.isNullOrEmpty()
             },
             onError = {
-                showToast(it)
+                //showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    florisboard?.setActiveInput(R.id.kobold_login)
+                else
+                    showToast(it)
             }
         )
 
@@ -207,10 +212,14 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                             adapter?.notifyItemRangeInserted(initialSize, finalSize)
                         },
                         onError = { errorMessage ->
-                            showToast(errorMessage)
+                            //showToast(errorMessage)
 
 //                            dataUnavailableLayout?.isVisible = false
                             isLoadingTransaction = false
+                            if(ErrorResponseValidator.isSessionExpiredResponse(errorMessage))
+                                florisboard?.setActiveInput(R.id.kobold_login)
+                            else
+                                showToast(errorMessage)
                         }
                     )
                 },

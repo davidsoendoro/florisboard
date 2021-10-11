@@ -550,6 +550,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -575,6 +577,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -600,6 +604,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -625,6 +631,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }

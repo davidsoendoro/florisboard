@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
@@ -120,7 +123,10 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                 dataUnavailableLayout?.isVisible = chatTemplateList.isNullOrEmpty()
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    florisboard?.setActiveInput(R.id.kobold_login)
+                else
+                    showSnackBar(it)
             }
         )
 
@@ -153,9 +159,14 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                             bottomLoading.isVisible = false
                         },
                         onError = { errorMessage ->
-                            showToast(errorMessage)
+                            //showToast(errorMessage)
                             isLoadingChatTemplate = false
                             bottomLoading.isVisible = false
+
+                            if(ErrorResponseValidator.isSessionExpiredResponse(errorMessage))
+                                florisboard?.setActiveInput(R.id.kobold_login)
+                            else
+                                showToast(errorMessage)
                         }
                     )
                 },

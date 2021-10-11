@@ -26,6 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
         <activity
+            android:name=".dashboard.DashboardMasterProfitActivity"
+            android:exported="true"
+            android:label="@string/title_activity_dashboard_master_profit"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
             android:name=".registration.RegistrationActivity"
             android:exported="true"
             android:label="Kobold Registration">
@@ -38,8 +43,7 @@
         <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".dashboardcreatetransaction.ArchiveActivity"
             android:exported="true" /> <!-- IME service -->
@@ -100,8 +104,8 @@
         <activity
             android:name=".template.TemplateActivitySearch"
             android:icon="@mipmap/floris_app_icon"
-            android:windowSoftInputMode="adjustResize"
-            android:roundIcon="@mipmap/floris_app_icon_round" /> <!-- User Dictionary Manager Activity -->
+            android:roundIcon="@mipmap/floris_app_icon_round"
+            android:windowSoftInputMode="adjustResize" /> <!-- User Dictionary Manager Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.settings.UdmActivity"
             android:icon="@mipmap/floris_app_icon"
@@ -165,69 +169,66 @@
             android:exported="true" />
         <activity
             android:name=".dashboardcreatetransaction.DetailActivity"
-            android:exported="true" />
-        <!-- Dashboard Shipping Cost -->
+            android:exported="true" /> <!-- Dashboard Shipping Cost -->
         <activity
             android:name=".dashboardcheckshippingcost.CheckShippingcost"
             android:exported="true"
             android:label="Kobold Shipping Cost">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".dashboardcheckshippingcost.AddressShippingActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateVisible" />
-
-        <!-- Dashboard Bank Management Activity -->
+            android:windowSoftInputMode="stateVisible" /> <!-- Dashboard Bank Management Activity -->
         <activity
             android:name=".bank.BankHomeActivity"
             android:exported="true"
             android:label="Kobold Bank">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".bank.BankInputActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".dashboard.DashboardActivity"
             android:exported="true"
-            android:label="Kobold Dashboard"
-            >
+            android:label="Kobold Dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Login  -->
+        </activity> <!-- Login -->
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            android:label="Kobold Login">
+            android:label="Kobold Login"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".login.OtpActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            android:label="Kobold OTP">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:label="Kobold OTP"
+            android:windowSoftInputMode="adjustResize">
 
-        <!-- Crash Dialog Activity -->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity> <!-- Crash Dialog Activity -->
         <activity
             android:name="dev.patrickgold.florisboard.crashutility.CrashDialogActivity"
             android:icon="@mipmap/floris_app_icon"

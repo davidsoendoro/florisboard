@@ -20,6 +20,7 @@ import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
 import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
+import com.kokatto.kobold.api.model.response.GetTutorialPaginatedResponse
 import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
 import com.kokatto.kobold.api.model.response.PostTokenRefreshResponse
 import com.skydoves.sandwich.ApiResponse
@@ -32,7 +33,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val authenticationUrl: String = "api/v1/auth/"
-
 interface AuthenticationApi {
     @GET(authenticationUrl + "request")
     suspend fun login(
@@ -58,7 +58,6 @@ interface AuthenticationApi {
 }
 
 private const val autoTextUrl: String = "api/v1/autotext/"
-
 interface ChatTemplateApi {
     @RequiredAuth
     @GET(autoTextUrl + "filter")
@@ -174,7 +173,6 @@ interface TransactionApi {
 }
 
 private const val bankUrl: String = "api/v1/banks/"
-
 interface BankApi {
     @RequiredAuth
     @GET(bankUrl + "filter")
@@ -216,7 +214,6 @@ interface BankApi {
 }
 
 private const val deliveryUrl: String = "api/v1/courier/"
-
 interface DeliveryApi {
     @RequiredAuth
     @GET(deliveryUrl + "address")
@@ -267,3 +264,13 @@ interface RefreshTokenApi {
     ): Call<PostTokenRefreshResponse>
 
 }
+
+private const val tutorialUrl: String = "api/v1/tutorial/"
+interface TutorialApi {
+    @GET(tutorialUrl + "progress")
+    suspend fun getTutorialProgress(): ApiResponse<GetTutorialPaginatedResponse>
+
+    @POST(tutorialUrl + "access/{tutorId}")
+    suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
+}
+

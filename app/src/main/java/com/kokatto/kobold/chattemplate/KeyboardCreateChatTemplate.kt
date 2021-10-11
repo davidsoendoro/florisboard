@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
@@ -126,7 +127,11 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
                     florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
                 },
                 onError = {
-                    showToast(it)
+                    //showToast(it)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        florisboard?.setActiveInput(R.id.kobold_login)
+                    else
+                        showToast(it)
                 }
             )
         }

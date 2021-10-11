@@ -131,13 +131,13 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
     private fun showEmptyState(){
         emptyLayout?.isVisible = true
         unprocesedRecycler?.isVisible = false
-        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+        //createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
     }
 
     private fun showDataState(){
         emptyLayout?.isVisible = false
         unprocesedRecycler?.isVisible = true
-        createTransactionActivityListener?.setHasTransaction(true)
+        //createTransactionActivityListener?.setHasTransaction(true)
     }
 
 

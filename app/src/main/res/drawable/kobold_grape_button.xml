@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/kobold_grape_background"/>
+            <corners android:radius="@dimen/kobold_margin_16px"/>
+            <stroke android:color="@color/text_subdued" android:width="1px"/>
+        </shape>
+    </item>
+</layer-list>

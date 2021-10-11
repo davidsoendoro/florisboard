@@ -15,6 +15,9 @@ import com.kokatto.kobold.databinding.ActivityDashboardBinding
 import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
+import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
+import dev.patrickgold.florisboard.util.checkIfImeIsSelected
+import timber.log.Timber
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
@@ -52,6 +55,9 @@ class DashboardActivity : AppCompatActivity() {
         binding.koboldDashboardSettingsButton.setOnClickListener {
             //TODO: change activity after ready
             Toast.makeText(this, "Activity still not ready", Toast.LENGTH_LONG).show()
+        }
+        binding.koboldDashboardTutorialButton.setOnClickListener {
+            startActivity(Intent(this@DashboardActivity, DashboardMasterProfitActivity::class.java))
         }
         binding.koboldDashboardContent.apply {
             koboldDashboardSellerKeyboardActivateButton.setOnClickListener {
@@ -92,8 +98,8 @@ class DashboardActivity : AppCompatActivity() {
             koboldDashboardActivateMagicKeyboardBannerBtn.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
+
+            keyboardActivated = checkIfImeIsSelected(this@DashboardActivity)
         }
-
     }
-
 }

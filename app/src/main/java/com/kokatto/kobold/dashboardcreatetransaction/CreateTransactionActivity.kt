@@ -1,6 +1,8 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.app.Activity
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -8,7 +10,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,12 +17,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
 import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
+import timber.log.Timber
 
 interface CreateTransactionActivityListener {
     fun openInputActivity()
@@ -39,6 +45,7 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
     private var hasTransaction: Boolean = false
 
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,8 +138,6 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
             val intent = Intent(this, InputActivity::class.java)
             activityResultLauncher?.launch(intent)
         }
-
-        createFloatingButton?.isVisible = hasTransaction
     }
 
     override fun getItemCount(): Int = fragmentEnabledCount.size
@@ -170,7 +175,7 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
 
     override fun setHasTransaction(isHasTransaction: Boolean) {
         hasTransaction = isHasTransaction
-        createFloatingButton!!.isVisible = this.hasTransaction
+        //createFloatingButton!!.isVisible = this.hasTransaction
     }
 
     override fun getHasTransactionn(): Boolean {

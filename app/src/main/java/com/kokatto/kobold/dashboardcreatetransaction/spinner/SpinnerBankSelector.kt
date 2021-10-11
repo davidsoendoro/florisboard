@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.bank.BankInputActivity
 import com.kokatto.kobold.bank.BankViewModel
@@ -135,7 +137,8 @@ class SpinnerBankSelector : RoundedBottomSheet() {
             },
             onError = {
                 fullscreenLoading!!.isVisible = false
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
             })
     }
 
