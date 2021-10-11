@@ -841,5 +841,8 @@
     <string name="kobold_have_no_contact">Kamu belum punya kontak</string>
     <string name="kobold_have_no_contact_instruction">Tambah kontak dan mulai kelola jualan dengan pelangganmu di sini</string>
     <string name="kobold_add_contact">Tambah Kontak</string>
+    <string name="kobold_transaction_empty_title">Belum ada transaksi</string>
+    <string name="kobold_transaction_empty_desc">Daftar penjualan dengan pelanggan akan\nmuncul disini.</string>
+    <string name="kobold_transaction_empty_action">Buat transaksi</string>
 
 </resources>

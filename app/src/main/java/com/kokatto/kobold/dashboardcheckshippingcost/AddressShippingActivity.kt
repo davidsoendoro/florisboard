@@ -15,6 +15,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.checkshippingcost.ShippingCostViewModel
 import com.kokatto.kobold.constant.ActivityConstantCode
@@ -176,10 +178,14 @@ class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
                 fullscreenLoading?.isVisible = false
             },
             onError = {
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(this).onSessionExpired()
+
                 fullscreenLoading?.isVisible = false
                 recyclerView?.isVisible = false
                 layoutEmpty?.isVisible = false
                 layoutNotFound?.isVisible = true
+
             }
         )
     }
