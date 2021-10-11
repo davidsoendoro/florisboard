@@ -130,9 +130,10 @@ class SpinnerBankSelector : RoundedBottomSheet() {
 
                 if (it.data.totalRecord > 0) {
                     pickOptions.addAll(it.data.contents)
-                    recyclerView?.adapter?.notifyDataSetChanged()
-                    fullscreenLoading!!.isVisible = false
                 }
+                recyclerView?.adapter?.notifyDataSetChanged()
+                fullscreenLoading!!.isVisible = false
+
             },
             onError = {
                 fullscreenLoading!!.isVisible = false

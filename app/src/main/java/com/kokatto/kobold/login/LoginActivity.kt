@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.kokatto.kobold.R
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.ActivityLoginBinding
 import com.kokatto.kobold.extension.hideKeyboard
 import com.kokatto.kobold.extension.showKeyboard
@@ -28,6 +29,7 @@ import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.login.listener.PhoneKeyboardLifecycleObserver
 import com.kokatto.kobold.login.slider.SliderAdapter
+import com.kokatto.kobold.persistance.AppPersistence
 
 
 class LoginActivity : FragmentActivity() {
@@ -205,4 +207,16 @@ class LoginActivity : FragmentActivity() {
         }
     }
 
+    private fun validateApplicationToken(){
+        if(AppPersistence.token.isNotEmpty()) {
+            val intent = Intent(this, DashboardActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY)
+            startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        validateApplicationToken()
+    }
 }

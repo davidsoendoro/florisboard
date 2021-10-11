@@ -11,6 +11,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.extension.showToast
 
@@ -93,7 +95,8 @@ class TemplateDialogDelete : BottomSheetDialogFragment() {
                         buttonConfirm?.isVisible = true
                         buttonCancel?.isVisible = true
                         buttonConfirmLoading?.isVisible = false
-                        showToast(it)
+                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
                     }
                 )
 

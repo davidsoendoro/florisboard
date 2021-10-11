@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
@@ -163,7 +165,8 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
                 chatTemplateRecyclerAdapter!!.notifyDataSetChanged()
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 fullscreenLoading!!.isVisible = false
                 chatTemplateRecycler!!.isVisible = true
             }
