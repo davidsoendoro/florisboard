@@ -1,5 +1,6 @@
 package com.kokatto.kobold.dashboard
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,10 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.kokatto.kobold.R
-import com.kokatto.kobold.databinding.ActivityDashboardBinding
 import com.kokatto.kobold.databinding.FragmentDashboardOnboardingBinding
-import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import timber.log.Timber
 
 
@@ -21,6 +19,16 @@ import timber.log.Timber
  */
 class DashboardOnboardingFragment : Fragment() {
     private lateinit var binding: FragmentDashboardOnboardingBinding
+    private var dashboardActivityListener: DashboardActivityListener? = null
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            dashboardActivityListener = context as DashboardActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -42,9 +50,13 @@ class DashboardOnboardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.koboldDashboardOnboardingLayout.setOnClickListener {
-            Timber.d("[Onboarding Fragment] Ahli Cuan clicked")
-            Toast.makeText(requireContext(), "Jadi ahli cuan!", Toast.LENGTH_LONG).show()
+        binding.koboldDashboardOnboardingBecomeProfitMasterButton.setOnClickListener {
+            dashboardActivityListener?.onOKButtonClick(1)
+        }
+        binding.koboldDashboardOnboardingLaterButton.setOnClickListener {
+            dashboardActivityListener?.onLaterClick(1)
         }
     }
+
 }
+

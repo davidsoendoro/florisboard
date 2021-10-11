@@ -73,7 +73,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/kobold_margin_16px"
-                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardTopContentLayout" />
+                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerLayout"
+                    android:visibility="visible"
+                    />
                 <TextView
                     android:id="@+id/kobold_DashboardManageShopLabel"
                     style="@style/kobold_subduedLabel14sp"
@@ -83,7 +85,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_8px"
                     android:text="@string/kobold_dashboard_manage_sales"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerLayout" />
+                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardWelcomeViewPager" />
 
                 <LinearLayout
                     android:id="@+id/kobold_DashboardManageShopLayout"
