@@ -4,7 +4,7 @@ import androidx.annotation.CheckResult
 import com.kokatto.kobold.persistance.AppPersistence
 import okhttp3.Request
 
-internal class SetAuthorizationHeader() {
+internal class SetAuthorizationHeader {
 
     @CheckResult
     operator fun invoke(request: Request): Request {

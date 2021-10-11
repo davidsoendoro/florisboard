@@ -21,7 +21,6 @@ import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.showKeyboard
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import timber.log.Timber
@@ -179,7 +178,7 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
                 super.onBackPressed()
             }
             R.id.clear_button -> {
-                searchEdittext?.setText("");
+                searchEdittext?.setText("")
             }
         }
     }

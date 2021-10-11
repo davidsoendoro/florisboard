@@ -2,7 +2,6 @@ package com.kokatto.kobold.login
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -27,7 +26,6 @@ import com.kokatto.kobold.extension.hideKeyboard
 import com.kokatto.kobold.extension.showKeyboard
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.login.listener.PhoneKeyboardLifecycleObserver
 import com.kokatto.kobold.login.slider.SliderAdapter
 import com.kokatto.kobold.persistance.AppPersistence
 
@@ -51,7 +49,7 @@ class LoginActivity : FragmentActivity() {
 //        )
 
         val window: Window = window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = resources.getColor(R.color.primary_50, null)
 
         indicatorContainer = findViewById(R.id.indicator_container)
@@ -210,7 +208,7 @@ class LoginActivity : FragmentActivity() {
     private fun validateApplicationToken(){
         if(AppPersistence.token.isNotEmpty()) {
             val intent = Intent(this, DashboardActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY
             startActivity(intent)
         }
     }

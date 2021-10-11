@@ -2,9 +2,12 @@ package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
@@ -23,6 +27,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.constant.ActivityConstantCode
@@ -37,13 +43,6 @@ import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogUnsent
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
-import android.content.pm.ResolveInfo
-import android.content.ComponentName
-import android.content.pm.ActivityInfo
-import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
-import com.kokatto.kobold.api.impl.ErrorResponseValidator
 
 
 class DetailActivity : AppCompatActivity() {
@@ -637,7 +636,7 @@ class DetailActivity : AppCompatActivity() {
             val url = Uri.parse("https://api.whatsapp.com/send?phone=${phoneNo}&text=${message}")
             val intent = Intent(Intent.ACTION_VIEW, url)
             intent.setPackage(packageName)
-            startActivity(intent);
+            startActivity(intent)
 
 //            var intent = context.packageManager.getLaunchIntentForPackage(packageName)
 //            if (intent != null) {

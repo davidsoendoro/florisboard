@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -26,7 +25,6 @@ import com.kokatto.kobold.constant.ActivityConstantCode.Companion.CASH
 import com.kokatto.kobold.dashboardcreatetransaction.SpinnerBankAdapter
 import com.kokatto.kobold.extension.RoundedBottomSheet
 import com.kokatto.kobold.extension.showToast
-import dev.patrickgold.florisboard.setup.SetupActivity
 import timber.log.Timber
 
 class SpinnerBankSelector : RoundedBottomSheet() {

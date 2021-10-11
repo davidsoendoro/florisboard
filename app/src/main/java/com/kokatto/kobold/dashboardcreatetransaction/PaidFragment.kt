@@ -1,13 +1,10 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,10 +14,8 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
