@@ -4,13 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.ActivityConstantCode
@@ -31,6 +35,9 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
 
     private var bottomLoading: LinearLayout? = null
     private var fullscreenLoading: LinearLayout? = null
+
+    private var emptyLayout: ConstraintLayout? = null
+    private var createEmptyButton: Button? = null
 
     private val isLoadingList = AtomicBoolean(true)
     private val isLast = AtomicBoolean(false)
@@ -63,6 +70,13 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
 
         paidRecycler!!.adapter = paidRecyclerAdapter
         paidRecycler!!.vertical()
+
+        emptyLayout = view.findViewById(R.id.pending_layout_empty)
+        createEmptyButton = view.findViewById(R.id.empty_create_button)
+
+        createEmptyButton!!.setOnClickListener{
+            createTransactionActivityListener?.openInputActivity()
+        }
     }
 
     override fun onClicked(data: TransactionModel) {
@@ -100,6 +114,12 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
                 isLoadingList.set(it)
             },
             onSuccess = { it ->
+                if(it.data.totalRecord > 0){
+                    showDataState()
+                } else {
+                    showEmptyState()
+                }
+
                 transactionList.addAll(it.data.contents)
                 isLast.set(it.data.totalPages <= it.data.page)
 //                if first page
@@ -115,10 +135,24 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
                 paidRecyclerAdapter!!.notifyDataSetChanged()
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
                 fullscreenLoading!!.isVisible = false
                 paidRecycler!!.isVisible = true
             }
         )
     }
+
+    private fun showEmptyState(){
+        emptyLayout?.isVisible = true
+        paidRecycler?.isVisible = false
+        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+    }
+
+    private fun showDataState(){
+        emptyLayout?.isVisible = false
+        paidRecycler?.isVisible = true
+        createTransactionActivityListener?.setHasTransaction(true)
+    }
+
 }
