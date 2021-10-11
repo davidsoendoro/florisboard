@@ -257,15 +257,6 @@ interface MerchantApi {
     suspend fun postCreateMerchant(@Body request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
 }
 
-private const val tutorialUrl: String = "api/v1/tutorial/"
-interface TutorialApi {
-    @GET(tutorialUrl + "progress")
-    suspend fun getTutorialProgress(): ApiResponse<GetTutorialPaginatedResponse>
-
-    @POST(tutorialUrl + "access/{tutorId}")
-    suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
-}
-
 /**
  * Synchronously send the request and return its response.
  */

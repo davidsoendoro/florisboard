@@ -226,10 +226,12 @@ class EditorInstance private constructor(
             } else {
                 ic.requestCursorUpdates(InputConnection.CURSOR_UPDATE_IMMEDIATE)
                 activeEditText?.let { _activeEditText ->
-                    _activeEditText.append(finalText)
-                    _activeEditText.text?.let { editTextContent ->
-                        _activeEditText.setSelection(editTextContent.length)
-                    }
+                    val selectionStart = _activeEditText.selectionStart
+                    val selectionEnd = _activeEditText.selectionEnd
+
+                    _activeEditText.setText(_activeEditText.text?.removeRange(selectionStart, selectionEnd))
+                    _activeEditText.text?.insert(selectionStart, finalText)
+                    _activeEditText.setSelection(selectionStart + finalText.length)
                 }
             }
             ic.endBatchEdit()

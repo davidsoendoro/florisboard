@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId = "com.kokatto.kobold"
-        minSdk = 23
+        minSdk = 21
         targetSdk = 30
         versionCode = 52
         versionName = "0.3.13"
