@@ -837,5 +837,9 @@
     <string name="kobold_rewatch">Tonton Ulang</string>
     <string name="kobold_feature_accessed">Sudah Akses</string>
     <string name="kobold_DashboardProfitMasterCompletedNoneLabel">Belum ada yang dipelajari. Fitur yang sudah kamu lihat dan tonton akan pindah kesini.</string>
+    <string name="kobold_contact">Kontak</string>
+    <string name="kobold_have_no_contact">Kamu belum punya kontak</string>
+    <string name="kobold_have_no_contact_instruction">Tambah kontak dan mulai kelola jualan dengan pelangganmu di sini</string>
+    <string name="kobold_add_contact">Tambah Kontak</string>
 
 </resources>
