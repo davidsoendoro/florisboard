@@ -1,5 +1,6 @@
 package com.kokatto.kobold.dashboard
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -21,6 +22,16 @@ import timber.log.Timber
  */
 class ActivateKeyboardFragment : Fragment() {
     private lateinit var binding: FragmentActivateKeyboardBinding
+    private var dashboardActivityListener: DashboardActivityListener? = null
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            dashboardActivityListener = context as DashboardActivityListener
+        } catch (castException: ClassCastException) {
+            // Listener cannot be attached
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -42,9 +53,11 @@ class ActivateKeyboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.koboldActivateKeyboardButton.setOnClickListener {
-            Timber.d("[Activate Keyboard Fragment] ACtivate keyboard clicked")
-            Toast.makeText(requireContext(), "Activate Keyboard!", Toast.LENGTH_LONG).show()
-            startActivity(Intent(requireContext(), SettingsMainActivity::class.java))
+            dashboardActivityListener?.onOKButtonClick(2)
+        }
+
+        binding.koboldActivateKeyboardLaterButton.setOnClickListener {
+            dashboardActivityListener?.onLaterClick(2)
         }
     }
 }

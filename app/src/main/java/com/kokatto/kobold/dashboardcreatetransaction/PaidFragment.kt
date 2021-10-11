@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -141,7 +143,7 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
     private fun showEmptyState(){
         emptyLayout?.isVisible = true
         paidRecycler?.isVisible = false
-        //createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
     }
 
     private fun showDataState(){

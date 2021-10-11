@@ -43,6 +43,13 @@ import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogUnsent
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
+import android.content.pm.ResolveInfo
+import android.content.ComponentName
+import android.content.pm.ActivityInfo
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 
 
 class DetailActivity : AppCompatActivity() {

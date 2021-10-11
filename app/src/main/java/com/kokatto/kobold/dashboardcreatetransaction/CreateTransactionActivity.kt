@@ -138,6 +138,8 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
             val intent = Intent(this, InputActivity::class.java)
             activityResultLauncher?.launch(intent)
         }
+
+        createFloatingButton?.isVisible = hasTransaction
     }
 
     override fun getItemCount(): Int = fragmentEnabledCount.size
@@ -175,7 +177,7 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
 
     override fun setHasTransaction(isHasTransaction: Boolean) {
         hasTransaction = isHasTransaction
-        //createFloatingButton!!.isVisible = this.hasTransaction
+        createFloatingButton!!.isVisible = this.hasTransaction
     }
 
     override fun getHasTransactionn(): Boolean {

@@ -2,6 +2,7 @@ package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -131,13 +132,13 @@ class UnprocessedFragment : Fragment(R.layout.fragment_unprocessed), Transaction
     private fun showEmptyState(){
         emptyLayout?.isVisible = true
         unprocesedRecycler?.isVisible = false
-        //createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
     }
 
     private fun showDataState(){
         emptyLayout?.isVisible = false
         unprocesedRecycler?.isVisible = true
-        //createTransactionActivityListener?.setHasTransaction(true)
+        createTransactionActivityListener?.setHasTransaction(true)
     }
 
 

@@ -33,6 +33,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val authenticationUrl: String = "api/v1/auth/"
+
 interface AuthenticationApi {
     @GET(authenticationUrl + "request")
     suspend fun login(
@@ -58,6 +59,7 @@ interface AuthenticationApi {
 }
 
 private const val autoTextUrl: String = "api/v1/autotext/"
+
 interface ChatTemplateApi {
     @RequiredAuth
     @GET(autoTextUrl + "filter")
@@ -173,6 +175,7 @@ interface TransactionApi {
 }
 
 private const val bankUrl: String = "api/v1/banks/"
+
 interface BankApi {
     @RequiredAuth
     @GET(bankUrl + "filter")
@@ -214,6 +217,7 @@ interface BankApi {
 }
 
 private const val deliveryUrl: String = "api/v1/courier/"
+
 interface DeliveryApi {
     @RequiredAuth
     @GET(deliveryUrl + "address")
@@ -253,6 +257,15 @@ interface MerchantApi {
     suspend fun postCreateMerchant(@Body request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
 }
 
+private const val tutorialUrl: String = "api/v1/tutorial/"
+interface TutorialApi {
+    @GET(tutorialUrl + "progress")
+    suspend fun getTutorialProgress(): ApiResponse<GetTutorialPaginatedResponse>
+
+    @POST(tutorialUrl + "access/{tutorId}")
+    suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
+}
+
 /**
  * Synchronously send the request and return its response.
  */
@@ -262,7 +275,6 @@ interface RefreshTokenApi {
     fun refreshToken(
         @Body request: PostTokenRefreshRequest
     ): Call<PostTokenRefreshResponse>
-
 }
 
 private const val tutorialUrl: String = "api/v1/tutorial/"
@@ -273,4 +285,3 @@ interface TutorialApi {
     @POST(tutorialUrl + "access/{tutorId}")
     suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
 }
-

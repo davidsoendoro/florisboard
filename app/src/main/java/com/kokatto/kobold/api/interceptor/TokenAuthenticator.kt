@@ -1,5 +1,6 @@
 package com.kokatto.kobold.api.interceptor
 
+import android.util.Log
 import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.internal.DefaultIsSessionExpiredException
 import com.kokatto.kobold.api.internal.INVALIDATION_AFTER_REFRESH_HEADER_NAME
@@ -17,7 +18,7 @@ import okhttp3.Route
 import retrofit2.HttpException
 import java.io.IOException
 
-internal class TokenAuthenticator : Authenticator {
+internal class TokenAuthenticator() : Authenticator {
 
     private var isSessionExpiredException: IsSessionExpiredException = DefaultIsSessionExpiredException()
     private var setAuthorizationHeader: SetAuthorizationHeader = SetAuthorizationHeader()
