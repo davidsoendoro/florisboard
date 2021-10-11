@@ -18,6 +18,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
@@ -317,7 +319,8 @@ class InputActivity : AppCompatActivity() {
                         },
                         onError = {
                             progressSubmit(false)
-                            showToast(it)
+                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                DashboardSessionExpiredEventHandler(this).onSessionExpired()
                         }
                     )
                 }
@@ -333,7 +336,8 @@ class InputActivity : AppCompatActivity() {
                         onError = {
                             super.finish()
                             progressSubmit(false)
-                            showToast(it)
+                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                DashboardSessionExpiredEventHandler(this).onSessionExpired()
                         }
                     )
                 }

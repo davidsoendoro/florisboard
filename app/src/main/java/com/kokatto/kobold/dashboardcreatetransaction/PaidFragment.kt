@@ -141,7 +141,7 @@ class PaidFragment: Fragment(R.layout.fragment_paid) , TransactionHomeRecyclerAd
     private fun showEmptyState(){
         emptyLayout?.isVisible = true
         paidRecycler?.isVisible = false
-        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+        //createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
     }
 
     private fun showDataState(){

@@ -138,17 +138,16 @@ class SentFragment: Fragment(R.layout.fragment_sent) , TransactionHomeRecyclerAd
             }
         )
     }
-
     private fun showEmptyState(){
         emptyLayout?.isVisible = true
         sentRecycler?.isVisible = false
-        createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
+        //createEmptyButton?.isVisible = createTransactionActivityListener?.getHasTransactionn() != true
     }
 
     private fun showDataState(){
         emptyLayout?.isVisible = false
         sentRecycler?.isVisible = true
-        createTransactionActivityListener?.setHasTransaction(true)
+        //createTransactionActivityListener?.setHasTransaction(true)
     }
 
 }

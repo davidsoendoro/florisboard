@@ -1,6 +1,7 @@
 package com.kokatto.kobold.identity
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -11,6 +12,7 @@ import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.extension.get
 import com.kokatto.kobold.extension.set
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.login.LoginActivity
 import com.kokatto.kobold.persistance.AppPersistence
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +37,8 @@ class KeyboardIdentityLogin : LinearLayout {
         loginButton = findViewById(R.id.login_button)
         loginButton?.let { button -> button.setOnClickListener { onLoginButtonClicked(button) } }
 
-        AppPersistence.test = "hahahahahaha"
+        //AppPersistence.test = "hahahahahaha"
+
     }
 
     override fun onViewRemoved(child: View?) {
@@ -59,7 +62,14 @@ class KeyboardIdentityLogin : LinearLayout {
 //
         florisboard?.inputFeedbackManager?.keyPress()
         when (view.id) {
-            R.id.login_button -> florisboard?.setActiveInput(R.id.kobold_mainmenu)
+            //R.id.login_button -> florisboard?.setActiveInput(R.id.kobold_mainmenu)
+            R.id.login_button -> openLoginFlow()
         }
+    }
+
+    private fun openLoginFlow(){
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        context.startActivity(intent)
     }
 }

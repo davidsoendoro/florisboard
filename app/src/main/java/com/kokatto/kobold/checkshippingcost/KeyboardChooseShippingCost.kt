@@ -11,12 +11,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
 import com.kokatto.kobold.api.model.basemodel.format
 import com.kokatto.kobold.api.model.basemodel.toText
 import com.kokatto.kobold.checkshippingcost.recycleradapter.ChooseCourierRecyclerAdapter
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import timber.log.Timber
@@ -111,7 +113,11 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
                             fullscreenLoading?.isVisible = false
                             chooseCourierRecyclerView?.isVisible = true
 
-                            showSnackBar(it, R.color.snackbar_error)
+                            //showSnackBar(it, R.color.snackbar_error)
+                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                florisboard?.setActiveInput(R.id.kobold_login)
+                            else
+                                showSnackBar(it, R.color.snackbar_error)
                         }
                     )
                 }

@@ -14,6 +14,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.fromBundle
 import com.kokatto.kobold.databinding.BottomsheetBusinessFieldBinding
@@ -94,7 +96,8 @@ class DialogBusinessFieldSelector : RoundedBottomSheet(), DialogBusinessFieldAda
                     adapter?.notifyDataSetChanged()
                 },
                 onError = {
-                    showSnackBar(it)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
                 }
             )
         }
