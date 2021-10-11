@@ -1,5 +1,6 @@
 package com.kokatto.kobold.api
 
+import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
@@ -56,7 +57,7 @@ interface AuthenticationApi {
 
 private const val autoTextUrl: String = "api/v1/autotext/"
 interface ChatTemplateApi {
-//    @RequiredAuth
+    @RequiredAuth
     @GET(autoTextUrl + "filter")
     suspend fun getPaginatedChatTemplateList(
     @Query("page") page: Int,
@@ -64,31 +65,31 @@ interface ChatTemplateApi {
     @Query("search") search: String
 ): ApiResponse<GetPaginatedAutoTextResponse>
 
-//    @RequiredAuth
+    @RequiredAuth
     @GET(autoTextUrl + "standard")
     suspend fun getStandardListChatTemplateList(
     ): ApiResponse<GetStandartListAutoTextResponse>
 
-//    @RequiredAuth
+    @RequiredAuth
     @POST(autoTextUrl + "create")
     suspend fun postCreateAutoText(
         @Body createAutoTextRequest: AutoTextModel
     ): ApiResponse<BaseResponse>
 
-//    @RequiredAuth
+    @RequiredAuth
     @GET(autoTextUrl + "detail/{id}")
     suspend fun findAutotextById(
         @Path("id") autoTextId: String
     ): ApiResponse<GetAutoTextResponse>
 
-//    @RequiredAuth
+    @RequiredAuth
     @PATCH(autoTextUrl + "update/{id}")
     suspend fun updateAutotextById(
     @Path("id") autoTextId: String,
     @Body updateAutoTextRequest: AutoTextModel
     ): ApiResponse<GetAutoTextResponse>
 
-//    @RequiredAuth
+    @RequiredAuth
     @PATCH(autoTextUrl + "delete/{id}")
     suspend fun deleteAutotextById(
         @Path("id") autoTextId: String
@@ -112,56 +113,56 @@ interface TransactionApi {
         @Body createTransactionRequest: TransactionModel
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(transactionUrl + "detail/{id}")
     suspend fun findTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<GetTransactionResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "update/{id}")
     suspend fun updateTransactionById(
         @Path("id") transactionId: String,
         @Body updateTransactionRequest: TransactionModel
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "delete/{id}")
     suspend fun deleteTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "status/pending/{id}")
     suspend fun pendingTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "status/paid/{id}")
     suspend fun paidTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "status/sent/{id}")
     suspend fun sentTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "status/cancel/{id}")
     suspend fun cancelTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(transactionUrl + "status/complete/{id}")
     suspend fun completeTransactionById(
         @Path("id") transactionId: String
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(transactionUrl + "properties/{type}")
     suspend fun getStandardListProperties(
         @Path("type") typeAsset: String
@@ -170,7 +171,7 @@ interface TransactionApi {
 
 private const val bankUrl: String = "api/v1/banks/"
 interface BankApi {
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(bankUrl + "filter")
     suspend fun getPaginatedBank(
         @Query("page") page: Int,
@@ -178,26 +179,26 @@ interface BankApi {
         @Query("search") search: String
     ): ApiResponse<GetPaginationBankResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @POST(bankUrl + "create")
     suspend fun postCreateBank(
         @Body createBankRequest: BankModel
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(bankUrl + "detail/{id}")
     suspend fun findBankById(
         @Path("id") bankId: String
     ): ApiResponse<GetBankResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(bankUrl + "update/{id}")
     suspend fun updateBankById(
         @Path("id") bankId: String,
         @Body updateBankRequest: BankModel
     ): ApiResponse<BaseResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @PATCH(bankUrl + "delete/{id}")
     suspend fun deleteBankById(
         @Path("id") bankId: String
@@ -211,7 +212,7 @@ interface BankApi {
 
 private const val deliveryUrl: String = "api/v1/courier/"
 interface DeliveryApi {
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(deliveryUrl + "address")
     suspend fun getPaginatedDeliveryAddress(
         @Query("page") page: Int,
@@ -219,7 +220,7 @@ interface DeliveryApi {
         @Query("search") search: String
     ): ApiResponse<GetPaginationDeliveryAddressResponse>
 
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(deliveryUrl + "delivery-fee")
     suspend fun getListDeliveryFee(
         @Query("from_city") fromCity: String,
@@ -236,7 +237,7 @@ interface DeliveryApi {
 private const val merchantUrl: String = "api/v1/merchant/"
 
 interface MerchantApi {
-    //    @RequiredAuth
+    @RequiredAuth
     @GET(merchantUrl + "business-type")
     suspend fun getBusinessType(): ApiResponse<GetBusinessTypeResponse>
 
