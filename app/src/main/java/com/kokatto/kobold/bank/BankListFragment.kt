@@ -12,7 +12,6 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.bank.recylerAdapeter.BankRecyclerAdapter
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean

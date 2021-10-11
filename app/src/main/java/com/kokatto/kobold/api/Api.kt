@@ -265,6 +265,7 @@ interface TutorialApi {
     @POST(tutorialUrl + "access/{tutorId}")
     suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
 }
+
 /**
  * Synchronously send the request and return its response.
  */
@@ -274,4 +275,13 @@ interface RefreshTokenApi {
     fun refreshToken(
         @Body request: PostTokenRefreshRequest
     ): Call<PostTokenRefreshResponse>
+}
+
+private const val tutorialUrl: String = "api/v1/tutorial/"
+interface TutorialApi {
+    @GET(tutorialUrl + "progress")
+    suspend fun getTutorialProgress(): ApiResponse<GetTutorialPaginatedResponse>
+
+    @POST(tutorialUrl + "access/{tutorId}")
+    suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
 }

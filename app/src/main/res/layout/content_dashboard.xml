@@ -83,9 +83,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/kobold_margin_16px"
                     android:layout_marginTop="@dimen/kobold_margin_8px"
-                    android:text="@string/kobold_dashboard_manage_sales"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardWelcomeViewPager" />
+                    android:text="@string/kobold_activate_magical_keyboard"
+                    style="@style/informationalLabel14sp"
+                    android:padding="@dimen/kobold_margin_8px"
+                    app:layout_constraintStart_toEndOf="@id/kobold_DashboardActivateMagicKeyboardBannerImage"
+                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerText" />
 
                 <LinearLayout
                     android:id="@+id/kobold_DashboardManageShopLayout"
@@ -503,3 +505,48 @@
 
 </layout>
 
+            <Button
+                android:id="@+id/kobold_DashboardSupportButton"
+                style="@style/kobold_card_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/kobold_card_white"
+                android:layout_marginTop="@dimen/kobold_margin_4px"
+                android:drawableLeft="@drawable/ic_kobold_help"
+                android:text="@string/kobold_help_center"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                app:backgroundTint="@color/colorWhite"
+                app:layout_constraintTop_toBottomOf="@id/kobold_DashboardSupportHeaderLabel" />
+
+            <Button
+                android:id="@+id/kobold_DashboardContactCustomerServiceButton"
+                style="@style/kobold_card_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kobold_margin_8px"
+                android:layout_marginBottom="@dimen/kobold_margin_16px"
+                android:background="@drawable/kobold_card_white"
+                android:drawableLeft="@drawable/ic_chat"
+                android:text="@string/kobold_contact_cs"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                app:backgroundTint="@color/colorWhite" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/kobold_DashboardLeftGuideline"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.10218978" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/kobold_DashboardRightGuideline"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

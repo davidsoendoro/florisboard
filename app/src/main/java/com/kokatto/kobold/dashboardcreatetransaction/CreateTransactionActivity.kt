@@ -17,13 +17,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
 import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
+import timber.log.Timber
 
 interface CreateTransactionActivityListener {
     fun openInputActivity()
@@ -41,6 +45,7 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
     private var hasTransaction: Boolean = false
 
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

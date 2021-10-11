@@ -17,6 +17,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.ShippingCostModel
 import com.kokatto.kobold.chattemplate.KeyboardChatTemplate
@@ -27,6 +28,7 @@ import com.kokatto.kobold.extension.addAffixToString
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.ime.core.DELAY
@@ -157,6 +159,11 @@ class KeyboardCheckShippingCost : ConstraintLayout {
                 recyclerView?.isVisible = false
                 layoutEmpty?.isVisible = false
                 layoutNotFound?.isVisible = true
+
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    florisboard?.setActiveInput(R.id.kobold_login)
+                else
+                    showToast(it)
             }
         )
     }

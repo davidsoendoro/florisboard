@@ -38,10 +38,11 @@ object Network {
         createNetwork(okHttpClient, Gson())
     }
 
-    val tutorialApi: TutorialApi by lazy {
-        createNetwork(okHttpClient, Gson())}
-
     val refreshTokenApi: RefreshTokenApi by lazy {
         callNetworkRefreshToken()
+    }
+
+    val tutorialApi: TutorialApi by lazy {
+        createNetwork(okHttpClient, Gson())
     }
 }

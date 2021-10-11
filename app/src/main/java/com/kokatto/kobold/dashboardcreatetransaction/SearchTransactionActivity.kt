@@ -1,7 +1,6 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -9,6 +8,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
@@ -18,9 +18,7 @@ import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showKeyboard
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
-import com.kokatto.kobold.template.TemplateActivityInput
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -158,7 +156,7 @@ class SearchTransactionActivity : AppCompatActivity() , TransactionHomeRecyclerA
                 super.onBackPressed()
             }
             R.id.clear_button -> {
-                searchEdittext?.setText("");
+                searchEdittext?.setText("")
             }
         }
     }

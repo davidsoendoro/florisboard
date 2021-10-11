@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
 import com.kokatto.kobold.bank.BankViewModel
@@ -282,7 +283,11 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     florisboard?.setActiveInput(R.id.kobold_menu_transaction)
                 },
                 onError = {
-                    showSnackBar(it)
+
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        florisboard?.setActiveInput(R.id.kobold_login)
+                    else
+                        showSnackBar(it)
                 }
             )
         }
@@ -304,7 +309,11 @@ class KeyboardCreateTransaction : ConstraintLayout {
                         }
                     },
                     onError = {
-                        showSnackBar(it, R.color.snackbar_error)
+                        //showSnackBar(it, R.color.snackbar_error)
+                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            florisboard?.setActiveInput(R.id.kobold_login)
+                        else
+                            showSnackBar(it, R.color.snackbar_error)
                     }
                 )
 
@@ -319,7 +328,11 @@ class KeyboardCreateTransaction : ConstraintLayout {
                         }
                     },
                     onError = {
-                        showSnackBar(it, R.color.snackbar_error)
+                        //showSnackBar(it, R.color.snackbar_error)
+                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            florisboard?.setActiveInput(R.id.kobold_login)
+                        else
+                            showSnackBar(it, R.color.snackbar_error)
                     }
                 )
 
@@ -336,7 +349,11 @@ class KeyboardCreateTransaction : ConstraintLayout {
                         }
                     },
                     onError = {
-                        showSnackBar(it, R.color.snackbar_error)
+                        //showSnackBar(it, R.color.snackbar_error)
+                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            florisboard?.setActiveInput(R.id.kobold_login)
+                        else
+                            showSnackBar(it, R.color.snackbar_error)
                     }
                 )
             }

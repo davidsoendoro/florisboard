@@ -88,7 +88,6 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
                     }
                 }
             }
-
             koboldDashboardProfitMasterCompletedTutorialHeaderLayout.setOnClickListener {
                 if (koboldDashboardProfitMasterCompletedTutorialContentLayout.visibility == View.GONE) {
                     koboldDashboardProfitMasterCompletedTutorialContentLayout.visibility = View.VISIBLE

@@ -18,7 +18,6 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.constant.ActivityConstantCode
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.template.dialog.DialogClearConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseEditConfirm
