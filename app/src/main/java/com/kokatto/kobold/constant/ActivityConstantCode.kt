@@ -51,5 +51,8 @@ class ActivityConstantCode {
         val BANK_TYPE_OTHER = "OTHER"
         val BANK_TYPE_BANK = "BANK"
 
+        // FRAGMENT CODES
+        val ONBOARDING_FRAGMENT_CODE = 10001
+        val ACTIVATE_KEYBOARD_FRAGMENT_CODE = 10002
     }
 }
