@@ -23,6 +23,7 @@ import androidx.core.text.isDigitsOnly
 import com.kokatto.kobold.BuildConfig
 import com.kokatto.kobold.R
 import com.kokatto.kobold.databinding.FlorisboardBinding
+import com.kokatto.kobold.persistance.AppPersistence
 import dev.patrickgold.florisboard.debug.LogTopic
 import dev.patrickgold.florisboard.debug.flogError
 import dev.patrickgold.florisboard.debug.flogInfo
@@ -531,14 +532,17 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
         florisboard.inputFeedbackManager.keyPress()
         when (quickActionId) {
             R.id.quick_action_toggle -> {
-                florisboard.setActiveInput(R.id.kobold)
-//                activeState.isMainMenuVisible = !activeState.isMainMenuVisible
-//                if (activeState.isMainMenuVisible) {
-//                    // Check if user has logged in
-//                    florisboard.setActiveInput(R.id.kobold)
-//                } else {
-//                    florisboard.setActiveInput(R.id.text_input)
-//                }
+                //florisboard.setActiveInput(R.id.kobold)
+                activeState.isMainMenuVisible = !activeState.isMainMenuVisible
+                if (activeState.isMainMenuVisible) {
+                    // Check if user has logged in
+                    if(AppPersistence.token.isEmpty())
+                        florisboard.setActiveInput(R.id.kobold)
+                    else
+                        florisboard.setActiveInput(R.id.kobold_mainmenu)
+                } else {
+                    florisboard.setActiveInput(R.id.text_input)
+                }
                 return
             }
             R.id.quick_action_switch_to_editing_context -> {

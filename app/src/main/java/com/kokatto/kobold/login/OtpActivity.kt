@@ -168,11 +168,16 @@ class OtpActivity : AppCompatActivity() {
                 AppPersistence.refreshToken = it.data.refreshToken
 
                 if(it.data.isNew){
-                    startActivity(Intent(this, RegistrationActivity::class.java))
+                    val regIntent = Intent(this, RegistrationActivity::class.java)
+                    regIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(regIntent)
                 } else {
-                    startActivity(Intent(this, DashboardActivity::class.java))
+                    val dashboardIntent = Intent(this, DashboardActivity::class.java)
+                    dashboardIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(dashboardIntent)
                 }
 
+                finish()
                 loading.isDismiss()
             },
             onError = {

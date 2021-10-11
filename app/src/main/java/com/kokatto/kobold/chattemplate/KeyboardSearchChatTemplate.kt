@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.showToast
@@ -74,7 +75,10 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
                 adapter?.notifyItemRangeInserted(0, it.data.contents.size)
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    florisboard?.setActiveInput(R.id.kobold_login)
+                else
+                    showToast(it)
             }
         )
 
@@ -105,8 +109,12 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
                             bottomLoading.isVisible = false
                         },
                         onError = { errorMessage ->
-                            showToast(errorMessage)
+                            //showToast(errorMessage)
                             bottomLoading.isVisible = false
+                            if(ErrorResponseValidator.isSessionExpiredResponse(errorMessage))
+                                florisboard?.setActiveInput(R.id.kobold_login)
+                            else
+                                showToast(errorMessage)
                         }
                     )
                 },

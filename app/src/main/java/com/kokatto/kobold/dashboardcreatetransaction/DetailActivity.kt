@@ -2,11 +2,15 @@ package com.kokatto.kobold.dashboardcreatetransaction
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -15,6 +19,8 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
@@ -23,6 +29,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.constant.ActivityConstantCode
@@ -37,11 +45,6 @@ import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogUnsent
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
-import android.content.pm.ResolveInfo
-import android.content.ComponentName
-import android.content.pm.ActivityInfo
-import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 
 
 class DetailActivity : AppCompatActivity() {
@@ -86,6 +89,7 @@ class DetailActivity : AppCompatActivity() {
     private var fullscreenLoading: LinearLayout? = null
     private var scrollviewLayout: ScrollView? = null
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_transaction)
@@ -251,6 +255,7 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun disableFormInput() {
         val textColor = this.resources.getColor(R.color.colorEditTextDisableText, null)
         val backgroundColor = this.resources.getColor(R.color.colorEditTextDisable, null)
@@ -334,6 +339,7 @@ class DetailActivity : AppCompatActivity() {
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun getTransactionModelFromIntent() {
         progressLoading(true)
         currentTransaction = intent.getParcelableExtra<TransactionModel>(EXTRA_DATA)
@@ -412,6 +418,9 @@ class DetailActivity : AppCompatActivity() {
                     finish()
                 },
                 onError = {
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
+
                     progressLoading(false)
                 }
             )
@@ -519,6 +528,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -544,6 +555,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -569,6 +582,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -594,6 +609,8 @@ class DetailActivity : AppCompatActivity() {
                 },
                 onError = {
                     progressLoading(false)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -614,11 +631,16 @@ class DetailActivity : AppCompatActivity() {
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
                     setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
                     finish()
-                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_finish_toast))
+                    showSnackBar(
+                        findViewById(R.id.root_layout),
+                        resources.getString(R.string.kobold_transaction_finish_toast)
+                    )
                     //showToast(resources.getString(R.string.kobold_transaction_unsent_toast))
                 },
                 onError = {
                     progressLoading(false)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 }
             )
         }
@@ -626,11 +648,11 @@ class DetailActivity : AppCompatActivity() {
 
     fun openWhatsappAndDirectToNumber(phoneNo: String, message: String, context: Context, packageName: String) {
 
-        if(checkAppInstalledOrNot(packageName)) {
+        if (checkAppInstalledOrNot(packageName)) {
             val url = Uri.parse("https://api.whatsapp.com/send?phone=${phoneNo}&text=${message}")
             val intent = Intent(Intent.ACTION_VIEW, url)
             intent.setPackage(packageName)
-            startActivity(intent);
+            startActivity(intent)
 
 //            var intent = context.packageManager.getLaunchIntentForPackage(packageName)
 //            if (intent != null) {
@@ -655,14 +677,14 @@ class DetailActivity : AppCompatActivity() {
 
     fun openApplicationActivity(context: Context, packageName: String) {
 
-        if(checkAppInstalledOrNot(packageName)){
+        if (checkAppInstalledOrNot(packageName)) {
             var packMan: PackageManager = packageManager
             val intent = Intent(Intent.ACTION_MAIN, null)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             intent.setPackage(packageName)
             val launchables: List<ResolveInfo> = packMan.queryIntentActivities(intent, 0)
 
-            if(launchables.size > 0) {
+            if (launchables.isNotEmpty()) {
                 val activity: ActivityInfo = launchables.get(0).activityInfo
                 val name = ComponentName(
                     activity.applicationInfo.packageName,
@@ -697,7 +719,7 @@ class DetailActivity : AppCompatActivity() {
 //        }
     }
 
-    fun checkAppInstalledOrNot(packageName: String) : Boolean {
+    fun checkAppInstalledOrNot(packageName: String): Boolean {
         var packageManager: PackageManager = packageManager
         try {
             packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
@@ -707,11 +729,10 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun parsePhoneToCountryCode(phone: String) : String {
-        if(phone.get(0).toString() == "0")
-        {
+    private fun parsePhoneToCountryCode(phone: String): String {
+        if (phone.get(0).toString() == "0") {
             return "62${phone.substring(1)}"
-        } else if(phone.get(0).toString() == "6" && phone.get(1).toString() == "2") {
+        } else if (phone.get(0).toString() == "6" && phone.get(1).toString() == "2") {
             return "62${phone.substring(1)}"
         } else {
             return "62${phone}"

@@ -1,5 +1,6 @@
 package com.kokatto.kobold.registration
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -12,13 +13,17 @@ import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.BusinessTypeModel
 import com.kokatto.kobold.api.model.basemodel.toBundle
 import com.kokatto.kobold.api.model.basemodel.toTextFormat
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
+import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.login.LoginActivity
 import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 import com.kokatto.kobold.registration.spinner.DialogBusinessTypeSelector
 import com.kokatto.kobold.registration.viewmodel.MerchantViewModel
@@ -111,7 +116,9 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
                         showSnackBar("Merchant created")
                     },
                     onError = {
-                        showSnackBar(it, R.color.snackbar_error)
+                        //showSnackBar(it, R.color.snackbar_error)
+                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            DashboardSessionExpiredEventHandler(this).onSessionExpired()
                     })
             }
         }
@@ -152,7 +159,9 @@ class RegistrationActivity : AppCompatActivity(), DialogBusinessFieldSelector.On
         val discardButton = bottomDialog.findViewById<MaterialCardView>(R.id.cancel_button)
 
         acceptButton?.setOnClickListener {
-
+            val intent = Intent(this, DashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
 
             bottomDialog.dismiss()
         }

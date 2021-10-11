@@ -11,22 +11,29 @@ import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
 import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
+import timber.log.Timber
 
 interface CreateTransactionActivityListener {
     fun openInputActivity()
     fun openDetailActivity(dataModel: TransactionModel)
+    fun setHasTransaction(isHasTransaction: Boolean)
+    fun getHasTransactionn(): Boolean
 }
 
 class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, CreateTransactionActivityListener {
@@ -34,8 +41,11 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
     private var activeButton: Button? = null
     private var warningLayout: LinearLayout? = null
     private var viewPager: ViewPager2? = null
+    private var createFloatingButton: CardView? = null
+    private var hasTransaction: Boolean = false
 
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +57,7 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
 
         activeButton = findViewById(R.id.popup_keyboard_active_button)
         warningLayout = findViewById(R.id.layout_active_keyboard)
+        createFloatingButton = findViewById(R.id.create_transaction_button)
 
         findViewById<ImageView>(R.id.archive_button).setOnClickListener {
             startActivity(Intent(this, ArchiveActivity::class.java))
@@ -123,10 +134,12 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
             }
         }
 
-        findViewById<CardView>(R.id.create_transaction_button).setOnClickListener {
+        createFloatingButton!!.setOnClickListener {
             val intent = Intent(this, InputActivity::class.java)
             activityResultLauncher?.launch(intent)
         }
+
+        createFloatingButton?.isVisible = hasTransaction
     }
 
     override fun getItemCount(): Int = fragmentEnabledCount.size
@@ -160,6 +173,15 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DetailActivity.EXTRA_DATA, dataModel)
         activityResultLauncher?.launch(intent)
+    }
+
+    override fun setHasTransaction(isHasTransaction: Boolean) {
+        hasTransaction = isHasTransaction
+        createFloatingButton!!.isVisible = this.hasTransaction
+    }
+
+    override fun getHasTransactionn(): Boolean {
+        return hasTransaction
     }
 
     override fun onResume() {
