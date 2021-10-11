@@ -1,6 +1,7 @@
 package com.kokatto.kobold.api.interceptor
 
 import com.kokatto.kobold.api.annotation.RequiredAuth
+import com.kokatto.kobold.persistance.AppPersistence
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response
@@ -13,9 +14,10 @@ internal class AuthInterceptor :
         val request = chain.request()
         val invocation = request.tag(Invocation::class.java)
         val requiredAuth = invocation?.method()?.getAnnotation(RequiredAuth::class.java)
-//        val token = AppPersistence.token
-        val token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiNjE2MDJjY2IwOWEyNDcwMDA4ZGNjMWRkIiwiaWF0IjoxNjMzOTMwOTkxLCJleHAiOjE2OTQ0MTA5OTF9.LcV7_KzNOZs8dBpn4siV7te04BwFpdGhqlCmQ-mSdbs"
+        val token = AppPersistence.token
+        // For Testing Only
+//        val token =
+//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiNjE2MDJjY2IwOWEyNDcwMDA4ZGNjMWRkIiwiaWF0IjoxNjMzOTMwOTkxLCJleHAiOjE2OTQ0MTA5OTF9.LcV7_KzNOZs8dBpn4siV7te04BwFpdGhqlCmQ-mSdbs"
         return when {
             requiredAuth != null -> when {
                 token.isNotEmpty() -> chain.proceed(
