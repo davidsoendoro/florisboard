@@ -826,6 +826,9 @@
     <string name="kobold_activate_magical_keyboard">Aktifin Keyboard Ajaib</string>
     <string name="kobold_activate_magical_keyboard_header">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
     <string name="kobold_dashboard_manage_transaction">Atur Transaksi</string>
+    <string name="kobold_transaction_empty_title">Belum ada transaksi</string>
+    <string name="kobold_transaction_empty_desc">Daftar penjualan dengan pelanggan akan\nmuncul disini.</string>
+    <string name="kobold_transaction_empty_action">Buat transaksi</string>
     <string name="kobold_menu_template_data_unavailable_title">Belum ada Template Chat</string>
     <string name="kobold_menu_template_data_unavailable_content">Daftar template pesan akan muncul di sini</string>
 

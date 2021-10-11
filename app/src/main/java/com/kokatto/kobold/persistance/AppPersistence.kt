@@ -32,4 +32,9 @@ object AppPersistence {
     }
 
     fun private() = thePrivate
+
+    fun clear() {
+        thePrivate["refreshToken"] = null
+        thePrivate["applicationToken"] = null
+    }
 }

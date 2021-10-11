@@ -23,6 +23,7 @@ import com.kokatto.kobold.api.model.response.GetTransactionResponse
 import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
 import com.kokatto.kobold.api.model.response.PostTokenRefreshResponse
 import com.skydoves.sandwich.ApiResponse
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -31,6 +32,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val authenticationUrl: String = "api/v1/auth/"
+
 interface AuthenticationApi {
     @GET(authenticationUrl + "request")
     suspend fun login(
@@ -49,21 +51,22 @@ interface AuthenticationApi {
         @Body request: PostOTPVerificationRequest
     ): ApiResponse<PostOTPVerificationResponse>
 
-    @POST(authenticationUrl + "refresh-access")
-    suspend fun refreshOTP(
-        @Body request: PostTokenRefreshRequest
-    ): ApiResponse<PostTokenRefreshResponse>
+//    @POST(authenticationUrl + "refresh-access")
+//    suspend fun refresh(
+//        @Body request: PostTokenRefreshRequest
+//    ): ApiResponse<PostTokenRefreshResponse>
 }
 
 private const val autoTextUrl: String = "api/v1/autotext/"
+
 interface ChatTemplateApi {
     @RequiredAuth
     @GET(autoTextUrl + "filter")
     suspend fun getPaginatedChatTemplateList(
-    @Query("page") page: Int,
-    @Query("pageSize") pageSize: Int,
-    @Query("search") search: String
-): ApiResponse<GetPaginatedAutoTextResponse>
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("search") search: String
+    ): ApiResponse<GetPaginatedAutoTextResponse>
 
     @RequiredAuth
     @GET(autoTextUrl + "standard")
@@ -85,8 +88,8 @@ interface ChatTemplateApi {
     @RequiredAuth
     @PATCH(autoTextUrl + "update/{id}")
     suspend fun updateAutotextById(
-    @Path("id") autoTextId: String,
-    @Body updateAutoTextRequest: AutoTextModel
+        @Path("id") autoTextId: String,
+        @Body updateAutoTextRequest: AutoTextModel
     ): ApiResponse<GetAutoTextResponse>
 
     @RequiredAuth
@@ -99,7 +102,7 @@ interface ChatTemplateApi {
 private const val transactionUrl: String = "api/v1/transaction/"
 
 interface TransactionApi {
-
+    @RequiredAuth
     @GET(transactionUrl + "filter")
     suspend fun getPaginatedTransactionList(
         @Query("page") page: Int,
@@ -108,6 +111,7 @@ interface TransactionApi {
         @Query("search") search: String
     ): ApiResponse<GetPaginationTransactionResponse>
 
+    @RequiredAuth
     @POST(transactionUrl + "create")
     suspend fun postCreateTransaction(
         @Body createTransactionRequest: TransactionModel
@@ -170,6 +174,7 @@ interface TransactionApi {
 }
 
 private const val bankUrl: String = "api/v1/banks/"
+
 interface BankApi {
     @RequiredAuth
     @GET(bankUrl + "filter")
@@ -211,6 +216,7 @@ interface BankApi {
 }
 
 private const val deliveryUrl: String = "api/v1/courier/"
+
 interface DeliveryApi {
     @RequiredAuth
     @GET(deliveryUrl + "address")
@@ -241,10 +247,23 @@ interface MerchantApi {
     @GET(merchantUrl + "business-type")
     suspend fun getBusinessType(): ApiResponse<GetBusinessTypeResponse>
 
-
+    @RequiredAuth
     @GET(merchantUrl + "business-field")
     suspend fun getBusinessField(): ApiResponse<GetBusinessFieldResponse>
 
+    @RequiredAuth
     @POST(merchantUrl + "create")
     suspend fun postCreateMerchant(@Body request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
+}
+
+/**
+ * Synchronously send the request and return its response.
+ */
+interface RefreshTokenApi {
+    @RequiredAuth
+    @POST(authenticationUrl + "refresh-access")
+    fun refreshToken(
+        @Body request: PostTokenRefreshRequest
+    ): Call<PostTokenRefreshResponse>
+
 }
