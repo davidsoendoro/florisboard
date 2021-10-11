@@ -60,7 +60,7 @@
                     android:layout_marginTop="@dimen/kobold_margin_8px"
                     android:text="@string/kobold_activate_magical_keyboard"
                     style="@style/informationalLabel14sp"
-                    android:padding=""
+                    android:padding="0dp"
                     app:layout_constraintStart_toEndOf="@id/kobold_DashboardActivateMagicKeyboardBannerImage"
                     app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerText" />
 
