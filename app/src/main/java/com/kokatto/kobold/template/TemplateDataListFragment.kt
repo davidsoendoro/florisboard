@@ -20,7 +20,7 @@ import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list), ChatTemplateRecyclerAdapter.OnClick {
+class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list), ChatTemplateRecyclerAdapter.Delegate {
 
     var templateActivityListener: TemplateActivityListener? = null
 
@@ -133,6 +133,10 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
 
     override fun onClicked(data: AutoTextModel) {
         templateActivityListener?.openEditTemplate(data)
+    }
+
+    override fun getSearchText(): String {
+        return ""
     }
 
 }

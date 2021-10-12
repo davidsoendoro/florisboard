@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
@@ -28,7 +27,7 @@ import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.properties.Delegates
 
-class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
+class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Delegate {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -185,4 +184,5 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
         florisboard?.setActiveInput(R.id.text_input)
     }
 
+    override fun getSearchText(): String = ""
 }
