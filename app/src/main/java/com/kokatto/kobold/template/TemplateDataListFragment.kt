@@ -109,11 +109,13 @@ class TemplateDataListFragment : Fragment(R.layout.template_fragment_data_list),
                 }
             },
             onError = {
-                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                if(ErrorResponseValidator.isSessionExpiredResponse(it)) {
                     DashboardSessionExpiredEventHandler(requireContext()).onSessionExpired()
-                templateActivityListener?.openErrorFragment()
-                fullscreenLoading!!.isVisible = false
-                chatTemplateRecycler!!.isVisible = true
+                } else {
+                    templateActivityListener?.openErrorFragment()
+                    fullscreenLoading!!.isVisible = false
+                    chatTemplateRecycler!!.isVisible = true
+                }
             }
         )
     }
