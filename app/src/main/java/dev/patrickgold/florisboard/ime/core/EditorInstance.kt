@@ -224,7 +224,6 @@ class EditorInstance private constructor(
                 ic.requestCursorUpdates(InputConnection.CURSOR_UPDATE_IMMEDIATE)
                 ic.commitText(finalText, 1)
             } else {
-                ic.requestCursorUpdates(InputConnection.CURSOR_UPDATE_IMMEDIATE)
                 activeEditText?.let { _activeEditText ->
                     val selectionStart = _activeEditText.selectionStart
                     val selectionEnd = _activeEditText.selectionEnd
