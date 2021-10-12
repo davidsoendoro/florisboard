@@ -1,24 +1,324 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+<!--    <include layout="@layout/toolbar" />-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary80"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/icon_white" />
+
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="17dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/kobold_setting_toolbar_title"
+            android:textColor="@color/text_color_white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:fillViewport="true">
 
         <RelativeLayout
             android:id="@+id/page_frame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/kobold_margin_16px"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="@dimen/kobold_margin_16px"
+                app:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_setting_share">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/img_small_toa_promo_announcement" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="14dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/kobold_margin_16px"
+                            android:text="@string/kobold_setting_share_title"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/kobold_setting_share_detail"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <RelativeLayout
+                android:id="@+id/kobold_SettingShopView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="152dp"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:id="@+id/kobold_SettingShopImage"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="@dimen/kobold_margin_16px"
+                    android:layout_marginTop="@dimen/kobold_margin_16px"
+                    android:layout_marginBottom="@dimen/kobold_margin_16px"
+                    android:background="@drawable/rounded_2464f2"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_shop" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/kobold_margin_16px"
+                    android:layout_toRightOf="@+id/kobold_SettingShopImage"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/kobold_setting_store_number"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="18dp"
+                        android:text="@string/kobold_setting_store_name" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="18dp"
+                    android:src="@drawable/ic_edit_small_gray"
+                    android:id="@+id/kobold_setting_store_profile"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="264dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/kobold_SettingCreditCardImage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_credit_card" />
+
+                    <TextView
+                        android:id="@+id/kobold_SettingCreditCardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toRightOf="@+id/kobold_SettingCreditCardImage"
+                        android:text="@string/kobold_setting_bank_account" />
+
+                    <ImageView
+                        android:layout_width="7dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginRight="22dp"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_chevron_right" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp">
+
+                    <ImageView
+                        android:id="@+id/kobold_SettingHeadsetImage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic__headset" />
+
+                    <TextView
+                        android:id="@+id/kobold_SettingHeadsetText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toRightOf="@+id/kobold_SettingHeadsetImage"
+                        android:text="@string/kobold_setting_help" />
+
+                    <ImageView
+                        android:layout_width="7dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginRight="22dp"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_chevron_right" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp">
+
+                    <ImageView
+                        android:id="@+id/kobold_SettingDocumentImage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_document_setting" />
+
+                    <TextView
+                        android:id="@+id/kobold_SettingDocumentText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toRightOf="@+id/kobold_SettingDocumentImage"
+                        android:text="@string/kobold_setting_term_and_conditions" />
+
+                    <ImageView
+                        android:layout_width="7dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginRight="22dp"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_chevron_right" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp">
+
+                    <ImageView
+                        android:id="@+id/kobold_SettingStarImage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_star_setting" />
+
+                    <TextView
+                        android:id="@+id/kobold_SettingStarText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toRightOf="@+id/kobold_SettingStarImage"
+                        android:text="@string/kobold_setting_ratings" />
+
+                    <ImageView
+                        android:layout_width="7dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/kobold_margin_24px"
+                        android:layout_marginTop="@dimen/kobold_margin_16px"
+                        android:layout_marginRight="22dp"
+                        android:layout_marginBottom="@dimen/kobold_margin_16px"
+                        android:src="@drawable/ic_chevron_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/kobold_SettingLogoutButton"
+                style="@style/kobold_card_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="97dp"
+                android:background="@drawable/kobold_card_white"
+                android:text="@string/kobold_setting_log_out"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                app:backgroundTint="@color/colorWhite" />
+
+
+        </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -28,10 +328,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?colorPrimary"
+        android:visibility="gone"
         app:itemIconTint="@drawable/bottom_nav_bar_color_selector"
         app:itemTextColor="@drawable/bottom_nav_bar_color_selector"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/settings_navigation"
-        android:visibility="gone" />
+        app:menu="@menu/settings_navigation" />
 
 </LinearLayout>

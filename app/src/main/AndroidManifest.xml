@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kokatto.kobold">
     <!-- Permission needed to vibrate if the user has key press vibration enabled -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -25,6 +26,7 @@
         android:roundIcon="@mipmap/floris_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/SettingsTheme">
+
         <activity
             android:name=".crm.ContactListActivity"
             android:exported="true"
@@ -239,6 +241,11 @@
             android:icon="@mipmap/floris_app_icon"
             android:label="@string/crash_dialog__title"
             android:theme="@style/CrashDialogTheme" />
+
+        <activity android:name=".setting.SettingActivity" />
+        <activity
+            android:name=".setting.SettingProfilTokoActivity"
+            android:exported="true" />
 
         <provider
             android:name="dev.patrickgold.florisboard.ime.clip.provider.FlorisContentProvider"

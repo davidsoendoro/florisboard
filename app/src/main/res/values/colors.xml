@@ -95,4 +95,6 @@
     <color name="kobold_mainmenu_transaction_button">#FFEBEB</color>
     <color name="kobold_mainmenu_chat_template_button">#E4E4F7</color>
     <color name="kobold_mainmenu_shipping_cost_button">#E1F5E9</color>
+
+    <color name="primary_05">#DBE8FD</color>
 </resources>
