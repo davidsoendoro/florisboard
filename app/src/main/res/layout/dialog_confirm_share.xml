@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <View
+            android:id="@+id/vector_3"
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/ic_vector_3_share"
+            tools:ignore="MissingConstraints"
+            android:layout_alignParentBottom="true"/>
+
+        <View
+            android:id="@+id/vector_2"
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/ic_vector_2_share"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="21dp"
+                android:src="@drawable/ic_cross_svg" />
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="124dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="@dimen/kobold_margin_24px"
+                android:src="@drawable/img_medium_fun_promote_announce" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_24px"
+                android:gravity="center_horizontal"
+                android:text="Konekin andalan penjual online!"
+                android:textAppearance="@style/kobold_template_confirm_title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_24px"
+                android:layout_marginTop="8dp"
+                android:text="Yuk beri tau yang lain kalau sekarang ada Konekin yang bisa bikin jualan jadi lebih gampang."
+                android:textAppearance="@style/kobold_template_confirm_desc" />
+
+            <Button
+                android:id="@+id/share_button"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="280dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/kobold_margin_32px"
+                android:layout_marginBottom="40dp"
+                android:backgroundTint="#2464F2"
+                android:drawableLeft="@drawable/ic_share"
+                android:text="Bagikan"
+                android:textAppearance="@style/kobold_button_text"
+                android:textSize="@dimen/kobold_margin_16px"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

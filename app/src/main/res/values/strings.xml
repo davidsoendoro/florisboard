@@ -826,5 +826,20 @@
     <string name="kobold_activate_magical_keyboard">Aktifin Keyboard Ajaib</string>
     <string name="kobold_activate_magical_keyboard_header">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
     <string name="kobold_dashboard_manage_transaction">Atur Transaksi</string>
+    <string name="kobold_setting_share_title">Kasih tahu yang lain yuk!</string>
+    <string name="kobold_setting_share_detail">Share ke teman-teman yang lain kalau sekarang ada Konekin yang bikin jualan online jadi makin gampang.</string>
+    <string name="kobold_setting_store_number">0817214412314</string>
+    <string name="kobold_setting_store_name">Buku Online Shop</string>
+    <string name="kobold_setting_bank_account">Rekening Bank</string>
+    <string name="kobold_setting_help">Pusat Bantuan</string>
+    <string name="kobold_setting_term_and_conditions"><![CDATA[Syarat & Ketentuan]]></string>
+    <string name="kobold_setting_ratings">Rating kami di Play Store!</string>
+    <string name="kobold_setting_log_out">Keluar Aplikasi</string>
+    <string name="kobold_setting_toolbar_title">Pengaturan</string>
+    <string name="kobold_store_profile_toolbar_title">Profil Toko</string>
+    <string name="kobold_logout_confirm_title">Keluar dari Konekin?</string>
+    <string name="kobold_logout_confirm_desc">Kamu bisa masuk lagi kapan aja agar jualan onlinemu makin mudah.</string>
+    <string name="kobold_transaction_exit_button_yes">Keluar dari aplikasi</string>
+    <string name="kobold_transaction_exit_button_no">Nanti saja</string>
 
 </resources>

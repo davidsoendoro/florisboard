@@ -12,6 +12,7 @@ import com.kokatto.kobold.component.CommonViewPagerAdapter
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
+import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
@@ -51,7 +52,8 @@ class DashboardActivity : AppCompatActivity() {
 
         binding.koboldDashboardSettingsButton.setOnClickListener {
             //TODO: change activity after ready
-            Toast.makeText(this, "Activity still not ready", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Activity still not ready", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this@DashboardActivity, SettingActivity::class.java))
         }
         binding.koboldDashboardContent.apply {
             koboldDashboardSellerKeyboardActivateButton.setOnClickListener {

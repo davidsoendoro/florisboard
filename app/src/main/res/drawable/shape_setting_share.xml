@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#DBE8FD"/>
+            <corners android:radius="4dp"/>
+        </shape>
+    </item>
+    <item
+        android:gravity="top"
+        android:drawable="@drawable/ic_vector_2"/>
+    <item
+        android:gravity="left"
+        android:drawable="@drawable/ic_vector_4_setting"/>
+    <item
+        android:gravity="left"
+        android:drawable="@drawable/ic_vector_3_setting"/>
+    <item
+        android:gravity="right"
+        android:drawable="@drawable/ic_vector_5_setting"/>
+</layer-list>
