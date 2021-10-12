@@ -25,6 +25,7 @@ interface TemplateActivityListener {
     fun openInputTemplate()
     fun openEditTemplate(autoTextModel: AutoTextModel)
     fun openErrorFragment()
+    fun openErrorSaveFragment()
     fun openEmptyFragment()
     fun openDataListFragment()
 }
@@ -90,18 +91,24 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
                         findViewById(R.id.parent_layout),
                         resources.getString(R.string.template_create_success)
                     )
+                    openDataListFragment()
                 }
                 ActivityConstantCode.RESULT_OK_UPDATED -> {
                     showSnackBar(
                         findViewById(R.id.parent_layout),
                         resources.getString(R.string.template_update_success)
                     )
+                    openDataListFragment()
                 }
                 ActivityConstantCode.RESULT_OK_DELETED -> {
                     showSnackBar(
                         findViewById(R.id.parent_layout),
                         resources.getString(R.string.template_delete_success)
                     )
+                    openDataListFragment()
+                }
+                ActivityConstantCode.RESULT_FAILED_SAVE -> {
+                    loadFragment(TemplateErrorSaveFragment())
                 }
             }
         }
@@ -178,10 +185,10 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
             .commit()
     }
 
-    override fun onResume() {
-        super.onResume()
-        openDataListFragment()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        openDataListFragment()
+//    }
 
     fun toggleSearchIconToDisable(disable: Boolean = true) {
         if (disable) {
@@ -193,4 +200,7 @@ class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
         }
     }
 
+    override fun openErrorSaveFragment() {
+        loadFragment(TemplateErrorSaveFragment())
+    }
 }

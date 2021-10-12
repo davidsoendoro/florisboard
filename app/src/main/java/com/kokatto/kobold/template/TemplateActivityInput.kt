@@ -193,8 +193,14 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                                 finish()
                             },
                             onError = {
-                                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                if(ErrorResponseValidator.isSessionExpiredResponse(it)) {
                                     DashboardSessionExpiredEventHandler(this).onSessionExpired()
+                                } else {
+                                    val intent = Intent()
+                                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+                                    setResult(ActivityConstantCode.RESULT_FAILED_SAVE, intent)
+                                    finish()
+                                }
                             }
                         )
                     } else {
@@ -213,8 +219,14 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                                 finish()
                             },
                             onError = {
-                                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                if(ErrorResponseValidator.isSessionExpiredResponse(it)) {
                                     DashboardSessionExpiredEventHandler(this).onSessionExpired()
+                                } else {
+                                    val intent = Intent()
+                                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
+                                    setResult(ActivityConstantCode.RESULT_FAILED_SAVE, intent)
+                                    finish()
+                                }
                             }
                         )
                     }

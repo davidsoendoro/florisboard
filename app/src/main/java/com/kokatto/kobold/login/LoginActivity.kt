@@ -73,7 +73,6 @@ class LoginActivity : FragmentActivity() {
             } else {
                 showSnackBar(uiBinding.rootLayout, resources.getString(R.string.kobold_into_empty_phone), R.color.snackbar_error )
             }
-
         }
 
         uiBinding.edittextPhoneTrigger.setOnClickListener {
@@ -182,8 +181,13 @@ class LoginActivity : FragmentActivity() {
         when (view.id) {
             R.id.edittext_phone -> {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                    apiCallRequestOTP()
-                    return true
+                    if(uiBinding.edittextPhone.text.toString().length > 0){
+                        apiCallRequestOTP()
+                        return true
+                    } else {
+                        showSnackBar(uiBinding.rootLayout, resources.getString(R.string.kobold_into_empty_phone), R.color.snackbar_error )
+                        return false
+                    }
                 }
             }
         }
