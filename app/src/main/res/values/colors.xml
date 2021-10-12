@@ -91,4 +91,8 @@
     <color name="shipping_cost_card_stroke_select">#4F78E8</color>
     <color name="shipping_cost_card_stroke_default">#E0E0E0</color>
     <color name="background_informational">#D6E4FE</color>
+    <color name="kobold_mainmenu_create_transaction_button">#FADFC5</color>
+    <color name="kobold_mainmenu_transaction_button">#FFEBEB</color>
+    <color name="kobold_mainmenu_chat_template_button">#E4E4F7</color>
+    <color name="kobold_mainmenu_shipping_cost_button">#E1F5E9</color>
 </resources>

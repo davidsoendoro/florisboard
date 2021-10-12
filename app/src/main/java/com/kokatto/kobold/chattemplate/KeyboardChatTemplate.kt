@@ -181,6 +181,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
     override fun onClicked(data: AutoTextModel) {
         florisboard?.inputFeedbackManager?.keyPress()
         florisboard?.textInputManager?.activeEditorInstance?.commitText(data.content.toString())
+
+        florisboard?.setActiveInput(R.id.text_input)
     }
 
 }
