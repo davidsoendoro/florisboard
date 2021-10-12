@@ -416,7 +416,11 @@
         <item name="android:textColor">@color/text_informational</item>
         <item name="android:textStyle">bold</item>
     </style>
-
+    <style name="kobold_blueText24sp">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorPrimary50</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="kobold_primaryLabel16sp">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_primary</item>
@@ -426,16 +430,32 @@
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="kobold_primaryLabel14spBold" parent="kobold_primaryLabel18spBold">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="kobold_subduedLabel18spBold">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_subdued</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="kobold_secondaryLabel14sp">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    <style name="kobold_secondaryLabel12sp" parent="kobold_secondaryLabel14sp">
+        <item name="android:textSize">12sp</item>
     </style>
     <style name="kobold_card_button">
         <item name="android:background">@drawable/kobold_card_white</item>
         <item name="android:elevation">4dp</item>
         <item name="android:layout_marginStart">@dimen/kobold_margin_16px</item>
         <item name="android:layout_marginEnd">@dimen/kobold_margin_16px</item>
-
+    </style>
+    <style name="kobold_card_button_yellow">
+        <item name="android:background">@drawable/kobold_card_yellow</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:layout_marginStart">@dimen/kobold_margin_16px</item>
+        <item name="android:layout_marginEnd">@dimen/kobold_margin_16px</item>
     </style>
     <style name="kobold_into_slide1_title_style">
         <item name="android:textStyle">bold</item>

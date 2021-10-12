@@ -2,13 +2,15 @@ package com.kokatto.kobold.chattemplate
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
+import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
@@ -27,7 +29,7 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
     private var koboldTemplatePickInput: KoboldEditText? = null
     private var koboldTemplateNameInput: KoboldEditText? = null
     private var koboldTemplateContent: KoboldEditText? = null
-    private var saveButton: Button? = null
+    private var saveButton: MaterialButton? = null
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -110,6 +112,7 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
             }
         }
 
+        invalidateSaveButton()
         saveButton?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             val model = AutoTextModel(
@@ -126,7 +129,11 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
                     florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
                 },
                 onError = {
-                    showToast(it)
+                    //showToast(it)
+                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                        florisboard?.setActiveInput(R.id.kobold_login)
+                    else
+                        showToast(it)
                 }
             )
         }
@@ -136,9 +143,10 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
         var isInputValid = false
         koboldTemplateNameInput?.let { templateNameInput ->
             koboldTemplateContent?.let { templateContent ->
-                isInputValid = templateNameInput.isInputValid() && templateContent.isInputValid()
+                isInputValid =
+                    templateNameInput.editText.text.isNotEmpty() && templateContent.editText.text.isNotEmpty()
             }
         }
-        saveButton?.isEnabled = isInputValid
+        saveButton?.koboldSetEnabled(isInputValid)
     }
 }

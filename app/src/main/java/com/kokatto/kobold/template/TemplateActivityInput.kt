@@ -13,10 +13,11 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.constant.ActivityConstantCode
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.template.dialog.DialogClearConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseEditConfirm
@@ -192,7 +193,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                                 finish()
                             },
                             onError = {
-                                showToast(it)
+                                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                    DashboardSessionExpiredEventHandler(this).onSessionExpired()
                             }
                         )
                     } else {
@@ -211,7 +213,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                                 finish()
                             },
                             onError = {
-                                showToast(it)
+                                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                    DashboardSessionExpiredEventHandler(this).onSessionExpired()
                             }
                         )
                     }
@@ -241,7 +244,8 @@ class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickL
                         },
                         onError = {
                             dialogDelete?.performLoading(false)
-                            showToast(it)
+                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                                DashboardSessionExpiredEventHandler(this).onSessionExpired()
                         }
                     )
                 }

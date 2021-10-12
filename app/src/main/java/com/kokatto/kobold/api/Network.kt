@@ -2,11 +2,13 @@ package com.kokatto.kobold.api
 
 import com.google.gson.Gson
 import com.kokatto.kobold.api.interceptor.AuthInterceptor
+import com.kokatto.kobold.api.interceptor.TokenAuthenticator
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 object Network {
     private val okHttpClient = OkHttpClient.Builder()
+        .authenticator(TokenAuthenticator())
         .addInterceptor(AuthInterceptor())
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
@@ -33,6 +35,14 @@ object Network {
     }
 
     val merchantApi: MerchantApi by lazy {
+        createNetwork(okHttpClient, Gson())
+    }
+
+    val refreshTokenApi: RefreshTokenApi by lazy {
+        callNetworkRefreshToken()
+    }
+
+    val tutorialApi: TutorialApi by lazy {
         createNetwork(okHttpClient, Gson())
     }
 }

@@ -8,6 +8,7 @@
     "window": {
       "colorPrimary": "#123279",
       "colorPrimaryDark": "#123279",
+      "colorPrimary50": "#2464F2",
       "colorAccent": "#FF9800",
       "navigationBarColor": "@keyboard/background",
       "navigationBarLight": "true",
@@ -19,14 +20,14 @@
     },
     "key": {
       "background": "#5E5E5E",
-      "backgroundPressed": "#E31E52",
+      "backgroundPressed": "#2464F2",
       "backgroundSmartbar": "#E31E52",
       "foreground": "#FFFFFF",
       "foregroundPressed": "#FFFFFF",
       "showBorder": "true"
     },
     "key:enter": {
-      "background": "@window/colorPrimary",
+      "background": "#2464F2",
       "backgroundPressed": "@window/colorPrimaryDark",
       "foreground": "#FFFFFF",
       "foregroundPressed": "#FFFFFF"

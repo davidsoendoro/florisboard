@@ -781,8 +781,10 @@
     <string name="kobold_dashboard_manage_customer_detail">Nambah dan kelola kontak, sampai lihat catatan hutang pembeli.</string>
     <string name="kobold_dashboard_manage_transaction_detail">Buat dan kelola transaksi dengan pembeli.</string>
     <string name="kobold_dashboard_profit_support_tools_label">Alat Pendukung Cuan</string>
-    <string name="kobold_seller_keyboard_header">Keyboard Jualan</string>
+    <string name="kobold_dashboard_seller_keyboard_header">Keyboard Jualan</string>
+    <string name="kobold_dashboard_seller_keyboard_detail">Ngatur transaksi dan pembeli langsung di chat, tanpa pindah aplikasi. Cocok kalo kamu jualan pakai WhatsApp atau aplikasi chat lainnya</string>
     <string name="kobold_active">Aktif</string>
+    <string name="kobold_inactive">Belum Aktif</string>
     <string name="kobold_watch_tutorial">Nonton Tutorial</string>
     <string name="kobold_dashboard_template_chat_detail">Balas chat pembeli tanpa capek ketik ulang tulisannya.</string>
     <string name="kobold_dashboard_check_delivery_fee">Cek Ongkir</string>
@@ -841,5 +843,23 @@
     <string name="kobold_logout_confirm_desc">Kamu bisa masuk lagi kapan aja agar jualan onlinemu makin mudah.</string>
     <string name="kobold_transaction_exit_button_yes">Keluar dari aplikasi</string>
     <string name="kobold_transaction_exit_button_no">Nanti saja</string>
+    <string name="kobold_transaction_empty_title">Belum ada transaksi</string>
+    <string name="kobold_transaction_empty_desc">Daftar penjualan dengan pelanggan akan\nmuncul disini.</string>
+    <string name="kobold_transaction_empty_action">Buat transaksi</string>
+    <string name="title_activity_dashboard_master_profit">DashboardMasterProfitActivity</string>
+    <string name="kobold_feature">fitur</string>
+    <string name="kobold_features_completed_number">%1$d dari 6</string>
+    <string name="kobold_profit_master_banner_header">Kamu sudah pelajari</string>
+    <string name="kobold_see_feature">Lihat Fitur</string>
+    <string name="kobold_watch_how_to">Nonton cara pakai</string>
+    <string name="kobold_rewatch">Tonton Ulang</string>
+    <string name="kobold_feature_accessed">Sudah Akses</string>
+    <string name="kobold_DashboardProfitMasterCompletedNoneLabel">Belum ada yang dipelajari. Fitur yang sudah kamu lihat dan tonton akan pindah kesini.</string>
+    <string name="kobold_contact">Kontak</string>
+    <string name="kobold_have_no_contact">Kamu belum punya kontak</string>
+    <string name="kobold_have_no_contact_instruction">Tambah kontak dan mulai kelola jualan dengan pelangganmu di sini</string>
+    <string name="kobold_add_contact">Tambah Kontak</string>
+    <string name="kobold_menu_template_data_unavailable_title">Belum ada Template Chat</string>
+    <string name="kobold_menu_template_data_unavailable_content">Daftar template pesan akan muncul di sini</string>
 
 </resources>

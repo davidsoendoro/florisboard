@@ -28,6 +28,16 @@
         android:theme="@style/SettingsTheme">
 
         <activity
+            android:name=".crm.ContactListActivity"
+            android:exported="true"
+            android:label="@string/kobold_contact"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
+            android:name=".dashboard.DashboardMasterProfitActivity"
+            android:exported="true"
+            android:label="@string/title_activity_dashboard_master_profit"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
             android:name=".registration.RegistrationActivity"
             android:exported="true"
             android:label="Kobold Registration">

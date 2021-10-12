@@ -10,10 +10,14 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
@@ -52,17 +56,27 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
 
     private var messageSnackbar: Snackbar? = null
 
+    var dataUnavailableLayout: LinearLayout? = null
+    var dataAvailableLayout: LinearLayout? = null
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         val searchButton: ImageView = findViewById(R.id.search_button)
         val backButton: TextView = findViewById(R.id.back_button)
-        val createTemplateButton: LinearLayout = findViewById(R.id.create_template_button)
+        val toolbarCreateTemplateButton: LinearLayout = findViewById(R.id.toolbar_create_template_button)
+        val createTemplateButton: MaterialCardView = findViewById(R.id.create_template_button)
         chatTemplateRecycler = findViewById(R.id.chat_template_recycler)
         chatTemplateRecyclerLoading = findViewById(R.id.chat_template_recycler_loading)
+        dataAvailableLayout = findViewById(R.id.data_available_layout)
+        dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
 
         searchButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openSearchEditor(R.id.kobold_search_result)
+        }
+        toolbarCreateTemplateButton.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.setActiveInput(R.id.kobold_menu_create_chat_template)
         }
         createTemplateButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -102,12 +116,17 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                     AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
                 }
                 chatTemplateList.addAll(it.data.contents)
+//                chatTemplateList.addAll(arrayListOf())
                 adapter?.notifyItemRangeInserted(0, it.data.contents.size)
 
-                isLoadingChatTemplate = false
+                dataAvailableLayout?.isVisible = chatTemplateList.isNullOrEmpty().not()
+                dataUnavailableLayout?.isVisible = chatTemplateList.isNullOrEmpty()
             },
             onError = {
-                showToast(it)
+                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    florisboard?.setActiveInput(R.id.kobold_login)
+                else
+                    showSnackBar(it)
             }
         )
 
@@ -140,9 +159,14 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
                             bottomLoading.isVisible = false
                         },
                         onError = { errorMessage ->
-                            showToast(errorMessage)
+                            //showToast(errorMessage)
                             isLoadingChatTemplate = false
                             bottomLoading.isVisible = false
+
+                            if(ErrorResponseValidator.isSessionExpiredResponse(errorMessage))
+                                florisboard?.setActiveInput(R.id.kobold_login)
+                            else
+                                showToast(errorMessage)
                         }
                     )
                 },
@@ -157,6 +181,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.OnCli
     override fun onClicked(data: AutoTextModel) {
         florisboard?.inputFeedbackManager?.keyPress()
         florisboard?.textInputManager?.activeEditorInstance?.commitText(data.content.toString())
+
+        florisboard?.setActiveInput(R.id.text_input)
     }
 
 }
