@@ -3,20 +3,22 @@ package com.kokatto.kobold.template.recycleradapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.kokatto.kobold.api.model.basemodel.AutoTextModel
-import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
-import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.extension.findTextViewId
+import com.kokatto.kobold.extension.highlightText
 
 class ChatTemplateRecyclerAdapter(
     val dataList: ArrayList<AutoTextModel>,
-    val onClick: OnClick
+    val delegate: Delegate
 ): RecyclerView.Adapter<ChatTemplateRecyclerAdapter.ViewHolder>() {
 
-    interface OnClick {
+    interface Delegate {
         fun onClicked(data: AutoTextModel)
+        fun getSearchText(): String
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,15 +26,6 @@ class ChatTemplateRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ChatTemplateRecyclerAdapter.ViewHolder, position: Int) {
-//        if (position == itemCount - 1) {
-//            holder.layout.setMargins(
-//                bottom = 100
-//            )
-//        } else {
-//            holder.layout.setMargins(
-//                bottom = 0
-//            )
-//        }
         holder.bindViewHolder(dataList[position])
     }
 
@@ -51,9 +44,22 @@ class ChatTemplateRecyclerAdapter(
             contentText.text = data.content
             categoryText.text = data.template
 
+            setHighLightedText(titleText)
+            setHighLightedText(contentText)
+
             layout.setOnClickListener {
-                onClick.onClicked(data)
+                delegate.onClicked(data)
             }
+        }
+
+
+        private fun setHighLightedText(textView: TextView) {
+            val target = textView.text.toString()
+            val result = target.highlightText(
+                delegate.getSearchText(),
+                textView.context.resources.getColor(R.color.background_informational)
+            )
+            textView.setText(result, TextView.BufferType.SPANNABLE)
         }
     }
 }
