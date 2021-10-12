@@ -644,12 +644,12 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
             activeState.caps = true
             activeState.capsLock = true
         } else {
-            newCapsState = !activeState.caps
+            newCapsState = activeState.caps
             activeState.caps = true
             activeState.capsLock = false
         }
         smartbarView?.updateCandidateSuggestionCapsState()
-        florisboard.dispatchCurrentStateToInputUi()
+//        florisboard.dispatchCurrentStateToInputUi()
     }
 
     /**

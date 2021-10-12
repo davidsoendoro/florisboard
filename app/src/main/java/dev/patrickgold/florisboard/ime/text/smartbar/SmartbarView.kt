@@ -57,6 +57,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 /**
@@ -189,31 +190,12 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == VISIBLE) {
-            val chatTemplateItems = getChatTemplateList()
-
-            val previousSize = chatTemplateItems?.size
-            chatTemplateList.clear()
-            previousSize?.let { _previousSize ->
-                inlineChatTemplateRecycler?.adapter?.notifyItemRangeRemoved(
-                    0,
-                    _previousSize
-                )
-            }
-            chatTemplateItems?.let { chatTemplateList.addAll(it) }
-
-            inlineChatTemplateRecycler = findViewById(R.id.kobold_rv_inline_suggestions)
-            if (inlineSuggestionRecyclerAdapter == null) {
-                inlineSuggestionRecyclerAdapter = InlineChatTemplateRecyclerAdapter(chatTemplateList, this)
-                inlineChatTemplateRecycler?.adapter = inlineSuggestionRecyclerAdapter
-            } else {
-                inlineChatTemplateRecycler?.adapter?.notifyItemRangeInserted(0, chatTemplateList.size)
-            }
-            inlineChatTemplateRecycler?.horizontal()
+            updateCandidateSuggestion()
         }
     }
 
-    private fun getChatTemplateList(): List<AutoTextModel>? {
-        var chatTemplateList = AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList()
+    private fun getChatTemplateList(query: String): List<AutoTextModel>? {
+        var chatTemplateList = AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList(query)
         if (chatTemplateList != null && chatTemplateList.size > 5) {
             chatTemplateList = chatTemplateList.subList(0, 5)
         }
@@ -483,5 +465,32 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
     override fun onClicked(data: AutoTextModel) {
         florisboard?.inputFeedbackManager?.keyPress()
         florisboard?.activeEditorInstance?.commitText(data.content.toString())
+    }
+
+    fun updateCandidateSuggestion(query: String = "") {
+        val previousList = ArrayList(chatTemplateList)
+        val chatTemplateItems = getChatTemplateList(query)
+
+        val previousSize = chatTemplateItems?.size
+        chatTemplateList.clear()
+        chatTemplateItems?.let { chatTemplateList.addAll(it) }
+
+        inlineChatTemplateRecycler = findViewById(R.id.kobold_rv_inline_suggestions)
+        if (inlineSuggestionRecyclerAdapter == null) {
+            inlineSuggestionRecyclerAdapter = InlineChatTemplateRecyclerAdapter(chatTemplateList, this)
+            inlineChatTemplateRecycler?.adapter = inlineSuggestionRecyclerAdapter
+        } else {
+            chatTemplateList.forEachIndexed { index, chatTemplateItem ->
+                if (index < previousList.size) {
+                    val previousItem = previousList[index]
+                    if (previousItem.title != chatTemplateItem.title) {
+                        inlineChatTemplateRecycler?.adapter?.notifyItemChanged(index)
+                    }
+                } else {
+                    inlineChatTemplateRecycler?.adapter?.notifyItemInserted(index)
+                }
+            }
+        }
+        inlineChatTemplateRecycler?.horizontal()
     }
 }
