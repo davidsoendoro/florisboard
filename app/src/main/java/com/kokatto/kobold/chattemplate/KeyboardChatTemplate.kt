@@ -16,7 +16,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.isConnectedToInternet
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
@@ -57,6 +57,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
 
     var dataUnavailableLayout: LinearLayout? = null
     var dataAvailableLayout: LinearLayout? = null
+    var connectionErrorLayout: LinearLayout? = null
+    var reloadButton: MaterialCardView? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -68,6 +70,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
         chatTemplateRecyclerLoading = findViewById(R.id.chat_template_recycler_loading)
         dataAvailableLayout = findViewById(R.id.data_available_layout)
         dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
+        connectionErrorLayout = findViewById(R.id.connection_error_layout)
+        reloadButton = findViewById(R.id.reload_button)
 
         searchButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -84,6 +88,9 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
         backButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
+        }
+        reloadButton?.setOnClickListener {
+            loadChatTemplate()
         }
     }
 
@@ -102,8 +109,9 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
 
     fun loadChatTemplate() {
         florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
+        connectionErrorLayout?.isVisible = this.isConnectedToInternet().not()
 
-        isLoadingChatTemplate = true
+//        isLoadingChatTemplate = true
         chatTemplateViewModel?.getChatTemplateList(
             onLoading = {
 //                Timber.e(it.toString())
@@ -125,7 +133,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
                 if(ErrorResponseValidator.isSessionExpiredResponse(it))
                     florisboard?.setActiveInput(R.id.kobold_login)
                 else
-                    showSnackBar(it)
+                    showToast("Koneksi internet tidak tersedia.", R.color.snackbar_error)
             }
         )
 

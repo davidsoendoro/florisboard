@@ -20,6 +20,7 @@ import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.findTextViewId
+import com.kokatto.kobold.extension.isConnectedToInternet
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.transaction.recycleradapter.TransactionKeyboardRecyclerAdapter
@@ -62,6 +63,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 
     var dataUnavailableLayout: LinearLayout? = null
     var dataAvailableLayout: LinearLayout? = null
+    var connectionErrorLayout: LinearLayout? = null
+    var reloadButton: MaterialCardView? = null
 
     private var messageSnackbar: Snackbar? = null
 
@@ -73,6 +76,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         val statusText = findTextViewId(R.id.status_text)
         dataAvailableLayout = findViewById(R.id.data_available_layout)
         dataUnavailableLayout = findViewById(R.id.data_unavailable_layout)
+        connectionErrorLayout = findViewById(R.id.connection_error_layout)
+        reloadButton = findViewById(R.id.reload_button)
 //        define as arraylist first
         val pickTemplateOptions = arrayListOf<SpinnerEditorItem>()
         val createTransactionButton: MaterialCardView = findViewById(R.id.create_transaction_button)
@@ -95,6 +100,9 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         backButton.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
             florisboard?.setActiveInput(R.id.kobold_mainmenu)
+        }
+        reloadButton?.setOnClickListener {
+            loadTransaction()
         }
 
 //        add data from string array to array list
@@ -151,6 +159,9 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
 
     private fun loadTransaction(index: Int = 0) {
         florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
+
+        connectionErrorLayout?.isVisible = this.isConnectedToInternet().not()
+
         transactionViewModel?.getTransactionList(
             status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],
             onLoading = {
@@ -177,7 +188,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                 if(ErrorResponseValidator.isSessionExpiredResponse(it))
                     florisboard?.setActiveInput(R.id.kobold_login)
                 else
-                    showToast(it)
+                    showToast("Koneksi internet tidak tersedia.", R.color.snackbar_error)
             }
         )
 
