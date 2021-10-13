@@ -861,6 +861,9 @@
     <string name="kobold_add_contact">Tambah Kontak</string>
     <string name="kobold_menu_template_data_unavailable_title">Belum ada Template Chat</string>
     <string name="kobold_menu_template_data_unavailable_content">Daftar template pesan akan muncul di sini</string>
+    <string name="kobold_confirm_share_title">Konekin andalan penjual online!</string>
+    <string name="kobold_confirm_share_desc">Yuk beri tau yang lain kalau sekarang ada Konekin yang bisa bikin jualan jadi lebih gampang.</string>
+    <string name="kobold_confirm_share_btn">Bagikan</string>
     <string name="template_error_save_title">Terjadi kesalahan</string>
     <string name="template_error_save_desc">Sistem kami gagal memuat template yang \nsudah kamu simpan. Silakan coba lagi ya.</string>
 
