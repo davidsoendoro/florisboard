@@ -67,7 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:background="@drawable/shape_setting_share">
+                    android:background="@drawable/shape_setting_share"
+                    android:id="@+id/kubold_card_share">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -164,7 +165,8 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/kubold_open_bank_account">
 
                     <ImageView
                         android:id="@+id/kobold_SettingCreditCardImage"
@@ -234,7 +236,8 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp">
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/kubold_open_term_conditions">
 
                     <ImageView
                         android:id="@+id/kobold_SettingDocumentImage"
@@ -269,7 +272,8 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp">
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/kubold_open_give_rating">
 
                     <ImageView
                         android:id="@+id/kobold_SettingStarImage"
