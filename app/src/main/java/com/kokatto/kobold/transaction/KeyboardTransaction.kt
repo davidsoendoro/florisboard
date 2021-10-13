@@ -21,6 +21,7 @@ import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.extension.isConnectedToInternet
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.transaction.recycleradapter.TransactionKeyboardRecyclerAdapter
@@ -188,7 +189,7 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
                 if(ErrorResponseValidator.isSessionExpiredResponse(it))
                     florisboard?.setActiveInput(R.id.kobold_login)
                 else
-                    showToast("Koneksi internet tidak tersedia.", R.color.snackbar_error)
+                    showSnackBar("Koneksi internet tidak tersedia.", R.color.snackbar_error)
             }
         )
 

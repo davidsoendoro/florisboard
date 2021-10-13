@@ -17,6 +17,7 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.extension.isConnectedToInternet
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.roomdb.AutoTextDatabase
@@ -133,7 +134,7 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
                 if(ErrorResponseValidator.isSessionExpiredResponse(it))
                     florisboard?.setActiveInput(R.id.kobold_login)
                 else
-                    showToast("Koneksi internet tidak tersedia.", R.color.snackbar_error)
+                    showSnackBar("Koneksi internet tidak tersedia.", R.color.snackbar_error)
             }
         )
 
