@@ -654,6 +654,12 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
             internalSelectionCache.candidatesStart = candidatesStart
             internalSelectionCache.candidatesEnd = candidatesEnd
         }
+
+        if (!activeState.isSelectionMode) {
+            val query = textInputManager.activeEditorInstance.cachedInput.currentWord.text
+            textInputManager.smartbarView?.updateCandidateSuggestion(query)
+        }
+
         dispatchCurrentStateToInputUi()
     }
 

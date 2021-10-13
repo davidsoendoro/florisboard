@@ -45,8 +45,8 @@
       "foreground": "#424242"
     },
     "popup": {
-      "background": "#EEEEEE",
-      "backgroundActive": "#BDBDBD",
+      "background": "#2E2E2E",
+      "backgroundActive": "#2464F2",
       "foreground": "@window/textColor"
     },
     "privateMode": {

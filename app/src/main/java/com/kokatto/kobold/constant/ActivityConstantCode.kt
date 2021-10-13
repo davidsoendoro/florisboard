@@ -25,6 +25,7 @@ class ActivityConstantCode {
 
         val RESULT_SENDER = 110
         val RESULT_RECEIVER = 111
+        val RESULT_FAILED_SAVE = 112
 
         // Kirim Nota
         val BELUM_ADA = "Belum ada"

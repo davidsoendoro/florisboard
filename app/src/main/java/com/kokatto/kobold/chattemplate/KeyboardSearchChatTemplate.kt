@@ -19,7 +19,7 @@ import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.OnClick {
+class KeyboardSearchChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Delegate {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -132,4 +132,6 @@ class KeyboardSearchChatTemplate: ConstraintLayout, ChatTemplateRecyclerAdapter.
         florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
         florisboard?.activeEditorInstance?.activeEditText = null
     }
+
+    override fun getSearchText(): String = query
 }

@@ -114,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorWhite"
                 android:textAppearance="@style/FormEditTextHint"
+                android:hint="Masukkan nomor WhatsApp"
                 android:inputType="number"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -126,6 +127,7 @@
             android:paddingVertical="@dimen/kobold_margin_12px"
             android:stateListAnimator="@null"
             android:text="Lanjut"
+            android:textColor="@color/colorWhite"
             android:textAppearance="@style/kobold_materialbutton_disable" />
 
     </LinearLayout>

@@ -10,8 +10,8 @@ import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 
 @Dao
 interface AutoTextModelDao {
-    @Query("Select * from autotextmodel")
-    fun getAutoTextList(): List<AutoTextModel>
+    @Query("Select * FROM autotextmodel WHERE title LIKE '%' || :query || '%'")
+    fun getAutoTextList(query: String = ""): List<AutoTextModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAutoText(autoTextModel: AutoTextModel)

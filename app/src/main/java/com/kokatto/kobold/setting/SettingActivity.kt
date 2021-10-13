@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
@@ -19,6 +20,7 @@ import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.SettingsActivityBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.persistance.AppPersistence
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var ivProfilToko: ImageView
@@ -27,12 +29,11 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var rlGiveRating: RelativeLayout
     private lateinit var rlTermCondition: RelativeLayout
     private lateinit var llShareApp: LinearLayout
+    private lateinit var tvStorePhone: TextView
+    private lateinit var tvStoreName: TextView
     lateinit var uiBinding: SettingsActivityBinding
 
     var settingViewModel: SettingViewModel? = null
-
-//    private var reviewInfo: ReviewInfo? = null
-//    private lateinit var reviewManager: ReviewManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,8 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.settings_activity)
         settingViewModel = SettingViewModel()
 
+        tvStoreName = findViewById(R.id.tv_merchant_store)
+        tvStorePhone = findViewById(R.id.tv_merchant_phone)
         settingViewModel?.getMerhcantInfo(
             onLoading = {
 //                        on data is loading
@@ -47,7 +50,8 @@ class SettingActivity : AppCompatActivity() {
             },
             onSuccess = {
 //                        on data success loaded from backend
-//                        textapa.text = it.name
+                    tvStoreName.text = it.name
+
             },
             onError = {
 //                on data error when loading from backend
@@ -111,11 +115,9 @@ class SettingActivity : AppCompatActivity() {
         val discardButton = bottomDialog.findViewById<MaterialCardView>(R.id.cancel_button)
 
         acceptButton?.setOnClickListener {
-            val intent = Intent(this, DashboardActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
-
             bottomDialog.dismiss()
+            AppPersistence.clear()
+            onDestroy()
         }
 
         discardButton?.setOnClickListener {

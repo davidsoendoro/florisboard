@@ -45,7 +45,9 @@ class InlineChatTemplateRecyclerAdapter(
         private val titleText = item.findTextViewId(R.id.title_text)
 
         fun bindViewHolder(data: AutoTextModel) {
-            titleText.text = data.title
+            data.title?.let { title ->
+                titleText.text = if (title.length > 15) title.substring(0, 15) else title
+            }
 
             layout.setOnClickListener {
                 onClick.onClicked(data)

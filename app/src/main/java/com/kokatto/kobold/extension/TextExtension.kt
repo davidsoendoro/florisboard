@@ -2,13 +2,43 @@ package com.kokatto.kobold.extension
 
 import android.graphics.Paint
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
-import android.util.Log
+import android.text.style.BackgroundColorSpan
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
+
+fun String.highlightText(textToHighlight: CharSequence, @ColorInt highlightColor: Int): Spannable {
+    if (this.isBlank()) return SpannableString("")
+    if (textToHighlight.isEmpty()) return SpannableString(this)
+
+    val target = this.lowercase()
+    val targetLength = target.length
+    val targetSpan = SpannableString(this)
+    val highlight = textToHighlight.toString().lowercase()
+
+    var ofe = target.indexOf(highlight, 0)
+    var ofs = 0
+    while (ofs < targetLength && ofe != -1) {
+        ofe = target.indexOf(highlight, ofs)
+        if (ofe == -1) break
+        else {
+            targetSpan.setSpan(
+                BackgroundColorSpan(highlightColor),
+                ofe,
+                ofe + textToHighlight.length,
+                0
+            )
+        }
+        ofs = ofe + 1
+    }
+    return targetSpan
+}
 
 fun String.toThousandSeperatedString(suffix: String): String? {
     val beforeFormat = this.toLong()
@@ -26,9 +56,8 @@ fun String.toThousandSeperatedString(suffix: String): String? {
     return suffix + afterFormat
 }
 
-fun EditText.setThousandSeparator() {
-    Log.e("edittext", "in")
-    this.addTextChangedListener(thousandSeparator(this))
+fun String.removeThousandSeparatedString(): String {
+    return this.filter { it.isDigit() }
 }
 
 fun thousandSeparator(editText: EditText): TextWatcher {
@@ -65,6 +94,6 @@ fun TextView.showStrikeThrough(show: Boolean) {
         else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
 }
 
-fun String.removeThousandSeparatedString(): String {
-    return this.filter { it.isDigit() }
+fun EditText.setThousandSeparator() {
+    this.addTextChangedListener(thousandSeparator(this))
 }

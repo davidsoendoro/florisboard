@@ -134,14 +134,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:text="@string/kobold_setting_store_number"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:id="@+id/tv_merchant_phone"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="18dp"
-                        android:text="@string/kobold_setting_store_name" />
+                        android:text="@string/kobold_setting_store_name"
+                        android:id="@+id/tv_merchant_store"/>
                 </LinearLayout>
 
                 <ImageView

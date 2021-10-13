@@ -11,6 +11,7 @@ import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
 import com.kokatto.kobold.bank.BankViewModel
 import com.kokatto.kobold.constant.PropertiesTypeConstant
@@ -279,11 +280,16 @@ class KeyboardCreateTransaction : ConstraintLayout {
             transactionViewModel?.createTransaction(
                 createTransactionRequest = transactionModel,
                 onSuccess = {
-                    showSnackBar(it)
-                    florisboard?.setActiveInput(R.id.kobold_menu_transaction)
+                    showSnackBar("Transaksi baru berhasil dibuat dan terpasang di chat.")
+
+                    florisboard?.inputFeedbackManager?.keyPress()
+                    florisboard?.textInputManager?.activeEditorInstance?.commitText(
+                        createTransactionChat(transactionModel)
+                    )
+
+                    florisboard?.setActiveInput(R.id.text_input)
                 },
                 onError = {
-
                     if(ErrorResponseValidator.isSessionExpiredResponse(it))
                         florisboard?.setActiveInput(R.id.kobold_login)
                     else

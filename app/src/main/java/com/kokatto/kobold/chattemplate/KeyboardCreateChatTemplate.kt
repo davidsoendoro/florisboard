@@ -11,6 +11,7 @@ import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.koboldSetEnabled
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
@@ -125,6 +126,8 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
                 model,
                 onSuccess = {
                     florisboard?.activeEditorInstance?.activeEditText = null
+
+                    showSnackBar("Template berhasil dibuat.")
                     florisboard?.koboldState = FlorisBoard.KoboldState.TEMPLATE_LIST_RELOAD
                     florisboard?.setActiveInput(R.id.kobold_menu_chat_template)
                 },

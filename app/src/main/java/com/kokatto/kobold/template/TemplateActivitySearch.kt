@@ -26,7 +26,7 @@ import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.OnClick {
+class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.Delegate {
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 
@@ -189,6 +189,10 @@ class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.
         intent.putExtra(ActivityConstantCode.EXTRA_DATA, data)
         intent.putExtra(ActivityConstantCode.EXTRA_MODE, ActivityConstantCode.EXTRA_EDIT)
         launchInputActivity?.launch(intent)
+    }
+
+    override fun getSearchText(): String {
+        return ""
     }
 
     override fun onResume() {
