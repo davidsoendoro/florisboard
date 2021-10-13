@@ -20,7 +20,6 @@ import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.findTextViewId
-import com.kokatto.kobold.extension.isConnectedToInternet
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
@@ -161,7 +160,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
     private fun loadTransaction(index: Int = 0) {
         florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
 
-        connectionErrorLayout?.isVisible = this.isConnectedToInternet().not()
+//        connectionErrorLayout?.isVisible = this.isConnectedToInternet().not()
+        connectionErrorLayout?.isVisible = false
 
         transactionViewModel?.getTransactionList(
             status = resources.getStringArray(R.array.kobold_transaction_category_apicall)[index],

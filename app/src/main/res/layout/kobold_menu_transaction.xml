@@ -141,7 +141,6 @@
                 android:gravity="center"
                 android:visibility="gone"
                 android:paddingHorizontal="20dp"
-                tools:visibility="visible"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -204,8 +203,7 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:layout_width="wrap_content"

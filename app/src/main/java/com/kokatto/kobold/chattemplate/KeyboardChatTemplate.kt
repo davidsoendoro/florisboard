@@ -16,7 +16,6 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
-import com.kokatto.kobold.extension.isConnectedToInternet
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
@@ -110,7 +109,8 @@ class KeyboardChatTemplate : ConstraintLayout, ChatTemplateRecyclerAdapter.Deleg
 
     fun loadChatTemplate() {
         florisboard?.koboldState = FlorisBoard.KoboldState.NORMAL
-        connectionErrorLayout?.isVisible = this.isConnectedToInternet().not()
+//        connectionErrorLayout?.isVisible = this.isConnectedToInternet().not()
+        connectionErrorLayout?.isVisible = false
 
 //        isLoadingChatTemplate = true
         chatTemplateViewModel?.getChatTemplateList(
