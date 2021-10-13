@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="android.view.View" />
-
+        <import type="android.view.View"/>
         <variable
             name="keyboardActivated"
             type="Boolean" />
@@ -20,7 +18,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/kobold_margin_24px"
             android:paddingBottom="@dimen/kobold_margin_36px">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:background="#FFF2E0"
                     android:padding="@dimen/kobold_margin_16px"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
                     android:visibility="@{keyboardActivated ? View.GONE : View.VISIBLE }"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -75,9 +73,11 @@
                     android:id="@+id/kobold_DashboardWelcomeViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/kobold_margin_16px"
                     android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerLayout"
                     android:visibility="visible"
-                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerLayout" />
+                    />
 
                 <TextView
                     android:id="@+id/kobold_DashboardManageShopLabel"
@@ -85,9 +85,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/kobold_margin_16px"
-                    android:layout_marginTop="@dimen/kobold_margin_8px"
-                    android:padding="@dimen/kobold_margin_8px"
-                    android:text="@string/kobold_activate_magical_keyboard" />
+                    android:paddingBottom="@dimen/kobold_margin_8px"
+                    android:paddingTop="@dimen/kobold_margin_16px"
+                    android:textStyle="bold"
+                    android:text="@string/kobold_dashboard_manage_sales"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/kobold_DashboardWelcomeViewPager" />
 
                 <LinearLayout
                     android:id="@+id/kobold_DashboardManageShopLayout"
@@ -98,6 +101,7 @@
                     app:layout_constraintTop_toBottomOf="@id/kobold_DashboardManageShopLabel">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/kobold_DashboardManageContactLayout"
                         style="@style/kobold_card_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -119,6 +123,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/kobold_margin_16px"
                             android:text="@string/kobold_dashboard_manage_customer"
+                            android:textStyle="bold"
                             app:layout_constraintStart_toEndOf="@id/kobold_DashboardManageCustomerImage"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,6 +164,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/kobold_margin_16px"
                             android:text="@string/kobold_dashboard_manage_transaction"
+                            android:textStyle="bold"
                             app:layout_constraintStart_toEndOf="@id/kobold_DashboardManageTransactionImage"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -194,7 +200,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/kobold_margin_16px"
-                    android:text="@string/kobold_dashboard_profit_support_tools_label" />
+                    android:text="@string/kobold_dashboard_profit_support_tools_label"
+                    android:textStyle="bold" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/kobold_DashboardSellerKeyboardLayout"
@@ -220,6 +227,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/kobold_margin_16px"
                         android:text="@string/kobold_dashboard_seller_keyboard_header"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardSellerKeyboardImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -245,9 +253,10 @@
                         android:text="@string/kobold_activate"
                         android:textAllCaps="false"
                         android:textColor="@color/text_color_white"
-                        android:visibility="@{keyboardActivated ? View.GONE : View.VISIBLE }"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardSellerKeyboardImage"
-                        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardSellerKeyboardStatus" />
+                        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardSellerKeyboardStatus"
+                        android:visibility="@{keyboardActivated ? View.GONE : View.VISIBLE }"
+                        />
 
                     <Button
                         android:id="@+id/kobold_DashboardSellerKeyboardWatchVideoButton"
@@ -262,9 +271,10 @@
                         android:paddingHorizontal="@dimen/kobold_margin_16px"
                         android:text="@string/kobold_watch_tutorial"
                         android:textAllCaps="false"
-                        android:visibility="@{keyboardActivated ? View.GONE : View.VISIBLE }"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardSellerKeyboardActivateButton"
-                        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardSellerKeyboardStatus" />
+                        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardSellerKeyboardStatus"
+                        android:visibility="@{keyboardActivated ? View.GONE : View.VISIBLE }"
+                        />
 
                     <ImageView
                         android:id="@+id/kobold_DashboardSellerKeyboardNextArrowImage"
@@ -272,11 +282,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16sp"
                         android:padding="@dimen/kobold_margin_8px"
-                        android:visibility="@{keyboardActivated ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_keyboard_arrow_right" />
+                        app:srcCompat="@drawable/ic_keyboard_arrow_right"
+                        android:visibility="@{keyboardActivated ? View.VISIBLE : View.GONE}"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -303,6 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/kobold_margin_16px"
                         android:text="@string/template_chat"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardChatTemplateImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -354,6 +365,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/kobold_margin_16px"
                         android:text="@string/kobold_dashboard_check_delivery_fee"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardCheckDeliveryFeeImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -406,6 +418,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/kobold_margin_16px"
                         android:text="@string/kobold_dashboard_deliver_order"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardDeliverOrderImage"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -450,7 +463,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/kobold_margin_32px"
+                    android:layout_marginBottom="@dimen/kobold_margin_24px"
                     android:text="@string/kobold_dashboard_support_header"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/kobold_DashboardProfitSupportToolsLayout" />
@@ -489,7 +504,7 @@
                 android:layout_width="1dp"
                 android:layout_height="1dp"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.10218978" />
+                app:layout_constraintGuide_percent="0.1" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/kobold_DashboardRightGuideline"
