@@ -27,8 +27,8 @@ android {
         applicationId = "com.kokatto.kobold"
         minSdk = 21
         targetSdk = 30
-        versionCode = 202
-        versionName = "0.2.2"
+        versionCode = 203
+        versionName = "0.2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
