@@ -471,23 +471,33 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
         val previousList = ArrayList(chatTemplateList)
         val chatTemplateItems = getChatTemplateList(query)
 
-        val previousSize = chatTemplateItems?.size
-        chatTemplateList.clear()
-        chatTemplateItems?.let { chatTemplateList.addAll(it) }
-
         inlineChatTemplateRecycler = findViewById(R.id.kobold_rv_inline_suggestions)
         if (inlineSuggestionRecyclerAdapter == null) {
             inlineSuggestionRecyclerAdapter = InlineChatTemplateRecyclerAdapter(chatTemplateList, this)
             inlineChatTemplateRecycler?.adapter = inlineSuggestionRecyclerAdapter
         } else {
-            chatTemplateList.forEachIndexed { index, chatTemplateItem ->
+            chatTemplateItems?.forEachIndexed { index, chatTemplateItem ->
                 if (index < previousList.size) {
                     val previousItem = previousList[index]
                     if (previousItem.title != chatTemplateItem.title) {
+                        chatTemplateList[index] = chatTemplateItem
                         inlineChatTemplateRecycler?.adapter?.notifyItemChanged(index)
                     }
                 } else {
+                    chatTemplateList.add(chatTemplateItem)
                     inlineChatTemplateRecycler?.adapter?.notifyItemInserted(index)
+                }
+            }
+            chatTemplateItems?.let { _chatTemplateItems ->
+                if (_chatTemplateItems.size < previousList.size) {
+                    val startRemovalIndex = _chatTemplateItems.size
+                    for (i in startRemovalIndex until chatTemplateList.size) {
+                        chatTemplateList.removeAt(startRemovalIndex)
+                    }
+                    inlineChatTemplateRecycler?.adapter?.notifyItemRangeRemoved(
+                        startRemovalIndex,
+                        previousList.size - chatTemplateItems.size
+                    )
                 }
             }
         }

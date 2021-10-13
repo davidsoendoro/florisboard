@@ -635,6 +635,7 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
         }
     }
 
+    var isShiftDownPressed = false
     /**
      * Handles a [KeyCode.SHIFT] down event.
      */
@@ -644,21 +645,26 @@ class TextInputManager private constructor() : CoroutineScope by MainScope(), In
             activeState.caps = true
             activeState.capsLock = true
         } else {
-            newCapsState = activeState.caps
+            newCapsState = !activeState.caps
             activeState.caps = true
             activeState.capsLock = false
         }
         smartbarView?.updateCandidateSuggestionCapsState()
-//        florisboard.dispatchCurrentStateToInputUi()
+        florisboard.dispatchCurrentStateToInputUi()
+        isShiftDownPressed = true
     }
 
     /**
      * Handles a [KeyCode.SHIFT] up event.
      */
     private fun handleShiftUp() {
-        activeState.caps = newCapsState
-        smartbarView?.updateCandidateSuggestionCapsState()
-        florisboard.dispatchCurrentStateToInputUi()
+        if (isShiftDownPressed) {
+            activeState.caps = newCapsState
+            smartbarView?.updateCandidateSuggestionCapsState()
+            florisboard.dispatchCurrentStateToInputUi()
+        } else {
+            isShiftDownPressed = false
+        }
     }
 
     /**
