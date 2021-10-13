@@ -18,6 +18,7 @@ import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
+import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
 import timber.log.Timber
@@ -114,7 +115,7 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
             }
 
             koboldDashboardActivateMagicKeyboardBannerBtn.setOnClickListener {
-                startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
+                startActivity(Intent(this@DashboardActivity, SetupActivity::class.java))
             }
         }
     }

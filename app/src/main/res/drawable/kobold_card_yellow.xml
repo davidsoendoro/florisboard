@@ -9,7 +9,7 @@
     </item>
     <item>
         <shape>
-            <solid android:color="@android:color/transparent"/>
+            <solid android:color="#00000000"/>
             <corners android:radius="@dimen/kobold_margin_16px" />
         </shape>
     </item>
