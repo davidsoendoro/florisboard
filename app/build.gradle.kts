@@ -180,4 +180,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:28.4.0"))
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // Play core library
+    implementation("com.google.android.play:core:1.8.0")
+
+    //pdf viewer
+    //implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 }

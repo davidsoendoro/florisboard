@@ -98,6 +98,8 @@ class LoginActivity : FragmentActivity() {
                     }
                 }
             })
+
+        validateApplicationToken()
     }
 
     private fun setupIndicator() {
