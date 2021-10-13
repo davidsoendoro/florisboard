@@ -13,6 +13,7 @@ import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetBusinessFieldResponse
 import com.kokatto.kobold.api.model.response.GetBusinessTypeResponse
 import com.kokatto.kobold.api.model.response.GetListDeliveryFeeResponse
+import com.kokatto.kobold.api.model.response.GetMerchantResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginationDeliveryAddressResponse
@@ -255,6 +256,10 @@ interface MerchantApi {
     @RequiredAuth
     @POST(merchantUrl + "create")
     suspend fun postCreateMerchant(@Body request: PostCreateMerchantRequest): ApiResponse<BaseResponse>
+
+    @RequiredAuth
+    @GET(merchantUrl + "info")
+    suspend fun getMerchantInfo(): ApiResponse<GetMerchantResponse>
 }
 
 /**

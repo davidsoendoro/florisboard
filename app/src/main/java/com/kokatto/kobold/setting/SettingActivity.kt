@@ -1,5 +1,8 @@
 package com.kokatto.kobold.setting
 
+//import com.google.android.play.core.review.ReviewInfo
+//import com.google.android.play.core.review.ReviewManager
+//import com.google.android.play.core.review.ReviewManagerFactory
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -8,17 +11,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.kokatto.kobold.R
 import com.kokatto.kobold.bank.BankHomeActivity
 import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.SettingsActivityBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
+import com.kokatto.kobold.extension.showSnackBar
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var ivProfilToko: ImageView
@@ -29,14 +29,31 @@ class SettingActivity : AppCompatActivity() {
     private lateinit var llShareApp: LinearLayout
     lateinit var uiBinding: SettingsActivityBinding
 
-    private var reviewInfo: ReviewInfo? = null
-    private lateinit var reviewManager: ReviewManager
+    var settingViewModel: SettingViewModel? = null
+
+//    private var reviewInfo: ReviewInfo? = null
+//    private lateinit var reviewManager: ReviewManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+        settingViewModel = SettingViewModel()
 
+        settingViewModel?.getMerhcantInfo(
+            onLoading = {
+//                        on data is loading
+//                loadingLayout.isVisible = it
+            },
+            onSuccess = {
+//                        on data success loaded from backend
+//                        textapa.text = it.name
+            },
+            onError = {
+//                on data error when loading from backend
+                showSnackBar(it)
+            }
+        )
 
         uiBinding = SettingsActivityBinding.inflate(layoutInflater).apply {
             setContentView(root)
@@ -45,14 +62,14 @@ class SettingActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        ivProfilToko = findViewById(R.id.kobold_setting_store_profile);
-        ivProfilToko.setOnClickListener{
+        ivProfilToko = findViewById(R.id.kobold_setting_store_profile)
+        ivProfilToko.setOnClickListener {
             startActivity(Intent(this@SettingActivity, SettingProfilTokoActivity::class.java))
         }
 
-        btnLogOut = findViewById(R.id.kobold_SettingLogoutButton);
+        btnLogOut = findViewById(R.id.kobold_SettingLogoutButton)
         btnLogOut.setOnClickListener{
-            createConfirmationDialog();
+            createConfirmationDialog()
         }
 
         rlBankAccount = findViewById(R.id.kubold_open_bank_account)
@@ -62,7 +79,7 @@ class SettingActivity : AppCompatActivity() {
 
         llShareApp = findViewById(R.id.kubold_card_share)
         llShareApp.setOnClickListener{
-            createShareDialog();
+            createShareDialog()
         }
 
         rlGiveRating = findViewById(R.id.kubold_open_give_rating)
