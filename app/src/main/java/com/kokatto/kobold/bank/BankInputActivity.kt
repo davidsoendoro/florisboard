@@ -17,6 +17,7 @@ import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.bank.dialog.DialogBankCancel
 import com.kokatto.kobold.bank.dialog.DialogBankDelete
 import com.kokatto.kobold.bank.recylerAdapeter.BankSpinnerAdapter
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_BANK
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
@@ -26,7 +27,7 @@ import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import java.util.concurrent.atomic.AtomicBoolean
 
-class BankInputActivity : AppCompatActivity() {
+class BankInputActivity : DashboardThemeActivity() {
 
     lateinit var uiBinding: ActivityBankInputBinding
     private var mode: Int? = null

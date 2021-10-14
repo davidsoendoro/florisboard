@@ -518,4 +518,29 @@
         <item name="android:textColor">#3A5FD6</item>
     </style>
 
+    <style name="kobold_text_input_layout" >
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox</item>
+        <item name="boxCollapsedPaddingTop">0dp</item>
+        <item name="boxBackgroundColor">@color/colorWhite</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusBottomEnd">4dp</item>
+        <item name="boxCornerRadiusBottomStart">4dp</item>
+        <item name="boxStrokeColor">#d6d6d6</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@color/text_primary</item>
+        <item name="colorControlHighlight">@color/text_primary</item>
+        <item name="colorPrimary">@color/text_primary</item>
+        <item name="colorOnSurface">@color/kobold_red_button</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="kobold_text_input_edittext" >
+        <item name="android:textColor">#3D3D3D</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+
 </resources>

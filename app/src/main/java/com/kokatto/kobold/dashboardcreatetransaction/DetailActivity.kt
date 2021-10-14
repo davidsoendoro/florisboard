@@ -28,6 +28,7 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.dialog.DialogAction
@@ -43,7 +44,7 @@ import com.kokatto.kobold.utility.CurrencyUtility
 import com.kokatto.kobold.utility.ThirdAppUtility
 
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : DashboardThemeActivity() {
 
     companion object {
         const val EXTRA_ID = "EXTRA_ID"
@@ -641,7 +642,7 @@ class DetailActivity : AppCompatActivity() {
 
                     val intent = Intent()
                     intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentTransaction)
-                    setResult(ActivityConstantCode.STATUS_TO_CANCEL, intent)
+                    setResult(ActivityConstantCode.STATUS_TO_UNSENT, intent)
                     finish()
                     showSnackBar(
                         findViewById(R.id.root_layout),

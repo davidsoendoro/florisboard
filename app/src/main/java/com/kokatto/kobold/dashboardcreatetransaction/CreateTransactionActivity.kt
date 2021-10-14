@@ -21,6 +21,7 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionStatusConstant
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
@@ -36,7 +37,7 @@ interface CreateTransactionActivityListener {
     fun getHasTransactionn(): Boolean
 }
 
-class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, CreateTransactionActivityListener {
+class CreateTransactionActivity : DashboardThemeActivity(), PagerAdapter.Delegate, CreateTransactionActivityListener {
 
     private var activeButton: Button? = null
     private var warningLayout: LinearLayout? = null
@@ -122,6 +123,10 @@ class CreateTransactionActivity : AppCompatActivity(), PagerAdapter.Delegate, Cr
                 ActivityConstantCode.STATUS_TO_CANCEL -> {
                     viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
                     showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_cancel_toast))
+                }
+                ActivityConstantCode.STATUS_TO_UNSENT -> {
+                    viewPager?.adapter = PagerAdapter(supportFragmentManager, lifecycle, this)
+                    showSnackBar(findViewById(R.id.root_layout), resources.getString(R.string.kobold_transaction_unsent_toast))
                 }
                 ActivityConstantCode.RESULT_OPEN_EDIT -> {
                     val data: Intent? = result.data

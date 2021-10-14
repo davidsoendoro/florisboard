@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.databinding.TemplateActivityBinding
 import com.kokatto.kobold.extension.showSnackBar
@@ -30,7 +31,7 @@ interface TemplateActivityListener {
     fun openDataListFragment()
 }
 
-class TemplateActivity : AppCompatActivity(), TemplateActivityListener {
+class TemplateActivity : DashboardThemeActivity(), TemplateActivityListener {
 
     object FromKeyboardRequest {
         val templatePickInputKey = "TEMPLATE_PICK_KEY"

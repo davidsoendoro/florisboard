@@ -36,23 +36,20 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/kobold_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            app:boxStrokeColor="#d6d6d6"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edittext_phone_trigger"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorWhite"
                 android:clickable="true"
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:hint="Masukkan nomor WhatsApp"
-                android:textAppearance="@style/FormEditTextHint" />
+                style="@style/kobold_text_input_edittext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +60,9 @@
             android:paddingVertical="@dimen/kobold_margin_12px"
             android:stateListAnimator="@null"
             android:text="Lanjut"
-            android:textAppearance="@style/kobold_materialbutton_disable" />
+            android:textAppearance="@style/kobold_materialbutton_disable"
+            android:textColor="@color/colorWhite"
+            android:enabled="false"/>
 
         <TextView
             android:id="@+id/term"
@@ -100,22 +99,21 @@
         />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/kobold_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            app:boxStrokeColor="#d6d6d6"
-            app:hintEnabled="false"
             android:layout_marginBottom="@dimen/kobold_margin_12px">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edittext_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorWhite"
                 android:textAppearance="@style/FormEditTextHint"
                 android:hint="Masukkan nomor WhatsApp"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:maxLength="15"
+                style="@style/kobold_text_input_edittext"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

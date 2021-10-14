@@ -73,4 +73,12 @@
 
     <style name="SettingsTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="DashboardThemeBase" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
 </resources>

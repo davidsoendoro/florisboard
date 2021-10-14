@@ -9,10 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.kokatto.kobold.R
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.showSnackBar
 
-class ContactListActivity : AppCompatActivity() {
+class ContactListActivity : DashboardThemeActivity() {
     private lateinit var binding: ActivityContactBinding
     private var contactEmpty: Boolean = true
 
