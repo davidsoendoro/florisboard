@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class SettingViewModel {
     val scope = CoroutineScope(Job() + Dispatchers.Main)
 
-    fun getMerhcantInfo(
+    fun getMerchantInfo(
         onLoading: (Boolean) -> Unit,
         onSuccess: (MerchantModel) -> Unit,
         onError: (String) -> Unit

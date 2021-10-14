@@ -181,9 +181,6 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 
-    // Play core library
-    implementation("com.google.android.play:core:1.8.0")
-
     //pdf viewer
-    //implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
+    //implementation ("com.github.barteksc:android-pdf-viewer:3.0.0-beta.5")
 }
