@@ -63,6 +63,7 @@ import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
 import com.kokatto.kobold.checkshippingcost.KeyboardChooseShippingCost
+import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
@@ -801,7 +802,13 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     }
 
     fun launchToDashboard() {
+        requestHideSelf(0)
+        val i = Intent(this, DashboardActivity::class.java)
 
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+        applicationContext.startActivity(i)
     }
 
     fun launchExpandView(pickInput: String, nameInput: String, content: String) {

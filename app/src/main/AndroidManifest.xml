@@ -33,6 +33,10 @@
             android:label="@string/kobold_contact"
             android:theme="@style/SettingsTheme.NoActionBar" />
         <activity
+            android:name=".crm.ContactImportActivity"
+            android:exported="true"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
             android:name=".dashboard.DashboardMasterProfitActivity"
             android:exported="true"
             android:label="@string/title_activity_dashboard_master_profit"
@@ -211,7 +215,7 @@
         <activity
             android:name=".setting.SettingProfilTokoActivity"
             android:exported="true" />
-
+        <activity android:name=".setting.HelpActivity" />
         <provider
             android:name="dev.patrickgold.florisboard.ime.clip.provider.FlorisContentProvider"
             android:authorities="${applicationId}.provider.clip"

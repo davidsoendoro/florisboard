@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcreatetransaction.pageradapter.PagerAdapter
 import com.kokatto.kobold.extension.showSnackBar
@@ -28,7 +29,7 @@ interface ArchiveActivityListener {
     fun openDetailActivity(dataModel: TransactionModel)
 }
 
-class ArchiveActivity : AppCompatActivity(), PagerAdapter.Delegate, ArchiveActivityListener {
+class ArchiveActivity : DashboardThemeActivity(), PagerAdapter.Delegate, ArchiveActivityListener {
     private var activeButton: Button? = null
     private var warningLayout: LinearLayout? = null
     private var viewPager: ViewPager2? = null

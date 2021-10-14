@@ -15,17 +15,18 @@ class ActivityConstantCode {
         val STATUS_TO_SENT = 102
         val STATUS_TO_COMPLETE = 103
         val STATUS_TO_CANCEL = 104
+        val STATUS_TO_UNSENT = 105
 
-        val RESULT_OK_DELETED = 105
-        val RESULT_OK_CREATED = 106
-        val RESULT_OK_UPDATED = 107
+        val RESULT_OK_DELETED = 106
+        val RESULT_OK_CREATED = 107
+        val RESULT_OK_UPDATED = 108
 
-        val RESULT_OPEN_EDIT = 108
-        val RESULT_OPEN_EDIT_COMPLETE = 109
+        val RESULT_OPEN_EDIT = 109
+        val RESULT_OPEN_EDIT_COMPLETE = 110
 
-        val RESULT_SENDER = 110
-        val RESULT_RECEIVER = 111
-        val RESULT_FAILED_SAVE = 112
+        val RESULT_SENDER = 111
+        val RESULT_RECEIVER = 112
+        val RESULT_FAILED_SAVE = 113
 
         // Kirim Nota
         val BELUM_ADA = "Belum ada"

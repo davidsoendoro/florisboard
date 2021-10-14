@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.databinding.ActivityBankHomeBinding
 import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.settings.FRAGMENT_TAG
 
-class BankHomeActivity : AppCompatActivity() {
+class BankHomeActivity : DashboardThemeActivity() {
 
     lateinit var uiBinding: ActivityBankHomeBinding
 

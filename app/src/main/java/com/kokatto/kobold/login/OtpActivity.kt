@@ -23,6 +23,7 @@ import android.content.Intent
 import android.view.KeyEvent
 import android.view.View
 import com.kokatto.kobold.R
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
 import com.kokatto.kobold.extension.hideKeyboard
@@ -31,7 +32,7 @@ import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.registration.RegistrationActivity
 
 
-class OtpActivity : AppCompatActivity() {
+class OtpActivity : DashboardThemeActivity() {
 
     private lateinit var uiBinding: ActivityOtpBinding
     private lateinit var countdown_timer: CountDownTimer
@@ -81,9 +82,10 @@ class OtpActivity : AppCompatActivity() {
         uiBinding.edittextOtp1.addTextChangedListener(CustomTextWatcher(
             afterChanged = {
                 if (it != null && !it.toString().equals("")) {
+                    uiBinding.edittextOtp1.isEnabled = false
+                    uiBinding.edittextOtp2.isEnabled = true
                     uiBinding.edittextOtp2.requestFocus()
-                } else {
-                    setDefaultColor()
+                    uiBinding.edittextOtp2.showKeyboard()
                 }
             }
         ))
@@ -91,10 +93,10 @@ class OtpActivity : AppCompatActivity() {
         uiBinding.edittextOtp2.addTextChangedListener(CustomTextWatcher(
             afterChanged = {
                 if (it != null && !it.toString().equals("")) {
+                    uiBinding.edittextOtp2.isEnabled = false
+                    uiBinding.edittextOtp3.isEnabled = true
                     uiBinding.edittextOtp3.requestFocus()
-                } else {
-                    uiBinding.edittextOtp1.requestFocus()
-                    setDefaultColor()
+                    uiBinding.edittextOtp3.showKeyboard()
                 }
             }
         ))
@@ -102,10 +104,10 @@ class OtpActivity : AppCompatActivity() {
         uiBinding.edittextOtp3.addTextChangedListener(CustomTextWatcher(
             afterChanged = {
                 if (it != null && !it.toString().equals("")) {
+                    uiBinding.edittextOtp3.isEnabled = false
+                    uiBinding.edittextOtp4.isEnabled = true
                     uiBinding.edittextOtp4.requestFocus()
-                } else {
-                    uiBinding.edittextOtp2.requestFocus()
-                    setDefaultColor()
+                    uiBinding.edittextOtp4.showKeyboard()
                 }
             }
         ))
@@ -113,10 +115,10 @@ class OtpActivity : AppCompatActivity() {
         uiBinding.edittextOtp4.addTextChangedListener(CustomTextWatcher(
             afterChanged = {
                 if (it != null && !it.toString().equals("")) {
+                    uiBinding.edittextOtp4.isEnabled = false
+                    uiBinding.edittextOtp5.isEnabled = true
                     uiBinding.edittextOtp5.requestFocus()
-                } else {
-                    uiBinding.edittextOtp3.requestFocus()
-                    setDefaultColor()
+                    uiBinding.edittextOtp5.showKeyboard()
                 }
             }
         ))
@@ -136,10 +138,6 @@ class OtpActivity : AppCompatActivity() {
                     if (isValid) {
                         submitOTP()
                     }
-
-                } else {
-                    uiBinding.edittextOtp4.requestFocus()
-                    setDefaultColor()
                 }
             }
         ))
@@ -326,25 +324,39 @@ class OtpActivity : AppCompatActivity() {
             }
             R.id.edittext_otp2 -> {
                 if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp2.text.toString().length <= 0) {
+                    uiBinding.edittextOtp1.isEnabled = true
+                    uiBinding.edittextOtp2.isEnabled = false
                     uiBinding.edittextOtp1.requestFocus()
+                    uiBinding.edittextOtp1.showKeyboard()
+
                     return true
                 }
             }
             R.id.edittext_otp3 -> {
                 if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp3.text.toString().length <= 0) {
+                    uiBinding.edittextOtp3.isEnabled = false
+                    uiBinding.edittextOtp2.isEnabled = true
                     uiBinding.edittextOtp2.requestFocus()
+                    uiBinding.edittextOtp2.showKeyboard()
                     return true
                 }
             }
             R.id.edittext_otp4 -> {
                 if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp4.text.toString().length <= 0) {
+                    uiBinding.edittextOtp4.isEnabled = false
+                    uiBinding.edittextOtp3.isEnabled = true
                     uiBinding.edittextOtp3.requestFocus()
+                    uiBinding.edittextOtp3.showKeyboard()
                     return true
                 }
             }
             R.id.edittext_otp5 -> {
                 if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp5.text.toString().length <= 0) {
+                    uiBinding.edittextOtp5.isEnabled = false
+                    uiBinding.edittextOtp4.isEnabled = true
                     uiBinding.edittextOtp4.requestFocus()
+                    uiBinding.edittextOtp4.showKeyboard()
+                    setDefaultColor()
                     return true
                 }
             }

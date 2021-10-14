@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".crm.ContactImportActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/SettingsTheme.PopupOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorWhite"
+            app:popupTheme="@style/SettingsTheme.PopupOverlay"
+            app:title="@string/kobold_contact_import_titlebar"
+            app:titleTextColor="@color/text_primary">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/kobold_ContactSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:paddingVertical="@dimen/kobold_margin_12px"
+                android:paddingEnd="@dimen/kobold_margin_16px"
+                android:paddingStart="@dimen/kobold_margin_16px"
+                android:text="@string/kobold_contact_import_selectall"
+                android:textColor="#1843A1"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/kobold_margin_16px"
+            android:paddingBottom="@dimen/kobold_margin_8px"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#F2F2F2"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/search_edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:drawableStart="@drawable/ic_search"
+                        android:drawablePadding="@dimen/kobold_margin_12px"
+                        android:hint="@string/kobold_menu_search_contact_edittext_hint"
+                        android:imeOptions="actionSearch"
+                        android:maxLines="1"
+                        android:paddingVertical="@dimen/kobold_margin_8px"
+                        android:paddingStart="@dimen/kobold_margin_8px"
+                        android:singleLine="true"
+                        android:textColor="@color/text_primary"
+                        android:textCursorDrawable="@drawable/black_cursor"
+                        tools:ignore="RtlSymmetry" />
+
+                    <ImageView
+                        android:id="@+id/clear_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/kobold_margin_8px"
+                        android:src="@drawable/ic_cicle_cross_gray"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/kobold_ContactSearchCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="0"
+                android:paddingVertical="@dimen/kobold_margin_12px"
+                android:paddingStart="@dimen/kobold_margin_16px"
+                android:paddingEnd="@dimen/kobold_margin_16px"
+                android:text="Batalkan"
+                android:visibility="gone"
+                android:textColor="#1843A1"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_seacrh_notfound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="200dp"
+            android:layout_height="124dp"
+            android:src="@drawable/img_medium_search_problem" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/kobold_primaryLabel18spBold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="@dimen/kobold_margin_24px"
+            android:text="Kontak tidak ditemukan" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/kobold_subduedLabel14sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="@dimen/kobold_margin_8px"
+            android:text="Ubah kata kunci" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_contact"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        tools:listitem="@layout/item_contacts"
+        android:paddingBottom="60dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/button_import"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+        android:layout_marginVertical="@dimen/kobold_margin_16px"
+        android:background="@color/colorPrimary"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/submit_button_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/kobold_blue_button_disabled"
+            android:drawableTint="@color/icon_white"
+            android:gravity="center"
+            android:padding="@dimen/kobold_margin_12px"
+            android:paddingVertical="12dp"
+            android:text="@string/kobold_contact_import_button"
+            android:textColor="@color/text_color_white"
+            android:textStyle="bold"/>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

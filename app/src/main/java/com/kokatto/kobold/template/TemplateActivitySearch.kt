@@ -18,6 +18,7 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.extension.showKeyboard
@@ -26,7 +27,7 @@ import com.kokatto.kobold.template.recycleradapter.ChatTemplateRecyclerAdapter
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class TemplateActivitySearch : AppCompatActivity(), ChatTemplateRecyclerAdapter.Delegate {
+class TemplateActivitySearch : DashboardThemeActivity(), ChatTemplateRecyclerAdapter.Delegate {
 
     private var chatTemplateViewModel: ChatTemplateViewModel? = ChatTemplateViewModel()
 

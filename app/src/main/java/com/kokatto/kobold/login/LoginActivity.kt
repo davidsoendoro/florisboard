@@ -16,9 +16,11 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.kokatto.kobold.R
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.ActivityLoginBinding
@@ -30,7 +32,7 @@ import com.kokatto.kobold.login.slider.SliderAdapter
 import com.kokatto.kobold.persistance.AppPersistence
 
 
-class LoginActivity : FragmentActivity() {
+class LoginActivity : DashboardThemeActivity() {
 
     private lateinit var sliderAdapter: SliderAdapter
     private lateinit var indicatorContainer: LinearLayout
@@ -100,6 +102,10 @@ class LoginActivity : FragmentActivity() {
             })
 
         validateApplicationToken()
+
+        uiBinding.edittextPhone.doAfterTextChanged {
+            uiBinding.edittextPhoneTrigger.text  = it
+        }
     }
 
     private fun setupIndicator() {
@@ -174,14 +180,15 @@ class LoginActivity : FragmentActivity() {
                 uiBinding.edittextPhoneTrigger.isEnabled = true
             },
             onError = {
-                uiBinding.edittextPhoneTrigger.text?.clear()
+                //uiBinding.edittextPhoneTrigger.text?.clear()
                 uiBinding.fullcreenLoading.isVisible = false
                 uiBinding.edittextPhoneTrigger.isEnabled = true
                 showToast(it)
             }
         )
-
     }
+
+
 
     private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
         when (view.id) {
