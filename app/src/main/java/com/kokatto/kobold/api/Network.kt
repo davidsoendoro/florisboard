@@ -45,4 +45,8 @@ object Network {
     val tutorialApi: TutorialApi by lazy {
         createNetwork(okHttpClient, Gson())
     }
+
+    val contactApi: ContactApi by lazy {
+        createNetwork(okHttpClient, Gson())
+    }
 }

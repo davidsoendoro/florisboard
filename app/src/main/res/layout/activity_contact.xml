@@ -17,18 +17,20 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/SettingsTheme.PopupOverlay"
-            app:title="@string/kobold_contact"
-            >
+            app:title="@string/kobold_contact">
+
             <ImageView
                 android:id="@+id/kobold_ContactListSearchImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="@dimen/kobold_margin_16px"
-                android:src="@drawable/ic_search_white"/>
+                android:src="@drawable/ic_search_white" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_contact_activity" />
+    <include
+        android:id="@+id/kobold_ContactContent"
+        layout="@layout/content_contact_activity" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

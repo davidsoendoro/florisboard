@@ -9,7 +9,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingVertical="24dp">
@@ -23,6 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/ic_kobold_close"
             android:paddingEnd="@dimen/kobold_margin_16px"
+            android:paddingBottom="@dimen/kobold_margin_8px"
             />
 
         <TextView
@@ -46,15 +46,21 @@
             app:layout_constraintTop_toBottomOf="@id/tambahKontakHeader"
             >
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/addContactManualImage"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/kobold_item_42px"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/ic_user"
-                android:paddingEnd="@dimen/kobold_margin_16px"
-                />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_user" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/addContactManualHeader"
                 android:layout_width="0dp"
@@ -83,17 +89,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/addContactManualLayout"
+            android:paddingTop="@dimen/kobold_margin_12px"
             >
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/importContactImage"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/kobold_item_42px"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/ic_phonebook"
-                android:paddingEnd="@dimen/kobold_margin_16px"
-                />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_phonebook" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/importContactHeader"
                 android:layout_width="0dp"
@@ -112,7 +125,7 @@
                 app:layout_constraintStart_toEndOf="@id/importContactImage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/importContactImage"
-                android:text="Tambah kontak dengan gampang dari phonebookmu"
+                android:text="Tambah kontak dengan gampang dari\nphonebookmu"
                 style="@style/kobold_secondaryLabel12sp"
                 android:textAlignment="viewStart"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
