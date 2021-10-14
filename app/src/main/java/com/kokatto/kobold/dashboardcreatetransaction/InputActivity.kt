@@ -23,6 +23,7 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
@@ -32,7 +33,7 @@ import com.kokatto.kobold.extension.addSeparator
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
 
-class InputActivity : AppCompatActivity() {
+class InputActivity : DashboardThemeActivity() {
 
     companion object {
         const val CREATE = -1

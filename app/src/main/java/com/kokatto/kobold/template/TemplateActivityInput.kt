@@ -17,6 +17,7 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.template.dialog.DialogClearConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseConfirm
@@ -24,7 +25,7 @@ import com.kokatto.kobold.template.dialog.DialogCloseEditConfirm
 import java.util.concurrent.atomic.AtomicInteger
 
 
-class TemplateActivityInput : AppCompatActivity(), TemplateDialogSelectionClickListener {
+class TemplateActivityInput : DashboardThemeActivity(), TemplateDialogSelectionClickListener {
 
     companion object {
         const val EXTRA_STATE_INPUT = "EXTRA_STATE_INPUT"

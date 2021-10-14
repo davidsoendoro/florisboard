@@ -94,7 +94,7 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
             }
 
             koboldDashboardContactCustomerServiceButton.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/6281951245122"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/6285692689187"))
                 startActivity(browserIntent)
             }
 

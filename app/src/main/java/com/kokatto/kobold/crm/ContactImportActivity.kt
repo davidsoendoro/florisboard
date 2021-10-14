@@ -13,13 +13,14 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactImportModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.crm.adapter.ContactImportRecyclerAdapter
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactImportBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
 
-class ContactImportActivity : AppCompatActivity() {
+class ContactImportActivity : DashboardThemeActivity() {
     private lateinit var binding: ActivityContactImportBinding
     private var contactsList: MutableList<ContactImportModel> = ArrayList()
     private var selectedContactsList: MutableList<ContactImportModel> = ArrayList()

@@ -27,13 +27,14 @@ import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.DeliveryFeeModel
 import com.kokatto.kobold.api.model.basemodel.ShippingCostModel
 import com.kokatto.kobold.checkshippingcost.ShippingCostViewModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingCostRecylerAdapter
 import com.kokatto.kobold.extension.addAffixToString
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.utility.CurrencyUtility
 
-class CheckShippingcost : AppCompatActivity() {
+class CheckShippingcost : DashboardThemeActivity() {
     private var shippingCost = ShippingCostModel()
 
     private var backButton: ImageView? = null
@@ -135,8 +136,8 @@ class CheckShippingcost : AppCompatActivity() {
         }
 
         plusWeightButton?.setOnClickListener {
-            if (shippingCost.packageWeight == 7)
-                showSnackBar(findViewById(R.id.parent_layout), "Paket tidak boleh lebih berat dari 7 kg")
+            if (shippingCost.packageWeight == 1000)
+                showSnackBar(findViewById(R.id.parent_layout), "Paket tidak boleh lebih berat dari 1000 kg")
             else {
                 shippingCost.packageWeight++
                 packageWeightText?.text = shippingCost.packageWeight.addAffixToString(suffix = suffixKilogram)
