@@ -68,10 +68,14 @@ class LoginActivity : FragmentActivity() {
         })
 
         uiBinding.buttonNext.setOnClickListener {
-            if(uiBinding.edittextPhone.text.toString().length > 0){
+            if (uiBinding.edittextPhone.text.toString().length > 0) {
                 apiCallRequestOTP()
             } else {
-                showSnackBar(uiBinding.rootLayout, resources.getString(R.string.kobold_into_empty_phone), R.color.snackbar_error )
+                showSnackBar(
+                    uiBinding.rootLayout,
+                    resources.getString(R.string.kobold_into_empty_phone),
+                    R.color.snackbar_error
+                )
             }
         }
 
@@ -130,7 +134,7 @@ class LoginActivity : FragmentActivity() {
                     )
                 )
             } else {
-                if( i < index){
+                if (i < index) {
                     imageView.setImageDrawable(
                         ContextCompat.getDrawable(
                             applicationContext,
@@ -183,11 +187,15 @@ class LoginActivity : FragmentActivity() {
         when (view.id) {
             R.id.edittext_phone -> {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
-                    if(uiBinding.edittextPhone.text.toString().length > 0){
+                    if (uiBinding.edittextPhone.text.toString().length > 0) {
                         apiCallRequestOTP()
                         return true
                     } else {
-                        showSnackBar(uiBinding.rootLayout, resources.getString(R.string.kobold_into_empty_phone), R.color.snackbar_error )
+                        showSnackBar(
+                            uiBinding.rootLayout,
+                            resources.getString(R.string.kobold_into_empty_phone),
+                            R.color.snackbar_error
+                        )
                         return false
                     }
                 }
@@ -201,20 +209,20 @@ class LoginActivity : FragmentActivity() {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics)
     }
 
-    private fun showStateLayout(isInputmode: Boolean = false){
-        if(isInputmode){
+    private fun showStateLayout(isInputmode: Boolean = false) {
+        if (isInputmode) {
             uiBinding.layoutInput.visibility = View.VISIBLE
             uiBinding.loginLayout.visibility = View.GONE
-        }else{
+        } else {
             uiBinding.layoutInput.visibility = View.GONE
             uiBinding.loginLayout.visibility = View.VISIBLE
         }
     }
 
-    private fun validateApplicationToken(){
-        if(AppPersistence.token.isNotEmpty()) {
+    private fun validateApplicationToken() {
+        if (AppPersistence.token.isNotEmpty()) {
             val intent = Intent(this, DashboardActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }

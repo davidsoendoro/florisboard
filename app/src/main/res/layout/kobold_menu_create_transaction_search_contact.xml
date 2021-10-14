@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kokatto.kobold.transaction.KeyboardCreateTransactionSearchContact xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/increase_form_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/spinner_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:text="@string/kobold_pick_contact"
+                android:textColor="@color/text_subdued" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/search_contact_name_koboldedittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@id/line1"
+        app:layout_constraintTop_toBottomOf="@id/title_layout"
+        app:strokeColor="@color/inner_border"
+        app:strokeWidth="1dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/icon_subdued"
+            android:text="@string/kobold_menu_search_contact_edittext_hint"
+            android:textColor="@color/text_subdued"
+            android:textSize="14sp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/gray_1"
+        app:layout_constraintTop_toBottomOf="@id/search_contact_name_koboldedittext" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/spinner_options"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/spinner_options_footer_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/spinner_options_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_spinner_option" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/spinner_options_footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardViewBackgroundColor"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_options">
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:drawableStart="@drawable/ic_keyboard_arrow_left"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/kembali"
+            android:textColor="@color/textColorDark"
+            android:textSize="14sp"
+            app:drawableLeftCompat="@drawable/ic_keyboard_arrow_left"
+            app:drawableStartCompat="@drawable/ic_keyboard_arrow_left"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/keyboard_search_contact_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/kobold_margin_12px"
+            android:backgroundTint="@color/kobold_blue_button_disabled"
+            android:elevation="0dp"
+            android:text="@string/simpan"
+            android:textAllCaps="false"
+            app:cornerRadius="8dp"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.kokatto.kobold.transaction.KeyboardCreateTransactionSearchContact>

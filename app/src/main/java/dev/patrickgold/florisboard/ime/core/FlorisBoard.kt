@@ -27,7 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Size
@@ -64,7 +63,6 @@ import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
 import com.kokatto.kobold.checkshippingcost.KeyboardChooseShippingCost
-import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
@@ -72,7 +70,6 @@ import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.transaction.KeyboardSearchTransaction
 import com.kokatto.kobold.uicomponent.KoboldEditText
-import com.kokatto.kobold.extension.vertical
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
 import dev.patrickgold.florisboard.common.ViewUtils
 import dev.patrickgold.florisboard.crashutility.CrashUtility
@@ -113,7 +110,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -1124,6 +1120,10 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
             R.id.kobold_menu_choose_shippingcost -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 11
+            }
+
+            R.id.kobold_menu_create_transaction_search_contact -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 12
             }
 
             R.id.kobold_autofill_editor -> {
