@@ -248,6 +248,8 @@ class KeyboardTransaction : ConstraintLayout, TransactionKeyboardRecyclerAdapter
         florisboard?.textInputManager?.activeEditorInstance?.commitText(
             createTransactionChat(data)
         )
+
+        florisboard?.setActiveInput(R.id.text_input)
     }
 
 }

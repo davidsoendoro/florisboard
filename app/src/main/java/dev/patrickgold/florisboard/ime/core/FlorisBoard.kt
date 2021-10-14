@@ -63,10 +63,10 @@ import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.chattemplate.KeyboardSearchChatTemplate
 import com.kokatto.kobold.checkshippingcost.KeyboardChooseShippingCost
+import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity.Companion.EXTRA_DATA
 import com.kokatto.kobold.databinding.FlorisboardBinding
-import com.kokatto.kobold.extension.vertical
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.transaction.KeyboardSearchTransaction
 import com.kokatto.kobold.uicomponent.KoboldEditText
@@ -80,7 +80,6 @@ import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
-import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -801,7 +800,13 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
     }
 
     fun launchToDashboard() {
+        requestHideSelf(0)
+        val i = Intent(this, DashboardActivity::class.java)
 
+        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+            Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or
+            Intent.FLAG_ACTIVITY_CLEAR_TOP
+        applicationContext.startActivity(i)
     }
 
     fun launchExpandView(pickInput: String, nameInput: String, content: String) {

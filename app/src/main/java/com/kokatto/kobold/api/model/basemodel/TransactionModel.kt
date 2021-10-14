@@ -28,17 +28,32 @@ data class TransactionModel(
 ) : Parcelable
 
 fun createTransactionChat(model: TransactionModel): String {
-    return "Halo ini detail transaksi nya ya :" +
-        "\nPembeli: ${model.buyer}" +
-        "\nNomor Telp: ${model.phone}" +
-        "\nAlamat: ${model.address}" +
-        "\n\n===" +
-        "\n\nUntuk Pembayaran: ${model.notes}" +
-        "\nHarga: ${CurrencyUtility.currencyFormatter(model.price)}" +
-        "\nMetode Bayar: (${model.payingMethod}) - ${model.bankAccountNo}" +
-        "\nOngkir: ${CurrencyUtility.currencyFormatter(model.deliveryFee)}" +
-        "\nKurir: ${model.logistic}" +
-        "\n\nSilahkan, proses pembayaran bisa via:" +
-        "\n\n${model.payingMethod} - ${model.bankAccountNo} - ${model.bankAccountName}" +
-        "\n\nTerima Kasih :-)"
+    if (model.payingMethod.contains("cash", true))
+        return "Halo ini detail transaksi nya ya :" +
+            "\nPembeli: ${model.buyer}" +
+            "\nNomor Telp: ${model.phone}" +
+            "\nAlamat: ${model.address}" +
+            "\n\n===" +
+            "\n\nUntuk Pembayaran: ${model.notes}" +
+            "\nHarga: ${CurrencyUtility.currencyFormatter(model.price)}" +
+            "\nMetode Bayar: (${model.payingMethod})" +
+            "\nOngkir: ${CurrencyUtility.currencyFormatter(model.deliveryFee)}" +
+            "\nKurir: ${model.logistic}" +
+            "\n\nSilahkan, proses pembayaran bisa via:" +
+            "\n\n${model.payingMethod}" +
+            "\n\nTerima Kasih :-)"
+    else
+        return "Halo ini detail transaksi nya ya :" +
+            "\nPembeli: ${model.buyer}" +
+            "\nNomor Telp: ${model.phone}" +
+            "\nAlamat: ${model.address}" +
+            "\n\n===" +
+            "\n\nUntuk Pembayaran: ${model.notes}" +
+            "\nHarga: ${CurrencyUtility.currencyFormatter(model.price)}" +
+            "\nMetode Bayar: (${model.payingMethod}) - ${model.bankAccountNo}" +
+            "\nOngkir: ${CurrencyUtility.currencyFormatter(model.deliveryFee)}" +
+            "\nKurir: ${model.logistic}" +
+            "\n\nSilahkan, proses pembayaran bisa via:" +
+            "\n\n${model.payingMethod} - ${model.bankAccountNo} - ${model.bankAccountName}" +
+            "\n\nTerima Kasih :-)"
 }
