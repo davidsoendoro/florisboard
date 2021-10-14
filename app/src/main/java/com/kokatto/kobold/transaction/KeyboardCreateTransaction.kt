@@ -2,6 +2,7 @@ package com.kokatto.kobold.transaction
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
+import com.kokatto.kobold.api.model.basemodel.getBankInfoFormatToString
 import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
 import com.kokatto.kobold.bank.BankViewModel
 import com.kokatto.kobold.constant.PropertiesTypeConstant
@@ -201,7 +203,13 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     choosePaymentMethodText?.editText?.text = result.label
                     florisboard.setActiveInput(R.id.kobold_menu_create_transaction)
 
-                    transactionModel.payingMethod = result.label
+
+                    val selectedBankTemp = getBankInfoFormatToString(result.label)
+
+                    transactionModel.payingMethod = selectedBankTemp.bankType
+                    transactionModel.bankType = selectedBankTemp.bankType
+                    transactionModel.bankAccountNo = selectedBankTemp.accountNo
+                    transactionModel.bankAccountName = selectedBankTemp.accountHolder
                     selectedPaymentMethodOption = result
 
                     invalidateSaveButton()
@@ -246,22 +254,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         }
 
         backButton?.setOnClickListener {
-//            clear edittext
-            buyerNameText?.editText?.text = ""
-            chooseChannelText?.editText?.text = ""
-            chooseChannelText?.imageLeft?.setImageResource(0)
-//            or
-//            chooseChannelText?.imageLeft?.setImageResource(android.R.color.transparent)
-            selectedChannelOptions = SpinnerEditorWithAssetItem("")
-            phoneNumberText?.editText?.text = ""
-            addressText?.editText?.text = ""
-            orderDetailText?.editText?.text = ""
-            itemPriceText?.editText?.text = ""
-            choosePaymentMethodText?.editText?.text = ""
-            selectedPaymentMethodOption = SpinnerEditorWithAssetItem("")
-            chooseCourierText?.editText?.text = ""
-            selectedCourierOption = SpinnerEditorWithAssetItem("")
-            shippingCostText?.editText?.text = ""
+            clearSelected()
 
             if (florisboard?.setActiveInputFromMainmenu == true) {
                 florisboard.inputFeedbackManager.keyPress(TextKeyData(code = KeyCode.CANCEL))
@@ -277,6 +270,11 @@ class KeyboardCreateTransaction : ConstraintLayout {
         invalidateSaveButton()
         createTransactionButton?.setOnClickListener {
 
+            val selectedBankTemp = getBankInfoFormatToString(selectedPaymentMethodOption.label)
+            Log.e("selected", selectedBankTemp.toString())
+
+            clearSelected()
+
             transactionViewModel?.createTransaction(
                 createTransactionRequest = transactionModel,
                 onSuccess = {
@@ -290,7 +288,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                     florisboard?.setActiveInput(R.id.text_input)
                 },
                 onError = {
-                    if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
                         florisboard?.setActiveInput(R.id.kobold_login)
                     else
                         showSnackBar(it)
@@ -299,76 +297,90 @@ class KeyboardCreateTransaction : ConstraintLayout {
         }
     }
 
+    private fun clearSelected() {
+//            clear edittext
+        buyerNameText?.editText?.text = ""
+        chooseChannelText?.editText?.text = ""
+        chooseChannelText?.imageLeft?.setImageResource(0)
+//            or
+//            chooseChannelText?.imageLeft?.setImageResource(android.R.color.transparent)
+        selectedChannelOptions = SpinnerEditorWithAssetItem("")
+        phoneNumberText?.editText?.text = ""
+        addressText?.editText?.text = ""
+        orderDetailText?.editText?.text = ""
+        itemPriceText?.editText?.text = ""
+        choosePaymentMethodText?.editText?.text = ""
+        selectedPaymentMethodOption = SpinnerEditorWithAssetItem("")
+        chooseCourierText?.editText?.text = ""
+        selectedCourierOption = SpinnerEditorWithAssetItem("")
+        shippingCostText?.editText?.text = ""
+    }
+
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
 
         if (changedView == this && visibility == View.VISIBLE) {
 
-            if (pickChannelOptions.size == 0)
-                transactionViewModel?.getStandardListProperties(
-                    type = PropertiesTypeConstant.channel,
-                    onSuccess = {
-                        it.data.forEach { it ->
-                            pickChannelOptions.add(
-                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
-                            )
-                        }
-                    },
-                    onError = {
-                        //showSnackBar(it, R.color.snackbar_error)
-                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
-                            florisboard?.setActiveInput(R.id.kobold_login)
-                        else
-                            showSnackBar(it, R.color.snackbar_error)
+            pickChannelOptions.clear()
+            transactionViewModel?.getStandardListProperties(
+                type = PropertiesTypeConstant.channel,
+                onSuccess = {
+                    it.data.forEach { it ->
+                        pickChannelOptions.add(
+                            SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                        )
                     }
-                )
+                },
+                onError = {
+                    //showSnackBar(it, R.color.snackbar_error)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        florisboard?.setActiveInput(R.id.kobold_login)
+                    else
+                        showSnackBar(it, R.color.snackbar_error)
+                }
+            )
 
-            if (pickCourierOption.size == 0)
-                transactionViewModel?.getStandardListProperties(
-                    type = PropertiesTypeConstant.logistic,
-                    onSuccess = {
-                        it.data.forEach { it ->
-                            pickCourierOption.add(
-                                SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
-                            )
-                        }
-                    },
-                    onError = {
-                        //showSnackBar(it, R.color.snackbar_error)
-                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
-                            florisboard?.setActiveInput(R.id.kobold_login)
-                        else
-                            showSnackBar(it, R.color.snackbar_error)
+            pickCourierOption.clear()
+            transactionViewModel?.getStandardListProperties(
+                type = PropertiesTypeConstant.logistic,
+                onSuccess = {
+                    it.data.forEach { it ->
+                        pickCourierOption.add(
+                            SpinnerEditorWithAssetItem(it.assetDesc, it.assetUrl)
+                        )
                     }
-                )
+                },
+                onError = {
+                    //showSnackBar(it, R.color.snackbar_error)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        florisboard?.setActiveInput(R.id.kobold_login)
+                    else
+                        showSnackBar(it, R.color.snackbar_error)
+                }
+            )
 
-            if (pickPaymentMethodOption.size == 0) {
-                pickPaymentMethodOption.add(SpinnerEditorWithAssetItem("Cash", "cash"))
+            pickPaymentMethodOption.clear()
 
-                bankViewModel?.getPaginated(
-                    onLoading = {},
-                    onSuccess = {
-                        it.data.contents.forEach {
-                            pickPaymentMethodOption.add(
-                                SpinnerEditorWithAssetItem(getBankInfoStringFormat(it), it.asset)
-                            )
-                        }
-                    },
-                    onError = {
-                        //showSnackBar(it, R.color.snackbar_error)
-                        if(ErrorResponseValidator.isSessionExpiredResponse(it))
-                            florisboard?.setActiveInput(R.id.kobold_login)
-                        else
-                            showSnackBar(it, R.color.snackbar_error)
+            bankViewModel?.getPaginated(
+                onLoading = {},
+                onSuccess = {
+                    pickPaymentMethodOption.add(SpinnerEditorWithAssetItem("Cash", "cash"))
+                    it.data.contents.forEach {
+                        pickPaymentMethodOption.add(
+                            SpinnerEditorWithAssetItem(getBankInfoStringFormat(it), it.asset)
+                        )
                     }
-                )
-            }
-
-        } else {
-//            pickChannelOptions.clear()
-//            pickCourierOption.clear()
-//            pickPaymentMethodOption.clear()
+                },
+                onError = {
+                    //showSnackBar(it, R.color.snackbar_error)
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        florisboard?.setActiveInput(R.id.kobold_login)
+                    else
+                        showSnackBar(it, R.color.snackbar_error)
+                }
+            )
         }
+
     }
 
     fun invalidateSaveButton() {
@@ -382,26 +394,31 @@ class KeyboardCreateTransaction : ConstraintLayout {
         createTransactionButton?.koboldSetEnabled(isInputValid)
     }
 
-    @Deprecated("use transaction model instead")
-    fun createTransactionModel(): TransactionModel {
-        return TransactionModel(
-            buyer = buyerNameText?.editText?.text.toString(),
-            channel = chooseChannelText?.editText?.text.toString(),
-            phone = phoneNumberText?.editText?.text.toString(),
-            address = addressText?.editText?.text.toString(),
-            notes = orderDetailText?.editText?.text.toString(),
-            price =
-            if (itemPriceText?.editText?.text.toString() == "")
-                0.0
-            else
-                itemPriceText?.editText?.text.toString().toDouble(),
-            payingMethod = choosePaymentMethodText?.editText?.text.toString(),
-            logistic = chooseCourierText?.editText?.text.toString(),
-            deliveryFee =
-            if (shippingCostText?.editText?.text.toString() == "")
-                0.0
-            else
-                shippingCostText?.editText?.text.toString().toDouble()
-        )
-    }
+//    @Deprecated("use transaction model instead")
+//    fun createTransactionModel(): TransactionModel {
+//        val selectedBankTemp = getBankInfoFormatToString(selectedPaymentMethodOption.label)
+//
+//        return TransactionModel(
+//            buyer = buyerNameText?.editText?.text.toString(),
+//            channel = chooseChannelText?.editText?.text.toString(),
+//            phone = phoneNumberText?.editText?.text.toString(),
+//            address = addressText?.editText?.text.toString(),
+//            notes = orderDetailText?.editText?.text.toString(),
+//            price =
+//            if (itemPriceText?.editText?.text.toString() == "")
+//                0.0
+//            else
+//                itemPriceText?.editText?.text.toString().toDouble(),
+//            payingMethod = selectedBankTemp.bankType,
+//            bankType = selectedBankTemp.bankType,
+//            bankAccountNo = selectedBankTemp.accountNo,
+//            bankAccountName = selectedBankTemp.accountHolder,
+//            logistic = chooseCourierText?.editText?.text.toString(),
+//            deliveryFee =
+//            if (shippingCostText?.editText?.text.toString() == "")
+//                0.0
+//            else
+//                shippingCostText?.editText?.text.toString().toDouble()
+//        )
+//    }
 }
