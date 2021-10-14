@@ -12,9 +12,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.MerchantModel
+import com.kokatto.kobold.api.model.response.GetMerchantResponse
 import com.kokatto.kobold.bank.BankHomeActivity
 import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.ActivitySettingBinding
@@ -22,6 +25,7 @@ import com.kokatto.kobold.databinding.SettingsActivityBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.login.LoginActivity
 import com.kokatto.kobold.persistance.AppPersistence
 
 class SettingActivity : AppCompatActivity() {
@@ -53,17 +57,14 @@ class SettingActivity : AppCompatActivity() {
             },
             onSuccess = {
                 //on data success loaded from backend
-//                uiBinding.koboltMerchantStoreName.setText(
-//                    if(it.name.isEmpty())
-//                        "-"
-//                    else
-//                        it.name)
-//
-//                uiBinding.koboltMerchantStorePhone.setText(
-//                    if(it.phone.isEmpty())
-//                        "-"
-//                    else
-//                        it.phone)
+
+                uiBinding.koboltMerchantStoreName.setText(
+                if(it.name.isNullOrEmpty()) "-"
+                else it.name)
+
+                uiBinding.koboltMerchantStorePhone.setText(
+                    if(it.phone.isNullOrEmpty()) "-"
+                    else it.phone)
             },
             onError = {
                 //on data error when loading from backend
@@ -107,8 +108,7 @@ class SettingActivity : AppCompatActivity() {
 
         rlHelp = findViewById(R.id.kubold_open_help)
         rlHelp.setOnClickListener{
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://kobold-microsite.kokatto.net/help"))
-            startActivity(browserIntent)
+            startActivity(Intent(this@SettingActivity, HelpActivity::class.java))
         }
 
         rlTermCondition = findViewById(R.id.kubold_open_term_conditions)
@@ -134,7 +134,14 @@ class SettingActivity : AppCompatActivity() {
             bottomDialog.dismiss()
             AppPersistence.clear()
 
-            startActivity(Intent(this@SettingActivity,DashboardActivity ::class.java))
+            val i = Intent(this@SettingActivity, LoginActivity ::class.java)        // Specify any activity here e.g. home or splash or login etc
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            i.putExtra("EXIT", true)
+            startActivity(i)
+            finish()
+
         }
 
         discardButton?.setOnClickListener {
