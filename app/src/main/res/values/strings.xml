@@ -870,5 +870,10 @@
     <string name="kobold_menu_template_connection_error_content">Maaf, ada kesalahan dalam memuat halaman.\nSilahkan coba lagi ya.</string>
     <string name="kobold_pick_contact">Pilih Kontak</string>
     <string name="kobold_menu_search_contact_edittext_hint">Cari nama kontak...</string>
+    <string name="kobold_contact_import_titlebar">Import dari phonebook</string>
+    <string name="kobold_contact_import_selectall">Pilih semua</string>
+    <string name="kobold_contact_import_button">Import</string>
+    <string name="kobold_contact_import_failed">Kontak gagal diimport, silakan coba lagi.</string>
+    <string name="kobold_contact_import_success">Berhasil import %1$d kontak.</string>
 
 </resources>
