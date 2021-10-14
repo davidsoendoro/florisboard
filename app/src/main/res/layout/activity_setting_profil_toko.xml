@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/kobold_margin_32px"
-                android:text="@string/registration_store_name"
+                android:text="@string/kobold_profile_store_name_text"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
@@ -80,7 +80,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textAppearance="@style/FormEditTextHint" />
+                    android:textColor="@color/textBlack"/>
 
                 <TextView
                     android:id="@+id/edittext_setting_storename_error"
@@ -96,7 +96,7 @@
                 android:id="@+id/setting_store_phone_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nomor WhatsApp"
+                android:text="@string/kobold_profile_wa_text"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
                 android:layout_marginTop="124dp"/>
@@ -111,7 +111,7 @@
                 android:layout_marginTop="148dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittext_storephone"
+                    android:id="@+id/edittext_setting_storephone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="253dp"
-                android:text="@string/registration_business_field_title" />
+                android:text="@string/kobold_profile_busines_field_text" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edittext_setting_business_field_layout"
@@ -190,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="345dp"
-                android:text="@string/registration_business_type_title"/>
+                android:text="@string/kobold_profile_busines_type_text" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edittext_business_type_layout"
@@ -202,7 +202,7 @@
                 android:layout_marginTop="369dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittext_business_type"
+                    android:id="@+id/edittext_setting_business_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -239,7 +239,7 @@
                     android:drawableTint="@color/icon_white"
                     android:gravity="center"
                     android:paddingVertical="12dp"
-                    android:text="@string/registration_next_button_text"
+                    android:text="@string/setting_save_profile_button_text"
                     android:textColor="@color/text_color_white" />
 
             </androidx.cardview.widget.CardView>

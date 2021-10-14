@@ -871,6 +871,11 @@
     <string name="kobold_profile_busines_field_text">Bidang Bisnis</string>
     <string name="kobold_profile_busines_type_text">Tipe Bisnis</string>
     <string name="kobold_profile_store_name_text">Nama Tokomu</string>
+    <string name="setting_save_profile_button_text">Simpan Profil</string>
+    <string name="kobold_profile_wa_text">Nomor WhatsApp</string>
+    <string name="kobold_profile_busines_field_text">Bidang Bisnis</string>
+    <string name="kobold_profile_busines_type_text">Tipe Bisnis</string>
+    <string name="kobold_profile_store_name_text">Nama Tokomu</string>
     <string name="kobold_menu_template_connection_error_title">Halaman tidak dapat dimuat</string>
     <string name="kobold_menu_template_connection_error_content">Maaf, ada kesalahan dalam memuat halaman.\nSilahkan coba lagi ya.</string>
     <string name="kobold_pick_contact">Pilih Kontak</string>
