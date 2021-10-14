@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.basemodel.MerchantModel
+import com.kokatto.kobold.api.model.basemodel.MerchantModel.Companion.MERCHANT_MODEL_ID
 import com.kokatto.kobold.bank.BankHomeActivity
 import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.ActivitySettingBinding
@@ -33,6 +35,7 @@ class SettingActivity : AppCompatActivity() {
     lateinit var uiBinding: ActivitySettingBinding
 
     var settingViewModel: SettingViewModel? = null
+    var merchantModel = MerchantModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +66,8 @@ class SettingActivity : AppCompatActivity() {
                     "-"
                 else
                     it.phone
+
+                merchantModel = it
             },
             onError = {
                 //on data error when loading from backend
@@ -77,7 +82,9 @@ class SettingActivity : AppCompatActivity() {
 
         rlProfilToko = findViewById(R.id.kobold_setting_store_profile)
         rlProfilToko.setOnClickListener {
-            startActivity(Intent(this@SettingActivity, SettingProfilTokoActivity::class.java))
+            startActivity(Intent(this@SettingActivity, SettingProfilTokoActivity::class.java).apply {
+                this.putExtra(MERCHANT_MODEL_ID, merchantModel)
+            })
         }
 
         btnLogOut = findViewById(R.id.kobold_SettingLogoutButton)

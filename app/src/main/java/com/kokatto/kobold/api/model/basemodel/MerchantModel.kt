@@ -1,8 +1,7 @@
 package com.kokatto.kobold.api.model.basemodel
 
-import android.os.Bundle
+import android.content.Intent
 import android.os.Parcelable
-import androidx.core.os.bundleOf
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -13,14 +12,15 @@ data class MerchantModel(
     val phone: String? = "",
 ) : Parcelable {
 
-    fun MerchantModel.toBundle(): Bundle {
-        return bundleOf(
-            "merchantModel" to this
-        )
-    }
+    companion object {
+        val MERCHANT_MODEL_ID = "merchantModel"
+//        fun MerchantModel.toIntent(): Intent {
+//            return
+//        }
 
-    fun MerchantModel.fromBundle(bundle: Bundle): MerchantModel? {
-        return bundle.getParcelable<MerchantModel>("merchantModel")
+        fun fromBundle(intent: Intent): MerchantModel? {
+            return intent.getParcelableExtra(MERCHANT_MODEL_ID)
+//            return bundle.getParcelable<MerchantModel>("merchantModel")
+        }
     }
-
 }
