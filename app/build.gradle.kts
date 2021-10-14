@@ -27,8 +27,8 @@ android {
         applicationId = "com.kokatto.kobold"
         minSdk = 21
         targetSdk = 30
-        versionCode = 20
-        versionName = "0.2.0"
+        versionCode = 203
+        versionName = "0.2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -180,4 +180,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:28.4.0"))
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // Play core library
+    implementation("com.google.android.play:core:1.8.0")
+
+    //pdf viewer
+    //implementation ("com.github.barteksc:android-pdf-viewer:2.8.2")
 }

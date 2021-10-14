@@ -18,6 +18,7 @@ import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
+import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
 import timber.log.Timber
@@ -76,6 +77,10 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
                 startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
             }
 
+            koboldDashboardManageContactLayout.setOnClickListener {
+                Toast.makeText(this@DashboardActivity, "CRM Feature is coming soon!", Toast.LENGTH_SHORT).show()
+            }
+
             koboldDashboardManageTransactionLayout.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, CreateTransactionActivity::class.java))
             }
@@ -87,12 +92,14 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
             koboldCheckDeliveryFeeLayout.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, CheckShippingcost::class.java))
             }
+
             koboldDashboardContactCustomerServiceButton.setOnClickListener {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/6281951245122"))
                 startActivity(browserIntent)
             }
+
             koboldDashboardDeliverOrderLayout.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.bukalapak.com/bukasend/"))
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://m.bukalapak.com/bukasend/form?referrer=c-commerce-kokatto"))
                 startActivity(browserIntent)
             }
 
@@ -108,7 +115,7 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
             }
 
             koboldDashboardActivateMagicKeyboardBannerBtn.setOnClickListener {
-                startActivity(Intent(this@DashboardActivity, SettingsMainActivity::class.java))
+                startActivity(Intent(this@DashboardActivity, SetupActivity::class.java))
             }
         }
     }
