@@ -15,6 +15,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.extension.showKeyboard
@@ -22,7 +23,7 @@ import com.kokatto.kobold.extension.vertical
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-class SearchTransactionActivity : AppCompatActivity() , TransactionHomeRecyclerAdapter.OnClick {
+class SearchTransactionActivity : DashboardThemeActivity() , TransactionHomeRecyclerAdapter.OnClick {
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
 

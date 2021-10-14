@@ -1,74 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="contactEmpty"
             type="Boolean" />
     </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:background="@color/colorWhite"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/kobold_ContactListContentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:id="@+id/kobold_ContactListEmptyLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="96dp"
                 android:gravity="center_horizontal"
-                android:visibility="gone"
-                >
+                android:orientation="vertical"
+                android:visibility="@{contactEmpty ? View.GONE : View.VISIBLE }"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_box_empty"/>
+                    android:layout_width="200dp"
+                    android:layout_height="124dp"
+                    android:src="@drawable/ic_box_empty" />
+
                 <TextView
+                    style="@style/kobold_primaryLabel18spBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/kobold_margin_24px"
-                    style="@style/kobold_primaryLabel18spBold"
-                    android:text="@string/kobold_have_no_contact"/>
+                    android:text="@string/kobold_have_no_contact" />
+
                 <TextView
+                    style="@style/kobold_secondaryLabel14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/kobold_margin_24px"
                     android:layout_marginTop="@dimen/kobold_margin_8px"
                     android:text="@string/kobold_have_no_contact_instruction"
-                    style="@style/kobold_secondaryLabel14sp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
+
                 <Button
+                    android:id="@+id/buttonAddContact"
+                    style="@style/buttonStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_add_white"
-                    style="@style/buttonStatus"
-                    android:text="@string/kobold_add_contact"
-                    android:textStyle="normal"
-                    android:textAllCaps="false"
-                    android:backgroundTint="@color/kobold_blue_button"
                     android:layout_marginTop="@dimen/kobold_margin_32px"
-                    />
+                    android:backgroundTint="@color/kobold_blue_button"
+                    android:drawableLeft="@drawable/ic_add_white"
+                    android:text="@string/kobold_add_contact"
+                    android:textAllCaps="false"
+                    android:textStyle="normal" />
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.core.widget.NestedScrollView>
 </layout>

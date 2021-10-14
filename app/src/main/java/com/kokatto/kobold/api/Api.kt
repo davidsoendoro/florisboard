@@ -4,6 +4,8 @@ import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.request.PostBulkContactRequest
+import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
@@ -12,9 +14,11 @@ import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetBusinessFieldResponse
 import com.kokatto.kobold.api.model.response.GetBusinessTypeResponse
+import com.kokatto.kobold.api.model.response.GetContactBulkResponse
 import com.kokatto.kobold.api.model.response.GetListDeliveryFeeResponse
 import com.kokatto.kobold.api.model.response.GetMerchantResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
+import com.kokatto.kobold.api.model.response.GetPaginatedContactResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginationDeliveryAddressResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
@@ -274,10 +278,43 @@ interface RefreshTokenApi {
 }
 
 private const val tutorialUrl: String = "api/v1/tutorial/"
+
 interface TutorialApi {
     @GET(tutorialUrl + "progress")
     suspend fun getTutorialProgress(): ApiResponse<GetTutorialPaginatedResponse>
 
     @POST(tutorialUrl + "access/{tutorId}")
     suspend fun updateTutorialProgress(@Path("tutorId") tutorId: String): ApiResponse<BaseResponse>
+}
+
+private const val contactUrl: String = "api/v1/contact/"
+
+interface ContactApi {
+
+    @RequiredAuth
+    @GET(contactUrl + "filter")
+    suspend fun getPaginated(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("sort") sort: String,
+        @Query("search") search: String
+    ): ApiResponse<GetPaginatedContactResponse>
+
+    @RequiredAuth
+    @POST(contactUrl + "create")
+    suspend fun postCreate(@Body request: PostContactRequest): ApiResponse<BaseResponse>
+
+    @RequiredAuth
+    @POST(contactUrl + "update/{id}")
+    suspend fun postUpdate(
+        @Path("id") bankId: String,
+        @Body request: PostContactRequest
+    ): ApiResponse<BaseResponse>
+
+    @RequiredAuth
+    @POST(contactUrl + "create/bulk")
+    suspend fun postBulk(
+        @Body request: List<PostBulkContactRequest>
+    ): ApiResponse<GetContactBulkResponse>
+
 }

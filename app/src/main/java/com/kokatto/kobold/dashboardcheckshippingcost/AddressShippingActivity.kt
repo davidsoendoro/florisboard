@@ -17,6 +17,7 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.checkshippingcost.ShippingCostViewModel
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -28,7 +29,7 @@ import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.CoroutineContext
 
-class AddressShippingActivity : AppCompatActivity(), CoroutineScope {
+class AddressShippingActivity : DashboardThemeActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 

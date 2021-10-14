@@ -12,17 +12,16 @@ import com.kokatto.kobold.databinding.ActivityBankHomeBinding
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
 import com.kokatto.kobold.databinding.ActivitySettingProfilTokoBinding
 import com.kokatto.kobold.databinding.SettingsActivityBinding
+import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showToast
 
 class SettingProfilTokoActivity : AppCompatActivity() {
     lateinit var uiBinding: ActivitySettingProfilTokoBinding
-    private lateinit var tvCustService: TextView
-    private lateinit var binding: ActivitySettingProfilTokoBinding
+    var settingViewModel: SettingViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_profil_toko)
-        binding = ActivitySettingProfilTokoBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         uiBinding = ActivitySettingProfilTokoBinding.inflate(layoutInflater).apply {
             setContentView(root)
@@ -31,18 +30,32 @@ class SettingProfilTokoActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        tvCustService = findViewById(R.id.setting_store_help_text);
-        tvCustService.setOnClickListener{
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/6281951245122"))
-            startActivity(browserIntent)
+        uiBinding.settingStoreHelpText.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("http://api.whatsapp.com/send?phone=+6285692689187&text=Halo, saya ingin mengganti nomor telpon..." )
+            startActivity(intent)
         }
 
-//        binding.setting_store_help_text.setOnClickListener {
-//            //TODO: change activity after ready
-//
-//            Toast.makeText(this, "Activity still not ready", Toast.LENGTH_LONG).show()
-//
-//        }
+        settingViewModel = SettingViewModel()
+        settingViewModel?.getMerchantInfo(
+            onLoading = {
+                showToast(it.toString())
+            },
+            onSuccess = {
+            //on data success loaded from backend
+                uiBinding.edittextSettingStorename.setText(it.name)
+                uiBinding.edittextSettingBusinessField.setText(it.businessField.toString())
+                uiBinding.edittextSettingBusinessType.setText(it.businessType)
+                uiBinding.edittextSettingStorephone.setText(it.phone)
+                showToast(it.phone)
+            },
+            onError = {
+                //on data error when loading from backend
+                showSnackBar(it)
+            }
+        )
+
+
 
     }
 
