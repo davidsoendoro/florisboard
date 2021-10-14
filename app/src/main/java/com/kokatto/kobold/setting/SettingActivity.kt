@@ -17,57 +17,67 @@ import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.bank.BankHomeActivity
 import com.kokatto.kobold.dashboard.DashboardActivity
+import com.kokatto.kobold.databinding.ActivitySettingBinding
 import com.kokatto.kobold.databinding.SettingsActivityBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.persistance.AppPersistence
 
 class SettingActivity : AppCompatActivity() {
-    private lateinit var ivProfilToko: ImageView
+    private lateinit var rlProfilToko: RelativeLayout
     private lateinit var btnLogOut: Button
     private lateinit var rlBankAccount: RelativeLayout
     private lateinit var rlGiveRating: RelativeLayout
     private lateinit var rlTermCondition: RelativeLayout
+    private lateinit var rlHelp: RelativeLayout
     private lateinit var llShareApp: LinearLayout
-    private lateinit var tvStorePhone: TextView
-    private lateinit var tvStoreName: TextView
-    lateinit var uiBinding: SettingsActivityBinding
+    lateinit var uiBinding: ActivitySettingBinding
 
     var settingViewModel: SettingViewModel? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+        setContentView(R.layout.activity_setting)
+        uiBinding = ActivitySettingBinding.inflate(layoutInflater).apply {
+            setContentView(root)
+        }
+
         settingViewModel = SettingViewModel()
 
-        tvStoreName = findViewById(R.id.tv_merchant_store)
-        tvStorePhone = findViewById(R.id.tv_merchant_phone)
-        settingViewModel?.getMerhcantInfo(
+        settingViewModel?.getMerchantInfo(
             onLoading = {
-//                        on data is loading
-//                loadingLayout.isVisible = it
+                //on data is loading
+                showToast(it.toString())
             },
             onSuccess = {
-//                        on data success loaded from backend
-                    tvStoreName.text = it.name
-
+                //on data success loaded from backend
+//                uiBinding.koboltMerchantStoreName.setText(
+//                    if(it.name.isEmpty())
+//                        "-"
+//                    else
+//                        it.name)
+//
+//                uiBinding.koboltMerchantStorePhone.setText(
+//                    if(it.phone.isEmpty())
+//                        "-"
+//                    else
+//                        it.phone)
             },
             onError = {
-//                on data error when loading from backend
+                //on data error when loading from backend
                 showSnackBar(it)
             }
         )
 
-        uiBinding = SettingsActivityBinding.inflate(layoutInflater).apply {
-            setContentView(root)
-        }
+
         uiBinding.backButton.setOnClickListener {
             onBackPressed()
         }
 
-        ivProfilToko = findViewById(R.id.kobold_setting_store_profile)
-        ivProfilToko.setOnClickListener {
+        rlProfilToko = findViewById(R.id.kobold_setting_store_profile)
+        rlProfilToko.setOnClickListener {
             startActivity(Intent(this@SettingActivity, SettingProfilTokoActivity::class.java))
         }
 
@@ -95,11 +105,17 @@ class SettingActivity : AppCompatActivity() {
             }
         }
 
-        rlTermCondition = findViewById(R.id.kubold_open_term_conditions)
-        rlTermCondition.setOnClickListener{
-
+        rlHelp = findViewById(R.id.kubold_open_help)
+        rlHelp.setOnClickListener{
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://kobold-microsite.kokatto.net/help"))
+            startActivity(browserIntent)
         }
 
+        rlTermCondition = findViewById(R.id.kubold_open_term_conditions)
+        rlTermCondition.setOnClickListener{
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"))
+            startActivity(browserIntent)
+        }
 
     }
 
@@ -117,7 +133,8 @@ class SettingActivity : AppCompatActivity() {
         acceptButton?.setOnClickListener {
             bottomDialog.dismiss()
             AppPersistence.clear()
-            onDestroy()
+
+            startActivity(Intent(this@SettingActivity,DashboardActivity ::class.java))
         }
 
         discardButton?.setOnClickListener {
@@ -141,7 +158,10 @@ class SettingActivity : AppCompatActivity() {
         acceptButton?.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+                putExtra(Intent.EXTRA_TEXT, "Yuk cobain Konekin, fitur dari Aplikasi yang bikin jualan online jadi lebih gampang. " +
+                    "\n\nSalah satu fitur Konekin, Keyboard Jualan bisa bikin pesanan, cek ongkir sampai bikin invoice langsung dari aplikasi chat favorit kamu. " +
+                    "\n\nTemukan Konekin di Play Store! " +
+                    "\n\nKonekin.id")
                 type = "text/plain"
             }
 
