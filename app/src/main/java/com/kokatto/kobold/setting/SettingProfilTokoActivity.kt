@@ -5,16 +5,20 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.BusinessTypeModel
 import com.kokatto.kobold.api.model.basemodel.MerchantModel
-import com.kokatto.kobold.api.model.basemodel.MerchantModel.Companion.fromBundle
+import com.kokatto.kobold.api.model.basemodel.MerchantModel.Companion.fromIntent
 import com.kokatto.kobold.api.model.basemodel.toBundle
 import com.kokatto.kobold.api.model.basemodel.toTextFormat
+import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.databinding.ActivitySettingProfilTokoBinding
+import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.registration.RegistrationActivity
 import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 import com.kokatto.kobold.registration.spinner.DialogBusinessTypeSelector
@@ -30,6 +34,7 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
     var businessTypeList = arrayListOf<BusinessTypeModel>()
 
     private var merchantViewModel: MerchantViewModel? = MerchantViewModel()
+    var createMerchantRequest: PostCreateMerchantRequest = PostCreateMerchantRequest()
 
     private var spinnerBusinessFieldSelector: DialogBusinessFieldSelector? = DialogBusinessFieldSelector()
     private var spinnerBusinessTypeSelector: DialogBusinessTypeSelector? = DialogBusinessTypeSelector()
@@ -42,7 +47,9 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
             setContentView(root)
         }
 
-        merchantModel = fromBundle(intent)
+        merchantModel = fromIntent(intent)
+        createMerchantRequest.name = merchantModel?.name ?: ""
+
         getBusinessTypeList()
         getBusinessFieldList()
 
@@ -51,6 +58,11 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
 
         uiBinding.backButton.setOnClickListener {
             onBackPressed()
+        }
+
+        uiBinding.edittextSettingStorename.doAfterTextChanged {
+            createMerchantRequest.name = it.toString()
+            isSaveButtonValid()
         }
 
         uiBinding.settingStoreHelpText.setOnClickListener {
@@ -75,53 +87,45 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
         }
 
         uiBinding.submitButton.setOnClickListener {
-
+            if (isSaveButtonValid()) {
+                merchantViewModel?.createMerchant(
+                    request = createMerchantRequest,
+                    onLoading = {
+                        uiBinding.fullscreenLoading.isVisible = it
+                        uiBinding.scrollView.isVisible = it.not()
+                    },
+                    onSuccess = {
+                        showToast("Berhasil mengubah data!")
+                        finish()
+                    },
+                    onError = {
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
+            }
         }
+
+        isSaveButtonValid()
     }
 
     override fun onDataBusinessFieldPass(data: ArrayList<BusinessFieldModel>) {
         businessFieldList.clear()
         businessFieldList.addAll(data)
 
-        val temp = businessFieldList.filter { it.isSelected }
-        uiBinding.edittextSettingBusinessField.setText(temp.toTextFormat())
+        uiBinding.edittextSettingBusinessField.setText(businessFieldList.filter { it.isSelected }.toTextFormat())
 
-//        createMerchantRequest?.businessField = listOf()
-//        createMerchantRequest?.businessField = businessFieldList.filter { it.isSelected }.map { it.filedName }
+        createMerchantRequest.businessField = listOf()
+        createMerchantRequest.businessField = businessFieldList.filter { it.isSelected }.map { it.filedName }
     }
 
     override fun onDataBusinessTypePass(data: ArrayList<BusinessTypeModel>) {
         businessTypeList.clear()
         businessTypeList.addAll(data)
 
-        val temp = businessTypeList.filter { it.isSelected }
-        uiBinding.edittextSettingBusinessType.setText(temp.toTextFormat())
+        uiBinding.edittextSettingBusinessType.setText(businessTypeList.filter { it.isSelected }.toTextFormat())
 
-//        createMerchantRequest?.businessType = temp.toTextFormat()
-//        isSaveButtonValid()
-    }
-
-    private fun getBusinessTypeList() {
-        if (businessTypeList.size <= 0) {
-            merchantViewModel?.getMerchantBusinessType(
-                onLoading = {
-                    uiBinding.fullscreenLoading.isVisible = it
-                    uiBinding.scrollView.isVisible = it.not()
-                },
-                onSuccess = {
-                    it.data.forEach { data ->
-                        data.isSelected = data.title.contains(merchantModel?.businessType.toString(), true)
-                        businessTypeList.add(data)
-                    }
-
-                    uiBinding.edittextSettingBusinessType.setText(merchantModel?.businessType)
-                },
-                onError = {
-                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
-                        DashboardSessionExpiredEventHandler(baseContext).onSessionExpired()
-                }
-            )
-        }
+        createMerchantRequest.businessType = businessTypeList.filter { it.isSelected }.toTextFormat()
+        isSaveButtonValid()
     }
 
     private fun getBusinessFieldList() {
@@ -141,8 +145,14 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
                         }
                         businessFieldList.add(data)
                     }
+
+                    createMerchantRequest.businessField = listOf()
+                    createMerchantRequest.businessField =
+                        businessFieldList.filter { it.isSelected }.map { it.filedName }
+
                     val temp = businessFieldList.filter { it.isSelected }
                     uiBinding.edittextSettingBusinessField.setText(temp.toTextFormat())
+                    isSaveButtonValid()
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it))
@@ -150,5 +160,44 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
                 }
             )
         }
+    }
+
+    private fun getBusinessTypeList() {
+        if (businessTypeList.size <= 0) {
+            merchantViewModel?.getMerchantBusinessType(
+                onLoading = {
+                    uiBinding.fullscreenLoading.isVisible = it
+                    uiBinding.scrollView.isVisible = it.not()
+                },
+                onSuccess = {
+                    it.data.forEach { data ->
+                        if (merchantModel?.businessType!!.isNotEmpty())
+                            data.isSelected = data.title.contains(merchantModel?.businessType.toString(), true)
+                        businessTypeList.add(data)
+                    }
+
+                    createMerchantRequest.businessType = businessTypeList.filter { it.isSelected }.toTextFormat()
+
+                    uiBinding.edittextSettingBusinessType.setText(merchantModel?.businessType)
+                    isSaveButtonValid()
+                },
+                onError = {
+                    if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                        DashboardSessionExpiredEventHandler(baseContext).onSessionExpired()
+                }
+            )
+        }
+    }
+
+    fun isSaveButtonValid(): Boolean {
+        var isInputValid =
+            createMerchantRequest.name != "" && createMerchantRequest.businessField.isNotEmpty() && createMerchantRequest.businessType != ""
+
+        if (isInputValid)
+            uiBinding.submitButton.setBackgroundColor(resources.getColor(R.color.kobold_blue_button))
+        else
+            uiBinding.submitButton.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
+
+        return isInputValid
     }
 }
