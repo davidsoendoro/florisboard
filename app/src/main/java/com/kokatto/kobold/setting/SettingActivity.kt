@@ -82,7 +82,7 @@ class SettingActivity : AppCompatActivity() {
         rlProfilToko = findViewById(R.id.kobold_setting_store_profile)
         rlProfilToko.setOnClickListener {
             startActivity(Intent(this@SettingActivity, SettingProfilTokoActivity::class.java).apply {
-                this.putExtra(MERCHANT_MODEL_ID, merchantModel)
+                this.putExtra(MerchantModel.MERCHANT_MODEL_ID, merchantModel)
             })
         }
 
