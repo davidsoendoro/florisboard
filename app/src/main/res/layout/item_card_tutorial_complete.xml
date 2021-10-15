@@ -38,11 +38,13 @@
             android:layout_marginBottom="@dimen/kobold_margin_24px"
             android:text="@string/kobold_dashboard_manage_customer_detail" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
+                android:layout_weight="1"
                 android:id="@+id/tutor_shortcut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,9 +56,6 @@
                 android:textColor="@color/text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:strokeColor="@color/text_subdued"
                 app:strokeWidth="1dp" />
 
@@ -67,13 +66,12 @@
                 android:layout_height="wrap_content"
                 android:background="#00000000"
                 android:drawableLeft="@drawable/ic_kobold_play"
-                android:paddingHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginStart="@dimen/kobold_margin_16px"
                 android:text="@string/kobold_rewatch"
                 android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_weight="1"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

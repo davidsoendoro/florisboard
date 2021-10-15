@@ -39,35 +39,32 @@
             android:layout_marginBottom="@dimen/kobold_margin_24px"
             android:text="@string/kobold_dashboard_manage_customer_detail" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
+                android:layout_weight="1"
                 android:id="@+id/tutor_shortcut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/kobold_blue_button"
                 android:text="@string/kobold_see_feature"
-                android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textAllCaps="false"/>
 
             <Button
+                android:layout_weight="1"
                 android:id="@+id/tutor_video"
                 style="@style/kobold_keyboard_transparent_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
                 android:drawableLeft="@drawable/ic_kobold_play"
-                android:paddingHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginStart="@dimen/kobold_margin_16px"
                 android:text="@string/kobold_watch_how_to"
-                android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textAllCaps="false" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -1,34 +1,33 @@
 package com.kokatto.kobold.login
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.EditText
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.ActivityOtpBinding
+import com.kokatto.kobold.extension.hideKeyboard
+import com.kokatto.kobold.extension.showKeyboard
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.login.dialog.DialogCancelRegister
 import com.kokatto.kobold.login.dialog.DialogChangeNumber
 import com.kokatto.kobold.login.dialog.DialogLoading
 import com.kokatto.kobold.persistance.AppPersistence
-import android.content.Intent
-import android.view.KeyEvent
-import android.view.View
-import com.kokatto.kobold.R
-import com.kokatto.kobold.component.DashboardThemeActivity
-import com.kokatto.kobold.dashboard.DashboardActivity
-import com.kokatto.kobold.dashboardcreatetransaction.SearchTransactionActivity
-import com.kokatto.kobold.extension.hideKeyboard
-import com.kokatto.kobold.extension.showKeyboard
-import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.registration.RegistrationActivity
 
 
@@ -75,72 +74,18 @@ class OtpActivity : DashboardThemeActivity() {
         itemViews.add(uiBinding.edittextOtp4)
         itemViews.add(uiBinding.edittextOtp5)
 
-        for(view in itemViews){
-            view.setOnKeyListener { v, keyCode, event -> onKeyEdit(v, keyCode, event) }
-        }
 
-        uiBinding.edittextOtp1.addTextChangedListener(CustomTextWatcher(
-            afterChanged = {
-                if (it != null && !it.toString().equals("")) {
-                    uiBinding.edittextOtp1.isEnabled = false
-                    uiBinding.edittextOtp2.isEnabled = true
-                    uiBinding.edittextOtp2.requestFocus()
-                    uiBinding.edittextOtp2.showKeyboard()
-                }
-            }
-        ))
+        uiBinding.edittextOtp1.addTextChangedListener(CustomTextWatcher(uiBinding.edittextOtp1, uiBinding.edittextOtp2))
+        uiBinding.edittextOtp2.addTextChangedListener(CustomTextWatcher(uiBinding.edittextOtp2, uiBinding.edittextOtp3))
+        uiBinding.edittextOtp3.addTextChangedListener(CustomTextWatcher(uiBinding.edittextOtp3, uiBinding.edittextOtp4))
+        uiBinding.edittextOtp4.addTextChangedListener(CustomTextWatcher(uiBinding.edittextOtp4, uiBinding.edittextOtp5))
+        uiBinding.edittextOtp5.addTextChangedListener(CustomTextWatcher(uiBinding.edittextOtp5, null))
 
-        uiBinding.edittextOtp2.addTextChangedListener(CustomTextWatcher(
-            afterChanged = {
-                if (it != null && !it.toString().equals("")) {
-                    uiBinding.edittextOtp2.isEnabled = false
-                    uiBinding.edittextOtp3.isEnabled = true
-                    uiBinding.edittextOtp3.requestFocus()
-                    uiBinding.edittextOtp3.showKeyboard()
-                }
-            }
-        ))
-
-        uiBinding.edittextOtp3.addTextChangedListener(CustomTextWatcher(
-            afterChanged = {
-                if (it != null && !it.toString().equals("")) {
-                    uiBinding.edittextOtp3.isEnabled = false
-                    uiBinding.edittextOtp4.isEnabled = true
-                    uiBinding.edittextOtp4.requestFocus()
-                    uiBinding.edittextOtp4.showKeyboard()
-                }
-            }
-        ))
-
-        uiBinding.edittextOtp4.addTextChangedListener(CustomTextWatcher(
-            afterChanged = {
-                if (it != null && !it.toString().equals("")) {
-                    uiBinding.edittextOtp4.isEnabled = false
-                    uiBinding.edittextOtp5.isEnabled = true
-                    uiBinding.edittextOtp5.requestFocus()
-                    uiBinding.edittextOtp5.showKeyboard()
-                }
-            }
-        ))
-
-        uiBinding.edittextOtp5.addTextChangedListener(CustomTextWatcher(
-            afterChanged = {
-                if (it != null && !it.toString().equals("")) {
-                    var isValid = true
-                    // validate test in filled
-                    for (v in itemViews) {
-                        if (v.text.toString().length <= 0) {
-                            isValid = false
-                            break
-                        }
-                    }
-
-                    if (isValid) {
-                        submitOTP()
-                    }
-                }
-            }
-        ))
+        uiBinding.edittextOtp1.setOnKeyListener(CustomKeyEvent(uiBinding.edittextOtp1, null))
+        uiBinding.edittextOtp2.setOnKeyListener(CustomKeyEvent(uiBinding.edittextOtp2, uiBinding.edittextOtp1))
+        uiBinding.edittextOtp3.setOnKeyListener(CustomKeyEvent(uiBinding.edittextOtp3, uiBinding.edittextOtp2))
+        uiBinding.edittextOtp4.setOnKeyListener(CustomKeyEvent(uiBinding.edittextOtp4, uiBinding.edittextOtp3))
+        uiBinding.edittextOtp5.setOnKeyListener(CustomKeyEvent(uiBinding.edittextOtp5, uiBinding.edittextOtp4))
 
         setDefaultColor()
         startTimer(START_MILLI_SECONDS)
@@ -165,13 +110,13 @@ class OtpActivity : DashboardThemeActivity() {
                 AppPersistence.token = it.data.token
                 AppPersistence.refreshToken = it.data.refreshToken
 
-                if(it.data.isNew){
+                if (it.data.isNew) {
                     val regIntent = Intent(this, RegistrationActivity::class.java)
-                    regIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    regIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(regIntent)
                 } else {
                     val dashboardIntent = Intent(this, DashboardActivity::class.java)
-                    dashboardIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    dashboardIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(dashboardIntent)
                 }
 
@@ -191,9 +136,9 @@ class OtpActivity : DashboardThemeActivity() {
         dialog.openDialog(supportFragmentManager)
 
         dialog.onComplete = {
-            uiBinding.textviewPhone.setText(it)
+            uiBinding.textviewPhone.text = it
 
-            for (v in itemViews){
+            for (v in itemViews) {
                 v.text?.clear()
             }
 
@@ -315,72 +260,56 @@ class OtpActivity : DashboardThemeActivity() {
         return itemViews.map { editText -> editText.text.toString() }.joinToString("")
     }
 
-    private fun onKeyEdit(view: View, keyCode: Int?, event: KeyEvent?): Boolean {
-        when (view.id) {
-            R.id.edittext_otp1 -> {
-                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp1.text.toString().length <= 0) {
-                    return true
-                }
-            }
-            R.id.edittext_otp2 -> {
-                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp2.text.toString().length <= 0) {
-                    uiBinding.edittextOtp1.isEnabled = true
-                    uiBinding.edittextOtp2.isEnabled = false
-                    uiBinding.edittextOtp1.requestFocus()
-                    uiBinding.edittextOtp1.showKeyboard()
-
-                    return true
-                }
-            }
-            R.id.edittext_otp3 -> {
-                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp3.text.toString().length <= 0) {
-                    uiBinding.edittextOtp3.isEnabled = false
-                    uiBinding.edittextOtp2.isEnabled = true
-                    uiBinding.edittextOtp2.requestFocus()
-                    uiBinding.edittextOtp2.showKeyboard()
-                    return true
-                }
-            }
-            R.id.edittext_otp4 -> {
-                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp4.text.toString().length <= 0) {
-                    uiBinding.edittextOtp4.isEnabled = false
-                    uiBinding.edittextOtp3.isEnabled = true
-                    uiBinding.edittextOtp3.requestFocus()
-                    uiBinding.edittextOtp3.showKeyboard()
-                    return true
-                }
-            }
-            R.id.edittext_otp5 -> {
-                if (keyCode == KeyEvent.KEYCODE_DEL && uiBinding.edittextOtp5.text.toString().length <= 0) {
-                    uiBinding.edittextOtp5.isEnabled = false
-                    uiBinding.edittextOtp4.isEnabled = true
-                    uiBinding.edittextOtp4.requestFocus()
-                    uiBinding.edittextOtp4.showKeyboard()
-                    setDefaultColor()
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-    inner class CustomTextWatcher(
-        private val afterChanged: ((Editable?) -> Unit) = {},
-        private val beforeChanged: ((CharSequence?, Int, Int, Int) -> Unit) = { _, _, _, _ -> },
-        private val onChanged: ((CharSequence?, Int, Int, Int) -> Unit) = { _, _, _, _ -> }
-    ) : TextWatcher {
+    inner class CustomTextWatcher(private val currentView: View?, private val nextView: View?) : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            afterChanged(s)
+            val text = s.toString()
+            when (currentView!!.id) {
+                R.id.edittext_otp1 -> if (text.length == 1) nextView!!.requestFocus()
+                R.id.edittext_otp2 -> if (text.length == 1) nextView!!.requestFocus()
+                R.id.edittext_otp3 -> if (text.length == 1) nextView!!.requestFocus()
+                R.id.edittext_otp4 -> if (text.length == 1) nextView!!.requestFocus()
+                R.id.edittext_otp5 -> {
+                    if (text.length == 1) {
+                        var isValid = true
+                        // validate test in filled
+                        for (v in itemViews) {
+                            if (v.text.toString().length <= 0) {
+                                isValid = false
+                                break
+                            }
+                        }
+
+                        if (isValid) {
+                            submitOTP()
+                        }
+                    } else {
+                        setDefaultColor()
+                    }
+                }
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            beforeChanged(s, start, count, after)
+            // TODO Auto-generated method stub
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            onChanged(s, start, before, count)
+            // TODO Auto-generated method stub
         }
     }
 
+    inner class CustomKeyEvent(private val currentView: EditText?, private val previousView: EditText?) :
+        View.OnKeyListener {
+        override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+            if (event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL
+                && currentView!!.id != R.id.edittext_otp1 && currentView.text.isEmpty()
+            ) {
+                previousView!!.text = null
+                previousView.requestFocus()
+                return true
+            }
+            return false
+        }
+    }
 
 }
