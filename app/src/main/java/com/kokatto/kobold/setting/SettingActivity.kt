@@ -7,24 +7,19 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.MerchantModel
-import com.kokatto.kobold.api.model.response.GetMerchantResponse
+import com.kokatto.kobold.api.model.basemodel.MerchantModel.Companion.MERCHANT_MODEL_ID
 import com.kokatto.kobold.bank.BankHomeActivity
-import com.kokatto.kobold.dashboard.DashboardActivity
 import com.kokatto.kobold.databinding.ActivitySettingBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.login.LoginActivity
 import com.kokatto.kobold.persistance.AppPersistence
 
@@ -50,29 +45,6 @@ class SettingActivity : AppCompatActivity() {
         }
 
         settingViewModel = SettingViewModel()
-
-        settingViewModel?.getMerchantInfo(
-            onLoading = {
-                //on data is loading
-                uiBinding.fullscreenLoading.isVisible = it
-                uiBinding.scrollView.isVisible = it.not()
-            },
-            onSuccess = {
-                //on data success loaded from backend
-
-                uiBinding.koboltMerchantStoreName.setText(
-                if(it.name.isNullOrEmpty()) "-"
-                else it.name)
-
-                uiBinding.koboltMerchantStorePhone.setText(
-                    if(it.phone.isNullOrEmpty()) "-"
-                    else it.phone)
-            },
-            onError = {
-                //on data error when loading from backend
-                showSnackBar(it)
-            }
-        )
 
 
         uiBinding.backButton.setOnClickListener {
@@ -129,6 +101,32 @@ class SettingActivity : AppCompatActivity() {
             startActivity(browserIntent)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        settingViewModel?.getMerchantInfo(
+            onLoading = {
+                //on data is loading
+                uiBinding.fullscreenLoading.isVisible = it
+                uiBinding.scrollView.isVisible = it.not()
+            },
+            onSuccess = {
+                //on data success loaded from backend
+
+                uiBinding.koboltMerchantStoreName.text = if (it.name.isNullOrEmpty()) "-"
+                else it.name
+
+                uiBinding.koboltMerchantStorePhone.text = if (it.phone.isNullOrEmpty()) "-"
+                else it.phone
+
+                merchantModel = it
+            },
+            onError = {
+                //on data error when loading from backend
+                showSnackBar(it)
+            }
+        )
     }
 
     private fun createConfirmationDialog() {
