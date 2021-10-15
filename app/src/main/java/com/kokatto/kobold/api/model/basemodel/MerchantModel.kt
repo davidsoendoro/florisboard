@@ -18,7 +18,7 @@ data class MerchantModel(
 //            return
 //        }
 
-        fun fromBundle(intent: Intent): MerchantModel? {
+        fun fromIntent(intent: Intent): MerchantModel? {
             return intent.getParcelableExtra(MERCHANT_MODEL_ID)
 //            return bundle.getParcelable<MerchantModel>("merchantModel")
         }

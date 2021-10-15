@@ -19,7 +19,7 @@ fun ArrayList<BusinessTypeModel>.toBundle(): Bundle {
     )
 }
 
-fun ArrayList<BusinessTypeModel>.fromBundle(bundle: Bundle?) {
+fun ArrayList<BusinessTypeModel>.fromIntent(bundle: Bundle?) {
     this.clear()
     (bundle?.getParcelableArrayList<BusinessTypeModel>("businessTypeList") as ArrayList<BusinessTypeModel>).forEach { businessTypeModel ->
         this.add(businessTypeModel.copy())
