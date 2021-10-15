@@ -1,5 +1,6 @@
 package com.kokatto.kobold.setting
 
+
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -8,6 +9,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.kokatto.kobold.R
+import android.content.Intent
+import android.net.Uri
+import androidx.core.content.ContextCompat.startActivity
 
 
 class HelpActivity : AppCompatActivity(){
@@ -19,9 +23,11 @@ class HelpActivity : AppCompatActivity(){
         val mWebView = findViewById<View>(R.id.webview) as WebView
         mWebView.loadUrl("https://kobold-microsite.kokatto.net/help")
 
+
         val webSetting = mWebView.settings
         webSetting.javaScriptEnabled = true
-        mWebView.webViewClient = WebViewClient()
+        myWebclient()
+        mWebView.webViewClient = myWebclient()
 
         mWebView.canGoBack()
         mWebView.setOnKeyListener(View.OnKeyListener {
@@ -36,4 +42,16 @@ class HelpActivity : AppCompatActivity(){
         })
     }
 
+    inner class myWebclient : WebViewClient() {
+        override fun shouldOverrideUrlLoading(wv: WebView, url: String): Boolean {
+            if (url.startsWith("whatsapp:")) {
+
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                startActivity(intent)
+                return true
+            }
+            return false
+        }
+    }
 }
