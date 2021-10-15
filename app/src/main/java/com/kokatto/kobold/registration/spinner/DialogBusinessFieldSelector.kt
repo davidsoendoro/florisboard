@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -20,7 +19,6 @@ import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.fromBundle
 import com.kokatto.kobold.databinding.BottomsheetBusinessFieldBinding
 import com.kokatto.kobold.extension.RoundedBottomSheet
-import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.registration.viewmodel.MerchantViewModel
 
@@ -101,7 +99,6 @@ class DialogBusinessFieldSelector : RoundedBottomSheet(), DialogBusinessFieldAda
                 }
             )
         }
-
     }
 
     interface OnBusinessFieldClicked {
