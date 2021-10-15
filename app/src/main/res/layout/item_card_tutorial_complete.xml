@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/kobold_margin_16px"
+    android:backgroundTint="@color/kobold_grape_background"
+    android:elevation="@dimen/kobold_margin_4px"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/kobold_margin_24px"
+        android:paddingVertical="@dimen/kobold_margin_16px">
+
+        <ImageView
+            android:id="@+id/tutor_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_kobold_manage_customer_blue" />
+
+        <TextView
+            android:id="@+id/tutor_title"
+            style="@style/kobold_subduedLabel18spBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/kobold_margin_12px"
+            android:text="@string/kobold_dashboard_manage_customer" />
+
+        <TextView
+            android:id="@+id/tutor_desc"
+            style="@style/kobold_secondaryLabel14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/kobold_margin_8px"
+            android:layout_marginBottom="@dimen/kobold_margin_24px"
+            android:text="@string/kobold_dashboard_manage_customer_detail" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tutor_shortcut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/kobold_grape_background"
+                android:drawableLeft="@drawable/ic_checked_grey"
+                android:enabled="false"
+                android:text="@string/kobold_feature_accessed"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/text_subdued"
+                app:strokeWidth="1dp" />
+
+            <Button
+                android:id="@+id/tutor_video"
+                style="@style/kobold_keyboard_transparent_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:drawableLeft="@drawable/ic_kobold_play"
+                android:paddingHorizontal="@dimen/kobold_margin_16px"
+                android:text="@string/kobold_rewatch"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
