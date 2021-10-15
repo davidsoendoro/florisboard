@@ -80,6 +80,7 @@ import dev.patrickgold.florisboard.ime.clip.ClipboardInputManager
 import dev.patrickgold.florisboard.ime.clip.FlorisClipboardManager
 import dev.patrickgold.florisboard.ime.keyboard.InputFeedbackManager
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
+import dev.patrickgold.florisboard.ime.keyboard.updateKeyboardState
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.media.MediaInputManager
 import dev.patrickgold.florisboard.ime.onehanded.OneHandedMode
@@ -110,6 +111,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
+import com.kokatto.kobold.extension.vertical
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
