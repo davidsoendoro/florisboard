@@ -848,7 +848,7 @@
     <string name="kobold_transaction_empty_action">Buat transaksi</string>
     <string name="title_activity_dashboard_master_profit">DashboardMasterProfitActivity</string>
     <string name="kobold_feature">fitur</string>
-    <string name="kobold_features_completed_number">%1$d dari 6</string>
+    <string name="kobold_features_completed_number">%1$d dari %2$d</string>
     <string name="kobold_profit_master_banner_header">Kamu sudah pelajari</string>
     <string name="kobold_see_feature">Lihat Fitur</string>
     <string name="kobold_watch_how_to">Nonton cara pakai</string>
