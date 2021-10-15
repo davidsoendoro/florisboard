@@ -59,6 +59,7 @@ class ContactListActivity : DashboardThemeActivity() {
 
     private fun showContactManualview() {
         showSnackBar("Not yet implemented", R.color.snackbar_error)
+            //launcher disini langusng ke tambah kontak
     }
 
     private fun checkContactImportView() {
