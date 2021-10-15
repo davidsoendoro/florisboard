@@ -23,7 +23,6 @@ class HelpActivity : AppCompatActivity(){
         val mWebView = findViewById<View>(R.id.webview) as WebView
         mWebView.loadUrl("https://kobold-microsite.kokatto.net/help")
 
-
         val webSetting = mWebView.settings
         webSetting.javaScriptEnabled = true
         myWebclient()
