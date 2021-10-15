@@ -6,11 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.dashboard.component.CardComponentComplete
 import com.kokatto.kobold.dashboard.component.CardComponentNew
@@ -19,8 +19,7 @@ import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import timber.log.Timber
 
-
-class DashboardMasterProfitActivity : AppCompatActivity() {
+class DashboardMasterProfitActivity : DashboardThemeActivity() {
 
     private lateinit var binding: ActivityDashboardMasterProfitBinding
     private lateinit var tutorialViewModel: TutorialViewModel
@@ -201,7 +200,7 @@ class DashboardMasterProfitActivity : AppCompatActivity() {
         MasterProfit.clear()
         MasterCompleted.clear()
         binding.koboldDashboardProfitMasterContent.koboldDashboardProfitMasterManageSellContentLayout.removeAllViews()
-        binding.koboldDashboardProfitMasterContent.koboldDashboardProfitMasterManageSellContentLayout.removeAllViews()
+        binding.koboldDashboardProfitMasterContent.koboldDashboardProfitMasterProfitSupportContentLayout.removeAllViews()
         binding.koboldDashboardProfitMasterContent.koboldDashboardProfitMasterCompletedTutorialContentLayout.removeAllViews()
 
     }
