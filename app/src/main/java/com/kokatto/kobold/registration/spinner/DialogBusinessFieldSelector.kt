@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -17,10 +16,9 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
-import com.kokatto.kobold.api.model.basemodel.fromBundle
+import com.kokatto.kobold.api.model.basemodel.fromIntent
 import com.kokatto.kobold.databinding.BottomsheetBusinessFieldBinding
 import com.kokatto.kobold.extension.RoundedBottomSheet
-import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.registration.viewmodel.MerchantViewModel
 
@@ -57,7 +55,7 @@ class DialogBusinessFieldSelector : RoundedBottomSheet(), DialogBusinessFieldAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBusinessFieldClicked = context as OnBusinessFieldClicked
-        businessFieldList.fromBundle(arguments)
+        businessFieldList.fromIntent(arguments)
 
         val titleLayout = view.findViewById<ConstraintLayout>(R.id.title_layout)
         backButton = titleLayout.findViewById(R.id.business_field_selector_back_button)
@@ -101,7 +99,6 @@ class DialogBusinessFieldSelector : RoundedBottomSheet(), DialogBusinessFieldAda
                 }
             )
         }
-
     }
 
     interface OnBusinessFieldClicked {
@@ -116,7 +113,7 @@ class DialogBusinessFieldSelector : RoundedBottomSheet(), DialogBusinessFieldAda
 
     override fun onDismiss(dialog: DialogInterface) {
         if (fromSubmitButton.not()) {
-            businessFieldList.fromBundle(arguments)
+            businessFieldList.fromIntent(arguments)
         } else
             onBusinessFieldClicked?.onDataBusinessFieldPass(businessFieldList)
 

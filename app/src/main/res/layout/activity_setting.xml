@@ -1,7 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:orientation="vertical">
 
 
@@ -48,7 +50,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/background"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_layout">
 
         <RelativeLayout
             android:id="@+id/page_frame"
@@ -335,12 +339,35 @@
                 android:textSize="14sp"
                 app:backgroundTint="@color/colorWhite"
                 android:foreground="?attr/selectableItemBackground"
-                android:clickable="true"/>
+                android:clickable="true" />
 
 
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/fullscreen_loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center|center_vertical"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_layout"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:paddingVertical="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -352,6 +379,7 @@
         app:itemIconTint="@drawable/bottom_nav_bar_color_selector"
         app:itemTextColor="@drawable/bottom_nav_bar_color_selector"
         app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/settings_navigation" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
