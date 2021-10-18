@@ -217,6 +217,13 @@
             android:name=".setting.SettingProfilTokoActivity"
             android:exported="true" />
         <activity android:name=".setting.HelpActivity" />
+        <activity android:name=".crm.AddContactActivity"
+            android:label="AddContact">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
         <provider
             android:name="dev.patrickgold.florisboard.ime.clip.provider.FlorisContentProvider"
             android:authorities="${applicationId}.provider.clip"
