@@ -880,5 +880,10 @@
     <string name="kobold_contact_import_button">Import</string>
     <string name="kobold_contact_import_failed">Kontak gagal diimport, silakan coba lagi.</string>
     <string name="kobold_contact_import_success">Berhasil import %1$d kontak.</string>
+    <string name="kobold_sadd_contact_toolbar_title">Tambah Kontak</string>
+    <string name="kobold_add_contact_back_button_no">Kembali</string>
+    <string name="kobold_add_contact_back_button_yes">Lanjutkan tambah kontak</string>
+    <string name="kobold_add_contact_back_text_title">Yakin mau kembali?</string>
+    <string name="kobold_add_contact_back_text_desc">Bila tekan kembali, kamu harus mulai mengisi form dari awal</string>
 
 </resources>

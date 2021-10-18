@@ -72,6 +72,7 @@
     <color name="kobold_blue_button_disabled">#B6CBFB</color>
     <color name="kobold_red_button">#E31E52</color>
     <color name="kobold_red_button_disabled">#FF92B2</color>
+    <color name="kobold_gray">#F2F2F2</color>
     <color name="page_background">#E0E0E0</color>
     <color name="item_border">#EBEBEB</color>
     <color name="inner_border">#D6D6D6</color>

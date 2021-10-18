@@ -14,6 +14,7 @@ import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
+import com.kokatto.kobold.setting.HelpActivity
 import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
 import dev.patrickgold.florisboard.settings.AboutActivity
@@ -91,6 +92,10 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
 
             koboldCheckDeliveryFeeLayout.setOnClickListener {
                 startActivity(Intent(this@DashboardActivity, CheckShippingcost::class.java))
+            }
+
+            koboldDashboardSupportButton.setOnClickListener {
+                startActivity(Intent(this@DashboardActivity, HelpActivity::class.java))
             }
 
             koboldDashboardContactCustomerServiceButton.setOnClickListener {
