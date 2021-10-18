@@ -17,7 +17,10 @@ import com.kokatto.kobold.api.model.basemodel.getBankInfoFormatToString
 import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
 import com.kokatto.kobold.bank.BankViewModel
 import com.kokatto.kobold.constant.PropertiesTypeConstant
+import com.kokatto.kobold.crm.ContactViewModel
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
+import com.kokatto.kobold.editor.SpinnerEditorAdapter
+import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
@@ -39,6 +42,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
     private var bankViewModel: BankViewModel? = BankViewModel()
+    private var contactViewModel: ContactViewModel? = ContactViewModel()
 
     private var transactionModel = TransactionModel()
 
@@ -48,6 +52,9 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
     var selectedChannelOptions = SpinnerEditorWithAssetItem("")
     var pickChannelOptions = arrayListOf<SpinnerEditorWithAssetItem>()
+
+    private var selectedContact = SpinnerEditorItem("")
+    private var pickContactOptions = arrayOf<SpinnerEditorItem>()
 
     private var phoneNumberText: KoboldEditText? = null
     private var addressText: KoboldEditText? = null
@@ -130,16 +137,29 @@ class KeyboardCreateTransaction : ConstraintLayout {
             val imeOptions = phoneNumberText?.imeOptions ?: 0
             val inputType = phoneNumberText?.inputType ?: 0
             florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.openEditor(
+            florisboard?.openContact(
                 R.id.kobold_menu_create_transaction,
-                imeOptions,
-                inputType,
-                phoneNumberText?.label?.text.toString(),
-                phoneNumberText?.editText?.text.toString()
-            ) { result ->
-                transactionModel.phone = result
-                phoneNumberText?.editText?.text = result
-            }
+                SpinnerEditorAdapter(
+                    context,
+                    pickContactOptions, selectedContact
+                ) {
+                    phoneNumberText?.editText?.text = it.label
+                }
+            )
+
+//            val imeOptions = phoneNumberText?.imeOptions ?: 0
+//            val inputType = phoneNumberText?.inputType ?: 0
+//            florisboard?.inputFeedbackManager?.keyPress()
+//            florisboard?.openEditor(
+//                R.id.kobold_menu_create_transaction,
+//                imeOptions,
+//                inputType,
+//                phoneNumberText?.label?.text.toString(),
+//                phoneNumberText?.editText?.text.toString()
+//            ) { result ->
+//                transactionModel.phone = result
+//                phoneNumberText?.editText?.text = result
+//            }
         }
 
         addressText?.setOnClickListener {
@@ -337,6 +357,16 @@ class KeyboardCreateTransaction : ConstraintLayout {
                         florisboard?.setActiveInput(R.id.kobold_login)
                     else
                         showSnackBar(it, R.color.snackbar_error)
+                }
+            )
+
+            pickContactOptions = arrayOf()
+            contactViewModel?.getPaginated(
+                page = 1,
+                pageSize = 10,
+                onLoading = {},
+                onSuccess = {
+                }, onError = {
                 }
             )
 

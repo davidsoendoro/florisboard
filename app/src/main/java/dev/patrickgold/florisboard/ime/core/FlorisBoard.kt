@@ -954,6 +954,26 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         }
     }
 
+    fun openContact(
+        destination: Int,
+        spinnerAdapter: RecyclerView.Adapter<*>
+    ) {
+        uiBinding?.mainViewFlipper?.displayedChild = 12
+        val searchContentLayout = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.search_contact_layout)
+        val searchContentRecyclerView =
+            searchContentLayout?.findViewById<RecyclerView>(R.id.search_contact_recycler_view)
+        val footerLayout = uiBinding?.mainViewFlipper?.findViewById<View>(R.id.search_contact_footer_layout)
+        val backButton = footerLayout?.findViewById<View>(R.id.back_button)
+
+        searchContentRecyclerView?.adapter = spinnerAdapter
+        searchContentRecyclerView?.vertical()
+
+        backButton?.setOnClickListener {
+            inputFeedbackManager.keyPress(TextKeyData(code = KeyCode.CANCEL))
+            setActiveInput(destination)
+        }
+    }
+
     val textWatchers = arrayListOf<TextWatcher>()
     fun openEditor(
         destination: Int,
