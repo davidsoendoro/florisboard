@@ -813,6 +813,8 @@
     <string name="registration_next_button_text">Selanjutnya</string>
     <string name="bottomsheet_business_field_title">Pilih Bidang Bisnis</string>
     <string name="bottomsheet_business_type_title">Pilih Tipe Bisnis</string>
+    <string name="bottomsheet_contact_sort_title">Urutkan</string>
+    <string name="bottomsheet_contact_sort_action">Terapkan</string>
 
     <string name="kobold_otp_page_title">Verifikasi Nomor</string>
     <string name="kobold_otp_form_title">Masukkan Kode Rahasia yang\nditerima via WhatsApp di:</string>
@@ -885,5 +887,10 @@
     <string name="kobold_add_contact_back_button_yes">Lanjutkan tambah kontak</string>
     <string name="kobold_add_contact_back_text_title">Yakin mau kembali?</string>
     <string name="kobold_add_contact_back_text_desc">Bila tekan kembali, kamu harus mulai mengisi form dari awal</string>
+    <string name="kobold_search_contact_empty_title">Kontak tidak ditemukan</string>
+    <string name="kobold_search_contact_empty_desc">Ubah kata kunci</string>
+    <string name="kobold_search_contact_hint">Cari kontak...</string>
+    <string name="kobold_contact_has_no_history">Belum ada riwayat transaksi</string>
+    <string name="kobold_contact_has_history">Transaksi terakhir %1$s</string>
 
 </resources>
