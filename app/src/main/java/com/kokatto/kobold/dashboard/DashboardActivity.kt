@@ -4,23 +4,20 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.CommonViewPagerAdapter
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.crm.ContactListActivity
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
 import com.kokatto.kobold.setting.HelpActivity
 import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
-import dev.patrickgold.florisboard.settings.AboutActivity
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import dev.patrickgold.florisboard.setup.SetupActivity
-import dev.patrickgold.florisboard.util.checkIfImeIsEnabled
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
 import timber.log.Timber
 
@@ -79,7 +76,8 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
             }
 
             koboldDashboardManageContactLayout.setOnClickListener {
-                Toast.makeText(this@DashboardActivity, "CRM Feature is coming soon!", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@DashboardActivity, "CRM Feature is coming soon!", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@DashboardActivity, ContactListActivity::class.java))
             }
 
             koboldDashboardManageTransactionLayout.setOnClickListener {

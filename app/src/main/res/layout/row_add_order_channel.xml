@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
-    android:layout_marginBottom="@dimen/kobold_margin_24px">
+    android:layout_marginBottom="@dimen/kobold_margin_24px"
+    android:background="@color/colorWhite">
 
     <LinearLayout
         android:id="@+id/kobolt_add_contact_view_layout"
@@ -17,17 +17,18 @@
 
 
         <ImageView
-            android:id="@+id/close_button"
-            android:layout_gravity="center_vertical"
+            android:id="@+id/close_row_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="17dp"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
             android:src="@drawable/ic_cross_circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="17dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
@@ -55,15 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <!--                -->
-                <!--                <ImageView-->
-                <!--                    android:id="@+id/row_delete_order_channel"-->
-                <!--                    android:layout_width="@dimen/kobold_margin_24px"-->
-                <!--                    android:layout_height="@dimen/kobold_margin_24px"-->
-                <!--                    android:layout_marginTop="17dp"-->
-                <!--                    android:layout_marginRight="10dp"-->
-                <!--                    android:src="@drawable/ic_circle_cross" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/add_contact_channel_layout"
@@ -106,7 +98,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/add_contact_other_title"
+                android:id="@+id/add_contact_id_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nomor WhatsApp / ID"
@@ -118,7 +110,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/kobolt_add_contact_order_other_title_layout" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/add_contact_other_layout"
+                android:id="@+id/add_contact_id_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,21 +119,22 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_contact_other_title">
+                app:layout_constraintTop_toBottomOf="@id/add_contact_id_title">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittext_add_contact_other"
+                    android:id="@+id/edittext_add_contact_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorEditTextDisable"
                     android:ellipsize="end"
-                    android:hint="Isi alamat email"
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:editable="false"
                     android:textColor="@color/textBlack" />
 
                 <TextView
-                    android:id="@+id/edittext_add_contact_other_error"
+                    android:id="@+id/edittext_add_contact_id_error"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/template_text_error_length"

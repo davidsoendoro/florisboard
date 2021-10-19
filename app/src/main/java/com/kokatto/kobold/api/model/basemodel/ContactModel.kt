@@ -15,8 +15,9 @@ data class ContactModel(
     var email: String = "",
     var address: String = "",
     var debt: Double = 0.0,
-    var channels: List<ContactChannelModel> = arrayListOf(),
-    var shippingAddress: List<ContactAddressModel> = arrayListOf(),
+    var lastTransaction: Long? = null,
+    var channels: List<ContactChannelModel> = listOf(),
+    var shippingAddress: List<ContactAddressModel> = listOf(),
 ) : Parcelable
 
 private val PROJECTION = arrayOf(

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -24,15 +25,15 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/kobold_ContactListEmptyLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="96dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:visibility="@{contactEmpty ? View.GONE : View.VISIBLE }"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:layout_width="200dp"
@@ -68,18 +69,61 @@
                     android:textStyle="normal" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/kobold_ContactListLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/layout_sort"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/kobold_margin_4px"
+                        android:paddingVertical="@dimen/kobold_margin_8px"
+                        android:text="Urutkan" />
+
+                    <TextView
+                        android:id="@+id/text_sorting"
+                        style="@style/kobold_primaryLabel12spBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/kobold_margin_4px"
+                        android:paddingVertical="@dimen/kobold_margin_8px"
+                        android:text="Transaksi Terbaru" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/kobold_margin_12px"
+                        android:padding="@dimen/kobold_margin_4px"
+                        android:rotation="90"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/colorPrimary" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/item_contacts_crm" />
+
+
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </androidx.core.widget.NestedScrollView>
 </layout>
