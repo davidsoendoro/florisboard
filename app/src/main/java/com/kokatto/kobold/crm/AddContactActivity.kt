@@ -1,8 +1,11 @@
 package com.kokatto.kobold.crm
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -17,16 +20,26 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
+import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
+import com.kokatto.kobold.api.model.basemodel.toBundle
+import com.kokatto.kobold.api.model.basemodel.toTextFormat
+import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.registration.RegistrationActivity
+import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
     lateinit var uiBinding: ActivityAddContactBinding
-    private val dataList = ArrayList<DataItem>()
+    private val dataList = ArrayList<ContactChannelModel>()
     private val adapter = AddContactRecyclerAdapter(dataList,this)
+    val newItem = ContactChannelModel()
+    val contactViewModel = ContactViewModel()
+    val contactRequest: PostContactRequest = PostContactRequest()
 
-    var index = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_contact)
@@ -34,47 +47,89 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             setContentView(root)
         }
 
+        dataList.add(newItem)
+
         val recyclerView: RecyclerView = findViewById(R.id.add_contact_recycler_view)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(false)
 
-//        val del: Button = findViewById(R.id.btn_del)
-
-        uiBinding.koboltAddContactAddChannelText.setOnClickListener(View.OnClickListener {
-            Toast.makeText(this, "Add $index", Toast.LENGTH_SHORT).show()
-
-            val newItem = DataItem()
+        uiBinding.koboltAddContactAddChannelText.setOnClickListener{
             dataList.add(newItem)
-            adapter.notifyItemInserted(index)
-            adapter.notifyItemChanged(index)
-            index++
-        })
-//
-//        del.setOnClickListener(View.OnClickListener {
-//            Toast.makeText(this, "Del", Toast.LENGTH_SHORT).show()
-//
-//            exampleList.removeAt(index)
-//            adapter.notifyItemRemoved(index)
-//        })
-
+            adapter.notifyDataSetChanged()
+        }
 
         uiBinding.backButton.setOnClickListener {
             createConfirmationDialog()
         }
+
+        uiBinding.submitButton.setOnClickListener {
+            Toast.makeText(this,"TEST",Toast.LENGTH_LONG).show()
+            contactViewModel.create(
+                contactRequest,
+                onSuccess = {
+                    Toast.makeText(this,"Berhasil menambah kontak.",Toast.LENGTH_LONG).show()
+                },
+                onError = {
+                    Toast.makeText(this,"Kontak gagal ditambahkan, silakan coba lagi.",Toast.LENGTH_LONG).show()
+                }
+            )
+        }
+
+        uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                contactRequest.name = s.toString()
+            }
+        })
+
+        uiBinding.edittextAddContactPhone.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                contactRequest.phoneNumber = s.toString()
+            }
+        })
+
+        uiBinding.edittextAddContactEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                contactRequest.email = s.toString()
+            }
+        })
+
+        uiBinding.edittextAddContactAddress.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                contactRequest.address = s.toString()
+            }
+        })
+
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        val clickedItem: DataItem = dataList[position]
-        dataList.removeAt(position)
-        //adapter.notifyItemChanged(position)
-
-        adapter.notifyItemRemoved(position)
-
-        if (index>0) index--
-
+        Toast.makeText(this, "Item clicked", Toast.LENGTH_SHORT).show()
+        val clickedItem: ContactChannelModel = dataList[position]
     }
 
     private fun createConfirmationDialog() {
@@ -107,4 +162,10 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         bottomDialog.show()
     }
+
+    fun onClickCalled() {
+        Toast.makeText(this, "Apel", Toast.LENGTH_SHORT).show()
+
+    }
+
 }
