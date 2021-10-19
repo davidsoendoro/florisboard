@@ -1,41 +1,25 @@
 package com.kokatto.kobold.crm
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.card.MaterialCardView
-import com.kokatto.kobold.R
-import com.kokatto.kobold.databinding.ActivityAddContactBinding
-import com.kokatto.kobold.extension.createBottomSheetDialog
-import com.kokatto.kobold.login.LoginActivity
-import com.kokatto.kobold.persistance.AppPersistence
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
+import com.google.android.material.card.MaterialCardView
+import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
-import com.kokatto.kobold.api.model.basemodel.toBundle
-import com.kokatto.kobold.api.model.basemodel.toTextFormat
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
-import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.registration.RegistrationActivity
-import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
+import com.kokatto.kobold.databinding.ActivityAddContactBinding
+import com.kokatto.kobold.extension.createBottomSheetDialog
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
     lateinit var uiBinding: ActivityAddContactBinding
     private val dataList = ArrayList<ContactChannelModel>()
-    private val adapter = AddContactRecyclerAdapter(dataList,this)
+    private val adapter = AddContactRecyclerAdapter(dataList, this)
     val newItem = ContactChannelModel()
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
@@ -55,7 +39,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(false)
 
-        uiBinding.koboltAddContactAddChannelText.setOnClickListener{
+        uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
             adapter.notifyDataSetChanged()
         }
@@ -65,14 +49,14 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
 
         uiBinding.submitButton.setOnClickListener {
-            Toast.makeText(this,"TEST",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "TEST", Toast.LENGTH_LONG).show()
             contactViewModel.create(
                 contactRequest,
                 onSuccess = {
-                    Toast.makeText(this,"Berhasil menambah kontak.",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
                 },
                 onError = {
-                    Toast.makeText(this,"Kontak gagal ditambahkan, silakan coba lagi.",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
                 }
             )
         }

@@ -125,13 +125,13 @@
                     android:id="@+id/edittext_add_contact_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
+                    android:background="@color/colorEditTextDisable"
                     android:ellipsize="end"
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/textBlack"
-                    android:background="@color/colorEditTextDisable"/>
+                    android:editable="false"
+                    android:textColor="@color/textBlack" />
 
                 <TextView
                     android:id="@+id/edittext_add_contact_id_error"

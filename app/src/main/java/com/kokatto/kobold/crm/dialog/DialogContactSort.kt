@@ -9,8 +9,6 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.basemodel.BankModel
-import com.kokatto.kobold.api.model.basemodel.fromIntent
 import com.kokatto.kobold.constant.ContactSortEnum
 import com.kokatto.kobold.crm.adapter.ContactSortRecylerAdapter
 import com.kokatto.kobold.databinding.BottomsheetSortingBinding

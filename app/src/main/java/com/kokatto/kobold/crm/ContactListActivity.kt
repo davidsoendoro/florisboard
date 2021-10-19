@@ -9,7 +9,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
@@ -103,8 +102,8 @@ class ContactListActivity : DashboardThemeActivity() {
         }
 
         binding.koboldContactListSearchImg.setOnClickListener {
-            if(contactEmpty.not()){
-            startActivity(Intent(this@ContactListActivity, ContactSearchActivity::class.java))
+            if (contactEmpty.not()) {
+                startActivity(Intent(this@ContactListActivity, ContactSearchActivity::class.java))
             }
         }
 

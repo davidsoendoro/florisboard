@@ -1,7 +1,6 @@
 package com.kokatto.kobold.checkshippingcost
 
 import android.content.Context
-import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -20,10 +19,8 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
 import com.kokatto.kobold.api.model.basemodel.ShippingCostModel
-import com.kokatto.kobold.chattemplate.KeyboardChatTemplate
-import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.dashboardcheckshippingcost.AddressShippingActivity
-import com.kokatto.kobold.dashboardcheckshippingcost.adapter.ShippingAddressRecyclerAdapter
+import com.kokatto.kobold.dashboardcheckshippingcost.recylerAdapter.ShippingAddressRecyclerAdapter
 import com.kokatto.kobold.extension.addAffixToString
 import com.kokatto.kobold.extension.findKoboldEditTextId
 import com.kokatto.kobold.extension.findTextViewId
@@ -35,7 +32,6 @@ import dev.patrickgold.florisboard.ime.core.DELAY
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
-import timber.log.Timber
 import java.util.*
 import kotlin.properties.Delegates
 

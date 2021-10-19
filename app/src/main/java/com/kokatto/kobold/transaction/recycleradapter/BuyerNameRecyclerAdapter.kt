@@ -1,4 +1,4 @@
-package com.kokatto.kobold.dashboardcheckshippingcost.recylerAdapter
+package com.kokatto.kobold.transaction.recycleradapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,18 +8,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.basemodel.DeliveryAddressModel
+import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.extension.addRipple
 
-class ShippingAddressRecyclerAdapter(
+class BuyerNameRecyclerAdapter(
     private val context: Context,
-    val dataList: ArrayList<DeliveryAddressModel> = arrayListOf(),
-) : RecyclerView.Adapter<ShippingAddressRecyclerAdapter.ViewHolder>() {
+    val dataList: ArrayList<ContactModel> = arrayListOf(),
+) : RecyclerView.Adapter<BuyerNameRecyclerAdapter.ViewHolder>() {
 
-    var onItemClick: ((item: DeliveryAddressModel) -> Unit)? = null
+    var onItemClick: ((item: ContactModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return (ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_choose_address, parent, false)))
+        return (ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_buyer_name, parent, false)))
     }
 
     override fun getItemCount(): Int {
@@ -28,13 +28,13 @@ class ShippingAddressRecyclerAdapter(
 
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val layout_row_item = item.findViewById<LinearLayout>(R.id.layout_row_item)
-        private val textview_district = item.findViewById<TextView>(R.id.tv_distict)
-        private val textview_fulladdress = item.findViewById<TextView>(R.id.tv_full_address)
+        private val nameText = item.findViewById<TextView>(R.id.name_text)
+        private val phoneText = item.findViewById<TextView>(R.id.phone_text)
 
-        fun bindViewHolder(data: DeliveryAddressModel) {
+        fun bindViewHolder(data: ContactModel) {
 
-            textview_district.text = "${data.district}"
-            textview_fulladdress.text = "${data.city}, ${data.province}, ${data.country}"
+            nameText.text = "${data.name}"
+            phoneText.text = "${data.phoneNumber}"
 
             layout_row_item.setOnClickListener {
                 onItemClick?.invoke(data)

@@ -78,47 +78,47 @@
 
                 <LinearLayout
                     android:id="@+id/layout_sort"
-                    android:gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="end"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Urutkan"
                         android:paddingHorizontal="@dimen/kobold_margin_4px"
-                        android:paddingVertical="@dimen/kobold_margin_8px"/>
+                        android:paddingVertical="@dimen/kobold_margin_8px"
+                        android:text="Urutkan" />
 
                     <TextView
                         android:id="@+id/text_sorting"
                         style="@style/kobold_primaryLabel12spBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Transaksi Terbaru"
                         android:paddingHorizontal="@dimen/kobold_margin_4px"
-                        android:paddingVertical="@dimen/kobold_margin_8px"/>
+                        android:paddingVertical="@dimen/kobold_margin_8px"
+                        android:text="Transaksi Terbaru" />
 
                     <ImageView
-                        android:layout_marginEnd="@dimen/kobold_margin_12px"
-                        android:rotation="90"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/kobold_margin_12px"
                         android:padding="@dimen/kobold_margin_4px"
+                        android:rotation="90"
                         android:src="@drawable/ic_chevron_right"
                         app:tint="@color/colorPrimary" />
 
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:nestedScrollingEnabled="true"
                     android:id="@+id/recycler_view_contact"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_contacts_crm"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/item_contacts_crm" />
 
 
             </LinearLayout>
