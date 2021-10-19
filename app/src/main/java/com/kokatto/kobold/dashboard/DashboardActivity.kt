@@ -11,6 +11,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.CommonViewPagerAdapter
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.crm.ContactListActivity
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
@@ -79,7 +80,8 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
             }
 
             koboldDashboardManageContactLayout.setOnClickListener {
-                Toast.makeText(this@DashboardActivity, "CRM Feature is coming soon!", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@DashboardActivity, "CRM Feature is coming soon!", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@DashboardActivity, ContactListActivity::class.java))
             }
 
             koboldDashboardManageTransactionLayout.setOnClickListener {

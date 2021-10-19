@@ -430,6 +430,9 @@
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="kobold_primaryLabel12spBold" parent="kobold_primaryLabel18spBold">
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="kobold_primaryLabel14spBold" parent="kobold_primaryLabel18spBold">
         <item name="android:textSize">14sp</item>
     </style>
@@ -447,6 +450,9 @@
     </style>
     <style name="kobold_secondaryLabel12sp" parent="kobold_secondaryLabel14sp">
         <item name="android:textSize">12sp</item>
+    </style>
+    <style name="kobold_secondaryLabel10sp" parent="kobold_secondaryLabel14sp">
+        <item name="android:textSize">10sp</item>
     </style>
     <style name="kobold_subduedLabel12sp">
         <item name="android:textSize">12sp</item>

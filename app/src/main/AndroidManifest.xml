@@ -224,6 +224,11 @@
                  <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
+        <activity android:name=".crm.ContactSearchActivity"
+            android:exported="true"
+            android:label="Contact Search"
+            android:theme="@style/DashboardThemeBase"
+            android:windowSoftInputMode="stateVisible"/>
         <provider
             android:name="dev.patrickgold.florisboard.ime.clip.provider.FlorisContentProvider"
             android:authorities="${applicationId}.provider.clip"

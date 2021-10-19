@@ -11,6 +11,7 @@ data class ContactModel(
     var email: String,
     var address: String,
     var debt: Double = 0.0,
+    var lastTransaction: Long? = null,
     var channels: List<ContactChannelModel>,
     var shippingAddress: List<ContactAddressModel>,
 ) : Parcelable
