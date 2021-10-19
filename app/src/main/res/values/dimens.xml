@@ -95,5 +95,7 @@
     <dimen name="kobold_margin_36px">36dp</dimen>
     <dimen name="kobold_item_42px">42dp</dimen>
     <dimen name="kobold_item_36px">36dp</dimen>
+    <dimen name="kobold_stroke_width_2dp">2dp</dimen>
+    <dimen name="kobold_stroke_width_1dp">1dp</dimen>
     <dimen name="footer_height">60dp</dimen>
 </resources>
