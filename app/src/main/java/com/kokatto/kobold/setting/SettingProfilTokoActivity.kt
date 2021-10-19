@@ -30,14 +30,14 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
     var settingViewModel: SettingViewModel? = null
     var merchantModel: MerchantModel? = MerchantModel()
 
-    var businessFieldList = arrayListOf<BusinessFieldModel>()
-    var businessTypeList = arrayListOf<BusinessTypeModel>()
+    var businessFieldList = arrayListOf<BusinessFieldModel>()/////////////
+    var businessTypeList = arrayListOf<BusinessTypeModel>()/////////////
 
-    private var merchantViewModel: MerchantViewModel? = MerchantViewModel()
-    var createMerchantRequest: PostCreateMerchantRequest = PostCreateMerchantRequest()
+    private var merchantViewModel: MerchantViewModel? = MerchantViewModel()//////////////
+    var createMerchantRequest: PostCreateMerchantRequest = PostCreateMerchantRequest()/////////
 
-    private var spinnerBusinessFieldSelector: DialogBusinessFieldSelector? = DialogBusinessFieldSelector()
-    private var spinnerBusinessTypeSelector: DialogBusinessTypeSelector? = DialogBusinessTypeSelector()
+    private var spinnerBusinessFieldSelector: DialogBusinessFieldSelector? = DialogBusinessFieldSelector()/////////////
+    private var spinnerBusinessTypeSelector: DialogBusinessTypeSelector? = DialogBusinessTypeSelector()/////////////
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,14 +77,14 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
 
             spinnerBusinessFieldSelector?.arguments = businessFieldList.toBundle()
             spinnerBusinessFieldSelector?.show(supportFragmentManager, RegistrationActivity.BUSINESS_FIELD_TAG)
-        }
+        }///////////////////////////
 
         uiBinding.edittextSettingBusinessType.setOnClickListener {
             spinnerBusinessTypeSelector = DialogBusinessTypeSelector().newInstance()
 
             spinnerBusinessTypeSelector?.arguments = businessTypeList.toBundle()
             spinnerBusinessTypeSelector?.show(supportFragmentManager, RegistrationActivity.BUSINESS_TYPE_TAG)
-        }
+        }///////////////////////////
 
         uiBinding.submitButton.setOnClickListener {
             if (isSaveButtonValid()) {
@@ -116,7 +116,7 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
 
         createMerchantRequest.businessField = listOf()
         createMerchantRequest.businessField = businessFieldList.filter { it.isSelected }.map { it.filedName }
-    }
+    }///////////////////////////
 
     override fun onDataBusinessTypePass(data: ArrayList<BusinessTypeModel>) {
         businessTypeList.clear()
@@ -126,7 +126,7 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
 
         createMerchantRequest.businessType = businessTypeList.filter { it.isSelected }.toTextFormat()
         isSaveButtonValid()
-    }
+    }///////////////////////////
 
     private fun getBusinessFieldList() {
         if (businessFieldList.size <= 0) {
@@ -160,7 +160,7 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
                 }
             )
         }
-    }
+    }///////////////////////////
 
     private fun getBusinessTypeList() {
         if (businessTypeList.size <= 0) {
@@ -187,7 +187,7 @@ class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelect
                 }
             )
         }
-    }
+    }///////////////////////////
 
     fun isSaveButtonValid(): Boolean {
         var isInputValid =

@@ -281,8 +281,7 @@
             <RelativeLayout
                 android:id="@+id/kobolt_add_contact_view_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/kobold_margin_16px"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -342,12 +341,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardBackgroundColor="@color/kobold_blue_button_disabled"
+                app:cardBackgroundColor="@color/kobold_blue_button"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phone_button">
+                app:layout_constraintTop_toBottomOf="@+id/phone_button"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/submit_button_text"
