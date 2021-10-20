@@ -26,6 +26,7 @@ import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
 import com.kokatto.kobold.api.model.response.GetTutorialPaginatedResponse
+import com.kokatto.kobold.api.model.response.PostCreateTransactionResponse
 import com.kokatto.kobold.api.model.response.PostOTPVerificationResponse
 import com.kokatto.kobold.api.model.response.PostTokenRefreshResponse
 import com.skydoves.sandwich.ApiResponse
@@ -121,7 +122,7 @@ interface TransactionApi {
     @POST(transactionUrl + "create")
     suspend fun postCreateTransaction(
         @Body createTransactionRequest: TransactionModel
-    ): ApiResponse<BaseResponse>
+    ): ApiResponse<PostCreateTransactionResponse>
 
     @RequiredAuth
     @GET(transactionUrl + "detail/{id}")

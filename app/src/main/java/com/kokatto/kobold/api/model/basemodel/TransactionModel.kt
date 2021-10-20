@@ -23,6 +23,9 @@ data class TransactionModel(
     var bankAsset: String = "",
     var phone: String = "",
     var price: Double = 0.0,
+    var contactId: ContactModel? = null,
+    var forceUpdate: Boolean = false,
+    var skipUpdate: Boolean = false,
     var createdAt: Long = 0,
     var updatedAt: Long = 0,
 ) : Parcelable
