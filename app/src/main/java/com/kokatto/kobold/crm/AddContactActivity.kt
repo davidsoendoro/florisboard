@@ -10,10 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
+import com.kokatto.kobold.api.model.basemodel.ContactModel
+import com.kokatto.kobold.api.model.basemodel.getContactList
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.dashboardcreatetransaction.autocompleteadapter.ContactAutocompleteAdapter
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
+import timber.log.Timber
+import java.lang.Exception
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -23,6 +28,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     val newItem = ContactChannelModel()
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
+    private var contactAutocompleteAdapter: ContactAutocompleteAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +44,23 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(false)
+
+        val contactList = getContactList(this)
+        Timber.d("[CONTACT] getContactList: $contactList")
+        contactAutocompleteAdapter = ContactAutocompleteAdapter(this, getContactList(this))
+
+        uiBinding.edittextAddContactName.setAdapter(contactAutocompleteAdapter)
+        uiBinding.edittextAddContactName.setOnItemClickListener { adapterView, view, i, l ->
+            try {
+                val contact = adapterView.getItemAtPosition(i) as ContactModel
+                uiBinding.edittextAddContactName.setText(contact.name)
+                uiBinding.edittextAddContactPhone.setText(contact.phoneNumber)
+                uiBinding.edittextAddContactEmail.setText(contact.email)
+                uiBinding.edittextAddContactAddress.setText(contact.address)
+            } catch (e: Exception) {
+
+            }
+        }
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
@@ -63,6 +86,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                contactAutocompleteAdapter?.notifyDataSetChanged()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
