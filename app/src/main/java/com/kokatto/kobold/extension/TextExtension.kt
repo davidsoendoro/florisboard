@@ -1,6 +1,7 @@
 package com.kokatto.kobold.extension
 
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
@@ -9,6 +10,12 @@ import android.text.style.BackgroundColorSpan
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.kokatto.kobold.R
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -96,4 +103,28 @@ fun TextView.showStrikeThrough(show: Boolean) {
 
 fun EditText.setThousandSeparator() {
     this.addTextChangedListener(thousandSeparator(this))
+}
+
+fun TextView.addDrawableStart(view: TextView, assetUrl: String) {
+    Glide.with(this).load(assetUrl)
+        .diskCacheStrategy(DiskCacheStrategy.ALL).into(
+        object : CustomTarget<Drawable>(50, 50) {
+            override fun onLoadCleared(placeholder: Drawable?) {
+                view.setCompoundDrawablesWithIntrinsicBounds(
+                    placeholder, null, null, null
+                )
+                view.compoundDrawablePadding = 12
+            }
+
+            override fun onResourceReady(
+                resource: Drawable,
+                transition: Transition<in Drawable>?
+            ) {
+                view.setCompoundDrawablesWithIntrinsicBounds(
+                    resource, null, null, null
+                )
+                view.compoundDrawablePadding = 12
+            }
+        }
+    )
 }

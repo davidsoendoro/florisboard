@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginVertical="@dimen/kobold_margin_4px"
+                app:cardElevation="1dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/kobold_margin_12px">
+
+                    <TextView
+                        style="@style/kobold_secondaryLabel12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/kobold_contact_info_phone" />
+
+                    <TextView
+                        android:id="@+id/contact_info_phone"
+                        style="@style/kobold_secondaryLabel14sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/kobold_margin_4px"
+                        android:text="081234567890" />
+
+                    <View
+                        android:id="@+id/layout_line_separator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="@dimen/kobold_margin_12px"
+                        android:background="@color/border" />
+
+                    <TextView
+                        style="@style/kobold_secondaryLabel12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/kobold_contact_info_email" />
+
+                    <TextView
+                        android:id="@+id/contact_info_email"
+                        style="@style/kobold_secondaryLabel14sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/kobold_margin_4px"
+                        android:text="081234567890" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginVertical="@dimen/kobold_margin_4px"
+                app:cardElevation="1dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/kobold_margin_12px">
+
+                    <TextView
+                        style="@style/kobold_secondaryLabel12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/kobold_contact_info_address" />
+
+                    <TextView
+                        android:id="@+id/contact_info_address"
+                        style="@style/kobold_secondaryLabel14sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/kobold_margin_4px"
+                        android:text="Jl Pondok Cabe 12 no 17" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:layout_marginVertical="@dimen/kobold_margin_4px"
+                app:cardElevation="1dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/layout_channel_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/kobold_secondaryLabel14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ada hutang" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_has_debt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/kobold_margin_4px"
+                    android:thumb="@drawable/kobold_switch_thumb"
+                    app:track="@drawable/kobold_switch_track" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_debt_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/kobold_margin_16px"
+                android:paddingBottom="@dimen/kobold_margin_16px"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/kobold_secondaryLabel12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/kobold_margin_4px"
+                    android:text="@string/kobold_contact_info_debt_amount" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:strokeColor="@color/inner_border"
+                    app:strokeWidth="@dimen/kobold_stroke_width_1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0"
+                            android:background="@color/search_box_background"
+                            android:paddingHorizontal="@dimen/kobold_margin_16px"
+                            android:paddingVertical="@dimen/kobold_margin_12px"
+                            android:text="Rp" />
+
+                        <EditText
+                            android:id="@+id/text_deb_amount"
+                            style="@style/kobold_secondaryLabel14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/transparent"
+                            android:padding="@dimen/kobold_margin_12px"
+                            android:text="50.000"
+                            android:inputType="numberDecimal"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
