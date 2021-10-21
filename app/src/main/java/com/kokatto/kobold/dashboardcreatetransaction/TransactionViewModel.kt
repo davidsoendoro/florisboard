@@ -6,6 +6,7 @@ import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
 import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
+import com.kokatto.kobold.api.model.response.PostCreateTransactionResponse
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -25,13 +26,14 @@ class TransactionViewModel {
         pageSize: Int = 10,
         status: String = "",
         search: String = "",
+        contact: String = "",
         onLoading: (Boolean) -> Unit,
         onSuccess: (GetPaginationTransactionResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
             onLoading.invoke(true)
-            val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, status, search)
+            val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, status, search, contact)
             response.onSuccess {
                 onLoading.invoke(false)
                 onSuccess.invoke(this.data)
@@ -48,14 +50,14 @@ class TransactionViewModel {
 
     fun createTransaction(
         createTransactionRequest: TransactionModel,
-        onSuccess: (String) -> Unit,
+        onSuccess: (PostCreateTransactionResponse.Data) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
 //            delay(5000)
             val response = Network.transactionApi.postCreateTransaction(createTransactionRequest)
             response.onSuccess {
-                onSuccess.invoke(this.data.statusMessage)
+                onSuccess.invoke(this.data.data)
             }.onError {
                 onError.invoke(this.message())
             }.onException {

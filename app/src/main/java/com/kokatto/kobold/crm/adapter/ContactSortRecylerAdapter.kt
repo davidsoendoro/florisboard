@@ -1,19 +1,13 @@
 package com.kokatto.kobold.crm.adapter
 
-import android.content.res.Resources
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.constant.ContactSortEnum
 import com.kokatto.kobold.extension.addRipple
@@ -50,10 +44,20 @@ class ContactSortRecylerAdapter(
             sortText.text = data.desc
 
             if (selected != null) {
-                if(data.code === selected!!.code){
-                    sortRadio?.setImageDrawable(ContextCompat.getDrawable(sortRadio.context, R.drawable.ic_radio_selected))
+                if (data.code === selected!!.code) {
+                    sortRadio?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            sortRadio.context,
+                            R.drawable.ic_radio_selected
+                        )
+                    )
                 } else {
-                    sortRadio?.setImageDrawable(ContextCompat.getDrawable(sortRadio.context, R.drawable.ic_radio_default))
+                    sortRadio?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            sortRadio.context,
+                            R.drawable.ic_radio_default
+                        )
+                    )
                 }
             }
 

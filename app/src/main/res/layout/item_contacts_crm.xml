@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/kobold_margin_8px"
+        android:layout_marginVertical="@dimen/kobold_margin_8px"
         android:layout_weight="0"
-        app:strokeColor="@color/inner_border"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        android:layout_marginVertical="@dimen/kobold_margin_8px"
-        android:layout_marginHorizontal="@dimen/kobold_margin_8px">
+        app:strokeColor="@color/inner_border"
+        app:strokeWidth="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -111,7 +111,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
-
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

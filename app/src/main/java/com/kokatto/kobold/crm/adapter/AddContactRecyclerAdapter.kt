@@ -67,7 +67,7 @@ class AddContactRecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddContactRecyclerAdapter.DataViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_add_order_channel, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_add_order_channel,parent,false)
         return DataViewHolder(itemView)
     }
 

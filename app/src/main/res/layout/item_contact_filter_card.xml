@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/kobold_margin_4px"
+    android:paddingTop="@dimen/kobold_margin_12px"
+    android:paddingBottom="@dimen/kobold_margin_16px"
+    android:id="@+id/layout_item">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/kobold_margin_16px"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/inner_border"
+        app:strokeWidth="@dimen/kobold_stroke_width_1dp">
+
+        <TextView
+            android:id="@+id/card_filter_text"
+            style="@style/kobold_primaryLabel12spBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/kobold_margin_16px"
+            android:paddingVertical="@dimen/kobold_margin_8px"
+            android:text="Semua" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

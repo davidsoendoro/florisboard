@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorWhite">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,7 +79,7 @@
                     android:layout_marginStart="@dimen/kobold_margin_8px"
                     android:layout_marginEnd="@dimen/kobold_margin_8px"
                     android:src="@drawable/ic_cicle_cross_gray"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -151,19 +151,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_layout"
         android:paddingHorizontal="@dimen/kobold_margin_8px"
         android:paddingTop="@dimen/kobold_margin_16px"
-        android:visibility="visible">
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_layout">
 
         <TextView
+            style="@style/kobold_subduedLabel12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Top name matches"
-            style="@style/kobold_subduedLabel12sp"
             android:paddingStart="@dimen/kobold_margin_8px"
-            android:paddingBottom="@dimen/kobold_margin_12px"/>
+            android:paddingBottom="@dimen/kobold_margin_12px"
+            android:text="Top name matches" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -171,7 +171,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_contacts_crm"/>
+            tools:listitem="@layout/item_contacts_crm" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -105,6 +105,11 @@
                 android:id="@+id/kobold_menu_create_transaction_search_contact"
                 layout="@layout/kobold_menu_create_transaction_search_contact" />
 
+            <!--            13-->
+            <include
+                android:id="@+id/kobold_menu_create_transaction_save_confirmation"
+                layout="@layout/kobold_menu_create_transaction_save_confirmation" />
+
         </dev.patrickgold.florisboard.common.FlorisViewFlipper>
 
         <dev.patrickgold.florisboard.ime.onehanded.OneHandedPanel

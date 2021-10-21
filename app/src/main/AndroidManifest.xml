@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.kokatto.kobold">
     <!-- Permission needed to vibrate if the user has key press vibration enabled -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -35,6 +34,10 @@
             android:theme="@style/SettingsTheme.NoActionBar" />
         <activity
             android:name=".crm.ContactImportActivity"
+            android:exported="true"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
+            android:name=".crm.ContactInfoActivity"
             android:exported="true"
             android:theme="@style/SettingsTheme.NoActionBar" />
         <activity
@@ -217,13 +220,16 @@
             android:name=".setting.SettingProfilTokoActivity"
             android:exported="true" />
         <activity android:name=".setting.HelpActivity" />
-        <activity android:name=".crm.AddContactActivity"
+        <activity
+            android:name=".crm.AddContactActivity"
             android:label="AddContact">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".crm.ContactSearchActivity"
         <activity android:name=".crm.EditContactActivity"
             android:label="EditContact">
             <intent-filter>
@@ -235,7 +241,8 @@
             android:exported="true"
             android:label="Contact Search"
             android:theme="@style/DashboardThemeBase"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible" />
+
         <provider
             android:name="dev.patrickgold.florisboard.ime.clip.provider.FlorisContentProvider"
             android:authorities="${applicationId}.provider.clip"

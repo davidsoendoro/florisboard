@@ -69,6 +69,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="textCapSentences"
                 app:label="@string/kobold_transaction_buyer_name"
+                app:isAutofill="true"
                 app:maxAllowedCharacters="50" />
 
             <LinearLayout

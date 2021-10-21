@@ -1,25 +1,33 @@
 package com.kokatto.kobold.transaction
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
+import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
 import com.kokatto.kobold.api.model.basemodel.getBankInfoFormatToString
 import com.kokatto.kobold.api.model.basemodel.getBankInfoStringFormat
+import com.kokatto.kobold.api.model.basemodel.getContactList
 import com.kokatto.kobold.bank.BankViewModel
 import com.kokatto.kobold.constant.PropertiesTypeConstant
 import com.kokatto.kobold.crm.ContactViewModel
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
-import com.kokatto.kobold.editor.SpinnerEditorAdapter
 import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
@@ -28,10 +36,15 @@ import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.removeThousandSeparatedString
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.toThousandSeperatedString
+import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.transaction.recycleradapter.BuyerNameRecyclerAdapter
 import com.kokatto.kobold.uicomponent.KoboldEditText
+import dev.patrickgold.florisboard.common.FlorisViewFlipper
+import dev.patrickgold.florisboard.ime.core.DELAY
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
+import java.util.*
 
 class KeyboardCreateTransaction : ConstraintLayout {
     constructor(context: Context) : this(context, null)
@@ -49,6 +62,26 @@ class KeyboardCreateTransaction : ConstraintLayout {
     private var koboldExpandView: TextView? = null
     private var buyerNameText: KoboldEditText? = null
     private var chooseChannelText: KoboldEditText? = null
+
+    private var layoutEmpty: LinearLayout? = null
+    private var layoutNotFound: LinearLayout? = null
+    private var searchEdittext: EditText? = null
+    private var fullscreenLoading: ProgressBar? = null
+    private var recyclerView: RecyclerView? = null
+    private var recyclerAdapter: BuyerNameRecyclerAdapter? = null
+    private var dataList: ArrayList<ContactModel> = arrayListOf()
+
+//    private var isLoading: Boolean by Delegates.observable(true) { _, oldValue, newValue ->
+//        if (oldValue != newValue) {
+//            if (newValue) {
+//                recyclerView?.visibility = GONE
+//                fullscreenLoading?.visibility = VISIBLE
+//            } else {
+//                recyclerView?.visibility = VISIBLE
+//                fullscreenLoading?.visibility = GONE
+//            }
+//        }
+//    }
 
     var selectedChannelOptions = SpinnerEditorWithAssetItem("")
     var pickChannelOptions = arrayListOf<SpinnerEditorWithAssetItem>()
@@ -86,6 +119,22 @@ class KeyboardCreateTransaction : ConstraintLayout {
         backButton = findViewById(R.id.back_button)
         createTransactionButton = findViewById(R.id.create_transaction_button)
 
+        val keyboardViewFlipper =
+            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
+        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
+
+        recyclerAdapter = BuyerNameRecyclerAdapter(context, dataList)
+        recyclerView?.vertical()
+        recyclerView?.adapter = recyclerAdapter
+
+        recyclerAdapter?.onItemClick = {
+//            shippingCost.senderAddress = it
+            buyerNameText?.editText?.text = it.name
+            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+            invalidateSaveButton()
+        }
+
         koboldExpandView = findViewById(R.id.kobold_createtransaction_expand_view)
         koboldExpandView?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -101,17 +150,33 @@ class KeyboardCreateTransaction : ConstraintLayout {
         buyerNameText?.setOnClickListener {
             val imeOptions = buyerNameText?.imeOptions ?: 0
             val inputType = buyerNameText?.inputType ?: 0
+            val isAutofill = buyerNameText?.isAutofill ?: false
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openEditor(
                 R.id.kobold_menu_create_transaction,
                 imeOptions,
                 inputType,
                 buyerNameText?.label?.text.toString(),
-                buyerNameText?.editText?.text.toString()
+                buyerNameText?.editText?.text.toString(),
+                isAutofill,
+                textWatcher = getTextWatcher()
             ) { result ->
-                transactionModel.buyer = result
                 buyerNameText?.editText?.text = result
+                invalidateSaveButton()
             }
+//            val imeOptions = buyerNameText?.imeOptions ?: 0
+//            val inputType = buyerNameText?.inputType ?: 0
+//            florisboard?.inputFeedbackManager?.keyPress()
+//            florisboard?.openEditor(
+//                R.id.kobold_menu_create_transaction,
+//                imeOptions,
+//                inputType,
+//                buyerNameText?.label?.text.toString(),
+//                buyerNameText?.editText?.text.toString()
+//            ) { result ->
+//                transactionModel.buyer = result
+//                buyerNameText?.editText?.text = result
+//            }
         }
 
         chooseChannelText?.setOnClickListener {
@@ -134,32 +199,32 @@ class KeyboardCreateTransaction : ConstraintLayout {
         }
 
         phoneNumberText?.setOnClickListener {
-            val imeOptions = phoneNumberText?.imeOptions ?: 0
-            val inputType = phoneNumberText?.inputType ?: 0
-            florisboard?.inputFeedbackManager?.keyPress()
-            florisboard?.openContact(
-                R.id.kobold_menu_create_transaction,
-                SpinnerEditorAdapter(
-                    context,
-                    pickContactOptions, selectedContact
-                ) {
-                    phoneNumberText?.editText?.text = it.label
-                }
-            )
-
 //            val imeOptions = phoneNumberText?.imeOptions ?: 0
 //            val inputType = phoneNumberText?.inputType ?: 0
 //            florisboard?.inputFeedbackManager?.keyPress()
-//            florisboard?.openEditor(
+//            florisboard?.openContact(
 //                R.id.kobold_menu_create_transaction,
-//                imeOptions,
-//                inputType,
-//                phoneNumberText?.label?.text.toString(),
-//                phoneNumberText?.editText?.text.toString()
-//            ) { result ->
-//                transactionModel.phone = result
-//                phoneNumberText?.editText?.text = result
-//            }
+//                SpinnerEditorAdapter(
+//                    context,
+//                    pickContactOptions, selectedContact
+//                ) {
+//                    phoneNumberText?.editText?.text = it.label
+//                }
+//            )
+
+            val imeOptions = phoneNumberText?.imeOptions ?: 0
+            val inputType = phoneNumberText?.inputType ?: 0
+            florisboard?.inputFeedbackManager?.keyPress()
+            florisboard?.openEditor(
+                R.id.kobold_menu_create_transaction,
+                imeOptions,
+                inputType,
+                phoneNumberText?.label?.text.toString(),
+                phoneNumberText?.editText?.text.toString()
+            ) { result ->
+                transactionModel.phone = result
+                phoneNumberText?.editText?.text = result
+            }
         }
 
         addressText?.setOnClickListener {
@@ -289,23 +354,34 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
         invalidateSaveButton()
         createTransactionButton?.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
 
             val selectedBankTemp = getBankInfoFormatToString(selectedPaymentMethodOption.label)
             Log.e("selected", selectedBankTemp.toString())
 
-            clearSelected()
+//            clearSelected()
+
+//            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
 
             transactionViewModel?.createTransaction(
                 createTransactionRequest = transactionModel,
                 onSuccess = {
+                    florisboard?.createTransactionText = createTransactionChat(transactionModel)
+//                    jika data ada yang berubah maka munculkan notif
+                    if (it.isProfileChange) {
+                        florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
+                    } else {
+//                        update contact
+                        florisboard?.inputFeedbackManager?.keyPress()
+                        florisboard?.textInputManager?.activeEditorInstance?.commitText(
+                            florisboard.createTransactionText
+                        )
+                    }
+
                     showSnackBar("Transaksi baru berhasil dibuat dan terpasang di chat.")
 
-                    florisboard?.inputFeedbackManager?.keyPress()
-                    florisboard?.textInputManager?.activeEditorInstance?.commitText(
-                        createTransactionChat(transactionModel)
-                    )
-
-                    florisboard?.setActiveInput(R.id.text_input)
+                    florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
+//                    florisboard?.setActiveInput(R.id.text_input)
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it))
@@ -422,6 +498,56 @@ class KeyboardCreateTransaction : ConstraintLayout {
             }
         }
         createTransactionButton?.koboldSetEnabled(isInputValid)
+    }
+
+    private fun getTextWatcher(): TextWatcher {
+        return object : TextWatcher {
+            var timer: Timer? = null
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int
+            ) {
+                if (timer != null) timer?.cancel()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                //avoid triggering event when text is too short
+                if (s.length >= 3) {
+
+                    timer = Timer()
+                    timer?.schedule(object : TimerTask() {
+                        override fun run() {
+                            // TO DO: do what you need here (refresh list)
+                            // you will probably need to use
+                            // runOnUiThread(Runnable action) for some specific
+                            // actions
+                            Runnable {
+                                florisboard?.setActiveInput(R.id.kobold_autofill_editor)
+                                loadUserSuggestion()
+                            }.also { florisboard?.updateOnUiThread(it) }
+                        }
+                    }, DELAY)
+                }
+            }
+        }
+    }
+
+    fun loadUserSuggestion() {
+        recyclerView?.isVisible = true
+
+        dataList.clear()
+        dataList.addAll(getContactList(context))
+//        dataList.forEach {
+//            Log.e("test", it.name)
+//        }
+        recyclerView?.adapter?.notifyItemRangeInserted(0, dataList.size)
     }
 
 //    @Deprecated("use transaction model instead")

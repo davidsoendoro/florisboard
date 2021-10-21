@@ -84,10 +84,10 @@
                 android:drawableTint="@color/icon_white"
                 android:gravity="center"
                 android:paddingVertical="12dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:text="@string/bottomsheet_contact_sort_action"
-                android:textColor="@color/text_color_white" />
+                android:textColor="@color/text_color_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </androidx.cardview.widget.CardView>
 

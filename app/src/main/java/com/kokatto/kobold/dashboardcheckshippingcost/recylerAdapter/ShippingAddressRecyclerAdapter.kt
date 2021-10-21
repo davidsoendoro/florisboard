@@ -1,4 +1,4 @@
-package com.kokatto.kobold.dashboardcheckshippingcost.adapter
+package com.kokatto.kobold.dashboardcheckshippingcost.recylerAdapter
 
 import android.content.Context
 import android.view.LayoutInflater

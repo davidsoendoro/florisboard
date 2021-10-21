@@ -14,7 +14,6 @@ import com.kokatto.kobold.databinding.ActivityContactSearchBinding
 import com.kokatto.kobold.extension.onTextChanged
 import com.kokatto.kobold.extension.showKeyboard
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 
 class ContactSearchActivity : DashboardThemeActivity() {
 
@@ -89,7 +88,7 @@ class ContactSearchActivity : DashboardThemeActivity() {
                 }
             },
             onError = {
-                if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                if (ErrorResponseValidator.isSessionExpiredResponse(it))
                     DashboardSessionExpiredEventHandler(this).onSessionExpired()
                 else
                     showSnackBar(it, R.color.snackbar_error)
