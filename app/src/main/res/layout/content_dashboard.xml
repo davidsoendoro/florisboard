@@ -31,7 +31,7 @@
                     android:id="@+id/kobold_DashboardActivateMagicKeyboardBannerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFF2E0"
+                    android:background="@color/kobold_yellow_fff2e0"
                     android:padding="@dimen/kobold_margin_16px"
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
                     android:visibility="@{keyboardActivated ? View.GONE : View.VISIBLE }"
