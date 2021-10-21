@@ -11,4 +11,5 @@ data class PostContactRequest(
     var debt: Double = 0.0,
     var channels: ArrayList<ContactChannelModel> = arrayListOf(),
     var shippingAddress: List<ContactAddressModel> = listOf(),
+
 )
