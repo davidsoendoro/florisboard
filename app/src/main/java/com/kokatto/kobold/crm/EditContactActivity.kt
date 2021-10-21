@@ -44,7 +44,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         isSaveButtonValid()
         contactViewModel = ContactViewModel()
 
-        //dataList.add(newItem)
+        if(dataList.size==0) {
+            dataList.add(newItem)
+        }
 
         val recyclerView: RecyclerView = findViewById(R.id.add_contact_recycler_view)
 
@@ -67,7 +69,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         uiBinding.submitButton.setOnClickListener {
             if (isSaveButtonValid()) {
                 contactViewModel?.update(
-                    id = "616d77c221ea68000957e31a",
+                    id = "617108a4b96a3d0009df9635",
                     request = contactRequest,
                     onSuccess = {
                         showToast("Berhasil mengubah data!")
@@ -184,7 +186,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     override fun onResume() {
         super.onResume()
         contactViewModel?.findById(
-            id = "616d77c221ea68000957e31a",
+            id = "617108a4b96a3d0009df9635",
             onSuccess = {
                 //on data success loaded from backend
                 uiBinding.edittextAddContactName.setText(

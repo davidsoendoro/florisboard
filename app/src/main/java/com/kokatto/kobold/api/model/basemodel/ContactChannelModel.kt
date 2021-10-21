@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class ContactChannelModel(
     var type: String = "",
     var account: String = "",
-    //var assset: String = "",
+    var assset: String = "",
 ) : Parcelable
