@@ -15,11 +15,14 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ContactSortEnum
 import com.kokatto.kobold.crm.adapter.ContactListRecyclerAdapter
 import com.kokatto.kobold.crm.dialog.DialogContactSort
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityContactBinding
+import com.kokatto.kobold.databinding.ActivityContactInfoBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
 import java.util.concurrent.atomic.AtomicBoolean
@@ -185,6 +188,11 @@ class ContactListActivity : DashboardThemeActivity() {
         recyclerAdapter = ContactListRecyclerAdapter(list)
         binding.koboldContactContent.recyclerViewContact.adapter = recyclerAdapter
         recyclerAdapter!!.notifyDataSetChanged()
+        recyclerAdapter?.onItemClick = {
+            val intent = Intent(this, ContactInfoActivity::class.java)
+            intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
+            startActivity(intent)
+        }
     }
 
     private fun showLoading(isLoading: Boolean = false) {

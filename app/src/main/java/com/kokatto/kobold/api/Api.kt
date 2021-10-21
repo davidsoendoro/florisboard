@@ -114,7 +114,8 @@ interface TransactionApi {
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
         @Query("status") status: String,
-        @Query("search") search: String
+        @Query("search") search: String,
+        @Query("contact") contact: String
     ): ApiResponse<GetPaginationTransactionResponse>
 
     @RequiredAuth

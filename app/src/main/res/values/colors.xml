@@ -51,6 +51,7 @@
     <color name="stroke_primary">#2464F2</color>
     <color name="primary_50">#2464F2</color>
     <color name="primary_10">#B6CBFB</color>
+    <color name="secondary_30">#626E88</color>
     <color name="colorEditTextError">#EC0C0C</color>
     <color name="colorEditTextDefault">#D6D6D6</color>
     <color name="colorEditTextDisable">#F2F2F2</color>

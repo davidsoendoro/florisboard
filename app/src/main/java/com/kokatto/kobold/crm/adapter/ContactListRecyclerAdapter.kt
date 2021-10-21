@@ -44,12 +44,12 @@ class ContactListRecyclerAdapter(
         fun bindViewHolder(data: ContactModel, position: Int) {
             layoutItem.addRipple()
 
-            if (data.name.isNotEmpty()) {
+            if (data.name.isNullOrBlank().not()) {
                 header.text = data.name.get(0).toString().uppercase(Locale.getDefault())
                 contactName.text = data.name
             } else {
-                header.text = "-"
-                contactName.text = "Belum ada nama"
+                header.text = "#"
+                contactName.text = data.phoneNumber
             }
 
             if (data.debt > 0) {

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/kobold_margin_16px">
+
+    <!-- Layout Data State-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_data_state"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/text_total_trx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/kobold_margin_12px"
+            android:text="Total 0 Pesanan" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/kobold_margin_12px"
+            android:paddingBottom="100dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_transactionhome"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/layout_empty_state_on_data"
+            layout="@layout/content_empty_transaction"
+            android:visibility="gone" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- Layout Full Screen Loading-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_fullscreen_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|center_vertical"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:paddingVertical="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- Layout Empty State-->
+    <include
+        android:id="@+id/layout_empty_state"
+        layout="@layout/content_empty_transaction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/create_transaction_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/kobold_margin_24px"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary50"
+            android:drawableLeft="@drawable/ic_add"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/icon_white"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:text="@string/buat_transaksi"
+            android:textColor="@color/text_color_white" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

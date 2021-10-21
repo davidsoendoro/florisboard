@@ -37,6 +37,10 @@
             android:exported="true"
             android:theme="@style/SettingsTheme.NoActionBar" />
         <activity
+            android:name=".crm.ContactInfoActivity"
+            android:exported="true"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
             android:name=".dashboard.DashboardMasterProfitActivity"
             android:exported="true"
             android:label="@string/title_activity_dashboard_master_profit"

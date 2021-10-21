@@ -25,13 +25,14 @@ class TransactionViewModel {
         pageSize: Int = 10,
         status: String = "",
         search: String = "",
+        contact: String = "",
         onLoading: (Boolean) -> Unit,
         onSuccess: (GetPaginationTransactionResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
             onLoading.invoke(true)
-            val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, status, search)
+            val response = Network.transactionApi.getPaginatedTransactionList(page, pageSize, status, search, contact)
             response.onSuccess {
                 onLoading.invoke(false)
                 onSuccess.invoke(this.data)

@@ -893,4 +893,12 @@
     <string name="kobold_contact_has_no_history">Belum ada riwayat transaksi</string>
     <string name="kobold_contact_has_history">Transaksi terakhir %1$s</string>
 
+    <string name="kobold_contact_info_phone">Nomor telepon</string>
+    <string name="kobold_contact_info_email">Email</string>
+    <string name="kobold_contact_info_address">Alamat</string>
+    <string name="kobold_contact_info_channel">Channel</string>
+    <string name="kobold_contact_info_account">Akun %1$s</string>
+    <string name="kobold_contact_info_debt">Ada hutang</string>
+    <string name="kobold_contact_info_debt_amount">Jumlah hutang</string>
+
 </resources>
