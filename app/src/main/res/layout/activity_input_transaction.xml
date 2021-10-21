@@ -94,7 +94,7 @@
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
                     app:hintEnabled="false">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/edittext_buyername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -103,6 +103,8 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:ellipsize="end"
+                        android:padding="@dimen/kobold_margin_12px"
+                        android:dropDownWidth="match_parent"
                         android:textAppearance="@style/FormEditTextHint" />
 
                     <TextView

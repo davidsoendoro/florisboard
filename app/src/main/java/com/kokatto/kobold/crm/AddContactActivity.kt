@@ -45,23 +45,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(false)
 
-        val contactList = getContactList(this)
-        Timber.d("[CONTACT] getContactList: $contactList")
-        contactAutocompleteAdapter = ContactAutocompleteAdapter(this, getContactList(this))
-
-        uiBinding.edittextAddContactName.setAdapter(contactAutocompleteAdapter)
-        uiBinding.edittextAddContactName.setOnItemClickListener { adapterView, view, i, l ->
-            try {
-                val contact = adapterView.getItemAtPosition(i) as ContactModel
-                uiBinding.edittextAddContactName.setText(contact.name)
-                uiBinding.edittextAddContactPhone.setText(contact.phoneNumber)
-                uiBinding.edittextAddContactEmail.setText(contact.email)
-                uiBinding.edittextAddContactAddress.setText(contact.address)
-            } catch (e: Exception) {
-
-            }
-        }
-
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
             adapter.notifyDataSetChanged()
