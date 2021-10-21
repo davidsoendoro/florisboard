@@ -112,7 +112,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.lang.ref.WeakReference
 import java.util.concurrent.CopyOnWriteArrayList
-import com.kokatto.kobold.extension.vertical
 
 /**
  * Variable which holds the current [FlorisBoard] instance. To get this instance from another
@@ -1075,6 +1074,8 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         setActiveInput(R.id.kobold_menu_choose_shippingcost)
     }
 
+    var createTransactionText: String = ""
+
     var setActiveInputFromMainmenu: Boolean = false
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {
         val koboldMainmenuViewFlipper =
@@ -1152,6 +1153,9 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
 
             R.id.kobold_menu_create_transaction_search_contact -> {
                 uiBinding?.mainViewFlipper?.displayedChild = 12
+            }
+            R.id.kobold_menu_create_transaction_save_confirmation -> {
+                uiBinding?.mainViewFlipper?.displayedChild = 13
             }
 
             R.id.kobold_autofill_editor -> {

@@ -354,23 +354,34 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
         invalidateSaveButton()
         createTransactionButton?.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
 
             val selectedBankTemp = getBankInfoFormatToString(selectedPaymentMethodOption.label)
             Log.e("selected", selectedBankTemp.toString())
 
-            clearSelected()
+//            clearSelected()
+
+//            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
 
             transactionViewModel?.createTransaction(
                 createTransactionRequest = transactionModel,
                 onSuccess = {
+                    florisboard?.createTransactionText = createTransactionChat(transactionModel)
+//                    jika data ada yang berubah maka munculkan notif
+                    if (it.isProfileChange) {
+                        florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
+                    } else {
+//                        update contact
+                        florisboard?.inputFeedbackManager?.keyPress()
+                        florisboard?.textInputManager?.activeEditorInstance?.commitText(
+                            florisboard.createTransactionText
+                        )
+                    }
+
                     showSnackBar("Transaksi baru berhasil dibuat dan terpasang di chat.")
 
-                    florisboard?.inputFeedbackManager?.keyPress()
-                    florisboard?.textInputManager?.activeEditorInstance?.commitText(
-                        createTransactionChat(transactionModel)
-                    )
-
-                    florisboard?.setActiveInput(R.id.text_input)
+                    florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
+//                    florisboard?.setActiveInput(R.id.text_input)
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it))

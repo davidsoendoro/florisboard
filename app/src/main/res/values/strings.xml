@@ -892,6 +892,7 @@
     <string name="kobold_search_contact_hint">Cari kontak...</string>
     <string name="kobold_contact_has_no_history">Belum ada riwayat transaksi</string>
     <string name="kobold_contact_has_history">Transaksi terakhir %1$s</string>
+    <string name="create_transaction_save_confirmation_content">Ada data yang berubah nih! Bila update kontak, perubahan data dari kontak yang sudah disimpan sebelumya akan diupdate</string>
 
     <string name="kobold_contact_info_phone">Nomor telepon</string>
     <string name="kobold_contact_info_email">Email</string>
