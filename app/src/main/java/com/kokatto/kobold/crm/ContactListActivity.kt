@@ -20,9 +20,7 @@ import com.kokatto.kobold.constant.ContactSortEnum
 import com.kokatto.kobold.crm.adapter.ContactListRecyclerAdapter
 import com.kokatto.kobold.crm.dialog.DialogContactSort
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
-import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityContactBinding
-import com.kokatto.kobold.databinding.ActivityContactInfoBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
 import java.util.concurrent.atomic.AtomicBoolean
@@ -121,6 +119,11 @@ class ContactListActivity : DashboardThemeActivity() {
             threshold = 3
         }
 
+//        callAPISearch(1, "", sortingType)
+    }
+
+    override fun onResume() {
+        super.onResume()
         callAPISearch(1, "", sortingType)
     }
 
