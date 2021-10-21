@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_subtle">
+    android:background="@color/washedout_background">
 
     <LinearLayout
         android:id="@+id/fullcreen_loading"
@@ -38,6 +38,7 @@
         android:id="@+id/info_banner_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@color/background_informational"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

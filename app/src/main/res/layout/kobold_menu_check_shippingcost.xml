@@ -53,10 +53,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/package_weight_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Maks. 1000kg"
+                    android:text="Maks. xxxxKg"
                     android:textColor="@color/text_disabled"
                     android:textSize="10sp"
                     app:layout_constraintStart_toStartOf="parent"
