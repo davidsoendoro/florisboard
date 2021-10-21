@@ -46,6 +46,7 @@ class KeyboardCheckShippingCost : ConstraintLayout {
 
     private var senderAddressEdittext: KoboldEditText? = null
     private var receiverAddressEdittext: KoboldEditText? = null
+    private var packageWeightDetail: TextView? = null
     private var minusWeightButton: ImageView? = null
     private var packageWeightText: TextView? = null
     private var plusWeightButton: ImageView? = null
@@ -61,6 +62,9 @@ class KeyboardCheckShippingCost : ConstraintLayout {
     private var recyclerView: RecyclerView? = null
     private var recyclerAdapter: ShippingAddressRecyclerAdapter? = null
     private var shippingCostViewModel: ShippingCostViewModel? = ShippingCostViewModel()
+
+    private val minPackage: Int = 1
+    private val maxPackage: Int = 1000
 
     private var isLoading: Boolean by Delegates.observable(true) { _, oldValue, newValue ->
         if (oldValue != newValue) {
@@ -169,6 +173,7 @@ class KeyboardCheckShippingCost : ConstraintLayout {
 
         senderAddressEdittext = findKoboldEditTextId(R.id.sender_address_edittext)
         receiverAddressEdittext = findKoboldEditTextId(R.id.receiver_address_edittext)
+        packageWeightDetail = findTextViewId(R.id.package_weight_detail)
         minusWeightButton = findViewById(R.id.minus_weight_button)
         packageWeightText = findTextViewId(R.id.package_weight_text)
         plusWeightButton = findViewById(R.id.plus_weight_button)
@@ -239,10 +244,12 @@ class KeyboardCheckShippingCost : ConstraintLayout {
             }
         }
 
+        packageWeightDetail?.text = "Maks. $maxPackage kg"
+
         minusWeightButton?.setOnClickListener {
-            if (shippingCost.packageWeight == 1) {
+            if (shippingCost.packageWeight == minPackage) {
                 florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
-                showSnackBar("Paket tidak boleh lebih ringan dari 1 kg")
+                showSnackBar("Paket tidak boleh lebih ringan dari $minPackage kg")
             } else {
                 florisboard?.inputFeedbackManager?.keyPress()
                 shippingCost.packageWeight--
@@ -251,9 +258,9 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         }
 
         plusWeightButton?.setOnClickListener {
-            if (shippingCost.packageWeight == 7) {
+            if (shippingCost.packageWeight == maxPackage) {
                 florisboard?.inputFeedbackManager?.keyPress(TextKeyData(code = KeyCode.CANCEL))
-                showSnackBar("Paket tidak boleh lebih berat dari 7 kg")
+                showSnackBar("Paket tidak boleh lebih berat dari $maxPackage kg")
             } else {
                 florisboard?.inputFeedbackManager?.keyPress()
                 shippingCost.packageWeight++
@@ -274,6 +281,7 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         submitButton?.setOnClickListener {
 //            error snackbar
 //            showSnackBar("Koneksi internet tidak tersedia.", R.color.snackbar_error)
+            florisboard?.inputFeedbackManager?.keyPress()
 
             florisboard?.openShippingCost(
                 shippingCost.senderAddress,
