@@ -224,6 +224,13 @@
                  <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
+        <activity android:name=".crm.EditContactActivity"
+            android:label="EditContact">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".crm.ContactSearchActivity"
             android:exported="true"
             android:label="Contact Search"

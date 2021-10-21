@@ -3,6 +3,7 @@ package com.kokatto.kobold.api
 import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
@@ -15,6 +16,7 @@ import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetBusinessFieldResponse
 import com.kokatto.kobold.api.model.response.GetBusinessTypeResponse
 import com.kokatto.kobold.api.model.response.GetContactBulkResponse
+import com.kokatto.kobold.api.model.response.GetContactResponse
 import com.kokatto.kobold.api.model.response.GetListDeliveryFeeResponse
 import com.kokatto.kobold.api.model.response.GetMerchantResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
@@ -302,19 +304,26 @@ interface ContactApi {
 
     @RequiredAuth
     @POST(contactUrl + "create")
-    suspend fun postCreate(@Body request: PostContactRequest): ApiResponse<BaseResponse>
+    suspend fun postCreate(
+        @Body request: PostContactRequest): ApiResponse<BaseResponse>
+
 
     @RequiredAuth
     @POST(contactUrl + "update/{id}")
     suspend fun postUpdate(
-        @Path("id") bankId: String,
-        @Body request: PostContactRequest
-    ): ApiResponse<BaseResponse>
+        @Path("id") contactId: String,
+        @Body request: PostContactRequest): ApiResponse<BaseResponse>
 
     @RequiredAuth
     @POST(contactUrl + "create/bulk")
     suspend fun postBulk(
         @Body request: List<PostBulkContactRequest>
     ): ApiResponse<GetContactBulkResponse>
+
+    @RequiredAuth
+    @GET(contactUrl + "detail/{id}")
+    suspend fun findContactById(
+        @Path("id") contactId: String
+    ): ApiResponse<GetContactResponse>
 
 }

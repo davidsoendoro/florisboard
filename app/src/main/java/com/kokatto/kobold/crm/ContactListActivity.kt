@@ -124,7 +124,7 @@ class ContactListActivity : DashboardThemeActivity() {
 
     private fun showContactManualview() {
         showSnackBar("Not yet implemented", R.color.snackbar_error)
-        //launcher disini langusng ke tambah kontak
+        //startActivity(Intent(this@ContactListActivity,AddContactActivity ::class.java))
     }
 
     private fun checkContactImportView() {

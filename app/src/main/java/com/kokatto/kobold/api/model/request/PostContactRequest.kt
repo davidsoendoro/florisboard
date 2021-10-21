@@ -9,6 +9,6 @@ data class PostContactRequest(
     var email: String = "",
     var address: String = "",
     var debt: Double = 0.0,
-    var channels: List<ContactChannelModel> = listOf(),
+    var channels: ArrayList<ContactChannelModel> = arrayListOf(),
     var shippingAddress: List<ContactAddressModel> = listOf(),
 )
