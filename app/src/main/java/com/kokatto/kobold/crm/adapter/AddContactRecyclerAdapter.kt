@@ -2,7 +2,9 @@ package com.kokatto.kobold.crm.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,8 @@ import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.crm.AddContactActivity
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import dev.patrickgold.florisboard.util.getActivity
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 
 
 class AddContactRecyclerAdapter(
@@ -36,7 +40,6 @@ class AddContactRecyclerAdapter(
     var mAddContactActivity: AddContactActivity? = null
 
     var context: Context? = null
-
     fun AddContactRecyclerAdapter(context: Context?) {
         this.context = context
     }
@@ -71,16 +74,104 @@ class AddContactRecyclerAdapter(
         return DataViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: AddContactRecyclerAdapter.DataViewHolder, position: Int) {
-        val currentItem = dataList[position]
+    override fun onBindViewHolder(holder: AddContactRecyclerAdapter.DataViewHolder, position: Int ) {
+        holder.closeButton.setOnClickListener(View.OnClickListener {
+            selectedChannel = null
+            holder.spinnerFormChannel.setText(null)
+            holder.spinnerFormChannel.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                ContextCompat.getDrawable(holder.spinnerFormChannel.context, R.drawable.ic_subdued),
+                null
+            )
+
+            holder.idFormChannel.isFocusable = false
+            holder.idFormChannel.isFocusableInTouchMode = false
+            holder.idFormChannel.inputType = InputType.TYPE_NULL
+            holder.idFormChannel.text.clear()
+            holder.idLayoutChannel.setBackgroundColor(
+                ContextCompat.getColor(
+                    holder.idFormChannel.context,
+                    R.color.colorEditTextDisable
+                )
+            )
+
+            if (itemCount == 1) {
+                holder.closeButton.visibility = View.GONE
+            } else {
+                dataList.removeAt(holder.adapterPosition)
+                notifyItemRemoved(holder.adapterPosition)
+            }
+        })
+
+
+        holder.spinnerFormChannel.setOnClickListener{
+
+            val channel = holder.spinnerFormChannel?.text.toString()
+            spinnerChannelSelector = SpinnerChannelSelector().newInstance()
+
+            if (selectedChannel == null) {
+                selectedChannel = PropertiesModel("", "", "", channel)
+            }
+
+            spinnerChannelSelector?.openSelector(
+                holder.itemView.context.getActivity()!!.supportFragmentManager,selectedChannel!!
+                //holder..context.getActivity()!!.supportFragmentManager,
+            )
+            spinnerChannelSelector?.onItemClick = {
+                selectedChannel = it
+                holder.spinnerFormChannel?.setText(it.assetDesc)
+                constructChannel(holder.spinnerFormChannel!!, it.assetUrl)
+
+                holder.idFormChannel.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        dataList[holder.adapterPosition].type = it.assetDesc
+                        dataList[holder.adapterPosition].account = s.toString()
+                    }
+                })
+
+                holder.idLayoutChannel.setBackgroundColor(
+                    ContextCompat.getColor(
+                        holder.idFormChannel.context,
+                        R.color.transparent
+                    )
+                )
+
+
+                holder.closeButton.visibility = View.VISIBLE
+                if (it.assetDesc == "WhatsApp") {
+                    var waNumber: String? = mAddContactActivity?.getWANumber()
+                    //(getContext() as AddContactActivity).getWANumber()
+                    //(context as AddContactActivity)?.getWANumber()
+                    Toast.makeText(holder.closeButton.context, "$waNumber", Toast.LENGTH_SHORT).show()
+                    holder.idFormChannel.setText("123")
+                } else {
+                    holder.idFormChannel.text.clear()
+                    holder.idFormChannel.isFocusable = true
+                    holder.idFormChannel.isFocusableInTouchMode = true
+                    holder.idFormChannel.inputType = InputType.TYPE_CLASS_TEXT
+                }
+            }
+        }
+
+        holder.idFormChannel.setText(dataList[holder.adapterPosition].account)
+        holder.spinnerFormChannel.setText(dataList[holder.adapterPosition].type)
+        constructChannel(holder.spinnerFormChannel!!, dataList[holder.adapterPosition].assset)
     }
 
     override fun getItemCount(): Int {
         return dataList.size
     }
 
-    inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        ,View.OnClickListener
+        {
         var closeButton = itemView.findViewById<ImageView>(R.id.close_row_button)
         var spinnerFormChannel = itemView.findViewById<EditText>(R.id.edittext_add_contact_channel_field)
         var idFormChannel = itemView.findViewById<EditText>(R.id.edittext_add_contact_id)
@@ -89,7 +180,12 @@ class AddContactRecyclerAdapter(
         init {
             if (itemCount == 1) {
                 closeButton.visibility = View.GONE
+                //notifyDataSetChanged()
             }
+//            else {
+//                closeButton.visibility = View.VISIBLE
+//                  notifyDataSetChanged()
+//            }
 
             if (spinnerFormChannel.text.isEmpty()) {
                 selectedChannel = null
@@ -103,89 +199,15 @@ class AddContactRecyclerAdapter(
                 idLayoutChannel.setBackgroundColor(ContextCompat.getColor(idFormChannel.context, R.color.transparent))
             }
 
+            itemView.setOnClickListener (this)
 
-            itemView.setOnClickListener(this)
-
-            closeButton.setOnClickListener(View.OnClickListener {
-
-                //val clickedItem: ContactChannelModel = dataList[position]
-                selectedChannel = null
-                spinnerFormChannel?.setText(null)
-                spinnerFormChannel?.setCompoundDrawablesWithIntrinsicBounds(
-                    null,
-                    null,
-                    ContextCompat.getDrawable(itemView.context.getActivity()!!, R.drawable.ic_subdued),
-                    null
-                )
-
-                if (itemCount == 1) {
-                    closeButton.visibility = View.GONE
-                    idFormChannel.isFocusable = false
-                    idFormChannel.isFocusableInTouchMode = false
-                    idFormChannel.inputType = InputType.TYPE_NULL
-                    idFormChannel.text.clear()
-                    idLayoutChannel.setBackgroundColor(
-                        ContextCompat.getColor(
-                            idFormChannel.context,
-                            R.color.colorEditTextDisable
-                        )
-                    )
-                } else {
-                    dataList.removeAt(position)
-                    notifyItemRemoved(position)
-                    //notifyDataSetChanged()
-                }
-
-                Toast.makeText(itemView.context.getActivity()!!, "TEST $position", Toast.LENGTH_LONG).show()
-            })
-
-            spinnerFormChannel.setOnClickListener(View.OnClickListener {
-
-                val channel = spinnerFormChannel?.text.toString()
-                spinnerChannelSelector = SpinnerChannelSelector().newInstance()
-
-                if (selectedChannel == null) {
-                    selectedChannel = PropertiesModel("", "", "", channel)
-                }
-
-                spinnerChannelSelector?.openSelector(
-                    itemView.context.getActivity()!!.supportFragmentManager,
-                    selectedChannel!!
-                )
-                spinnerChannelSelector?.onItemClick = {
-                    selectedChannel = it
-                    spinnerFormChannel?.setText(it.assetDesc)
-                    constructChannel(spinnerFormChannel!!, it.assetUrl)
-
-                    idLayoutChannel.setBackgroundColor(
-                        ContextCompat.getColor(
-                            idFormChannel.context,
-                            R.color.transparent
-                        )
-                    )
-                    closeButton.visibility = View.VISIBLE
-                    if (it.assetDesc == "WhatsApp") {
-                        var waNumber: String? = null
-//                        waNumber = mAddContactActivity?.getWANumber()
-                        //(getContext() as AddContactActivity).getWANumber()
-                        (context as AddContactActivity)?.getWANumber()
-                        //idFormChannel.setText(waNumber)
-                        ///////////////////////////////////
-                    } else {
-                        idFormChannel.isFocusable = true
-                        idFormChannel.isFocusableInTouchMode = true
-                        idFormChannel.inputType = InputType.TYPE_CLASS_TEXT
-                    }
-                }
-            })
         }
 
         override fun onClick(p0: View?) {
-            val position: Int = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
-            }
-
+//            val position: Int = adapterPosition
+//            if (position != RecyclerView.NO_POSITION) {
+//                listener.onItemClick(position)
+//            }
         }
     }
 
@@ -194,4 +216,5 @@ class AddContactRecyclerAdapter(
     }
 
 }
+
 

@@ -65,7 +65,7 @@ class ContactInfoActivity : DashboardThemeActivity() {
 
         binding.textEdit.setOnClickListener {
             val intent = Intent(this, EditContactActivity::class.java)
-            intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentContact)
+            intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentContact!!._id)
             startActivity(intent)
         }
     }

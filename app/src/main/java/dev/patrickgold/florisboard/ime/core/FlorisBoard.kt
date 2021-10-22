@@ -125,6 +125,8 @@ private var florisboardInstance: FlorisBoard? = null
  * Additional Kobold Config
  */
 const val DELAY: Long = 700
+const val UNDER_40_DELAY: Long = 2000
+const val OVER_40_DELAY: Long = 3000
 
 /**
  * Core class responsible to link together both the text and media input managers as well as

@@ -19,6 +19,7 @@ import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
@@ -31,10 +32,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     private val adapter = AddContactRecyclerAdapter(dataList, this)
     val newItem = ContactChannelModel()
     var contactRequest: PostContactRequest = PostContactRequest()
-
     var contactViewModel: ContactViewModel? = null
     var contactModel = ContactModel()
-
+    var count: Int = 10
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_contact)
@@ -44,9 +44,6 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         isSaveButtonValid()
         contactViewModel = ContactViewModel()
 
-        if(dataList.size==0) {
-            dataList.add(newItem)
-        }
 
         val recyclerView: RecyclerView = findViewById(R.id.add_contact_recycler_view)
 
@@ -59,7 +56,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
-            adapter.notifyDataSetChanged()
+            //adapter.notifyDataSetChanged()
+            adapter.notifyItemChanged(count)
+            count++
         }
 
         uiBinding.backButton.setOnClickListener {
@@ -136,7 +135,6 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
     override fun onItemClick(position: Int) {
         val clickedItem: ContactChannelModel = dataList[position]
-        Toast.makeText(this, "Item clicked $position", Toast.LENGTH_SHORT).show()
     }
 
     fun isSaveButtonValid(): Boolean {
@@ -185,33 +183,45 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
     override fun onResume() {
         super.onResume()
-        contactViewModel?.findById(
-            id = "617108a4b96a3d0009df9635",
-            onSuccess = {
-                //on data success loaded from backend
-                uiBinding.edittextAddContactName.setText(
-                    if (it.name.isNullOrEmpty()) "-"
-                    else it.name)
+        intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let {
+            contactViewModel?.findById(
+                id = it,
+                onSuccess = {
+                    //on data success loaded from backend
+                    uiBinding.edittextAddContactName.setText(
+                        if (it.name.isNullOrEmpty()) "-"
+                        else it.name)
 
-                uiBinding.edittextAddContactPhone.setText(
-                    if (it.phoneNumber.isNullOrEmpty()) "-"
-                    else it.phoneNumber)
+                    uiBinding.edittextAddContactPhone.setText(
+                        if (it.phoneNumber.isNullOrEmpty()) "-"
+                        else it.phoneNumber)
 
-                uiBinding.edittextAddContactEmail.setText(
-                    if (it.email.isNullOrEmpty()) "-"
-                    else it.email)
+                    uiBinding.edittextAddContactEmail.setText(
+                        if (it.email.isNullOrEmpty()) "-"
+                        else it.email)
 
-                uiBinding.edittextAddContactAddress.setText(
-                    if (it.address.isNullOrEmpty()) "-"
-                    else it.address)
+                    uiBinding.edittextAddContactAddress.setText(
+                        if (it.address.isNullOrEmpty()) "-"
+                        else it.address)
 
-                contactModel = it
-            },
-            onError = {
-                //on data error when loading from backend
-                showSnackBar(it)
-            }
-        )
+                    contactModel = it
+
+                    if(it.channels.isNullOrEmpty()) {
+                        dataList.add(newItem)
+                        adapter.notifyDataSetChanged()
+                    }else{
+                        dataList.clear()
+                        dataList.addAll(it.channels)
+                        adapter.notifyDataSetChanged()
+                    }
+
+                },
+                onError = {
+                    //on data error when loading from backend
+                    showSnackBar(it)
+                }
+            )
+        }
     }
 }
 

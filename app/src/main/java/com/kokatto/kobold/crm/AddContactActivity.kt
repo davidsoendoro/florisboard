@@ -43,6 +43,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
 
+    var count: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +64,9 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
-            adapter.notifyDataSetChanged()
+            //adapter.notifyItemChanged(count)
+            adapter.notifyItemInserted(count)
+            count++
         }
 
         uiBinding.backButton.setOnClickListener {
@@ -137,7 +140,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
     override fun onItemClick(position: Int) {
         val clickedItem: ContactChannelModel = dataList[position]
-        Toast.makeText(this, "Item clicked $position", Toast.LENGTH_SHORT).show()
     }
 
     fun isSaveButtonValid(): Boolean {
@@ -184,10 +186,10 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         bottomDialog.show()
     }
 
-    fun getWANumber(){
+    fun getWANumber(): String{
         var phone:String = contactRequest.phoneNumber
         var number:String = uiBinding.edittextAddContactPhone.text.toString()
-        Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
-//        return number
+        //Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
+        return number
     }
 }

@@ -66,6 +66,30 @@ class ContactViewModel {
         }
     }
 
+    fun update(
+        id: String,
+        request: PostContactRequest,
+        onLoading: (Boolean) -> Unit,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+            onLoading.invoke(true)
+
+            val response = Network.contactApi.postUpdate(id, request)
+            response.onSuccess {
+                onLoading.invoke(false)
+                onSuccess.invoke(this.data.statusMessage)
+            }.onError {
+                onLoading.invoke(false)
+                onError.invoke(this.message())
+            }.onException {
+                onLoading.invoke(false)
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
     fun createBulk(
         request: List<PostBulkContactRequest>,
         onSuccess: (GetContactBulkResponse) -> Unit,
