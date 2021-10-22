@@ -1,49 +1,40 @@
 package com.kokatto.kobold.crm
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.card.MaterialCardView
-import com.kokatto.kobold.R
-import com.kokatto.kobold.databinding.ActivityAddContactBinding
-import com.kokatto.kobold.extension.createBottomSheetDialog
-import com.kokatto.kobold.login.LoginActivity
-import com.kokatto.kobold.persistance.AppPersistence
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
+import com.google.android.material.card.MaterialCardView
+import com.kokatto.kobold.R
+import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
+import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
-import com.kokatto.kobold.api.model.basemodel.toBundle
-import com.kokatto.kobold.api.model.basemodel.toTextFormat
+import com.kokatto.kobold.api.model.basemodel.ContactModel
+import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
+import com.kokatto.kobold.databinding.ActivityAddContactBinding
+import com.kokatto.kobold.extension.createBottomSheetDialog
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.registration.RegistrationActivity
-import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
-import kotlinx.serialization.json.JsonNull.content
-import android.R.string
-import dev.patrickgold.florisboard.util.getActivity
+import com.kokatto.kobold.setting.SettingViewModel
 
-
-class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
+class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
     lateinit var uiBinding: ActivityAddContactBinding
     private val dataList = ArrayList<ContactChannelModel>()
     private val adapter = AddContactRecyclerAdapter(dataList, this)
     val newItem = ContactChannelModel()
-    val contactViewModel = ContactViewModel()
-    val contactRequest: PostContactRequest = PostContactRequest()
-    var count: Int = 1
-
+    var contactRequest: PostContactRequest = PostContactRequest()
+    var contactViewModel: ContactViewModel? = null
+    var contactModel = ContactModel()
+    var count: Int = 10
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_contact)
@@ -51,8 +42,8 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             setContentView(root)
         }
         isSaveButtonValid()
+        contactViewModel = ContactViewModel()
 
-        dataList.add(newItem)
 
         val recyclerView: RecyclerView = findViewById(R.id.add_contact_recycler_view)
 
@@ -61,10 +52,12 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         recyclerView.setHasFixedSize(true)
         recyclerView.setNestedScrollingEnabled(false);
 
+        uiBinding.titleText.setText("Edit kontak")
+
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
-            //adapter.notifyItemChanged(count)
-            adapter.notifyItemInserted(count)
+            //adapter.notifyDataSetChanged()
+            adapter.notifyItemChanged(count)
             count++
         }
 
@@ -73,17 +66,20 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
 
         uiBinding.submitButton.setOnClickListener {
-            contactRequest.channels.clear()
-            contactRequest.channels.addAll(dataList)
-            contactViewModel.create(
-                request = contactRequest,
-                onSuccess = {
-                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
-                },
-                onError = {
-                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
-                }
-            )
+            if (isSaveButtonValid()) {
+                contactViewModel?.update(
+                    id = "617108a4b96a3d0009df9635",
+                    request = contactRequest,
+                    onSuccess = {
+                        showToast("Berhasil mengubah data!")
+                        //finish()
+                    },
+                    onError = {
+                        showToast("Gagal mengubah data!")
+                        showSnackBar(it, R.color.snackbar_error)
+                    }
+                )
+            }
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
@@ -178,17 +174,55 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         discardButton?.setOnClickListener {
             bottomDialog.dismiss()
-            startActivity(Intent(this@AddContactActivity, ContactListActivity::class.java))
+            startActivity(Intent(this@EditContactActivity, ContactListActivity::class.java))
             finish()
         }
 
         bottomDialog.show()
     }
 
-    fun getWANumber(): String{
-        var phone:String = contactRequest.phoneNumber
-        var number:String = uiBinding.edittextAddContactPhone.text.toString()
-        //Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
-        return number
+    override fun onResume() {
+        super.onResume()
+        intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let {
+            contactViewModel?.findById(
+                id = it,
+                onSuccess = {
+                    //on data success loaded from backend
+                    uiBinding.edittextAddContactName.setText(
+                        if (it.name.isNullOrEmpty()) "-"
+                        else it.name)
+
+                    uiBinding.edittextAddContactPhone.setText(
+                        if (it.phoneNumber.isNullOrEmpty()) "-"
+                        else it.phoneNumber)
+
+                    uiBinding.edittextAddContactEmail.setText(
+                        if (it.email.isNullOrEmpty()) "-"
+                        else it.email)
+
+                    uiBinding.edittextAddContactAddress.setText(
+                        if (it.address.isNullOrEmpty()) "-"
+                        else it.address)
+
+                    contactModel = it
+
+                    if(it.channels.isNullOrEmpty()) {
+                        dataList.add(newItem)
+                        adapter.notifyDataSetChanged()
+                    }else{
+                        dataList.clear()
+                        dataList.addAll(it.channels)
+                        adapter.notifyDataSetChanged()
+                    }
+
+                },
+                onError = {
+                    //on data error when loading from backend
+                    showSnackBar(it)
+                }
+            )
+        }
     }
 }
+
+
