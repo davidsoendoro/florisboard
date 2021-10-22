@@ -60,7 +60,7 @@ class ContactListRecyclerAdapter(
             }
 
             if (data.lastTransaction !== null) {
-                contactLastTransaction.text = String.format("", parseDateTransaction(data.lastTransaction!!))
+                contactLastTransaction.text = String.format("Transaksi terakhir %s", parseDateTransaction(data.lastTransaction!!))
             } else {
                 contactLastTransaction.text = "Belum ada riwayat transaksi"
             }
