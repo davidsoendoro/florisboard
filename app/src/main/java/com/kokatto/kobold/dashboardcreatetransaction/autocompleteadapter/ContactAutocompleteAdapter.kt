@@ -79,6 +79,8 @@ class ContactAutocompleteAdapter(context: Context, contactList: List<ContactMode
             phoneTextView.text = contact.phoneNumber
             if(it.isFromBackend){
                 view.setBackgroundColor(context.getColor(R.color.kobold_yellow_fff2e0))
+            } else {
+                view.setBackgroundColor(context.getColor(R.color.colorWhite))
             }
         }
 
