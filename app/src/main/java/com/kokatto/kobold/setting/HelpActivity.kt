@@ -12,9 +12,10 @@ import com.kokatto.kobold.R
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
+import com.kokatto.kobold.component.DashboardThemeActivity
 
 
-class HelpActivity : AppCompatActivity(){
+class HelpActivity : DashboardThemeActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
