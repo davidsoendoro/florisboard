@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -67,18 +68,19 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
         uiBinding.submitButton.setOnClickListener {
             if (isSaveButtonValid()) {
-                contactViewModel?.update(
-                    id = "617108a4b96a3d0009df9635",
-                    request = contactRequest,
-                    onSuccess = {
-                        showToast("Berhasil mengubah data!")
-                        //finish()
-                    },
-                    onError = {
-                        showToast("Gagal mengubah data!")
-                        showSnackBar(it, R.color.snackbar_error)
-                    }
-                )
+                intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let { it1 ->
+                    contactViewModel?.update(
+                        id = it1,
+                        request = contactRequest,
+                        onSuccess = {
+                            showToast("Kontak berhasil diubah.")
+                            finish()
+                        },
+                        onError = {
+                            showSnackBar("Kontak gagal diubah, silakan coba lagi.", R.color.snackbar_error)
+                        }
+                    )
+                }
             }
         }
 
@@ -158,23 +160,20 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
         val acceptButton = bottomDialog.findViewById<MaterialCardView>(R.id.kobold_add_contact_back_btn_yes)
         val discardButton = bottomDialog.findViewById<MaterialCardView>(R.id.kobold_add_contact_back_btn_no)
+        val acceptText = bottomDialog.findViewById<TextView>(R.id.kobold_add_contact_back_text_yes)
+
+        acceptText?.setText("Lanjutkan ubah kontak")
 
         acceptButton?.setOnClickListener {
             bottomDialog.dismiss()
-
-//            val i = Intent(this@AddContactActivity, LoginActivity ::class.java)        // Specify any activity here e.g. home or splash or login etc
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            i.putExtra("EXIT", true)
-//            startActivity(i)
-//            finish()
-
         }
 
         discardButton?.setOnClickListener {
             bottomDialog.dismiss()
-            startActivity(Intent(this@EditContactActivity, ContactListActivity::class.java))
+            val i = Intent(this@EditContactActivity, ContactInfoActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            i.putExtra(ActivityConstantCode.EXTRA_DATA, contactModel)
+            startActivity(i)
             finish()
         }
 

@@ -32,7 +32,7 @@ class ChannelInfoComponent(context: Context, channel: ContactChannelModel) : Lin
 
         if (channel.type.isBlank().not()) {
             name.setText(channel.type.lowercase().replaceFirstChar { it.uppercase() })
-            name.addDrawableStart(name, channel.assset)
+            name.addDrawableStart(name, channel.asset)
         }
 
         if (channel.account.isBlank().not()) {

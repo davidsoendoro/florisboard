@@ -39,9 +39,13 @@ class AddContactRecyclerAdapter(
 
     var mAddContactActivity: AddContactActivity? = null
 
+    var mBureauRateListing: AddContactActivity? = null
+
     var context: Context? = null
-    fun AddContactRecyclerAdapter(context: Context?) {
+
+    fun AddContactRecyclerAdapter(context: Context?, activity: AddContactActivity) {
         this.context = context
+        this.mBureauRateListing = activity
     }
 
     private fun constructChannel(editText: EditText, assetUrl: String) {
@@ -147,9 +151,11 @@ class AddContactRecyclerAdapter(
                 holder.closeButton.visibility = View.VISIBLE
                 if (it.assetDesc == "WhatsApp") {
                     var waNumber: String? = mAddContactActivity?.getWANumber()
+                    //val bs = mBureauRateListing!!.getbs()
                     //(getContext() as AddContactActivity).getWANumber()
                     //(context as AddContactActivity)?.getWANumber()
                     Toast.makeText(holder.closeButton.context, "$waNumber", Toast.LENGTH_SHORT).show()
+
                     holder.idFormChannel.setText("123")
                 } else {
                     holder.idFormChannel.text.clear()
@@ -162,7 +168,7 @@ class AddContactRecyclerAdapter(
 
         holder.idFormChannel.setText(dataList[holder.adapterPosition].account)
         holder.spinnerFormChannel.setText(dataList[holder.adapterPosition].type)
-        constructChannel(holder.spinnerFormChannel!!, dataList[holder.adapterPosition].assset)
+        constructChannel(holder.spinnerFormChannel!!, dataList[holder.adapterPosition].asset)
     }
 
     override fun getItemCount(): Int {

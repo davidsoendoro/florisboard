@@ -82,7 +82,8 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/textBlack"/>
+                    android:textColor="@color/textBlack"
+                    android:textAppearance="@style/FormEditTextHint"/>
 
                 <TextView
                     android:id="@+id/edittext_setting_storename_error"

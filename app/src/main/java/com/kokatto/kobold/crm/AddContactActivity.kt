@@ -32,6 +32,7 @@ import com.kokatto.kobold.registration.RegistrationActivity
 import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 import kotlinx.serialization.json.JsonNull.content
 import android.R.string
+import com.kokatto.kobold.extension.showSnackBar
 import dev.patrickgold.florisboard.util.getActivity
 
 
@@ -43,6 +44,8 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
     var count: Int = 1
+
+    var bs: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,10 +81,10 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
+                    showSnackBar("Berhasil menambah kontak.")
                 },
                 onError = {
-                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
+                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
                 }
             )
         }
@@ -190,5 +193,10 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         var number:String = uiBinding.edittextAddContactPhone.text.toString()
         //Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
         return number
+    }
+
+    fun getbs(): String? {
+        bs = "test"
+        return bs
     }
 }

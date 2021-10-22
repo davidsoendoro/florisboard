@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/icon_black" />
-
 
         <TextView
             android:id="@+id/title_text"
@@ -47,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/background"
+        android:background="@color/colorWhite"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +105,8 @@
                     android:textColor="@color/textBlack"
                     android:padding="@dimen/kobold_margin_12px"
                     android:dropDownWidth="match_parent"
-                    android:hint="Isi nama pelanggan"/>
+                    android:hint="Isi nama pelanggan"
+                    android:textAppearance="@style/FormEditTextHint"/>
 
                 <TextView
                     android:id="@+id/edittext_add_contact_name_error"
@@ -152,7 +152,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/textBlack"
-                    android:hint="Isi nomor telepon"/>
+                    android:hint="Isi nomor telepon"
+                    android:textAppearance="@style/FormEditTextHint"/>
 
                 <TextView
                     android:id="@+id/edittext_add_contact_phone_error"
@@ -198,7 +199,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/textBlack"
-                    android:hint="Isi alamat penerima"/>
+                    android:hint="Isi alamat penerima"
+                    android:textAppearance="@style/FormEditTextHint"/>
 
                 <TextView
                     android:id="@+id/edittext_add_contact_address_error"
@@ -244,7 +246,8 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/textBlack"
-                    android:hint="Isi alamat email"/>
+                    android:hint="Isi alamat email"
+                    android:textAppearance="@style/FormEditTextHint"/>
 
                 <TextView
                     android:id="@+id/edittext_add_contact_email_error"
@@ -264,7 +267,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/kobold_margin_32px"
-                android:src="@drawable/ic_line_10"/>
+                android:src="@drawable/ic_line10"/>
 
             <TextView
                 android:layout_width="wrap_content"
