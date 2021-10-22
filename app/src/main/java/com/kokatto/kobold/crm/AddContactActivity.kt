@@ -42,7 +42,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     val newItem = ContactChannelModel()
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
-
     var count: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
