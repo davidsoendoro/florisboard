@@ -18,7 +18,6 @@ import com.kokatto.kobold.api.model.basemodel.format
 import com.kokatto.kobold.api.model.basemodel.toText
 import com.kokatto.kobold.checkshippingcost.recycleradapter.ChooseCourierRecyclerAdapter
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import timber.log.Timber
@@ -38,6 +37,7 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
     var closeInfoButton: ImageView? = null
     var fullscreenLoading: LinearLayout? = null
     var chooseCourierRecyclerView: RecyclerView? = null
+    var footerLayout: ConstraintLayout? = null
     var backButton: TextView? = null
     var submitButton: Button? = null
 
@@ -54,6 +54,7 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
         closeInfoButton = findViewById(R.id.close_info_button)
         fullscreenLoading = findViewById(R.id.fullcreen_loading)
         chooseCourierRecyclerView = findViewById(R.id.choose_courier_recyclerview)
+        footerLayout = findViewById(R.id.footer_layout)
         backButton = findViewById(R.id.back_button)
         submitButton = findViewById(R.id.submit_button)
 
@@ -61,15 +62,18 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
             infoBannerLayout?.isVisible = false
         }
 
-        adapter = ChooseCourierRecyclerAdapter(chooseCourierList, this)
+        adapter = ChooseCourierRecyclerAdapter(this, chooseCourierList, this)
         chooseCourierRecyclerView?.adapter = adapter
         chooseCourierRecyclerView?.vertical()
 
         backButton?.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
         }
 
         submitButton?.setOnClickListener {
+            florisboard?.inputFeedbackManager?.keyPress()
+
             val tempString = chooseCourierList.toText()
 
             if (tempString == "")
@@ -101,6 +105,7 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
                         onLoading = {
                             fullscreenLoading?.isVisible = it
                             chooseCourierRecyclerView?.isVisible = it.not()
+                            footerLayout?.isVisible = it.not()
                         },
                         onSuccess = {
                             val initialSize = chooseCourierList.size
@@ -110,12 +115,15 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
 //                            adapter?.notifyItemRangeInserted(initialSize, it.data.size)
                         },
                         onError = {
-                            fullscreenLoading?.isVisible = false
-                            chooseCourierRecyclerView?.isVisible = true
+//                            fullscreenLoading?.isVisible = false
+//                            chooseCourierRecyclerView?.isVisible = true
+//                            footerLayout?.isVisible = true
 
-                            //showSnackBar(it, R.color.snackbar_error)
-                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
-                                florisboard?.setActiveInput(R.id.kobold_login)
+                            florisboard.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                            showSnackBar("Terjadi kesalahan, silahkan coba lagi", R.color.snackbar_error)
+
+                            if (ErrorResponseValidator.isSessionExpiredResponse(it))
+                                florisboard.setActiveInput(R.id.kobold_login)
                             else
                                 showSnackBar(it, R.color.snackbar_error)
                         }
@@ -134,6 +142,8 @@ class KeyboardChooseShippingCost : ConstraintLayout, ChooseCourierRecyclerAdapte
     }
 
     override fun onClicked(data: Boolean, index: Int) {
+        florisboard?.inputFeedbackManager?.keyPress()
+
         chooseCourierList[index].isSelected = data
 //        showToast(data.toString() + " " + index)
 

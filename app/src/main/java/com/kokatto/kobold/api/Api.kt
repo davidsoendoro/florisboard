@@ -309,7 +309,7 @@ interface ContactApi {
     @RequiredAuth
     @POST(contactUrl + "update/{id}")
     suspend fun postUpdate(
-        @Path("id") bankId: String,
+        @Path("id") id: String,
         @Body request: PostContactRequest
     ): ApiResponse<BaseResponse>
 
