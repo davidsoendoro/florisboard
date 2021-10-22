@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
-        android:background="#FFF2E0"
+        android:background="@color/kobold_yellow_fff2e0"
         android:visibility="gone">
 
         <LinearLayout

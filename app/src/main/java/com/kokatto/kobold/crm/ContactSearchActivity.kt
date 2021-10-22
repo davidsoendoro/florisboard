@@ -1,5 +1,6 @@
 package com.kokatto.kobold.crm
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -9,6 +10,7 @@ import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.component.DashboardThemeActivity
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.ContactListRecyclerAdapter
 import com.kokatto.kobold.databinding.ActivityContactSearchBinding
 import com.kokatto.kobold.extension.onTextChanged
@@ -100,6 +102,11 @@ class ContactSearchActivity : DashboardThemeActivity() {
         recyclerAdapter = ContactListRecyclerAdapter(list)
         binding.searchContactRecyclerView.adapter = recyclerAdapter
         recyclerAdapter!!.notifyDataSetChanged()
+        recyclerAdapter?.onItemClick = {
+            val intent = Intent(this, ContactInfoActivity::class.java)
+            intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
+            startActivity(intent)
+        }
     }
 
 }

@@ -59,7 +59,7 @@
         android:id="@+id/layout_active_keyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF2E0"
+        android:background="@color/kobold_yellow_fff2e0"
         android:visibility="gone">
 
         <LinearLayout

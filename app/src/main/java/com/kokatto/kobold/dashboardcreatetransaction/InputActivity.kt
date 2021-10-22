@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -21,17 +22,23 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
+import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.basemodel.getContactList
 import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
+import com.kokatto.kobold.dashboardcreatetransaction.autocompleteadapter.ContactAutocompleteAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
 import com.kokatto.kobold.extension.addSeparator
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
+import timber.log.Timber
+import java.lang.Exception
 
 class InputActivity : DashboardThemeActivity() {
 
@@ -45,7 +52,7 @@ class InputActivity : DashboardThemeActivity() {
         const val EXTRA_DATA = "EXTRA_DATA"
     }
 
-    private var editTextBuyer: EditText? = null
+    private var editTextBuyer: AutoCompleteTextView? = null
     private var editTextChannel: EditText? = null
     private var editTextChannelLayout: TextInputLayout? = null
     private var editTextPhone: EditText? = null
@@ -80,12 +87,15 @@ class InputActivity : DashboardThemeActivity() {
     private var spinnerChannelSelector: SpinnerChannelSelector? = SpinnerChannelSelector()
     private var spinnerBankSelector: SpinnerBankSelector? = SpinnerBankSelector()
     private var spinnerLogisticSelector: SpinnerLogisticSelector? = SpinnerLogisticSelector()
+    private var contactAutocompleteAdapter: ContactAutocompleteAdapter? = null
+
+    private val contactChannels = arrayListOf<ContactChannelModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_transaction)
 
-        editTextBuyer = findViewById<EditText>(R.id.edittext_buyername)
+        editTextBuyer = findViewById<AutoCompleteTextView>(R.id.edittext_buyername)
         editTextChannel = findViewById<EditText>(R.id.edittext_channel)
         editTextChannelLayout = findViewById<TextInputLayout>(R.id.edittext_channel_layout)
         editTextPhone = findViewById<EditText>(R.id.edittext_phone)
@@ -162,6 +172,32 @@ class InputActivity : DashboardThemeActivity() {
         btnSubmit?.let { button -> button.setOnClickListener { onClicked(button) } }
         btnBack?.let { button -> button.setOnClickListener { onClicked(button) } }
 
+        val contactList = getContactList(this)
+        Timber.d("[CONTACT] getContactList: $contactList")
+        contactAutocompleteAdapter = ContactAutocompleteAdapter(this, getContactList(this))
+
+        editTextBuyer?.setAdapter(contactAutocompleteAdapter)
+        editTextBuyer?.setOnItemClickListener { adapterView, view, i, l ->
+            try {
+                val contact = adapterView.getItemAtPosition(i) as ContactModel
+                editTextBuyer?.setText(contact.name)
+                editTextAddress?.setText(contact.address)
+                contactChannels.clear()
+                contactChannels.addAll(contact.channels)
+                editTextChannel?.setText("")
+                constructChannel(editTextChannel!!, "")
+                editTextPhone?.setText("")
+                //set contact channel from first index if available or prepare then show if channel selected
+                if(contactChannels.size > 0){
+                    editTextChannel?.setText(contactChannels[0].type)
+                    constructChannel(editTextChannel!!, contactChannels[0].asset)
+                    editTextPhone?.setText(contactChannels[0].account)
+                }
+
+            } catch (e: Exception) {
+
+            }
+        }
 
         editTextChannel?.setOnClickListener {
             val channel = editTextChannel?.text.toString()

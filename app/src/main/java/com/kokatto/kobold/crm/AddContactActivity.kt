@@ -1,13 +1,9 @@
 package com.kokatto.kobold.crm
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
@@ -27,6 +23,9 @@ import com.kokatto.kobold.api.model.basemodel.toBundle
 import com.kokatto.kobold.api.model.basemodel.toTextFormat
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.extension.createBottomSheetDialog
+import timber.log.Timber
+import java.lang.Exception
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.registration.RegistrationActivity
 import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
@@ -62,7 +61,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(false)
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)

@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.KeyEvent
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -28,6 +29,17 @@ class ContactImportActivity : DashboardThemeActivity() {
     private var recyclerAdapter: ContactImportRecyclerAdapter? = null
     private val loading = DialogLoadingSmall(this)
     private var contactViewModel: ContactViewModel? = ContactViewModel()
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
