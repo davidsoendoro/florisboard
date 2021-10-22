@@ -22,6 +22,7 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
+import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
@@ -87,6 +88,8 @@ class InputActivity : DashboardThemeActivity() {
     private var spinnerBankSelector: SpinnerBankSelector? = SpinnerBankSelector()
     private var spinnerLogisticSelector: SpinnerLogisticSelector? = SpinnerLogisticSelector()
     private var contactAutocompleteAdapter: ContactAutocompleteAdapter? = null
+
+    private val contactChannels = arrayListOf<ContactChannelModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -178,8 +181,19 @@ class InputActivity : DashboardThemeActivity() {
             try {
                 val contact = adapterView.getItemAtPosition(i) as ContactModel
                 editTextBuyer?.setText(contact.name)
-                editTextPhone?.setText(contact.phoneNumber)
                 editTextAddress?.setText(contact.address)
+                contactChannels.clear()
+                contactChannels.addAll(contact.channels)
+                editTextChannel?.setText("")
+                constructChannel(editTextChannel!!, "")
+                editTextPhone?.setText("")
+                //set contact channel from first index if available or prepare then show if channel selected
+                if(contactChannels.size > 0){
+                    editTextChannel?.setText(contactChannels[0].type)
+                    constructChannel(editTextChannel!!, contactChannels[0].assset)
+                    editTextPhone?.setText(contactChannels[0].account)
+                }
+
             } catch (e: Exception) {
 
             }

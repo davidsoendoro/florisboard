@@ -14,7 +14,6 @@ import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.getContactList
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
-import com.kokatto.kobold.dashboardcreatetransaction.autocompleteadapter.ContactAutocompleteAdapter
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import timber.log.Timber
@@ -28,7 +27,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     val newItem = ContactChannelModel()
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
-    private var contactAutocompleteAdapter: ContactAutocompleteAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +67,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                contactAutocompleteAdapter?.notifyDataSetChanged()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
