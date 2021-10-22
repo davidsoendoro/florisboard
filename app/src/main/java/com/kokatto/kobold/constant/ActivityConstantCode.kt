@@ -56,5 +56,8 @@ class ActivityConstantCode {
         // FRAGMENT CODES
         val ONBOARDING_FRAGMENT_CODE = 10001
         val ACTIVATE_KEYBOARD_FRAGMENT_CODE = 10002
+
+        //PERMISSION REQUEST CODE
+        val READ_CONTACT_PERMISSION_CODE = 10001
     }
 }

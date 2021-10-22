@@ -1,6 +1,8 @@
 package com.kokatto.kobold.dashboardcreatetransaction
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
@@ -39,6 +42,9 @@ import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
 import timber.log.Timber
 import java.lang.Exception
+import androidx.core.content.ContextCompat
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.READ_CONTACT_PERMISSION_CODE
+
 
 class InputActivity : DashboardThemeActivity() {
 
@@ -172,33 +178,7 @@ class InputActivity : DashboardThemeActivity() {
         btnSubmit?.let { button -> button.setOnClickListener { onClicked(button) } }
         btnBack?.let { button -> button.setOnClickListener { onClicked(button) } }
 
-        val contactList = getContactList(this)
-        Timber.d("[CONTACT] getContactList: $contactList")
-        contactAutocompleteAdapter = ContactAutocompleteAdapter(this, getContactList(this))
-
-        editTextBuyer?.setAdapter(contactAutocompleteAdapter)
-        editTextBuyer?.setOnItemClickListener { adapterView, view, i, l ->
-            try {
-                val contact = adapterView.getItemAtPosition(i) as ContactModel
-                editTextBuyer?.setText(contact.name)
-                editTextAddress?.setText(contact.address)
-                contactChannels.clear()
-                contactChannels.addAll(contact.channels)
-                editTextChannel?.setText("")
-                constructChannel(editTextChannel!!, "")
-                editTextPhone?.setText("")
-                //set contact channel from first index if available or prepare then show if channel selected
-                if(contactChannels.size > 0){
-                    editTextChannel?.setText(contactChannels[0].type)
-                    constructChannel(editTextChannel!!, contactChannels[0].asset)
-                    editTextPhone?.setText(contactChannels[0].account)
-                }
-
-            } catch (e: Exception) {
-
-            }
-        }
-
+        checkThenRequestContactPermission()
         editTextChannel?.setOnClickListener {
             val channel = editTextChannel?.text.toString()
             spinnerChannelSelector = SpinnerChannelSelector().newInstance()
@@ -587,4 +567,65 @@ class InputActivity : DashboardThemeActivity() {
         return test
     }
 
+    private fun checkThenRequestContactPermission(){
+        val contactpermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+        when(contactpermission){
+            PackageManager.PERMISSION_GRANTED -> {
+                //populate contact list then initiate adapter
+                val contactList = getContactList(this)
+                Timber.d("[CONTACT] getContactList: $contactList")
+                initiateAutocompleteAdapter(contactList)
+            }
+            else -> {
+                //request permission
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), READ_CONTACT_PERMISSION_CODE)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            READ_CONTACT_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    //populate contact list then initiate adapter
+                    val contactList = getContactList(this)
+                    Timber.d("[CONTACT] getContactList: $contactList")
+                    initiateAutocompleteAdapter(contactList)
+                } else
+                {
+                    //initiate empty adapter
+                    initiateAutocompleteAdapter(arrayListOf())
+                }
+            }
+        }
+    }
+
+    private fun initiateAutocompleteAdapter(contactList: ArrayList<ContactModel>){
+        contactAutocompleteAdapter = ContactAutocompleteAdapter(this, contactList)
+        editTextBuyer?.setAdapter(contactAutocompleteAdapter)
+        editTextBuyer?.setOnItemClickListener { adapterView, view, i, l ->
+            try {
+                val contact = adapterView.getItemAtPosition(i) as ContactModel
+                editTextBuyer?.setText(contact.name)
+                editTextAddress?.setText(contact.address)
+                contactChannels.clear()
+                contactChannels.addAll(contact.channels)
+                editTextChannel?.setText("")
+                constructChannel(editTextChannel!!, "")
+                editTextPhone?.setText("")
+                //set contact channel from first index if available or prepare then show if channel selected
+                if(contactChannels.size > 0){
+                    editTextChannel?.setText(contactChannels[0].type)
+                    constructChannel(editTextChannel!!, contactChannels[0].asset)
+                    editTextPhone?.setText(contactChannels[0].account)
+                }
+
+            } catch (e: Exception) {
+
+            }
+        }
+
+    }
 }
