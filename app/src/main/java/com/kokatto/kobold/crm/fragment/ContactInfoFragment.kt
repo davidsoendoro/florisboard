@@ -107,6 +107,7 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
 
     fun postSaveDebt(string: String) {
         val stringTemp = string.removeThousandSeparatedString()
+        initialDebtValue = stringTemp
 
         contactViewModel.update(contact!!._id,
             PostContactRequest(debt = stringTemp.toDouble()),
@@ -116,7 +117,6 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
             onSuccess = {
 //                requireActivity().showSnackBar(it)
                 showToast("Berhasil merubah data!")
-                initialDebtValue = stringTemp
             },
             onError = {
 //                requireActivity().showSnackBar(it)
