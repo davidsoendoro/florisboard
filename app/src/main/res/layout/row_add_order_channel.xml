@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:layout_marginBottom="@dimen/kobold_margin_24px">
 
     <LinearLayout
@@ -124,7 +125,6 @@
                     android:id="@+id/edittext_add_contact_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
                     android:ellipsize="end"
                     android:lines="1"
                     android:maxLines="1"
