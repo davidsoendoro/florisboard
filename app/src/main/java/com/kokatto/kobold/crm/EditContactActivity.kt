@@ -45,7 +45,6 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         isSaveButtonValid()
         contactViewModel = ContactViewModel()
 
-
         val recyclerView: RecyclerView = findViewById(R.id.add_contact_recycler_view)
 
         recyclerView.adapter = adapter
