@@ -16,6 +16,7 @@ import com.kokatto.kobold.api.model.basemodel.MerchantModel.Companion.fromIntent
 import com.kokatto.kobold.api.model.basemodel.toBundle
 import com.kokatto.kobold.api.model.basemodel.toTextFormat
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
+import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.databinding.ActivitySettingProfilTokoBinding
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
@@ -24,7 +25,7 @@ import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
 import com.kokatto.kobold.registration.spinner.DialogBusinessTypeSelector
 import com.kokatto.kobold.registration.viewmodel.MerchantViewModel
 
-class SettingProfilTokoActivity : AppCompatActivity(), DialogBusinessFieldSelector.OnBusinessFieldClicked,
+class SettingProfilTokoActivity : DashboardThemeActivity(), DialogBusinessFieldSelector.OnBusinessFieldClicked,
     DialogBusinessTypeSelector.OnBusinessTypeClicked {
     lateinit var uiBinding: ActivitySettingProfilTokoBinding
     var settingViewModel: SettingViewModel? = null

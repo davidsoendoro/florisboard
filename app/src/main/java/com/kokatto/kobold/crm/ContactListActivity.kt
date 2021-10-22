@@ -152,7 +152,6 @@ class ContactListActivity : DashboardThemeActivity() {
 
     private fun showContactImport() {
         startActivity(Intent(this, ContactImportActivity::class.java))
-        finish()
     }
 
     private fun callAPISearch(page: Int = 1, valueToSearch: String, sorting: String) {
