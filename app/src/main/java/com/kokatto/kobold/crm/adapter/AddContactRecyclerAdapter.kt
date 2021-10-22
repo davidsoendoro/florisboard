@@ -162,7 +162,7 @@ class AddContactRecyclerAdapter(
 
         holder.idFormChannel.setText(dataList[holder.adapterPosition].account)
         holder.spinnerFormChannel.setText(dataList[holder.adapterPosition].type)
-        constructChannel(holder.spinnerFormChannel!!, dataList[holder.adapterPosition].assset)
+        constructChannel(holder.spinnerFormChannel!!, dataList[holder.adapterPosition].asset)
     }
 
     override fun getItemCount(): Int {

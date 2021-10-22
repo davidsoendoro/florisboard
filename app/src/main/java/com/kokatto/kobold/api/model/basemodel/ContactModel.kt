@@ -18,7 +18,7 @@ data class ContactModel(
     var lastTransaction: Long? = null,
     var channels: List<ContactChannelModel> = listOf(),
     var shippingAddress: List<ContactAddressModel> = listOf(),
-
+    var isFromBackend: Boolean = false
 ) : Parcelable
 
 private val PROJECTION = arrayOf(
