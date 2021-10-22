@@ -190,7 +190,7 @@ class InputActivity : DashboardThemeActivity() {
                 //set contact channel from first index if available or prepare then show if channel selected
                 if(contactChannels.size > 0){
                     editTextChannel?.setText(contactChannels[0].type)
-                    constructChannel(editTextChannel!!, contactChannels[0].assset)
+                    constructChannel(editTextChannel!!, contactChannels[0].asset)
                     editTextPhone?.setText(contactChannels[0].account)
                 }
 
