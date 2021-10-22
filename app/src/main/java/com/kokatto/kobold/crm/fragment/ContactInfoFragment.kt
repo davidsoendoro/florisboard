@@ -63,6 +63,8 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
             } else {
                 binding.layoutChannelCard.visibility = View.GONE
             }
+
+            initialDebtValue = contact.debt.toString()
         }
 
         binding.switchHasDebt.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -98,18 +100,22 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
     override fun onPause() {
         super.onPause()
 //        if data is changed
-        if (initialDebtValue != binding.textDebAmount.text.toString().removeThousandSeparatedString() && isLoading.get()
-                .not()
-        )
+        if (initialDebtValue != binding.textDebAmount.text.toString().removeThousandSeparatedString()
+            && isLoading.get().not() && binding.textDebAmount.text.toString().length > 0
+        ) {
             postSaveDebt(binding.textDebAmount.text.toString())
-
+        }
     }
 
     fun postSaveDebt(string: String) {
-        val stringTemp = string.removeThousandSeparatedString()
-        initialDebtValue = stringTemp
+        var stringTemp = string.removeThousandSeparatedString()
 
-        contactViewModel.update(contact!!._id,
+        if (stringTemp.isNullOrBlank()) {
+            stringTemp = "0"
+        }
+
+        contactViewModel.update(
+            contact!!._id,
             PostContactRequest(debt = stringTemp.toDouble()),
             onLoading = {
                 isLoading.set(it)
@@ -117,6 +123,7 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
             onSuccess = {
 //                requireActivity().showSnackBar(it)
                 showToast("Berhasil merubah data!")
+                initialDebtValue = stringTemp
             },
             onError = {
 //                requireActivity().showSnackBar(it)
