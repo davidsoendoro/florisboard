@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
+import android.provider.Telephony
 
 class ThirdAppUtility {
     companion object {
@@ -63,6 +64,46 @@ class ThirdAppUtility {
                 intent.data = Uri.parse("market://details?id=$packageName")
                 context.startActivity(intent)
             }
+        }
+
+
+        fun openSendSMS(context: Context, phoneNo: String, message: String = "") {
+            val defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(context)
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.type = "text/plain"
+            sendIntent.putExtra(Intent.EXTRA_TEXT, message)
+            sendIntent.putExtra("address", phoneNo)
+            if (defaultSmsPackageName != null) {
+                sendIntent.setPackage(defaultSmsPackageName)
+            }
+            context.startActivity(sendIntent)
+        }
+
+        fun openPhoneDial(context: Context, phoneNo: String) {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:${phoneNo}")
+            context.startActivity(intent)
+        }
+
+        fun openGmail(context: Context, emailAddress: String) {
+            val packageName = "com.google.android.gm"
+
+            if (checkAppInstalledOrNot(context, packageName)) {
+                val sendIntent = Intent(Intent.ACTION_SEND)
+                val recipients = arrayOf(emailAddress) //Add multiple recipients here
+                sendIntent.putExtra(Intent.EXTRA_EMAIL, recipients)
+                sendIntent.type = "text/html"
+                sendIntent.setPackage(packageName)
+                context.startActivity(sendIntent)
+            } else {
+                // Bring user to the market or let them choose an app?
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.data = Uri.parse("market://details?id=$packageName")
+                context.startActivity(intent)
+            }
+
+
         }
     }
 }

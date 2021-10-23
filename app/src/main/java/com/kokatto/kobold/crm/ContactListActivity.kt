@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +39,7 @@ class ContactListActivity : DashboardThemeActivity() {
 
     private var spinnerContactSort: DialogContactSort? = DialogContactSort()
     private var selectedSort: ContactSortEnum = ContactSortEnum.NEWEST
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
 
     private val isLast = AtomicBoolean(false)
 
@@ -124,6 +126,19 @@ class ContactListActivity : DashboardThemeActivity() {
             threshold = 3
         }
 
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                ActivityConstantCode.RESULT_OK_CREATED -> {
+                    val message = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
+                    showSnackBar(message!!)
+                }
+                ActivityConstantCode.RESULT_FAILED_SAVE -> {
+                    val message = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
+                    showSnackBar(message!!, R.color.snackbar_error)
+                }
+            }
+        }
+
 //        callAPISearch(1, "", sortingType)
     }
 
@@ -156,7 +171,8 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactImport() {
-        startActivity(Intent(this, ContactImportActivity::class.java))
+        val intent = Intent(this@ContactListActivity, ContactImportActivity::class.java)
+        activityResultLauncher?.launch(intent)
     }
 
     private fun callAPISearch(page: Int = 1, valueToSearch: String, sorting: String) {
