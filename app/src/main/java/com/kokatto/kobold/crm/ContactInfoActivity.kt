@@ -16,6 +16,7 @@ import com.kokatto.kobold.crm.fragment.ContactTransactionFragment
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityContactInfoBinding
 import com.kokatto.kobold.extension.addRipple
+import com.kokatto.kobold.utility.ThirdAppUtility
 
 class ContactInfoActivity : DashboardThemeActivity() {
     private lateinit var binding: ActivityContactInfoBinding
@@ -68,6 +69,41 @@ class ContactInfoActivity : DashboardThemeActivity() {
             intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentContact!!._id)
             startActivity(intent)
         }
+
+        binding.layoutSms.setOnClickListener {
+            currentContact?.let { data ->
+                if (data.phoneNumber.isNullOrBlank().not()) {
+                    ThirdAppUtility.openSendSMS(this@ContactInfoActivity, data.phoneNumber)
+                }
+            }
+        }
+
+        binding.layoutPhone.setOnClickListener {
+            currentContact?.let { data ->
+                if (data.phoneNumber.isNullOrBlank().not()) {
+                    ThirdAppUtility.openPhoneDial(this@ContactInfoActivity, data.phoneNumber)
+                }
+            }
+        }
+
+        binding.layoutWhatsapp.setOnClickListener {
+            currentContact?.let { data ->
+                if (data.phoneNumber.isNullOrBlank().not()) {
+                    ThirdAppUtility.openWhatsappAndDirectToNumber(
+                        data.phoneNumber, "", this@ContactInfoActivity, ActivityConstantCode.WHATSAPP_PKG
+                    )
+                }
+            }
+        }
+
+        binding.layoutEmail.setOnClickListener {
+            currentContact?.let { data ->
+                if (data.email.isNullOrBlank().not()) {
+                    ThirdAppUtility.openGmail(this@ContactInfoActivity, data.email)
+                }
+            }
+        }
+
     }
 
     private fun initTab() {

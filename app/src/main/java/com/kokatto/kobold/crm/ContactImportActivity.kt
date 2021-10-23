@@ -1,6 +1,8 @@
 package com.kokatto.kobold.crm
 
+import android.app.Activity
 import android.content.ContentResolver
+import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.KeyEvent
@@ -15,6 +17,7 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactImportModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.component.DashboardThemeActivity
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.ContactImportRecyclerAdapter
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactImportBinding
@@ -103,18 +106,26 @@ class ContactImportActivity : DashboardThemeActivity() {
                     PostBulkContactRequest(it.name, it.phoneNumber)
                 },
                 onSuccess = {
-                    showSnackBar(resources.getString(R.string.kobold_contact_import_success, it.data.totalRecord))
+                    //showSnackBar(resources.getString(R.string.kobold_contact_import_success, it.data.totalRecord))
                     loading.isDismiss()
                     selectedContactsList.clear()
                     filteredContactsList.clear()
                     bindAdapterContact(contactsList)
+
+                    val data = Intent()
+                    data.putExtra(ActivityConstantCode.EXTRA_DATA, resources.getString(R.string.kobold_contact_import_success, it.data.totalRecord));
+                    setResult(ActivityConstantCode.RESULT_OK_CREATED, data);
+                    finish()
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it)) {
                         DashboardSessionExpiredEventHandler(this).onSessionExpired()
                     } else {
                         loading.isDismiss()
-                        showSnackBar(resources.getString(R.string.kobold_contact_import_failed), R.color.snackbar_error)
+                        val data = Intent()
+                        data.putExtra(ActivityConstantCode.EXTRA_DATA, resources.getString(R.string.kobold_contact_import_failed));
+                        setResult(ActivityConstantCode.RESULT_FAILED_SAVE, data);
+                        finish()
                     }
                 })
 
