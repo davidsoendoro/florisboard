@@ -114,7 +114,8 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
             stringTemp = "0"
         }
 
-        contactViewModel.update(contact!!._id,
+        contactViewModel.update(
+            contact!!._id,
             PostContactRequest(debt = stringTemp.toDouble()),
             onLoading = {
                 isLoading.set(it)

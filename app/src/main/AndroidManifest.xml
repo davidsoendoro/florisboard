@@ -52,8 +52,7 @@
         <activity
             android:name=".registration.RegistrationActivity"
             android:exported="true"
-            android:label="Kobold Registration">
-        </activity>
+            android:label="Kobold Registration"></activity>
         <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true"

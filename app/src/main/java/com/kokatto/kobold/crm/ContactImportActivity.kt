@@ -6,7 +6,6 @@ import android.provider.ContactsContract
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.kokatto.kobold.R
