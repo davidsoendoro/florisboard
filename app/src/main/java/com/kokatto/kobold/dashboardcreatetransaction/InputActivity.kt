@@ -703,8 +703,11 @@ class InputActivity : DashboardThemeActivity() {
                     editTextChannel?.setText(contactChannels[0].type)
                     constructChannel(editTextChannel!!, contactChannels[0].asset)
                     editTextPhone?.setText(contactChannels[0].account)
+                } else {
+                    editTextChannel?.setText("WhatsApp")
+                    constructChannel(editTextChannel!!, "https://kobold-test-asset.s3.ap-southeast-1.amazonaws.com/public/ic_channel_whatsApp.png")
+                    editTextPhone?.setText(contact.phoneNumber)
                 }
-
             } catch (e: Exception) {
 
             }
