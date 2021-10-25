@@ -6,9 +6,11 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
@@ -37,6 +39,7 @@ class ContactListActivity : DashboardThemeActivity() {
 
     private var spinnerContactSort: DialogContactSort? = DialogContactSort()
     private var selectedSort: ContactSortEnum = ContactSortEnum.NEWEST
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
 
     private val isLast = AtomicBoolean(false)
 
@@ -108,6 +111,10 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
+        binding.addContactButton.setOnClickListener {
+            startActivity(Intent(this, AddContactActivity::class.java))
+        }
+
         DovesRecyclerViewPaginator(
             recyclerView = binding.koboldContactContent.recyclerViewContact,
             isLoading = { true },
@@ -117,6 +124,19 @@ class ContactListActivity : DashboardThemeActivity() {
             onLast = { isLast.get() }
         ).run {
             threshold = 3
+        }
+
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                ActivityConstantCode.RESULT_OK_CREATED -> {
+                    val message = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
+                    showSnackBar(message!!)
+                }
+                ActivityConstantCode.RESULT_FAILED_SAVE -> {
+                    val message = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
+                    showSnackBar(message!!, R.color.snackbar_error)
+                }
+            }
         }
 
 //        callAPISearch(1, "", sortingType)
@@ -151,8 +171,8 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactImport() {
-        startActivity(Intent(this, ContactImportActivity::class.java))
-        finish()
+        val intent = Intent(this@ContactListActivity, ContactImportActivity::class.java)
+        activityResultLauncher?.launch(intent)
     }
 
     private fun callAPISearch(page: Int = 1, valueToSearch: String, sorting: String) {
@@ -201,8 +221,10 @@ class ContactListActivity : DashboardThemeActivity() {
     private fun showLoading(isLoading: Boolean = false) {
         if (isLoading) {
             loading.startLoading()
+            binding.addContactButton.isVisible = false
         } else {
             loading.isDismiss()
+            binding.addContactButton.isVisible = true
         }
     }
 

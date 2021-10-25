@@ -163,8 +163,8 @@ class ContactTransactionFragment(val contact: ContactModel?) : Fragment(), Trans
         filters.add(TransactionFilterEnum.PENDING)
         filters.add(TransactionFilterEnum.PAID)
         filters.add(TransactionFilterEnum.SENT)
-        filters.add(TransactionFilterEnum.CANCEL)
-        filters.add(TransactionFilterEnum.COMPLETE)
+        //filters.add(TransactionFilterEnum.CANCEL)
+        //filters.add(TransactionFilterEnum.COMPLETE)
 
         selectedFilter = TransactionFilterEnum.ALL
 

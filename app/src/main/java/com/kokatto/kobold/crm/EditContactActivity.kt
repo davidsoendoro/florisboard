@@ -4,27 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
-import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
-import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
-import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.setting.SettingViewModel
 
 class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
     lateinit var uiBinding: ActivityAddContactBinding
@@ -50,9 +43,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.isNestedScrollingEnabled = false
 
-        uiBinding.titleText.setText("Edit kontak")
+        uiBinding.titleText.text = "Edit kontak"
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(newItem)
@@ -133,8 +126,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
     }
 
-    override fun onItemClick(position: Int) {
-        val clickedItem: ContactChannelModel = dataList[position]
+    override fun onDataChange(data: ContactChannelModel?, index: Int) {
+        val clickedItem: ContactChannelModel = dataList[index]
+
     }
 
     fun isSaveButtonValid(): Boolean {

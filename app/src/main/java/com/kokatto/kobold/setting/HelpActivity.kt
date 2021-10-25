@@ -1,20 +1,19 @@
 package com.kokatto.kobold.setting
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 import com.kokatto.kobold.R
-import android.content.Intent
-import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
+import com.kokatto.kobold.component.DashboardThemeActivity
 
 
-class HelpActivity : AppCompatActivity(){
+class HelpActivity : DashboardThemeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

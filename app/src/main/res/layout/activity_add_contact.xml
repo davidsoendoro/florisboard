@@ -150,6 +150,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/textBlack"
+                    android:inputType="phone"
                     android:hint="Isi nomor telepon"/>
 
                 <TextView
@@ -293,6 +294,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/row_add_order_channel" />
 
             </RelativeLayout>

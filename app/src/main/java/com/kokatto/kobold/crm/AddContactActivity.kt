@@ -7,41 +7,20 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
-import com.kokatto.kobold.databinding.ActivityAddContactBinding
-import com.kokatto.kobold.extension.createBottomSheetDialog
-import com.kokatto.kobold.login.LoginActivity
-import com.kokatto.kobold.persistance.AppPersistence
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.api.model.basemodel.BusinessFieldModel
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
-import com.kokatto.kobold.api.model.basemodel.toBundle
-import com.kokatto.kobold.api.model.basemodel.toTextFormat
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
-import timber.log.Timber
-import java.lang.Exception
-import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.registration.RegistrationActivity
-import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
-import kotlinx.serialization.json.JsonNull.content
-import android.R.string
-import dev.patrickgold.florisboard.util.getActivity
+import com.kokatto.kobold.extension.vertical
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
     lateinit var uiBinding: ActivityAddContactBinding
     private val dataList = ArrayList<ContactChannelModel>()
     private val adapter = AddContactRecyclerAdapter(dataList, this)
-    val newItem = ContactChannelModel()
     val contactViewModel = ContactViewModel()
     val contactRequest: PostContactRequest = PostContactRequest()
-    var count: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,38 +30,40 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
         isSaveButtonValid()
 
-        dataList.add(newItem)
+//        buat mastiin kalo datalist yang dibuat kosong
+        dataList.clear()
+        dataList.add(ContactChannelModel())
 
-        val recyclerView: RecyclerView = findViewById(R.id.add_contact_recycler_view)
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.setNestedScrollingEnabled(false)
+        uiBinding.addContactRecyclerView.adapter = adapter
+        uiBinding.addContactRecyclerView.vertical()
+//        recyclerView.setHasFixedSize(true)
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
-            dataList.add(newItem)
+            dataList.add(ContactChannelModel())
             //adapter.notifyItemChanged(count)
-            adapter.notifyItemInserted(count)
-            count++
+            adapter.notifyDataSetChanged()
         }
 
         uiBinding.backButton.setOnClickListener {
-            createConfirmationDialog()
+//            ini panggil onBackPressed aja supaya bisa antisipasi user pencet tombol di atas atau pencet back dari hp mereka
+            onBackPressed()
         }
 
         uiBinding.submitButton.setOnClickListener {
             contactRequest.channels.clear()
             contactRequest.channels.addAll(dataList)
-            contactViewModel.create(
-                request = contactRequest,
-                onSuccess = {
-                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
-                },
-                onError = {
-                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
-                }
-            )
+
+//            contactRequest.channels.addAll(adapter.getData())
+//            Log.e("dataList", adapter.getData().toString())
+//            contactViewModel.create(
+//                request = contactRequest,
+//                onSuccess = {
+//                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
+//                },
+//                onError = {
+//                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
+//                }
+//            )
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
@@ -136,8 +117,34 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
     }
 
-    override fun onItemClick(position: Int) {
-        val clickedItem: ContactChannelModel = dataList[position]
+    override fun onDataChange(data: ContactChannelModel?, index: Int) {
+        if (data == null) {
+            dataList.removeAt(index)
+        } else {
+            if (data.type == "WhatsApp")
+                data.account = uiBinding.edittextAddContactPhone.text.toString()
+            dataList[index] = data
+        }
+
+        if (dataList.isEmpty())
+            dataList.add(ContactChannelModel())
+
+//        dataList
+
+//        GlobalScope.launch {
+//            suspend {
+//                adapter.notifyDataSetChanged()
+//            }.invoke()
+//        }
+
+        uiBinding.addContactRecyclerView.post {
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onBackPressed() {
+        createConfirmationDialog()
+//        super.onBackPressed()
     }
 
     fun isSaveButtonValid(): Boolean {
@@ -184,10 +191,10 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         bottomDialog.show()
     }
 
-    fun getWANumber(): String{
-        var phone:String = contactRequest.phoneNumber
-        var number:String = uiBinding.edittextAddContactPhone.text.toString()
-        //Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
-        return number
-    }
+//    fun getWANumber(): String{
+//        var phone:String = contactRequest.phoneNumber
+//        var number:String = uiBinding.edittextAddContactPhone.text.toString()
+//        //Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
+//        return number
+//    }
 }

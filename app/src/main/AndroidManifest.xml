@@ -41,6 +41,10 @@
             android:exported="true"
             android:theme="@style/SettingsTheme.NoActionBar" />
         <activity
+            android:name=".crm.ContactSearchActivity"
+            android:exported="true"
+            android:theme="@style/SettingsTheme.NoActionBar" />
+        <activity
             android:name=".dashboard.DashboardMasterProfitActivity"
             android:exported="true"
             android:label="@string/title_activity_dashboard_master_profit"
@@ -48,8 +52,7 @@
         <activity
             android:name=".registration.RegistrationActivity"
             android:exported="true"
-            android:label="Kobold Registration">
-        </activity>
+            android:label="Kobold Registration"></activity>
         <activity
             android:name=".dashboardcreatetransaction.SearchTransactionActivity"
             android:exported="true"

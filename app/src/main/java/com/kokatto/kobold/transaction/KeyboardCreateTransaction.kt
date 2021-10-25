@@ -150,33 +150,17 @@ class KeyboardCreateTransaction : ConstraintLayout {
         buyerNameText?.setOnClickListener {
             val imeOptions = buyerNameText?.imeOptions ?: 0
             val inputType = buyerNameText?.inputType ?: 0
-            val isAutofill = buyerNameText?.isAutofill ?: false
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openEditor(
                 R.id.kobold_menu_create_transaction,
                 imeOptions,
                 inputType,
                 buyerNameText?.label?.text.toString(),
-                buyerNameText?.editText?.text.toString(),
-                isAutofill,
-                textWatcher = getTextWatcher()
+                buyerNameText?.editText?.text.toString()
             ) { result ->
+                transactionModel.buyer = result
                 buyerNameText?.editText?.text = result
-                invalidateSaveButton()
             }
-//            val imeOptions = buyerNameText?.imeOptions ?: 0
-//            val inputType = buyerNameText?.inputType ?: 0
-//            florisboard?.inputFeedbackManager?.keyPress()
-//            florisboard?.openEditor(
-//                R.id.kobold_menu_create_transaction,
-//                imeOptions,
-//                inputType,
-//                buyerNameText?.label?.text.toString(),
-//                buyerNameText?.editText?.text.toString()
-//            ) { result ->
-//                transactionModel.buyer = result
-//                buyerNameText?.editText?.text = result
-//            }
         }
 
         chooseChannelText?.setOnClickListener {

@@ -74,12 +74,10 @@ fun ArrayList<DeliveryFeeModel>.toText(): String {
         .forEach {
             if (tempString == "") {
                 tempString =
-                    "${it.service} - ${CurrencyUtility.currencyFormatter(it.price)}" +
-                        "\n${it.service_name} (${it.eta})"
+                    "${it.service} - ${CurrencyUtility.currencyFormatter(it.price)} ・ ${it.service_name} (${it.eta})"
             } else {
                 tempString += "\n\n" +
-                    "${it.service} - ${CurrencyUtility.currencyFormatter(it.price)}" +
-                    "\n${it.service_name} (${it.eta})"
+                    "${it.service} - ${CurrencyUtility.currencyFormatter(it.price)} ・ ${it.service_name} (${it.eta})"
             }
         }
 
