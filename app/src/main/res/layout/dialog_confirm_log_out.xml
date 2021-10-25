@@ -19,14 +19,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/kobold_logout_confirm_title"
-            android:textColor="@color/textColorDark"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/kobold_primaryLabel24spBold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            style="@style/kobold_secondaryLabel14sp"
             android:text="@string/kobold_logout_confirm_desc" />
 
         <com.google.android.material.card.MaterialCardView
@@ -46,9 +45,7 @@
                 android:layout_marginVertical="12dp"
                 android:gravity="center"
                 android:text="@string/kobold_transaction_exit_button_yes"
-                android:textColor="@color/text_color_white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                style="@style/kobold_editProfileButton16sp"/>
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -71,9 +68,7 @@
                 android:layout_marginVertical="12dp"
                 android:gravity="center"
                 android:text="@string/kobold_transaction_exit_button_no"
-                android:textColor="@color/textColorDark"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                style="@style/kobold_primaryLabel16sp"/>
 
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

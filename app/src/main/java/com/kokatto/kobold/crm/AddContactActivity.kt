@@ -13,6 +13,15 @@ import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
+import timber.log.Timber
+import java.lang.Exception
+import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.registration.RegistrationActivity
+import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
+import kotlinx.serialization.json.JsonNull.content
+import android.R.string
+import com.kokatto.kobold.extension.showSnackBar
+import dev.patrickgold.florisboard.util.getActivity
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -171,15 +180,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         acceptButton?.setOnClickListener {
             bottomDialog.dismiss()
-
-//            val i = Intent(this@AddContactActivity, LoginActivity ::class.java)        // Specify any activity here e.g. home or splash or login etc
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            i.putExtra("EXIT", true)
-//            startActivity(i)
-//            finish()
-
         }
 
         discardButton?.setOnClickListener {
@@ -190,11 +190,4 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         bottomDialog.show()
     }
-
-//    fun getWANumber(): String{
-//        var phone:String = contactRequest.phoneNumber
-//        var number:String = uiBinding.edittextAddContactPhone.text.toString()
-//        //Toast.makeText(this, "TEST $phone $number", Toast.LENGTH_LONG).show()
-//        return number
-//    }
 }

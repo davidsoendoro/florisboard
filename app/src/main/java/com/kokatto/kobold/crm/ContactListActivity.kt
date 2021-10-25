@@ -25,6 +25,7 @@ import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showToast
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactListActivity : DashboardThemeActivity() {
@@ -75,7 +76,7 @@ class ContactListActivity : DashboardThemeActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.koboldContactContent.apply {
-
+            ////////ini
             buttonAddContact.setOnClickListener {
                 val dialogContactMenu = DialogContactMenu().newInstance()
                 dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
@@ -90,6 +91,21 @@ class ContactListActivity : DashboardThemeActivity() {
                     showContactManualview()
                 }
             }
+
+//            binding.koboltContactAddContactFab.setOnClickListener {
+//                val dialogContactMenu = DialogContactMenu().newInstance()
+//                dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
+//
+//                dialogContactMenu.onImportClick = {
+//                    dialogContactMenu.dismiss()
+//                    checkContactImportView()
+//                }
+//
+//                dialogContactMenu.onManualClick = {
+//                    dialogContactMenu.dismiss()
+//                    showContactManualview()
+//                }
+//            }
 
             layoutSort.addRipple()
 
@@ -148,8 +164,7 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactManualview() {
-        showSnackBar("Not yet implemented", R.color.snackbar_error)
-        //startActivity(Intent(this@ContactListActivity,AddContactActivity ::class.java))
+        startActivity(Intent(this@ContactListActivity,AddContactActivity ::class.java))
     }
 
     private fun checkContactImportView() {

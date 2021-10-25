@@ -132,7 +132,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingTop="@dimen/kobold_margin_24px"
-            android:text="Kontak tidak ditemukan" />
+            android:text="@string/kobold_menu_search_contact_text_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/kobold_subduedLabel14sp"
@@ -140,7 +140,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingTop="@dimen/kobold_margin_8px"
-            android:text="Ubah kata kunci" />
+            android:text="@string/kobold_menu_search_contact_text_desc" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

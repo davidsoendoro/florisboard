@@ -901,6 +901,14 @@
     <string name="kobold_contact_info_account">Akun %1$s</string>
     <string name="kobold_contact_info_debt">Ada hutang</string>
     <string name="kobold_contact_info_debt_amount">Jumlah hutang</string>
+    <string name="kobold_dialog_add_contact_title">Tambah kontak</string>
+    <string name="kobold_dialog_add_contact_manual_title">Tambah kontak manual</string>
+    <string name="kobold_dialog_add_contact_manual_desc">Masukkan kontak secara manual</string>
+    <string name="kobold_dialog_add_contact_phonebook_title">Import dari phonebook</string>
+    <string name="kobold_dialog_add_contact_phonebook_desc">Tambah kontak dengan gampang dari\nphonebookmu</string>
+    <string name="kobold_menu_search_contact_text_title">Kontak tidak ditemukan</string>
+    <string name="kobold_menu_search_contact_text_desc">Ubah kata kunci</string>
+    <string name="create_transaction_save_confirmation_title">Update kontak?</string>
     <string name="kobold_never_show_this_message_again">Jangan tampilkan pesan ini lagi</string>
 
 </resources>
