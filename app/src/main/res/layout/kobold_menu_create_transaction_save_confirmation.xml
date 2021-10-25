@@ -3,65 +3,99 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingHorizontal="30dp"
-        android:text="Update kontak?"
-        android:textColor="@color/text_primary"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:paddingHorizontal="30dp"
-        android:text="@string/create_transaction_save_confirmation_content"
-        android:textColor="@color/text_primary" />
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp">
+        android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
-            android:layout_width="150dp"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:backgroundTint="@color/colorWhite"
-            android:elevation="0dp"
-            android:shadowColor="@color/transparent"
-            android:text="Tidak dulu"
-            android:textAllCaps="false"
-            android:textColor="@color/textColorDark"
-            app:elevation="0dp"
-            app:strokeColor="@color/primary_50"
-            app:strokeWidth="1dp" />
+            android:gravity="center"
+            android:paddingHorizontal="30dp"
+            android:text="Update kontak?"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/submit_button"
-            android:layout_width="150dp"
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:backgroundTint="@color/primary_50"
-            android:elevation="0dp"
-            android:text="Update kontak"
-            android:textAllCaps="false"
-            android:textColor="@color/textColor"
-            app:elevation="0dp" />
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:paddingHorizontal="30dp"
+            android:text="@string/create_transaction_save_confirmation_content"
+            android:textColor="@color/text_primary" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="0dp"
+                android:shadowColor="@color/transparent"
+                android:text="Tidak dulu"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorDark"
+                app:elevation="0dp"
+                app:strokeColor="@color/primary_50"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submit_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:backgroundTint="@color/primary_50"
+                android:elevation="0dp"
+                android:text="Update kontak"
+                android:textAllCaps="false"
+                android:textColor="@color/textColor"
+                app:elevation="0dp" />
+
+        </LinearLayout>
+
+        <RadioButton
+            android:id="@+id/dont_show_again_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:text="Jangan tampilkan pesan ini lagi" />
     </LinearLayout>
 
+    <!--    fullscreen loading-->
+    <LinearLayout
+        android:id="@+id/fullscreen_loading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center|center_vertical"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:paddingVertical="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </LinearLayout>
 </com.kokatto.kobold.transaction.KeyboardCreateTransactionSaveConfirmation>

@@ -10,6 +10,7 @@ class AuthPersistenceImpl(private val persistence: SharedPreferencesProvider) : 
         private const val TOKEN = "token"
         private const val REFRESH_TOKEN = "refreshToken"
         private const val EXPIRES_IN = "expiresIn"
+        private const val HIDE_CONTACT_UPDATE_MESSAGE = "hideContactUpdateMessage"
     }
 
     override var token: String?
@@ -30,10 +31,16 @@ class AuthPersistenceImpl(private val persistence: SharedPreferencesProvider) : 
             persistence.private[EXPIRES_IN] = value
         }
 
+    override var hideContactUpdateMessage: Boolean
+        get() = persistence.private[HIDE_CONTACT_UPDATE_MESSAGE] ?: false
+        set(value) {
+            persistence.private[HIDE_CONTACT_UPDATE_MESSAGE] = value
+        }
 
     override fun clear() {
         persistence.private[TOKEN] = null
         persistence.private[REFRESH_TOKEN] = null
         persistence.private[EXPIRES_IN] = null
+        persistence.private[HIDE_CONTACT_UPDATE_MESSAGE] = false
     }
 }

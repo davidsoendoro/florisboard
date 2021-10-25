@@ -1,6 +1,5 @@
 package com.kokatto.kobold.transaction.recycleradapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.extension.addRipple
 
 class BuyerNameRecyclerAdapter(
-    private val context: Context,
     val dataList: ArrayList<ContactModel> = arrayListOf(),
 ) : RecyclerView.Adapter<BuyerNameRecyclerAdapter.ViewHolder>() {
 

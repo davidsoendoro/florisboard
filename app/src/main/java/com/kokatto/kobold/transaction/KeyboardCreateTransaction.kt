@@ -37,6 +37,7 @@ import com.kokatto.kobold.extension.removeThousandSeparatedString
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.toThousandSeperatedString
 import com.kokatto.kobold.extension.vertical
+import com.kokatto.kobold.persistance.AppPersistence
 import com.kokatto.kobold.transaction.recycleradapter.BuyerNameRecyclerAdapter
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.common.FlorisViewFlipper
@@ -124,7 +125,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
         fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
 
-        recyclerAdapter = BuyerNameRecyclerAdapter(context, dataList)
+        recyclerAdapter = BuyerNameRecyclerAdapter(dataList)
         recyclerView?.vertical()
         recyclerView?.adapter = recyclerAdapter
 
@@ -150,17 +151,34 @@ class KeyboardCreateTransaction : ConstraintLayout {
         buyerNameText?.setOnClickListener {
             val imeOptions = buyerNameText?.imeOptions ?: 0
             val inputType = buyerNameText?.inputType ?: 0
+            val isAutofill = buyerNameText?.isAutofill ?: false
             florisboard?.inputFeedbackManager?.keyPress()
             florisboard?.openEditor(
                 R.id.kobold_menu_create_transaction,
                 imeOptions,
                 inputType,
                 buyerNameText?.label?.text.toString(),
-                buyerNameText?.editText?.text.toString()
+                buyerNameText?.editText?.text.toString(),
+                isAutofill,
+                textWatcher = getTextWatcher()
             ) { result ->
                 transactionModel.buyer = result
                 buyerNameText?.editText?.text = result
+                invalidateSaveButton()
             }
+//            val imeOptions = buyerNameText?.imeOptions ?: 0
+//            val inputType = buyerNameText?.inputType ?: 0
+//            florisboard?.inputFeedbackManager?.keyPress()
+//            florisboard?.openEditor(
+//                R.id.kobold_menu_create_transaction,
+//                imeOptions,
+//                inputType,
+//                buyerNameText?.label?.text.toString(),
+//                buyerNameText?.editText?.text.toString()
+//            ) { result ->
+//                transactionModel.buyer = result
+//                buyerNameText?.editText?.text = result
+//            }
         }
 
         chooseChannelText?.setOnClickListener {
@@ -337,6 +355,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
         }
 
         invalidateSaveButton()
+
         createTransactionButton?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
 
@@ -350,22 +369,19 @@ class KeyboardCreateTransaction : ConstraintLayout {
             transactionViewModel?.createTransaction(
                 createTransactionRequest = transactionModel,
                 onSuccess = {
-                    florisboard?.createTransactionText = createTransactionChat(transactionModel)
-//                    jika data ada yang berubah maka munculkan notif
-                    if (it.isProfileChange) {
+                    florisboard?.createTransactionModel = transactionModel
+                    if (it.isProfileChange && AppPersistence.showContactUpdateMessage) {
                         florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
                     } else {
-//                        update contact
                         florisboard?.inputFeedbackManager?.keyPress()
                         florisboard?.textInputManager?.activeEditorInstance?.commitText(
-                            florisboard.createTransactionText
+                            createTransactionChat(florisboard.createTransactionModel)
                         )
                     }
 
                     showSnackBar("Transaksi baru berhasil dibuat dan terpasang di chat.")
 
-                    florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
-//                    florisboard?.setActiveInput(R.id.text_input)
+                    florisboard?.setActiveInput(R.id.text_input)
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it))
@@ -514,7 +530,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
                             // actions
                             Runnable {
                                 florisboard?.setActiveInput(R.id.kobold_autofill_editor)
-                                loadUserSuggestion()
+                                loadUserSuggestion(s.toString())
                             }.also { florisboard?.updateOnUiThread(it) }
                         }
                     }, DELAY)
@@ -523,15 +539,38 @@ class KeyboardCreateTransaction : ConstraintLayout {
         }
     }
 
-    fun loadUserSuggestion() {
-        recyclerView?.isVisible = true
+    fun loadUserSuggestion(search: String) {
 
+        fullscreenLoading?.isVisible = false
+
+        val previousSize = dataList.size
         dataList.clear()
-        dataList.addAll(getContactList(context))
-//        dataList.forEach {
-//            Log.e("test", it.name)
-//        }
-        recyclerView?.adapter?.notifyItemRangeInserted(0, dataList.size)
+        if (previousSize > 0) {
+            recyclerAdapter?.notifyItemRangeRemoved(0, previousSize)
+        }
+
+        dataList.addAll(
+            getContactList(context)
+//                .filter {
+//                it.name.contains(search)
+//            }.distinctBy {
+//                it.name
+//            }.distinctBy {
+//                it.phoneNumber
+//            }
+        )
+        recyclerAdapter?.notifyItemInserted(dataList.size)
+
+        dataList.filter {
+            it.name.contains(buyerNameText?.editText?.text.toString())
+        }.distinctBy {
+            it.name
+        }.distinctBy {
+            it.phoneNumber
+        }.forEach {
+            Log.e("test", it.name)
+        }
+        recyclerAdapter?.notifyDataSetChanged()
     }
 
 //    @Deprecated("use transaction model instead")

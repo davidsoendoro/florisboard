@@ -3,13 +3,13 @@ package com.kokatto.kobold.api
 import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
-import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetBankResponse
@@ -327,5 +327,12 @@ interface ContactApi {
     suspend fun findContactById(
         @Path("id") contactId: String
     ): ApiResponse<GetContactResponse>
+
+    @RequiredAuth
+    @GET(contactUrl + "detail/{id}/transaction")
+    suspend fun postUpdateContactByTransaction(
+        @Path("id") contactId: String,
+        @Body transactionId: PostUpdateContactByTransactionRequest
+    ): ApiResponse<BaseResponse>
 
 }
