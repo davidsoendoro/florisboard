@@ -909,5 +909,6 @@
     <string name="kobold_menu_search_contact_text_title">Kontak tidak ditemukan</string>
     <string name="kobold_menu_search_contact_text_desc">Ubah kata kunci</string>
     <string name="create_transaction_save_confirmation_title">Update kontak?</string>
+    <string name="kobold_never_show_this_message_again">Jangan tampilkan pesan ini lagi</string>
 
 </resources>
