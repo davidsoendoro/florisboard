@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -79,7 +78,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/kobold_margin_24px"
                     android:text="@string/form_trx_buyerdetail"
-                    android:textAppearance="@style/FormTitle" />
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="@style/FormTitle"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -432,14 +432,15 @@
                     android:focusable="false"
                     android:gravity="center"
                     android:padding="10dp"
+                    style="@style/kobold_subduedLabel12sp"
                     android:text="@string/form_trx_required_hint" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/submit_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="46dp"
-                    android:layout_marginBottom="@dimen/kobold_margin_24px"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="40dp"
                     android:background="@color/colorPrimary"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="0dp">
@@ -461,6 +462,7 @@
                         android:gravity="center"
                         android:paddingVertical="12dp"
                         android:text="@string/buat_transaksi"
+                        style="@style/kobold_subduedLabel12sp"
                         android:textColor="@color/text_color_white"/>
 
                 </androidx.cardview.widget.CardView>

@@ -4,7 +4,7 @@ import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
-import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionRequest
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetContactBulkResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedContactResponse
@@ -140,18 +140,14 @@ class ContactViewModel {
         }
     }
 
-    fun updateContactByTransaction(
-        contactId: String,
-        transactionId: String,
-        onLoading: (Boolean) -> Unit,
+    fun updateByTransactionId(
+        id: String,
+        request: PostUpdateContactByTransactionIdRequest,
         onSuccess: (BaseResponse) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
-            val response = Network.contactApi.postUpdateContactByTransaction(
-                contactId,
-                PostUpdateContactByTransactionRequest(transactionId)
-            )
+            val response = Network.contactApi.postUpdateByTransactionId(id, request)
             response.onSuccess {
                 onSuccess.invoke(this.data)
             }.onError {
@@ -165,4 +161,5 @@ class ContactViewModel {
     fun onDelete() {
         scope.cancel()
     }
+
 }

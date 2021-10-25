@@ -76,7 +76,8 @@
                 android:textAppearance="@style/kobold_otp_phone_title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                android:fontFamily="sans-serif"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
             <ImageButton
                 android:id="@+id/change_button"
@@ -241,7 +242,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kobold_otp_resend_info"
-                style="@style/kobold_otp_counter_info"/>
+                style="@style/kobold_otp_counter_info"
+                android:fontFamily="sans-serif"/>
 
             <TextView
                 android:id="@+id/resend_counter"
@@ -249,7 +251,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tunggu 29 detik"
-                style="@style/kobold_otp_counter_text"/>
+                style="@style/kobold_otp_counter_text"
+                android:fontFamily="sans-serif"/>
 
             <TextView
                 android:id="@+id/resend_action"
@@ -257,7 +260,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kobold_otp_resend_action"
-                style="@style/kobold_otp_resent_action_text"/>
+                style="@style/kobold_otp_resent_action_text"
+                android:fontFamily="sans-serif"/>
 
         </LinearLayout>
 

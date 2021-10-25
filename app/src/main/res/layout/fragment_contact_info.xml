@@ -123,7 +123,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/kobold_secondaryLabel14sp"
+                    style="@style/kobold_primaryLabel14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.crm.ContactViewModel
 import timber.log.Timber
@@ -36,10 +35,9 @@ class ContactAutocompleteAdapter(context: Context, contactList: List<ContactMode
                 val contacts = it.data.contents
                 contacts.map { contact ->
                     contact.isFromBackend = true
-                    contact.channels = arrayListOf(ContactChannelModel("Belum Ada", "12341234"))
                 }
                 contactList.addAll(contacts)
-                Timber.d("Adding contacts: ${contacts}")
+                Timber.d("Adding contacts: $contacts")
                 val filterResultsBackend = FilterResults()
                 filterResultsBackend.values = contactList
                 filterResultsBackend.count = contactList.size
@@ -79,6 +77,8 @@ class ContactAutocompleteAdapter(context: Context, contactList: List<ContactMode
             phoneTextView.text = contact.phoneNumber
             if(it.isFromBackend){
                 view.setBackgroundColor(context.getColor(R.color.kobold_yellow_fff2e0))
+            } else {
+                view.setBackgroundColor(context.getColor(R.color.colorWhite))
             }
         }
 

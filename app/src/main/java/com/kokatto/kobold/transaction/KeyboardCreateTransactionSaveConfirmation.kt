@@ -6,18 +6,17 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.checkshippingcost.KeyboardCheckShippingCost
 import com.kokatto.kobold.crm.ContactViewModel
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.persistance.AppPersistence
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 
-class KeyboardCreateTransactionSaveConfirmation : ConstraintLayout {
+class KeyboardCreateTransactionSaveConfirmation : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -63,15 +62,14 @@ class KeyboardCreateTransactionSaveConfirmation : ConstraintLayout {
     fun onClick(id: View) {
         if (id == submitButton) {
             //call  is profile change API
-            showToast("change profile")
-            contactViewModel.updateContactByTransaction(
-                contactId = florisboard?.createTransactionModel?.contactId?._id ?: "",
-                transactionId = florisboard?.createTransactionModel?._id ?: "",
-                onLoading = {
-                    fullscreenLoading?.isVisible = it
+            fullscreenLoading?.isVisible = true
+            val updateModel = PostUpdateContactByTransactionIdRequest(florisboard?.createTransactionModel?.contactId?._id?:"")
+            contactViewModel.updateByTransactionId(florisboard?.createTransactionModel?._id?:"", updateModel,
+                onSuccess = {
+                    fullscreenLoading?.isVisible = false
                 },
-                onSuccess = {},
-                onError = {}
+                onError = {
+                    fullscreenLoading?.isVisible = false}
             )
         }
         florisboard?.inputFeedbackManager?.keyPress()

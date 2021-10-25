@@ -81,6 +81,7 @@ class AddContactRecyclerAdapter(
 //                deleteButton.visibility = View.VISIBLE
 //            }
 
+
             if (data.type == "") {
                 idEdittextLayout.setBackgroundColor(itemView.resources.getColor(R.color.backgroundDisabled))
                 idEdittext.isFocusable = false
@@ -90,7 +91,6 @@ class AddContactRecyclerAdapter(
                 idEdittext.isFocusableInTouchMode = true
                 idEdittext.isCursorVisible = true
             }
-
 
             deleteButton.setOnClickListener {
                 idEdittext.text.clear()

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kokatto.kobold.transaction.KeyboardCreateTransactionSaveConfirmation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/kobold_margin_16px"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update kontak?"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/kobold_margin_24px"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/create_transaction_save_confirmation_content"
+        android:textColor="@color/text_primary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/contact_bottom_dialog_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/kobold_margin_12px"
+            android:background="@drawable/kobold_btn_blue_enabled"
+            android:elevation="0dp"
+            android:text="Update kontak"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/kobold_margin_16px"
+            />
+        <Button
+            android:id="@+id/contact_bottom_dialog_cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorWhite"
+            android:text="Tidak dulu"
+            android:textAllCaps="false"
+            android:textColor="@color/textColorDark"
+            android:textSize="@dimen/kobold_margin_16px"
+            app:elevation="0dp"
+            app:strokeColor="@color/primary_50"/>
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/contact_bottom_dialog_never_show_dialog_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/kobold_margin_16px"
+            android:text="@string/kobold_never_show_this_message_again"
+            />
+    </LinearLayout>
+
+</com.kokatto.kobold.transaction.KeyboardCreateTransactionSaveConfirmation>

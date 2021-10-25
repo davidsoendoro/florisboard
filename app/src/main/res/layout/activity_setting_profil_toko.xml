@@ -2,11 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background"
     android:orientation="vertical">
 
-    <!--    <include layout="@layout/toolbar" />-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
@@ -63,8 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/kobold_margin_32px"
                 android:text="@string/kobold_profile_store_name_text"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                style="@style/kobold_secondaryLabel14sp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edittext_setting_storename_layout"
@@ -82,7 +79,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/textBlack"/>
+                    android:textAppearance="@style/kobold_text_input_edittext"/>
 
                 <TextView
                     android:id="@+id/edittext_setting_storename_error"
@@ -99,8 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kobold_profile_wa_text"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
+                style="@style/kobold_secondaryLabel14sp"
                 android:layout_marginTop="124dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -120,7 +116,7 @@
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textAppearance="@style/FormEditTextHint"
+                    android:textAppearance="@style/kobold_text_input_edittext"
                     android:editable="false"/>
 
                 <TextView
@@ -138,8 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="205dp"
                 android:text="Untuk saat ini penggantian nomor hanya bisa melalui"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
+                style="@style/kobold_secondaryLabel12sp"/>
 
             <TextView
                 android:id="@+id/setting_store_help_text"
@@ -148,8 +143,8 @@
                 android:layout_marginTop="220dp"
                 android:text="Customer Service."
                 android:textColor="@color/blue_text"
-                android:textSize="12sp"
                 android:onClick="onClick"
+                style="@style/kobold_secondaryLabel12sp"
                 android:clickable="true"/>
 
             <TextView
@@ -157,6 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="253dp"
+                style="@style/kobold_secondaryLabel14sp"
                 android:text="@string/kobold_profile_busines_field_text" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -183,7 +179,7 @@
                     android:maxLines="1"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
-                    android:textAppearance="@style/FormEditTextHint" />
+                    android:textAppearance="@style/kobold_text_input_edittext"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -192,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="345dp"
+                style="@style/kobold_secondaryLabel14sp"
                 android:text="@string/kobold_profile_busines_type_text" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -218,7 +215,7 @@
                     android:maxLines="1"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
-                    android:textAppearance="@style/FormEditTextHint" />
+                    android:textAppearance="@style/kobold_text_input_edittext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,31 +239,31 @@
                     android:gravity="center"
                     android:paddingVertical="12dp"
                     android:text="@string/setting_save_profile_button_text"
-                    android:textColor="@color/text_color_white" />
+                    style="@style/kobold_editProfileButton16sp"/>
 
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/fullscreen_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|center_vertical"
-        android:gravity="center|center_vertical"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/fullscreen_loading"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="center|center_vertical"-->
+<!--        android:gravity="center|center_vertical"-->
+<!--        android:orientation="vertical"-->
+<!--        android:visibility="gone"-->
+<!--        tools:visibility="visible">-->
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:paddingVertical="16dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp" />
-    </LinearLayout>
+<!--        <ProgressBar-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:indeterminate="true"-->
+<!--            android:paddingVertical="16dp"-->
+<!--            android:paddingLeft="8dp"-->
+<!--            android:paddingRight="8dp" />-->
+<!--    </LinearLayout>-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
