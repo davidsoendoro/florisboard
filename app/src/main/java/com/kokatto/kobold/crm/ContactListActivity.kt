@@ -76,7 +76,7 @@ class ContactListActivity : DashboardThemeActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.koboldContactContent.apply {
-            /////////ini
+            ////////ini
             buttonAddContact.setOnClickListener {
                 val dialogContactMenu = DialogContactMenu().newInstance()
                 dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
