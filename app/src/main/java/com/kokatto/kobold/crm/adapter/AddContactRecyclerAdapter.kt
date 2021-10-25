@@ -91,7 +91,6 @@ class AddContactRecyclerAdapter(
                 idEdittext.isCursorVisible = true
             }
 
-
             deleteButton.setOnClickListener {
                 idEdittext.text.clear()
                 channelEditText.setCompoundDrawablesWithIntrinsicBounds(

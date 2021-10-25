@@ -45,8 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Channel"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
+                style="@style/kobold_secondaryLabel14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,12 +101,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nomor WhatsApp / ID"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
+                style="@style/kobold_secondaryLabel14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kobolt_add_contact_order_other_title_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/kobolt_add_contact_order_other_title_layout"
+                android:fontFamily="sans-serif"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/add_contact_id_layout"

@@ -30,6 +30,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     var contactViewModel: ContactViewModel? = null
     var contactModel = ContactModel()
     var count: Int = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_contact)
@@ -200,6 +201,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
                     contactModel = it
 
                     if(it.channels.isNullOrEmpty()) {
+                        dataList.clear()
                         dataList.add(newItem)
                         adapter.notifyDataSetChanged()
                     }else{

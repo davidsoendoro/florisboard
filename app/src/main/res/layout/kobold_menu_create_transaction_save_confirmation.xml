@@ -13,9 +13,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingHorizontal="30dp"
-        android:text="Update kontak?"
-        android:textColor="@color/text_primary"
-        android:textStyle="bold" />
+        android:text="@string/create_transaction_save_confirmation_title"
+        style="@style/kobold_primaryLabel24spBold"/>
 
     <TextView
         android:id="@+id/content"
@@ -25,7 +24,8 @@
         android:gravity="center"
         android:paddingHorizontal="30dp"
         android:text="@string/create_transaction_save_confirmation_content"
-        android:textColor="@color/text_primary" />
+        style="@style/kobold_secondaryLabel14sp"
+        android:justificationMode="inter_word"/>
 
     <LinearLayout
         android:layout_width="match_parent"
