@@ -47,7 +47,7 @@
 
                     <TextView
                         android:id="@+id/kobold_DashboardActivateMagicKeyboardBannerText"
-                        style="@style/kobold_secondaryLabel14sp"
+                        style="@style/kobold_secondaryLabel12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/kobold_margin_16px"
@@ -65,7 +65,7 @@
                         android:padding="@dimen/kobold_margin_8px"
                         android:text="@string/kobold_activate_magical_keyboard"
                         app:layout_constraintStart_toEndOf="@id/kobold_DashboardActivateMagicKeyboardBannerImage"
-                        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerText" />
+                        app:layout_constraintTop_toBottomOf="@id/kobold_DashboardActivateMagicKeyboardBannerText"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

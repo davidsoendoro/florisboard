@@ -19,7 +19,7 @@
             app:popupTheme="@style/SettingsTheme.PopupOverlay"
             app:title="Jadi Ahli Cuan"
             app:titleTextColor="@color/text_primary"
-            />
+            android:fontFamily="sans-serif"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

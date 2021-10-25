@@ -3,7 +3,6 @@ package com.kokatto.kobold.setting
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.kokatto.kobold.R

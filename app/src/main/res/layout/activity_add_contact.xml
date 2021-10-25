@@ -154,6 +154,8 @@
                     android:textColor="@color/textBlack"
                     android:hint="Isi nomor telepon"
                     android:textAppearance="@style/FormEditTextHint"/>
+                    android:inputType="phone"
+                    android:hint="Isi nomor telepon"/>
 
                 <TextView
                     android:id="@+id/edittext_add_contact_phone_error"
@@ -298,6 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/row_add_order_channel" />
 
             </RelativeLayout>
