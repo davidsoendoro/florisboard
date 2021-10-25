@@ -10,6 +10,7 @@ import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.api.model.request.PostOTPVerificationRequest
 import com.kokatto.kobold.api.model.request.PostTokenRefreshRequest
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetBankResponse
@@ -328,4 +329,9 @@ interface ContactApi {
         @Path("id") contactId: String
     ): ApiResponse<GetContactResponse>
 
+    @RequiredAuth
+    @PATCH(contactUrl + "update/{id}/transaction")
+    suspend fun postUpdateByTransactionId(
+        @Path("id") contactId: String,
+        @Body request: PostUpdateContactByTransactionIdRequest): ApiResponse<BaseResponse>
 }
