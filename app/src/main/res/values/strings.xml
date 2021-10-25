@@ -901,5 +901,6 @@
     <string name="kobold_contact_info_account">Akun %1$s</string>
     <string name="kobold_contact_info_debt">Ada hutang</string>
     <string name="kobold_contact_info_debt_amount">Jumlah hutang</string>
+    <string name="kobold_never_show_this_message_again">Jangan tampilkan pesan ini lagi</string>
 
 </resources>

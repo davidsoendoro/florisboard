@@ -7,10 +7,12 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
@@ -43,7 +45,12 @@ import com.kokatto.kobold.utility.CurrencyUtility
 import timber.log.Timber
 import java.lang.Exception
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.kokatto.kobold.api.model.request.PostContactRequest
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.READ_CONTACT_PERMISSION_CODE
+import com.kokatto.kobold.crm.ContactViewModel
+import com.kokatto.kobold.extension.createBottomSheetDialog
 
 
 class InputActivity : DashboardThemeActivity() {
@@ -88,14 +95,19 @@ class InputActivity : DashboardThemeActivity() {
     private var selectedLogistic: PropertiesModel? = null
     private var selectedChannel: PropertiesModel? = null
     private var currentTransaction: TransactionModel? = null
+    private val contactChannels = arrayListOf<ContactChannelModel>()
+    private var selectedContact: ContactModel? = null
+    private var finishedTransaction: TransactionModel? = null
 
     private var transactionViewModel: TransactionViewModel? = TransactionViewModel()
     private var spinnerChannelSelector: SpinnerChannelSelector? = SpinnerChannelSelector()
     private var spinnerBankSelector: SpinnerBankSelector? = SpinnerBankSelector()
     private var spinnerLogisticSelector: SpinnerLogisticSelector? = SpinnerLogisticSelector()
     private var contactAutocompleteAdapter: ContactAutocompleteAdapter? = null
-
-    private val contactChannels = arrayListOf<ContactChannelModel>()
+    private var contactBottomDialog: BottomSheetDialog? = null
+    private var contactCancelButton: Button? = null
+    private var contactSubmitButton: Button? = null
+    private val contactViewModel = ContactViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +135,61 @@ class InputActivity : DashboardThemeActivity() {
         btnSubmitProgress = findViewById<ProgressBar>(R.id.submit_button_loading)
         layoutTitleText = findViewById<TextView>(R.id.title_text)
 
+        contactBottomDialog = createBottomSheetDialog(
+            layoutInflater.inflate(
+                R.layout.kobold_update_contact_bottom_dialog,
+                null
+            )
+        )
+        contactCancelButton = contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_cancel_button)
+        contactSubmitButton = contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_submit_button)
+
+        contactCancelButton?.setOnClickListener {
+            try {
+                contactBottomDialog?.dismiss()
+            } catch (e: Exception) {
+
+            }
+        }
+        contactSubmitButton?.setOnClickListener {
+            //update contact data
+//            selectedContact?.let {
+//                it.address = editTextAddress?.text.toString()
+//                it.name = editTextBuyer?.text.toString()
+//                var channel =
+//                    it.channels.filter { channel -> channel.type == editTextChannel?.text.toString() }
+//                if (channel.isNotEmpty()) {
+//                    //replace data
+//                    val channelIndex = it.channels.indexOf(channel[0])
+//                    if (channelIndex > -1) {
+//                        it.channels[channelIndex].account = editTextPhone?.text.toString()
+//                        it.channels[channelIndex].asset = selectedChannel?.assetUrl ?: ""
+//                    } else {
+//                        it.channels.add(ContactChannelModel(selectedChannel?.assetDesc?: "", editTextPhone?.text.toString()))
+//                    }
+//                } else {
+//                    it.channels.toMutableList().add(
+//                        ContactChannelModel(
+//                            selectedChannel?.assetDesc ?: "",
+//                            editTextPhone?.text.toString(),
+//                            selectedChannel?.assetUrl ?: ""
+//                        )
+//                    )
+//                }
+//
+//            }
+
+            //submit contact data
+            val updateModel = PostUpdateContactByTransactionIdRequest(finishedTransaction?._id?:"")
+            contactViewModel.updateByTransactionId(selectedContact?._id?:"", updateModel,{
+                contactBottomDialog?.dismiss()
+                progressSubmit(false)
+                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction?: TransactionModel())
+            }, {
+                progressSubmit(false)
+                Toast.makeText(this, "Gagal update kontak", Toast.LENGTH_SHORT).show()
+            })
+        }
         mode = intent.getIntExtra(MODE, -1)
 
         when (mode) {
@@ -261,8 +328,8 @@ class InputActivity : DashboardThemeActivity() {
             formValidation()
         }
 
-        editTextdeliveryFee?.addSeparator(editTextdeliveryFee,".",",")
-        editTextPrice?.addSeparator(editTextPrice,".",",")
+        editTextdeliveryFee?.addSeparator(editTextdeliveryFee, ".", ",")
+        editTextPrice?.addSeparator(editTextPrice, ".", ",")
 
         formValidation()
     }
@@ -313,16 +380,17 @@ class InputActivity : DashboardThemeActivity() {
                 _id = _id,
                 buyer = editTextBuyer?.text.toString(),
                 channel = editTextChannel?.text.toString(),
-                phone = editTextPhone?.text.toString(),
+                phone = selectedContact?.phoneNumber?: editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
                 price = price,
                 payingMethod = editTextPayment?.text.toString(),
-                bankType = selectedBank?.bankType.toString(),
-                bankAccountNo = selectedBank?.accountNo.toString(),
-                bankAccountName = selectedBank?.accountHolder.toString(),
+                bankType = selectedBank.bankType.toString(),
+                bankAccountNo = selectedBank.accountNo.toString(),
+                bankAccountName = selectedBank.accountHolder.toString(),
                 logistic = editTextLogistic?.text.toString(),
                 deliveryFee = deliveryFee,
+                channelAccount = editTextPhone?.text.toString()
             )
 
             when (mode) {
@@ -330,13 +398,18 @@ class InputActivity : DashboardThemeActivity() {
                     transactionViewModel?.createTransaction(
                         model,
                         onSuccess = {
-                            setActivityResult(ActivityConstantCode.RESULT_OK_CREATED,model)
                             progressSubmit(false)
+                            if(it.isProfileChange){
+                                contactBottomDialog?.show()
+                                finishedTransaction = model.copy(_id = it._id)
+                            } else {
+                                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction ?: model)
+                            }
                             //showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             progressSubmit(false)
-                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            if (ErrorResponseValidator.isSessionExpiredResponse(it))
                                 DashboardSessionExpiredEventHandler(this).onSessionExpired()
                         }
                     )
@@ -346,14 +419,14 @@ class InputActivity : DashboardThemeActivity() {
                         _id,
                         model,
                         onSuccess = {
-                            setActivityResult(ActivityConstantCode.RESULT_OK_UPDATED,model)
+                            setActivityResult(ActivityConstantCode.RESULT_OK_UPDATED, model)
                             progressSubmit(false)
                             //showToast(resources.getString(R.string.kobold_transaction_action_save_success))
                         },
                         onError = {
                             super.finish()
                             progressSubmit(false)
-                            if(ErrorResponseValidator.isSessionExpiredResponse(it))
+                            if (ErrorResponseValidator.isSessionExpiredResponse(it))
                                 DashboardSessionExpiredEventHandler(this).onSessionExpired()
                         }
                     )
@@ -415,7 +488,14 @@ class InputActivity : DashboardThemeActivity() {
         model.deliveryFee.let { s -> editTextdeliveryFee?.setText(CurrencyUtility.currencyFormatterNoPrepend(s)) }
 
         selectedChannel = PropertiesModel("", "", model.channelAsset, model.channel)
-        selectedBank = BankModel("", model.bankType!!, model.payingMethod, model.bankAccountNo, model.bankAccountName, model.bankAsset)
+        selectedBank = BankModel(
+            "",
+            model.bankType!!,
+            model.payingMethod,
+            model.bankAccountNo,
+            model.bankAccountName,
+            model.bankAsset
+        )
         selectedLogistic = PropertiesModel("", "", model.logisticAsset, model.logistic)
     }
 
@@ -538,7 +618,7 @@ class InputActivity : DashboardThemeActivity() {
         message: String = resources.getString(R.string.template_text_error_length)
     ): Boolean {
 
-        if(required && editText.text.length < minChar) {
+        if (required && editText.text.length < minChar) {
             addErrorTextView(editText, viewTag, "Wajib diisi")
         }
 
@@ -567,9 +647,9 @@ class InputActivity : DashboardThemeActivity() {
         return test
     }
 
-    private fun checkThenRequestContactPermission(){
+    private fun checkThenRequestContactPermission() {
         val contactpermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-        when(contactpermission){
+        when (contactpermission) {
             PackageManager.PERMISSION_GRANTED -> {
                 //populate contact list then initiate adapter
                 val contactList = getContactList(this)
@@ -578,23 +658,25 @@ class InputActivity : DashboardThemeActivity() {
             }
             else -> {
                 //request permission
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), READ_CONTACT_PERMISSION_CODE)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_CONTACTS),
+                    READ_CONTACT_PERMISSION_CODE
+                )
             }
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
+        when (requestCode) {
             READ_CONTACT_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //populate contact list then initiate adapter
                     val contactList = getContactList(this)
                     Timber.d("[CONTACT] getContactList: $contactList")
                     initiateAutocompleteAdapter(contactList)
-                } else
-                {
+                } else {
                     //initiate empty adapter
                     initiateAutocompleteAdapter(arrayListOf())
                 }
@@ -602,12 +684,13 @@ class InputActivity : DashboardThemeActivity() {
         }
     }
 
-    private fun initiateAutocompleteAdapter(contactList: ArrayList<ContactModel>){
+    private fun initiateAutocompleteAdapter(contactList: ArrayList<ContactModel>) {
         contactAutocompleteAdapter = ContactAutocompleteAdapter(this, contactList)
         editTextBuyer?.setAdapter(contactAutocompleteAdapter)
         editTextBuyer?.setOnItemClickListener { adapterView, view, i, l ->
             try {
                 val contact = adapterView.getItemAtPosition(i) as ContactModel
+                selectedContact = contact
                 editTextBuyer?.setText(contact.name)
                 editTextAddress?.setText(contact.address)
                 contactChannels.clear()
@@ -616,7 +699,7 @@ class InputActivity : DashboardThemeActivity() {
                 constructChannel(editTextChannel!!, "")
                 editTextPhone?.setText("")
                 //set contact channel from first index if available or prepare then show if channel selected
-                if(contactChannels.size > 0){
+                if (contactChannels.size > 0) {
                     editTextChannel?.setText(contactChannels[0].type)
                     constructChannel(editTextChannel!!, contactChannels[0].asset)
                     editTextPhone?.setText(contactChannels[0].account)
