@@ -7,6 +7,7 @@ import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
 import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetContactBulkResponse
@@ -142,4 +143,23 @@ class ContactViewModel {
             }
         }
     }
+
+    fun updateByTransactionId(
+        id: String,
+        request: PostUpdateContactByTransactionIdRequest,
+        onSuccess: (BaseResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        scope.launch {
+            val response = Network.contactApi.postUpdateByTransactionId(id, request)
+            response.onSuccess {
+                onSuccess.invoke(this.data)
+            }.onError {
+                onError.invoke(this.message())
+            }.onException {
+                onError.invoke(this.message ?: "Unknown Error")
+            }
+        }
+    }
+
 }

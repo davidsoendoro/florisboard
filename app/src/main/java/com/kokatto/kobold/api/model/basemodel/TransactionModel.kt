@@ -28,6 +28,7 @@ data class TransactionModel(
     var skipUpdate: Boolean = false,
     var createdAt: Long = 0,
     var updatedAt: Long = 0,
+    var channelAccount: String = ""
 ) : Parcelable
 
 fun createTransactionChat(model: TransactionModel): String {
