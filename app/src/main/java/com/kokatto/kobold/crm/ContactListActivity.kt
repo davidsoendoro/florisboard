@@ -1,11 +1,13 @@
 package com.kokatto.kobold.crm
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -110,8 +112,19 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
+        val startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    showSnackBar(
+                        result.data?.getStringExtra("snackbarMessage") ?: "",
+                        result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
+                            ?: R.color.snackbar_default
+                    )
+                }
+            }
         binding.addContactButton.setOnClickListener {
-            startActivity(Intent(this, AddContactActivity::class.java))
+            startForResult.launch(Intent(this, AddContactActivity::class.java))
         }
 
         DovesRecyclerViewPaginator(
@@ -147,7 +160,7 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactManualview() {
-        startActivity(Intent(this@ContactListActivity,AddContactActivity ::class.java))
+        startActivity(Intent(this@ContactListActivity, AddContactActivity::class.java))
     }
 
     private fun checkContactImportView() {

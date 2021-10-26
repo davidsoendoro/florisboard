@@ -1,11 +1,9 @@
 package com.kokatto.kobold.crm
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
@@ -16,17 +14,6 @@ import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter.Companion.getDat
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
-import timber.log.Timber
-import java.lang.Exception
-import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.registration.RegistrationActivity
-import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
-import kotlinx.serialization.json.JsonNull.content
-import android.R.string
-import android.view.View
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.extension.showSnackBar
-import dev.patrickgold.florisboard.util.getActivity
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -67,13 +54,22 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-                    showToast("Berhasil")
-                    showSnackBar("Berhasil menambah kontak.")
+//                    showToast("Berhasil")
+//                    showSnackBar("Berhasil menambah kontak.")
+                    intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
+                    intent.putExtra("snackbarBackground", R.color.snackbar_default)
+                    setResult(RESULT_OK, intent)
+
                     finish()
                 },
                 onError = {
-                    showToast("Gagal")
-                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
+//                    showToast("Gagal")
+//                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
+                    intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
+                    intent.putExtra("snackbarBackground", R.color.snackbar_error)
+                    setResult(RESULT_OK, intent)
+
+                    finish()
                 }
             )
         }
