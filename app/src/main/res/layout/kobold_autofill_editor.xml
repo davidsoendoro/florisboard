@@ -24,7 +24,6 @@
                 android:id="@+id/autofill_options_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/item_spinner_option"
                 tools:itemCount="10"/>
 
             <ProgressBar

@@ -101,9 +101,9 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@color/textBlack"
-                    android:padding="@dimen/kobold_margin_12px"
                     android:dropDownWidth="match_parent"
                     android:hint="Isi nama pelanggan"
+                    android:padding="@dimen/kobold_margin_12px"
                     android:textAppearance="@style/FormEditTextHint"/>
 
                 <TextView
@@ -360,8 +360,8 @@
                     android:paddingVertical="12dp"
                     android:textStyle="bold"
                     android:text="Simpan"
-                    android:textColor="@color/text_color_white"
-                    style="@style/kobold_subduedLabel12sp"/>
+                    style="@style/kobold_subduedLabel12sp"
+                    android:textColor="@color/text_color_white"/>
 
             </androidx.cardview.widget.CardView>
 

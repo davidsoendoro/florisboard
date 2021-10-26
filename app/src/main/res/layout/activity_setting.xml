@@ -94,16 +94,16 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/kobold_margin_16px"
                             android:text="@string/kobold_setting_share_title"
-                            android:textAppearance="@style/kobold_primaryLabel14spBold"
-                            android:fontFamily="sans-serif"/>
+                            android:fontFamily="sans-serif"
+                            android:textAppearance="@style/kobold_primaryLabel14spBold"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="@string/kobold_setting_share_detail"
-                            android:textAppearance="@style/kobold_secondaryLabel12sp"
-                            android:fontFamily="sans-serif"/>
+                            android:fontFamily="sans-serif"
+                            android:textAppearance="@style/kobold_secondaryLabel12sp"/>
 
                     </LinearLayout>
                 </LinearLayout>

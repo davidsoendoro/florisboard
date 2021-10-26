@@ -1076,7 +1076,7 @@ open class FlorisBoard : InputMethodService(), LifecycleOwner, FlorisClipboardMa
         setActiveInput(R.id.kobold_menu_choose_shippingcost)
     }
 
-    var createTransactionText: String = ""
+    var createTransactionModel: TransactionModel = TransactionModel()
 
     var setActiveInputFromMainmenu: Boolean = false
     fun setActiveInput(type: Int, forceSwitchToCharacters: Boolean = false) {

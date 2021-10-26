@@ -3,7 +3,6 @@ package com.kokatto.kobold.api
 import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
-import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
@@ -333,5 +332,6 @@ interface ContactApi {
     @PATCH(contactUrl + "update/{id}/transaction")
     suspend fun postUpdateByTransactionId(
         @Path("id") contactId: String,
-        @Body request: PostUpdateContactByTransactionIdRequest): ApiResponse<BaseResponse>
+        @Body request: PostUpdateContactByTransactionIdRequest
+    ): ApiResponse<BaseResponse>
 }

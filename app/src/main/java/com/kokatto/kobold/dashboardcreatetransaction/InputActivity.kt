@@ -13,15 +13,16 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
@@ -32,25 +33,21 @@ import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.getContactList
+import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.ActivityConstantCode.Companion.BANK_TYPE_OTHER
+import com.kokatto.kobold.constant.ActivityConstantCode.Companion.READ_CONTACT_PERMISSION_CODE
+import com.kokatto.kobold.crm.ContactViewModel
 import com.kokatto.kobold.dashboardcreatetransaction.autocompleteadapter.ContactAutocompleteAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerBankSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSelector
 import com.kokatto.kobold.extension.addSeparator
+import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.utility.CurrencyUtility
 import timber.log.Timber
-import java.lang.Exception
-import androidx.core.content.ContextCompat
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.kokatto.kobold.api.model.request.PostContactRequest
-import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
-import com.kokatto.kobold.constant.ActivityConstantCode.Companion.READ_CONTACT_PERMISSION_CODE
-import com.kokatto.kobold.crm.ContactViewModel
-import com.kokatto.kobold.extension.createBottomSheetDialog
 
 
 class InputActivity : DashboardThemeActivity() {

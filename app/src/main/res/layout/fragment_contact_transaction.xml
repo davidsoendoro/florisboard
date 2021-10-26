@@ -23,9 +23,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/kobold_margin_12px"
-            android:text="Total 0 Pesanan"
             style="@style/kobold_subduedLabel12sp"
-            android:fontFamily="sans-serif"/>
+            android:fontFamily="sans-serif"
+            android:text="Total 0 Pesanan"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_filter"

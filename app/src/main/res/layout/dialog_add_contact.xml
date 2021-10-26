@@ -30,11 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/kobold_dialog_add_contact_title"
+            style="@style/kobold_primaryLabel18spBold"
             app:layout_constraintStart_toEndOf="@id/closeButton"
             app:layout_constraintTop_toTopOf="parent"
-            style="@style/kobold_primaryLabel18spBold"
-            android:paddingBottom="@dimen/kobold_margin_12px"/>
+            android:paddingBottom="@dimen/kobold_margin_12px"
+            android:text="@string/kobold_dialog_add_contact_title"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/addContactManualLayout"

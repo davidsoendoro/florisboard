@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter.Companion.getData
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
@@ -60,6 +63,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding.submitButton.setOnClickListener {
             contactRequest.channels.clear()
             contactRequest.channels.addAll(dataList)
+            contactRequest.channels.addAll(adapter.getData())
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
