@@ -1,17 +1,12 @@
 package com.kokatto.kobold.crm
 
 import com.kokatto.kobold.api.Network
-import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
-import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
-import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
 import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
 import com.kokatto.kobold.api.model.response.BaseResponse
-import com.kokatto.kobold.api.model.response.GetBankResponse
 import com.kokatto.kobold.api.model.response.GetContactBulkResponse
-import com.kokatto.kobold.api.model.response.GetContactResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedContactResponse
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
@@ -20,6 +15,7 @@ import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class ContactViewModel {
@@ -160,6 +156,10 @@ class ContactViewModel {
                 onError.invoke(this.message ?: "Unknown Error")
             }
         }
+    }
+
+    fun onDelete() {
+        scope.cancel()
     }
 
 }

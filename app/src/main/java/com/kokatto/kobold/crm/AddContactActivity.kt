@@ -4,24 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter.Companion.getData
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
-import timber.log.Timber
-import java.lang.Exception
-import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.registration.RegistrationActivity
-import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
-import kotlinx.serialization.json.JsonNull.content
-import android.R.string
-import com.kokatto.kobold.extension.showSnackBar
-import dev.patrickgold.florisboard.util.getActivity
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -62,17 +56,17 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             contactRequest.channels.clear()
             contactRequest.channels.addAll(dataList)
 
-//            contactRequest.channels.addAll(adapter.getData())
-//            Log.e("dataList", adapter.getData().toString())
-//            contactViewModel.create(
-//                request = contactRequest,
-//                onSuccess = {
-//                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
-//                },
-//                onError = {
-//                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
-//                }
-//            )
+            contactRequest.channels.addAll(adapter.getData())
+            Log.e("dataList", adapter.getData().toString())
+            contactViewModel.create(
+                request = contactRequest,
+                onSuccess = {
+                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
+                },
+                onError = {
+                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
+                }
+            )
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -157,7 +156,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         val discardButton = bottomDialog.findViewById<MaterialCardView>(R.id.kobold_add_contact_back_btn_no)
         val acceptText = bottomDialog.findViewById<TextView>(R.id.kobold_add_contact_back_text_yes)
 
-        acceptText?.setText("Lanjutkan ubah kontak")
+        acceptText?.text = "Lanjutkan ubah kontak"
 
         acceptButton?.setOnClickListener {
             bottomDialog.dismiss()

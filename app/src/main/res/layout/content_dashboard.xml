@@ -210,8 +210,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/kobold_margin_16px"
                     android:elevation="@dimen/kobold_margin_4px"
-                    android:padding="@dimen/kobold_margin_16px"
-                    android:background="@color/kobold_yellow_background">
+                    android:background="@color/kobold_yellow_background"
+                    android:padding="@dimen/kobold_margin_16px">
 
                     <ImageView
                         android:id="@+id/kobold_DashboardSellerKeyboardImage"

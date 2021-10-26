@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import com.kokatto.kobold.R
-import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.crm.ContactViewModel
 import timber.log.Timber

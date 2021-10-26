@@ -26,6 +26,11 @@ object AppPersistence {
         set(value) {
             thePrivate["refreshToken"] = value
         }
+    var showContactUpdateMessage: Boolean
+        get() = thePrivate["hideContactUpdateMessage"] ?: true
+        set(value) {
+            thePrivate["hideContactUpdateMessage"] = value
+        }
 
     fun init(context: Application) {
         thePrivate = context.getSharedPreferences("private", Context.MODE_PRIVATE)

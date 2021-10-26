@@ -25,7 +25,6 @@ import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactListActivity : DashboardThemeActivity() {

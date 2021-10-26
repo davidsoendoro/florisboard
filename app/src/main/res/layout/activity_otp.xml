@@ -76,8 +76,8 @@
                 android:textAppearance="@style/kobold_otp_phone_title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="sans-serif"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
             <ImageButton
                 android:id="@+id/change_button"
