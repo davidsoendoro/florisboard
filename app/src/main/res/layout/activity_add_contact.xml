@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/add_contact_manual_layout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
@@ -357,6 +358,7 @@
                     android:drawableTint="@color/icon_white"
                     android:gravity="center"
                     android:paddingVertical="12dp"
+                    android:textStyle="bold"
                     android:text="Simpan"
                     android:textColor="@color/text_color_white"
                     style="@style/kobold_subduedLabel12sp"/>
