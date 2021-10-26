@@ -25,6 +25,7 @@ import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.vertical
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactListActivity : DashboardThemeActivity() {
@@ -131,7 +132,7 @@ class ContactListActivity : DashboardThemeActivity() {
 
         DovesRecyclerViewPaginator(
             recyclerView = binding.koboldContactContent.recyclerViewContact,
-            isLoading = { true },
+            isLoading = { !binding.addContactButton.isVisible },
             loadMore = {
                 callAPISearch(it + 1, "", sortingType)
             },
@@ -139,6 +140,7 @@ class ContactListActivity : DashboardThemeActivity() {
         ).run {
             threshold = 3
         }
+        binding.koboldContactContent.recyclerViewContact.vertical()
 
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
@@ -189,7 +191,8 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun callAPISearch(page: Int = 1, valueToSearch: String, sorting: String) {
-        contactViewModel?.getPaginated(page, 10, sorting, valueToSearch,
+        val pageSize = 10
+        contactViewModel?.getPaginated(page, pageSize, sorting, valueToSearch,
             onLoading = {
                 showLoading(it)
             },
@@ -205,11 +208,15 @@ class ContactListActivity : DashboardThemeActivity() {
                     binding.koboldContactContent.koboldContactListEmptyLayout.visibility = View.GONE
                     binding.koboldContactContent.koboldContactListLayout.visibility = View.VISIBLE
                     binding.addContactButton.visibility = View.VISIBLE
+
                 } else {
                     binding.koboldContactContent.koboldContactListEmptyLayout.visibility = View.VISIBLE
                     binding.koboldContactContent.koboldContactListLayout.visibility = View.GONE
                     binding.addContactButton.visibility = View.GONE
                     contactEmpty = true
+                }
+                if(it.data.contents.size < pageSize){
+                    isLast.set(true)
                 }
             },
             onError = {
