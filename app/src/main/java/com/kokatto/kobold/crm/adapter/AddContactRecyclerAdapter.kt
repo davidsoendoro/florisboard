@@ -19,6 +19,7 @@ import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import dev.patrickgold.florisboard.util.getActivity
+import java.util.*
 
 
 class AddContactRecyclerAdapter(
@@ -136,19 +137,41 @@ class AddContactRecyclerAdapter(
                     }
 
                     listener.onDataChange(
-                        ContactChannelModel(it.assetDesc, idEdittext.text.toString(), it.assetUrl),
+                        ContactChannelModel(it.assetDesc, "", it.assetUrl),
                         index
                     )
                 }
             }
 
-            idEdittext.setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus.not() && v == idEdittext && data.account != idEdittext.text.toString()) {
+            idEdittext.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus.not()) {
                     data.account = idEdittext.text.toString()
 
-                    listener.onDataChange(data, index)
+                    listener.onDataChange(
+                        ContactChannelModel(data.type, idEdittext.text.toString(), data.asset), index
+                    )
                 }
             }
+
+//            var timer = Timer()
+//            idEdittext.doAfterTextChanged {
+//                timer.cancel()
+//                timer = Timer()
+//
+//                timer.schedule(object : TimerTask() {
+//                    override fun run() {
+//                        data.account = it.toString()
+//                        listener.onDataChange(
+//                            data, index
+//                        )
+//                    }
+//                },
+//                    if (it!!.length <= 40)
+//                        UNDER_40_DELAY
+//                    else
+//                        OVER_40_DELAY
+//                )
+//            }
         }
     }
 
