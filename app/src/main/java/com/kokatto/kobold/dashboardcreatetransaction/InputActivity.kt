@@ -30,6 +30,7 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
+import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.getContactList
@@ -141,6 +142,13 @@ class InputActivity : DashboardThemeActivity() {
         contactCancelButton = contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_cancel_button)
         contactSubmitButton = contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_submit_button)
 
+        try {
+            selectedContact = intent.getParcelableExtra(ActivityConstantCode.EXTRA_DATA)
+            Timber.d("[EXTRAS] input extras: $selectedContact")
+            prefillContactData(selectedContact!!)
+        }catch (e: Exception){
+            Timber.d("[EXTRAS] unable to receive input extras")
+        }
         contactCancelButton?.setOnClickListener {
             try {
                 contactBottomDialog?.dismiss()
@@ -688,27 +696,31 @@ class InputActivity : DashboardThemeActivity() {
             try {
                 val contact = adapterView.getItemAtPosition(i) as ContactModel
                 selectedContact = contact
-                editTextBuyer?.setText(contact.name)
-                editTextAddress?.setText(contact.address)
-                contactChannels.clear()
-                contactChannels.addAll(contact.channels)
-                editTextChannel?.setText("")
-                constructChannel(editTextChannel!!, "")
-                editTextPhone?.setText("")
-                //set contact channel from first index if available or prepare then show if channel selected
-                if (contactChannels.size > 0) {
-                    editTextChannel?.setText(contactChannels[0].type)
-                    constructChannel(editTextChannel!!, contactChannels[0].asset)
-                    editTextPhone?.setText(contactChannels[0].account)
-                } else {
-                    editTextChannel?.setText("WhatsApp")
-                    constructChannel(editTextChannel!!, "https://kobold-test-asset.s3.ap-southeast-1.amazonaws.com/public/ic_channel_whatsApp.png")
-                    editTextPhone?.setText(contact.phoneNumber)
-                }
+                prefillContactData(selectedContact!!)
             } catch (e: Exception) {
 
             }
         }
 
+    }
+
+    private fun prefillContactData(contact: ContactModel){
+        editTextBuyer?.setText(contact.name)
+        editTextAddress?.setText(contact.address)
+        contactChannels.clear()
+        contactChannels.addAll(contact.channels)
+        editTextChannel?.setText("")
+        constructChannel(editTextChannel!!, "")
+        editTextPhone?.setText("")
+        //set contact channel from first index if available or prepare then show if channel selected
+        if (contactChannels.size > 0) {
+            editTextChannel?.setText(contactChannels[0].type)
+            constructChannel(editTextChannel!!, contactChannels[0].asset)
+            editTextPhone?.setText(contactChannels[0].account)
+        } else {
+            editTextChannel?.setText("WhatsApp")
+            constructChannel(editTextChannel!!, "https://kobold-test-asset.s3.ap-southeast-1.amazonaws.com/public/ic_channel_whatsApp.png")
+            editTextPhone?.setText(contact.phoneNumber)
+        }
     }
 }
