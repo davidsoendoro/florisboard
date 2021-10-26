@@ -75,7 +75,6 @@ class ContactListActivity : DashboardThemeActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.koboldContactContent.apply {
-            ////////ini
             buttonAddContact.setOnClickListener {
                 val dialogContactMenu = DialogContactMenu().newInstance()
                 dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
@@ -199,16 +198,17 @@ class ContactListActivity : DashboardThemeActivity() {
                 if (page <= 1) {
                     contactsList.clear()
                 }
-
                 if (it.data.contents.isNotEmpty()) {
                     contactEmpty = false
                     contactsList.addAll(it.data.contents)
                     bindAdapterContact(contactsList)
                     binding.koboldContactContent.koboldContactListEmptyLayout.visibility = View.GONE
                     binding.koboldContactContent.koboldContactListLayout.visibility = View.VISIBLE
+                    binding.addContactButton.visibility = View.VISIBLE
                 } else {
                     binding.koboldContactContent.koboldContactListEmptyLayout.visibility = View.VISIBLE
                     binding.koboldContactContent.koboldContactListLayout.visibility = View.GONE
+                    binding.addContactButton.visibility = View.GONE
                     contactEmpty = true
                 }
             },
