@@ -13,6 +13,7 @@ data class PostCreateTransactionResponse(
     @Parcelize
     data class Data(
         val _id: String,
-        val isProfileChange: Boolean
+        val isProfileChange: Boolean,
+        val contactId: String,
     ) : Parcelable
 }
