@@ -152,6 +152,7 @@ class InputActivity : DashboardThemeActivity() {
         contactCancelButton?.setOnClickListener {
             try {
                 contactBottomDialog?.dismiss()
+                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction?: TransactionModel())
             } catch (e: Exception) {
 
             }
