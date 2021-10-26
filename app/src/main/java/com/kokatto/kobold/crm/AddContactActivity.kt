@@ -88,9 +88,9 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 contactRequest.name = s.toString()
-                if(s.toString().length > 100){
+                if (s.toString().length > 100) {
                     uiBinding.edittextAddContactNameError.visibility = View.VISIBLE
-                }else{
+                } else {
                     uiBinding.edittextAddContactNameError.visibility = View.GONE
                 }
             }
@@ -141,7 +141,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         } else {
             if (data.type == "WhatsApp")
                 data.account = uiBinding.edittextAddContactPhone.text.toString()
-                dataList[index] = data
+            dataList[index] = data
         }
 
         if (dataList.isEmpty())
@@ -157,7 +157,8 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     }
 
     fun isSaveButtonValid(): Boolean {
-        var isInputValid = contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
+        var isInputValid =
+            contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
 
         if (isInputValid)
             uiBinding.submitButton.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button))
