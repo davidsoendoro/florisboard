@@ -136,25 +136,32 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     }
 
     override fun onDataChange(data: ContactChannelModel?, index: Int) {
-        if (data == null) {
-            dataList.removeAt(index)
+        try {
+            if (data == null) {
+                if (dataList.size <= 1) {
+                    dataList[0] = ContactChannelModel()
+                    adapter.notifyItemChanged(0)
+                } else {
+                    dataList.removeAt(index)
 
-//            adapter.notifyItemRemoved(index)
-        } else if (dataList.isEmpty()) {
-            dataList.add(ContactChannelModel())
+                    adapter.notifyItemRemoved(index)
+                }
+            } else {
+                if (data.type == "WhatsApp" && data.account == "")
+                    data.account = uiBinding.edittextAddContactPhone.text.toString()
 
-//            adapter.notifyItemInserted(0)
-        } else {
-            if (data.type == "WhatsApp" && data.account == "")
-                data.account = uiBinding.edittextAddContactPhone.text.toString()
-            dataList[index] = data
+                dataList[index] = data
 
-//            adapter.notifyItemChanged(index)
+                adapter.notifyItemChanged(index)
+            }
+
+        } catch (e: Exception) {
+//            adapter.notifyDataSetChanged()
+
         }
-
-        uiBinding.addContactRecyclerView.post {
-            adapter.notifyDataSetChanged()
-        }
+//        uiBinding.addContactRecyclerView.post {
+////            adapter.notifyDataSetChanged()
+//        }
     }
 
     override fun onBackPressed() {

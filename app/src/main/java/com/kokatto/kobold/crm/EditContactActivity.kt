@@ -138,7 +138,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         if (data == null) {
             dataList.removeAt(index)
         } else {
-            if (data.type == "WhatsApp")
+            if (data.type == "WhatsApp" && data.account == "")
                 data.account = uiBinding.edittextAddContactPhone.text.toString()
                 dataList[index] = data
         }

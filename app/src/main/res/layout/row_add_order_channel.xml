@@ -125,11 +125,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAppearance="@style/FormEditTextHint"
-                    android:textColor="@color/textBlack"/>
+                    android:textColor="@color/textBlack" />
 
                 <TextView
                     android:id="@+id/edittext_add_contact_id_error"
