@@ -4,6 +4,7 @@ import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.request.PageVisitTrackerRequest
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
@@ -333,5 +334,16 @@ interface ContactApi {
     suspend fun postUpdateByTransactionId(
         @Path("id") contactId: String,
         @Body request: PostUpdateContactByTransactionIdRequest
+    ): ApiResponse<BaseResponse>
+}
+
+
+private const val trackerApi: String = "api/v1/tracker/"
+
+interface TrackerApi {
+    @RequiredAuth
+    @POST(trackerApi + "page-visitation")
+    suspend fun postPageVisitTracker(
+        @Body request: PageVisitTrackerRequest
     ): ApiResponse<BaseResponse>
 }
