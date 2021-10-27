@@ -19,6 +19,7 @@ import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.chattemplate.ChatTemplateViewModel
 import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
+import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.dialog.DialogClearConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseConfirm
 import com.kokatto.kobold.template.dialog.DialogCloseEditConfirm
@@ -214,6 +215,7 @@ class TemplateActivityInput : DashboardThemeActivity(), TemplateDialogSelectionC
                         chatTemplateViewModel?.createChatTemplate(
                             model,
                             onSuccess = {
+                                AutoTextDatabase.getInstance(this)?.autoTextDao()?.insertAutoText(model)
                                 val intent = Intent()
                                 intent.putExtra(ActivityConstantCode.EXTRA_DATA, model)
                                 setResult(ActivityConstantCode.RESULT_OK_CREATED, intent)

@@ -4,6 +4,7 @@ import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.response.GetAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetPaginatedAutoTextResponse
+import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException

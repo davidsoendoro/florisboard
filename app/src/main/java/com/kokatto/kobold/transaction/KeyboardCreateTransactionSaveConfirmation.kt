@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.createTransactionChat
@@ -25,7 +26,7 @@ class KeyboardCreateTransactionSaveConfirmation : LinearLayout {
 
     var cancelButton: Button? = null
     var submitButton: Button? = null
-    var dontShowAgainButton: RadioButton? = null
+    var dontShowAgainButton: AppCompatCheckBox? = null
     var fullscreenLoading: LinearLayout? = null
 
     var contactViewModel = ContactViewModel()
