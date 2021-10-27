@@ -7,12 +7,12 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.AutoCompleteTextView
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
@@ -30,8 +31,8 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.ContactModel
-import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
+import com.kokatto.kobold.api.model.basemodel.PropertiesModel.Companion.setTitleText
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.api.model.basemodel.getContactList
 import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
@@ -47,6 +48,7 @@ import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerLogisticSele
 import com.kokatto.kobold.extension.addSeparator
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.persistance.AppPersistence
 import com.kokatto.kobold.utility.CurrencyUtility
 import timber.log.Timber
 
@@ -66,6 +68,7 @@ class InputActivity : DashboardThemeActivity() {
     private var editTextBuyer: AutoCompleteTextView? = null
     private var editTextChannel: EditText? = null
     private var editTextChannelLayout: TextInputLayout? = null
+    private var channelAccountTitle: TextView? = null
     private var editTextPhone: EditText? = null
     private var editTextAddress: EditText? = null
     private var editTextAddressLayout: TextInputLayout? = null
@@ -103,8 +106,9 @@ class InputActivity : DashboardThemeActivity() {
     private var spinnerLogisticSelector: SpinnerLogisticSelector? = SpinnerLogisticSelector()
     private var contactAutocompleteAdapter: ContactAutocompleteAdapter? = null
     private var contactBottomDialog: BottomSheetDialog? = null
-    private var contactCancelButton: Button? = null
-    private var contactSubmitButton: Button? = null
+    private var contactCancelButton: MaterialButton? = null
+    private var contactSubmitButton: MaterialButton? = null
+    private var contactNeverShowAgainButton: AppCompatCheckBox? = null
     private val contactViewModel = ContactViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,6 +118,7 @@ class InputActivity : DashboardThemeActivity() {
         editTextBuyer = findViewById<AutoCompleteTextView>(R.id.edittext_buyername)
         editTextChannel = findViewById<EditText>(R.id.edittext_channel)
         editTextChannelLayout = findViewById<TextInputLayout>(R.id.edittext_channel_layout)
+        channelAccountTitle = findViewById(R.id.channel_account_title)
         editTextPhone = findViewById<EditText>(R.id.edittext_phone)
         editTextAddress = findViewById<EditText>(R.id.edittext_buyeraddress)
         editTextAddressLayout = findViewById<TextInputLayout>(R.id.edittext_buyeraddress_layout)
@@ -141,18 +146,20 @@ class InputActivity : DashboardThemeActivity() {
         )
         contactCancelButton = contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_cancel_button)
         contactSubmitButton = contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_submit_button)
+        contactNeverShowAgainButton =
+            contactBottomDialog?.findViewById(R.id.contact_bottom_dialog_never_show_dialog_checkbox)
 
         try {
             selectedContact = intent.getParcelableExtra(ActivityConstantCode.EXTRA_DATA)
             Timber.d("[EXTRAS] input extras: $selectedContact")
             prefillContactData(selectedContact!!)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Timber.d("[EXTRAS] unable to receive input extras")
         }
         contactCancelButton?.setOnClickListener {
             try {
                 contactBottomDialog?.dismiss()
-                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction?: TransactionModel())
+                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction ?: TransactionModel())
             } catch (e: Exception) {
 
             }
@@ -186,16 +193,22 @@ class InputActivity : DashboardThemeActivity() {
 //            }
 
             //submit contact data
-            val updateModel = PostUpdateContactByTransactionIdRequest(finishedTransaction?._id?:"")
-            contactViewModel.updateByTransactionId(selectedContact?._id?:"", updateModel,{
+            val updateModel = PostUpdateContactByTransactionIdRequest(finishedTransaction?._id ?: "")
+            contactViewModel.updateByTransactionId(selectedContact?._id ?: "", updateModel, {
                 contactBottomDialog?.dismiss()
                 progressSubmit(false)
-                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction?: TransactionModel())
+                setActivityResult(ActivityConstantCode.RESULT_OK_CREATED, finishedTransaction ?: TransactionModel())
             }, {
                 progressSubmit(false)
                 Toast.makeText(this, "Gagal update kontak", Toast.LENGTH_SHORT).show()
             })
         }
+
+        contactNeverShowAgainButton?.isSelected = false
+        contactNeverShowAgainButton?.setOnCheckedChangeListener { buttonView, isChecked ->
+            AppPersistence.showContactUpdateMessage = isChecked.not()
+        }
+
         mode = intent.getIntExtra(MODE, -1)
 
         when (mode) {
@@ -263,6 +276,38 @@ class InputActivity : DashboardThemeActivity() {
             spinnerChannelSelector?.openSelector(supportFragmentManager, selectedChannel!!)
             spinnerChannelSelector?.onItemClick = {
                 selectedChannel = it
+                selectedChannel!!.setTitleText(channelAccountTitle!!, editTextPhone!!)
+
+//                if (selectedChannel?.assetDesc == "Belum ada") {
+//                    editTextPhone?.isFocusable = false
+//                    editTextPhone?.isCursorVisible = false
+//
+//                    channelAccountTitle?.text = "Nomor telepon"
+//                } else {
+//                    editTextPhone?.isFocusableInTouchMode = true
+//                    editTextPhone?.isCursorVisible = true
+//                    var string = resources.getString(R.string.form_trx_phone)
+//
+//                    if (selectedChannel?.assetDesc == "WhatsApp")
+//                        string = "Nomor WhatsApp"
+//                    else if (selectedChannel?.assetDesc == "WhatsApp Business")
+//                        string = "Nomor WhatsApp"
+//                    else if (selectedChannel?.assetDesc == "Line")
+//                        string = "Akun Line"
+//                    else if (selectedChannel?.assetDesc == "Facebook Messenger")
+//                        string = "Nama Profil"
+//                    else if (selectedChannel?.assetDesc == "Instagram")
+//                        string = "Akun Instagram"
+//                    else if (selectedChannel?.assetDesc == "Bukalapak Chat")
+//                        string = "Akun Bukalapak"
+//                    else if (selectedChannel?.assetDesc == "Tokopedia Chat")
+//                        string = "Akun Tokopedia"
+//                    else if (selectedChannel?.assetDesc == "Shopee Chat")
+//                        string = "Akun Shopee"
+//
+//                    channelAccountTitle?.text = string
+//                }
+
                 editTextChannel?.setText(it.assetDesc)
                 constructChannel(editTextChannel!!, it.assetUrl)
             }
@@ -386,7 +431,7 @@ class InputActivity : DashboardThemeActivity() {
                 _id = _id,
                 buyer = editTextBuyer?.text.toString(),
                 channel = editTextChannel?.text.toString(),
-                phone = selectedContact?.phoneNumber?: editTextPhone?.text.toString(),
+                phone = selectedContact?.phoneNumber ?: editTextPhone?.text.toString(),
                 address = editTextAddress?.text.toString(),
                 notes = editTextNote?.text.toString(),
                 price = price,
@@ -405,7 +450,7 @@ class InputActivity : DashboardThemeActivity() {
                         model,
                         onSuccess = {
                             progressSubmit(false)
-                            if(it.isProfileChange){
+                            if (it.isProfileChange) {
                                 contactBottomDialog?.show()
                                 finishedTransaction = model.copy(_id = it._id)
                             } else {
@@ -454,7 +499,7 @@ class InputActivity : DashboardThemeActivity() {
         btnSubmit?.isEnabled = !_isLoading
         btnSubmitText?.isVisible = !_isLoading
         btnSubmitProgress?.isVisible = _isLoading
-        btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
+        btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
     }
 
     private fun disableFormInput(_isEditable: Boolean) {
@@ -472,11 +517,11 @@ class InputActivity : DashboardThemeActivity() {
     private fun saveButtonDisable(_isDisable: Boolean) {
         if (_isDisable) {
             btnSubmit?.isEnabled = false
-            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled, null))
+            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.kobold_blue_button_disabled))
             btnSubmit?.preventCornerOverlap = true
         } else {
             btnSubmit?.isEnabled = true
-            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.colorPrimary50, null))
+            btnSubmitText?.setBackgroundColor(resources.getColor(R.color.colorPrimary50))
             btnSubmit?.preventCornerOverlap = true
         }
     }
@@ -531,8 +576,8 @@ class InputActivity : DashboardThemeActivity() {
     }
 
     private fun disableFormCompleteState() {
-        val textColor = this.resources.getColor(R.color.colorEditTextDisableText, null)
-        val backgroundColor = this.resources.getColor(R.color.colorEditTextDisable, null)
+        val textColor = this.resources.getColor(R.color.colorEditTextDisableText)
+        val backgroundColor = this.resources.getColor(R.color.colorEditTextDisable)
         val isEditable = false
 
         editTextChannel?.isEnabled = isEditable
@@ -598,9 +643,9 @@ class InputActivity : DashboardThemeActivity() {
         if (errorTextId == null) {
             errorTextView.tag = viewTag
             errorTextView.text = message
-            errorTextView.setTextAppearance(R.style.error_edit_text)
+            errorTextView.setTextAppearance(errorTextView.context, R.style.error_edit_text)
             textInputLayout.addView(errorTextView, 1)
-            textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextError, null)
+            textInputLayout.boxStrokeColor = resources.getColor(R.color.colorEditTextError)
         }
 
     }
@@ -610,7 +655,7 @@ class InputActivity : DashboardThemeActivity() {
         textInputLayout.let { til ->
             til.findViewWithTag<TextView>(viewTag).let {
                 til.removeView(it)
-                til.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault, null)
+                til.boxStrokeColor = resources.getColor(R.color.colorEditTextDefault)
             }
         }
     }
@@ -705,7 +750,7 @@ class InputActivity : DashboardThemeActivity() {
 
     }
 
-    private fun prefillContactData(contact: ContactModel){
+    private fun prefillContactData(contact: ContactModel) {
         editTextBuyer?.setText(contact.name)
         editTextAddress?.setText(contact.address)
         contactChannels.clear()
@@ -720,7 +765,10 @@ class InputActivity : DashboardThemeActivity() {
             editTextPhone?.setText(contactChannels[0].account)
         } else {
             editTextChannel?.setText("WhatsApp")
-            constructChannel(editTextChannel!!, "https://kobold-test-asset.s3.ap-southeast-1.amazonaws.com/public/ic_channel_whatsApp.png")
+            constructChannel(
+                editTextChannel!!,
+                "https://kobold-test-asset.s3.ap-southeast-1.amazonaws.com/public/ic_channel_whatsApp.png"
+            )
             editTextPhone?.setText(contact.phoneNumber)
         }
     }

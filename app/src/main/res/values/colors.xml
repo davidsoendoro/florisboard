@@ -48,7 +48,9 @@
     <color name="text_secondary">#3D3D3D</color>
     <color name="text_inverse">#FFFFFF</color>
     <color name="text_informational">#3A5FD6</color>
+    <color name="text_informational_01">#0E1A4C</color>
     <color name="stroke_primary">#2464F2</color>
+    <color name="primary_90">#192E52</color>
     <color name="primary_50">#2464F2</color>
     <color name="primary_10">#B6CBFB</color>
     <color name="secondary_30">#626E88</color>

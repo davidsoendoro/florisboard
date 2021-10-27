@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/kobold_margin_16px">
+    android:orientation="vertical">
 
     <!-- Layout Data State-->
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -24,13 +23,15 @@
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/kobold_margin_12px"
             style="@style/kobold_subduedLabel12sp"
+            android:paddingHorizontal="@dimen/kobold_margin_16px"
             android:fontFamily="sans-serif"
             android:text="Total 0 Pesanan"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_filter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/kobold_margin_16px" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -88,13 +89,40 @@
             app:layout_constraintTop_toBottomOf="@id/total_price_text" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/status_text_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:cardBackgroundColor="@color/background_informational"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="@id/name_text"
+            app:layout_constraintTop_toBottomOf="@id/date_text"
+            app:strokeWidth="0dp">
+
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:text="Belum diproses"
+                android:textColor="@color/text_informational_01"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             app:cardBackgroundColor="@color/washedout_background"
             app:layout_constraintStart_toStartOf="@id/name_text"
-            app:layout_constraintTop_toBottomOf="@id/date_text">
+            app:layout_constraintTop_toBottomOf="@id/status_text_layout">
 
             <TextView
                 android:id="@+id/deliveryfee_text"
@@ -103,7 +131,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text="Ongkir xrb"
-                style="@style/kobold_secondaryLabel12sp"/>
+                style="@style/kobold_secondaryLabel12sp" />
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
@@ -114,6 +142,7 @@
             android:src="@drawable/ic_whatsapp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/materialCardView2"
+            tools:visibility="visible"
             android:visibility="gone"/>
 
         <ImageView
@@ -124,6 +153,7 @@
             android:src="@drawable/ic_whatsapp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bank_img"
+            tools:visibility="visible"
             android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
