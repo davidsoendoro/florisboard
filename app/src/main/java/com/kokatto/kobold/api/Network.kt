@@ -49,4 +49,8 @@ object Network {
     val contactApi: ContactApi by lazy {
         createNetwork(okHttpClient, Gson())
     }
+
+    val trackerApi: TrackerApi by lazy {
+        createNetwork(okHttpClient, Gson())
+    }
 }
