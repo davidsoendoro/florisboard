@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background"
     android:orientation="vertical">
 
@@ -239,31 +240,31 @@
                     android:gravity="center"
                     android:paddingVertical="12dp"
                     android:text="@string/setting_save_profile_button_text"
-                    style="@style/kobold_editProfileButton16sp"/>
+                    style="@style/kobold_editProfileButton16sp" />
 
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/fullscreen_loading"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="center|center_vertical"-->
-<!--        android:gravity="center|center_vertical"-->
-<!--        android:orientation="vertical"-->
-<!--        android:visibility="gone"-->
-<!--        tools:visibility="visible">-->
+    <LinearLayout
+        android:id="@+id/fullscreen_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|center_vertical"
+        android:gravity="center|center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-<!--        <ProgressBar-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:indeterminate="true"-->
-<!--            android:paddingVertical="16dp"-->
-<!--            android:paddingLeft="8dp"-->
-<!--            android:paddingRight="8dp" />-->
-<!--    </LinearLayout>-->
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:paddingVertical="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

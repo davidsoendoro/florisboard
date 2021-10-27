@@ -369,19 +369,22 @@ class KeyboardCreateTransaction : ConstraintLayout {
             transactionViewModel?.createTransaction(
                 createTransactionRequest = transactionModel,
                 onSuccess = {
+                    transactionModel.contactId = ContactModel(_id = it.contactId)
                     florisboard?.createTransactionModel = transactionModel
                     if (it.isProfileChange && AppPersistence.showContactUpdateMessage) {
+//                        if (it.isProfileChange) {
                         florisboard?.setActiveInput(R.id.kobold_menu_create_transaction_save_confirmation)
                     } else {
                         florisboard?.inputFeedbackManager?.keyPress()
                         florisboard?.textInputManager?.activeEditorInstance?.commitText(
                             createTransactionChat(florisboard.createTransactionModel)
                         )
+
+                        showSnackBar(context.getString(R.string.keyboard_new_transaction_created))
+
+                        florisboard?.setActiveInput(R.id.text_input)
                     }
-
-                    showSnackBar("Transaksi baru berhasil dibuat dan terpasang di chat.")
-
-                    florisboard?.setActiveInput(R.id.text_input)
+                    clearSelected()
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it))
