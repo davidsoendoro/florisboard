@@ -50,12 +50,13 @@
         android:background="@color/colorWhite"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/page_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/kobold_margin_16px"
-            android:layout_marginVertical="@dimen/kobold_margin_24px">
+            android:layout_marginVertical="@dimen/kobold_margin_24px"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/kobolt_add_contact_information_title"
@@ -146,13 +147,12 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:hint="Isi nomor telepon"
+                    android:inputType="phone"
                     android:lines="1"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textAppearance="@style/FormEditTextHint"
                     android:textColor="@color/textBlack" />
-                android:inputType="phone"
-                android:hint="Isi nomor telepon"/>
 
                 <TextView
                     android:id="@+id/edittext_add_contact_phone_error"
@@ -278,25 +278,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_contact_imageview_line" />
 
-            <RelativeLayout
-                android:id="@+id/kobolt_add_contact_view_layout"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/add_contact_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/kobold_margin_16px"
-                app:layout_constraintBottom_toTopOf="@id/kobolt_add_contact_add_channel_text"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/kobolt_add_contact_order_channel_title">
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_add_order_channel" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/add_contact_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/row_add_order_channel" />
-
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/kobolt_add_contact_add_channel_text"
@@ -365,7 +356,7 @@
 
             </androidx.cardview.widget.CardView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
