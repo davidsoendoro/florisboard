@@ -14,12 +14,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/title"
-                style="@style/kobold_primaryLabel24spBold"
+                style="@style/kobold_primaryLabel14spBold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -56,6 +57,7 @@
                     android:text="Tidak dulu"
                     android:textAllCaps="false"
                     android:textColor="@color/textColorDark"
+                    android:textStyle="bold"
                     app:elevation="0dp"
                     app:strokeColor="@color/primary_50"
                     app:strokeWidth="1dp" />
@@ -70,6 +72,7 @@
                     android:text="Update kontak"
                     android:textAllCaps="false"
                     android:textColor="@color/textColor"
+                    android:textStyle="bold"
                     app:elevation="0dp" />
 
             </LinearLayout>
@@ -80,8 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="@dimen/kobold_margin_16px"
-                android:text="@string/kobold_never_show_this_message_again"
-                />
+                android:text="@string/kobold_never_show_this_message_again" />
 
         </LinearLayout>
 

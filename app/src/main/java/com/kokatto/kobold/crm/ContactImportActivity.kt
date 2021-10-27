@@ -19,9 +19,11 @@ import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.ContactImportRecyclerAdapter
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
+import com.kokatto.kobold.crm.dialog.DialogLoadingWithText
 import com.kokatto.kobold.databinding.ActivityContactImportBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
+import timber.log.Timber
 
 class ContactImportActivity : DashboardThemeActivity() {
     private lateinit var binding: ActivityContactImportBinding
@@ -30,7 +32,9 @@ class ContactImportActivity : DashboardThemeActivity() {
     private var filteredContactsList: MutableList<ContactImportModel> = ArrayList()
     private var recyclerAdapter: ContactImportRecyclerAdapter? = null
     private val loading = DialogLoadingSmall(this)
+    private val importProgress = DialogLoadingWithText(this)
     private var contactViewModel: ContactViewModel? = ContactViewModel()
+    private var totalContact: Int = 0
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -98,7 +102,8 @@ class ContactImportActivity : DashboardThemeActivity() {
         })
 
         binding.buttonImport.setOnClickListener {
-            loading.startLoading()
+            //loading.startLoading()
+            importProgress.startLoading()
 
             contactViewModel?.createBulk(
                 selectedContactsList.map {
@@ -106,15 +111,18 @@ class ContactImportActivity : DashboardThemeActivity() {
                 },
                 onSuccess = {
                     //showSnackBar(resources.getString(R.string.kobold_contact_import_success, it.data.totalRecord))
-                    loading.isDismiss()
+                    //loading.isDismiss()
                     selectedContactsList.clear()
                     filteredContactsList.clear()
                     bindAdapterContact(contactsList)
 
-                    val data = Intent()
-                    data.putExtra(ActivityConstantCode.EXTRA_DATA, resources.getString(R.string.kobold_contact_import_success, it.data.totalRecord));
-                    setResult(ActivityConstantCode.RESULT_OK_CREATED, data);
-                    finish()
+                    // should be traped on this recursive method
+                    recursiveChecker(1, it.data.totalRecord)
+
+                    //val data = Intent()
+                    //data.putExtra(ActivityConstantCode.EXTRA_DATA, resources.getString(R.string.kobold_contact_import_success, it.data.totalRecord));
+                    //setResult(ActivityConstantCode.RESULT_OK_CREATED, data);
+                    //finish()
                 },
                 onError = {
                     if (ErrorResponseValidator.isSessionExpiredResponse(it)) {
@@ -174,6 +182,28 @@ class ContactImportActivity : DashboardThemeActivity() {
             binding.buttonImport.isEnabled = false
         }
     }
+
+    private fun recursiveChecker(value: Int, totalValue: Int) {
+        contactViewModel?.getPaginated(
+            1,
+            10,
+            onLoading = {},
+            onSuccess = {
+                if(it.data.totalRecord < totalValue){
+                    importProgress.setProgressText(String.format("Import kontak (%s)", it.data.totalRecord))
+                    recursiveChecker(it.data.totalRecord, totalValue)
+                } else {
+                    val data = Intent()
+                    data.putExtra(ActivityConstantCode.EXTRA_DATA, resources.getString(R.string.kobold_contact_import_success, totalValue));
+                    setResult(ActivityConstantCode.RESULT_OK_CREATED, data);
+                    finish()
+                }
+            },
+            onError = {
+                Timber.e(it)
+            })
+    }
+
 
     private fun retrieveContactsList() {
         loading.startLoading()
