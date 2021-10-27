@@ -29,7 +29,7 @@ class AddContactRecyclerAdapter(
     RecyclerView.Adapter<AddContactRecyclerAdapter.DataViewHolder>() {
 
     private var spinnerChannelSelector: SpinnerChannelSelector? = SpinnerChannelSelector()
-    private var count: Int = 0
+//    private var count: Int = 0
 
     companion object {
         fun AddContactRecyclerAdapter.getData(): ArrayList<ContactChannelModel> {
@@ -61,9 +61,9 @@ class AddContactRecyclerAdapter(
             channelEditText.setText(data.type)
             idEdittext.setText(data.account)
 
-            if (itemCount > 1) count = 1
+//            if (itemCount > 1) count = 1
 
-            if (index == 0 && data.type == "" && itemCount == 1 && count == 0) {
+            if (index == 0 && data.type == "") {
                 deleteButton.visibility = View.GONE
             } else {
                 deleteButton.visibility = View.VISIBLE
@@ -107,9 +107,9 @@ class AddContactRecyclerAdapter(
 //                    index
 //                )
 
-                if (itemCount == 1 && count == 1) {
-                    count = 0
-                }
+//                if (itemCount == 1 && count == 1) {
+//                    count = 0
+//                }
 
                 listener.onDataChange(null, index)
             }
