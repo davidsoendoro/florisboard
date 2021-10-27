@@ -15,6 +15,7 @@ import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.constant.TransactionFilterEnum
 import com.kokatto.kobold.crm.adapter.TransactionFilterRecycleAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.DetailActivity
@@ -65,20 +66,26 @@ class ContactTransactionFragment(val contact: ContactModel?) : Fragment(), Trans
 
         binding.layoutEmptyState.emptyCreateButton.setOnClickListener {
             requireActivity().run {
-                startActivity(Intent(this, InputActivity::class.java))
+                startActivity(createInputActivityIntentWithContactDataExtras())
                 finish()
             }
         }
 
         binding.createTransactionButton.setOnClickListener {
             requireActivity().run {
-                startActivity(Intent(this, InputActivity::class.java))
+                startActivity(createInputActivityIntentWithContactDataExtras())
                 finish()
             }
         }
 
         callApiFetchTransaction()
         initFilter()
+    }
+
+    private fun createInputActivityIntentWithContactDataExtras(): Intent{
+        val intent = Intent(requireActivity(), InputActivity::class.java)
+        intent.putExtra(ActivityConstantCode.EXTRA_DATA, contact)
+        return intent
     }
 
     private fun callApiFetchTransaction(page: Int = 1, status: String = "", filterMode: Boolean = false) {
