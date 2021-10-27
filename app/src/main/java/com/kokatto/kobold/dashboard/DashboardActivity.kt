@@ -15,10 +15,12 @@ import com.kokatto.kobold.crm.ContactListActivity
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
+import com.kokatto.kobold.persistance.AppPersistence
 import com.kokatto.kobold.setting.HelpActivity
 import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
 import com.kokatto.kobold.tracker.viewmodel.TrackerViewModel
+import com.kokatto.kobold.utility.DateUtility
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
@@ -40,8 +42,13 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        trackerViewModel = TrackerViewModel()
-        trackerViewModel.postPageVisitTracker(PageVisitTrackerRequest(PageName.DASHBOARD_OPEN))
+        Timber.d("[PERSISTENCE] Dashboard last tracked: ${AppPersistence.dashboardLastTracked}")
+        Timber.d("[PERSISTENCE] Current date from date util: ${DateUtility.getCurrentDate()}")
+        if(AppPersistence.dashboardLastTracked != DateUtility.getCurrentDate()){
+            trackerViewModel = TrackerViewModel()
+            trackerViewModel.postPageVisitTracker(PageVisitTrackerRequest(PageName.DASHBOARD_OPEN))
+            AppPersistence.dashboardLastTracked = DateUtility.getCurrentDate()
+        }
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewPager = findViewById(R.id.kobold_DashboardWelcomeViewPager)

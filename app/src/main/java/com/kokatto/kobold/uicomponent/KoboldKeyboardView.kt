@@ -21,20 +21,27 @@ import android.util.AttributeSet
 import android.view.View
 import com.kokatto.kobold.api.model.request.PageName
 import com.kokatto.kobold.api.model.request.PageVisitTrackerRequest
+import com.kokatto.kobold.persistance.AppPersistence
 import com.kokatto.kobold.tracker.viewmodel.TrackerViewModel
+import com.kokatto.kobold.utility.DateUtility
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardView
+import timber.log.Timber
 
 @Suppress("UNUSED_PARAMETER")
 class KoboldKeyboardView : TextKeyboardView {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
     val trackerViewModel = TrackerViewModel()
 
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (changedView is KoboldKeyboardView && visibility == View.VISIBLE && changedView == this) {
-            trackerViewModel.postPageVisitTracker(PageVisitTrackerRequest(PageName.KEYBOARD_OPEN))
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        if (visibility == View.VISIBLE) {
+            if (AppPersistence.keyboardLastTracked != DateUtility.getCurrentDate()) {
+                trackerViewModel.postPageVisitTracker(PageVisitTrackerRequest(PageName.KEYBOARD_OPEN))
+                AppPersistence.keyboardLastTracked = DateUtility.getCurrentDate()
+            }
         }
     }
 }
