@@ -120,22 +120,6 @@ class KeyboardCreateTransaction : ConstraintLayout {
         backButton = findViewById(R.id.back_button)
         createTransactionButton = findViewById(R.id.create_transaction_button)
 
-        val keyboardViewFlipper =
-            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
-        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
-        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
-
-        recyclerAdapter = BuyerNameRecyclerAdapter(dataList)
-        recyclerView?.vertical()
-        recyclerView?.adapter = recyclerAdapter
-
-        recyclerAdapter?.onItemClick = {
-//            shippingCost.senderAddress = it
-            buyerNameText?.editText?.text = it.name
-            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
-            invalidateSaveButton()
-        }
-
         koboldExpandView = findViewById(R.id.kobold_createtransaction_expand_view)
         koboldExpandView?.setOnClickListener {
             florisboard?.inputFeedbackManager?.keyPress()
@@ -415,10 +399,31 @@ class KeyboardCreateTransaction : ConstraintLayout {
         shippingCostText?.editText?.text = ""
     }
 
+    fun prepareContactAutofill() {
+
+        val keyboardViewFlipper =
+            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
+        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
+
+        recyclerAdapter = BuyerNameRecyclerAdapter(dataList)
+        recyclerView?.vertical()
+        recyclerView?.adapter = recyclerAdapter
+
+        recyclerAdapter?.onItemClick = {
+//            shippingCost.senderAddress = it
+            buyerNameText?.editText?.text = it.name
+            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+            invalidateSaveButton()
+        }
+    }
+
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
 
         if (changedView == this && visibility == View.VISIBLE) {
+
+            prepareContactAutofill()
 
             pickChannelOptions.clear()
             transactionViewModel?.getStandardListProperties(
@@ -552,28 +557,18 @@ class KeyboardCreateTransaction : ConstraintLayout {
             recyclerAdapter?.notifyItemRangeRemoved(0, previousSize)
         }
 
+        val contactList = getContactList(context)
         dataList.addAll(
-            getContactList(context)
-//                .filter {
-//                it.name.contains(search)
-//            }.distinctBy {
-//                it.name
-//            }.distinctBy {
-//                it.phoneNumber
-//            }
+            contactList
+                .filter {
+                it.name.contains(search)
+            }.distinctBy {
+                it.name
+            }.distinctBy {
+                it.phoneNumber
+            }
         )
         recyclerAdapter?.notifyItemInserted(dataList.size)
-
-        dataList.filter {
-            it.name.contains(buyerNameText?.editText?.text.toString())
-        }.distinctBy {
-            it.name
-        }.distinctBy {
-            it.phoneNumber
-        }.forEach {
-            Log.e("test", it.name)
-        }
-        recyclerAdapter?.notifyDataSetChanged()
     }
 
 //    @Deprecated("use transaction model instead")

@@ -180,32 +180,6 @@ class KeyboardCheckShippingCost : ConstraintLayout {
         backButton = findViewById(R.id.back_button)
         submitButton = findViewById(R.id.submit_button)
 
-        val keyboardViewFlipper =
-            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
-        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
-        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
-
-        recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerAdapter = ShippingAddressRecyclerAdapter(context, dataList)
-        recyclerView?.adapter = recyclerAdapter
-
-        recyclerAdapter?.onItemClick = {
-            when (mode) {
-                AddressShippingActivity.SENDER -> {
-                    shippingCost.senderAddress = it
-                    senderAddressEdittext?.editText?.text = it.writtenAddress()
-                    florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
-                    invalidateSaveButton()
-                }
-                AddressShippingActivity.RECEIVER -> {
-                    shippingCost.receiverAddress = it
-                    receiverAddressEdittext?.editText?.text = it.writtenAddress()
-                    florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
-                    invalidateSaveButton()
-                }
-            }
-        }
-
         senderAddressEdittext?.setOnClickListener {
             val imeOptions = senderAddressEdittext?.imeOptions ?: 0
             val inputType = senderAddressEdittext?.inputType ?: 0
@@ -294,8 +268,39 @@ class KeyboardCheckShippingCost : ConstraintLayout {
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (changedView is KeyboardCheckShippingCost && visibility == View.VISIBLE && changedView == this) {
+            prepareAddressAutofill()
             invalidateSaveButton()
         }
+    }
+
+    fun prepareAddressAutofill() {
+
+        val keyboardViewFlipper =
+            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
+        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
+
+        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerAdapter = ShippingAddressRecyclerAdapter(context, dataList)
+        recyclerView?.adapter = recyclerAdapter
+
+        recyclerAdapter?.onItemClick = {
+            when (mode) {
+                AddressShippingActivity.SENDER -> {
+                    shippingCost.senderAddress = it
+                    senderAddressEdittext?.editText?.text = it.writtenAddress()
+                    florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                    invalidateSaveButton()
+                }
+                AddressShippingActivity.RECEIVER -> {
+                    shippingCost.receiverAddress = it
+                    receiverAddressEdittext?.editText?.text = it.writtenAddress()
+                    florisboard?.setActiveInput(R.id.kobold_menu_check_shippingcost)
+                    invalidateSaveButton()
+                }
+            }
+        }
+
     }
 
     fun invalidateSaveButton() {
