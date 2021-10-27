@@ -72,7 +72,7 @@ class ThirdAppUtility {
             val sendIntent = Intent(Intent.ACTION_SEND)
             sendIntent.type = "text/plain"
             sendIntent.putExtra(Intent.EXTRA_TEXT, message)
-            sendIntent.putExtra("address", phoneNo)
+            sendIntent.putExtra("address", parsePhoneWithCountryCode(phoneNo, "+", "62"))
             if (defaultSmsPackageName != null) {
                 sendIntent.setPackage(defaultSmsPackageName)
             }
@@ -81,7 +81,7 @@ class ThirdAppUtility {
 
         fun openPhoneDial(context: Context, phoneNo: String) {
             val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:${phoneNo}")
+            intent.data = Uri.parse("tel:${parsePhoneWithCountryCode(phoneNo, "+", "62")}")
             context.startActivity(intent)
         }
 
@@ -102,8 +102,19 @@ class ThirdAppUtility {
                 intent.data = Uri.parse("market://details?id=$packageName")
                 context.startActivity(intent)
             }
-
-
         }
+
+        fun parsePhoneWithCountryCode(phoneNo: String, prefix: String = "+", countryCode: String = "62"): String {
+            return if (phoneNo.isNullOrBlank()) {
+                ""
+            } else if (phoneNo.substring(0, 1).equals("0", true)) {
+                String.format("%s%s%s", prefix, countryCode, phoneNo.substring(1, phoneNo.length))
+            } else if (phoneNo.substring(0, 2).equals(countryCode, true)) {
+                String.format("%s%s", prefix, phoneNo)
+            } else {
+                String.format("%s%s", prefix, phoneNo)
+            }
+        }
+
     }
 }

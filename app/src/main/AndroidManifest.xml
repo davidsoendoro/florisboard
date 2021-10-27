@@ -223,18 +223,9 @@
             android:name=".setting.SettingProfilTokoActivity"
             android:exported="true" />
         <activity android:name=".setting.HelpActivity" />
-        <activity
-            android:name=".crm.AddContactActivity"
-            android:label="AddContact">
-        </activity>
-
+        <activity android:name=".crm.AddContactActivity"/>
         <activity android:name=".crm.EditContactActivity"
             android:label="EditContact"/>
-<!--        <activity android:name=".crm.ContactSearchActivity"-->
-<!--            android:exported="true"-->
-<!--            android:label="Contact Search"-->
-<!--            android:theme="@style/DashboardThemeBase"-->
-<!--            android:windowSoftInputMode="stateVisible" />-->
 
         <provider
             android:name="dev.patrickgold.florisboard.ime.clip.provider.FlorisContentProvider"

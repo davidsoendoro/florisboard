@@ -1,18 +1,15 @@
 package com.kokatto.kobold.crm
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
-import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter.Companion.getData
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
@@ -31,8 +28,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding = ActivityAddContactBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-        isSaveButtonValid()
-
 //        buat mastiin kalo datalist yang dibuat kosong
         dataList.clear()
         dataList.add(ContactChannelModel())
@@ -42,8 +37,9 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 //        recyclerView.setHasFixedSize(true)
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
+            uiBinding.addContactManualLayout.clearFocus()
+
             dataList.add(ContactChannelModel())
-            //adapter.notifyItemChanged(count)
             adapter.notifyDataSetChanged()
         }
 
@@ -53,24 +49,38 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
 
         uiBinding.submitButton.setOnClickListener {
-            contactRequest.channels.clear()
-            contactRequest.channels.addAll(dataList)
+            uiBinding.addContactManualLayout.clearFocus()
 
-            contactRequest.channels.addAll(adapter.getData())
-            Log.e("dataList", adapter.getData().toString())
+//            Log.e("hehe", dataList.filter { it.type != "" && it.account != "" }.toString())
+
+            contactRequest.channels.clear()
+            contactRequest.channels.addAll(dataList.filter { it.type != "" && it.account != "" })
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
+//                    showToast("Berhasil")
+//                    showSnackBar("Berhasil menambah kontak.")
+                    intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
+                    intent.putExtra("snackbarBackground", R.color.snackbar_default)
+                    setResult(RESULT_OK, intent)
+
+                    finish()
                 },
                 onError = {
-                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
+//                    showToast("Gagal")
+//                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
+                    intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
+                    intent.putExtra("snackbarBackground", R.color.snackbar_error)
+                    setResult(RESULT_OK, intent)
+
+                    finish()
                 }
             )
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                isSaveButtonValid()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -78,6 +88,11 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 contactRequest.name = s.toString()
+                if (s.toString().length > 100) {
+                    uiBinding.edittextAddContactNameError.visibility = View.VISIBLE
+                } else {
+                    uiBinding.edittextAddContactNameError.visibility = View.GONE
+                }
             }
         })
 
@@ -123,22 +138,19 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     override fun onDataChange(data: ContactChannelModel?, index: Int) {
         if (data == null) {
             dataList.removeAt(index)
-        } else {
-            if (data.type == "WhatsApp")
-                data.account = uiBinding.edittextAddContactPhone.text.toString()
-            dataList[index] = data
-        }
 
-        if (dataList.isEmpty())
+//            adapter.notifyItemRemoved(index)
+        } else if (dataList.isEmpty()) {
             dataList.add(ContactChannelModel())
 
-//        dataList
+//            adapter.notifyItemInserted(0)
+        } else {
+            if (data.type == "WhatsApp" && data.account == "")
+                data.account = uiBinding.edittextAddContactPhone.text.toString()
+            dataList[index] = data
 
-//        GlobalScope.launch {
-//            suspend {
-//                adapter.notifyDataSetChanged()
-//            }.invoke()
-//        }
+//            adapter.notifyItemChanged(index)
+        }
 
         uiBinding.addContactRecyclerView.post {
             adapter.notifyDataSetChanged()
@@ -147,11 +159,11 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
     override fun onBackPressed() {
         createConfirmationDialog()
-//        super.onBackPressed()
     }
 
     fun isSaveButtonValid(): Boolean {
-        var isInputValid = contactRequest.phoneNumber != ""
+        var isInputValid =
+            contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
 
         if (isInputValid)
             uiBinding.submitButton.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button))
@@ -178,7 +190,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         discardButton?.setOnClickListener {
             bottomDialog.dismiss()
-            startActivity(Intent(this@AddContactActivity, ContactListActivity::class.java))
             finish()
         }
 

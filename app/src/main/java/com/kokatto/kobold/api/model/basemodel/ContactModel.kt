@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Parcelable
 import android.provider.ContactsContract
 import kotlinx.parcelize.Parcelize
+import timber.log.Timber
 
 
 @Parcelize
@@ -69,6 +70,15 @@ fun getContactList(context: Context): ArrayList<ContactModel> {
     } catch (e: SecurityException) {
 
     }
+    contactList.forEach {
+        it.phoneNumber = it.phoneNumber.replace("-", "").replace("(", "").replace(")","")
+        it.channels.forEach { channel ->
+            if (channel.type == "WhatsApp" || channel.type == "WhatsApp Business") {
+                channel.account = channel.account.replace("-", "").replace("(", "").replace(")","")
+            }
+        }
+    }
+    Timber.d("[CLEANED CONTACT LIST] contact: $contactList")
     return contactList
 }
 

@@ -1,11 +1,13 @@
 package com.kokatto.kobold.crm
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -25,6 +27,7 @@ import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.vertical
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactListActivity : DashboardThemeActivity() {
@@ -75,7 +78,6 @@ class ContactListActivity : DashboardThemeActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.koboldContactContent.apply {
-            ////////ini
             buttonAddContact.setOnClickListener {
                 val dialogContactMenu = DialogContactMenu().newInstance()
                 dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
@@ -90,21 +92,6 @@ class ContactListActivity : DashboardThemeActivity() {
                     showContactManualview()
                 }
             }
-
-//            binding.koboltContactAddContactFab.setOnClickListener {
-//                val dialogContactMenu = DialogContactMenu().newInstance()
-//                dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
-//
-//                dialogContactMenu.onImportClick = {
-//                    dialogContactMenu.dismiss()
-//                    checkContactImportView()
-//                }
-//
-//                dialogContactMenu.onManualClick = {
-//                    dialogContactMenu.dismiss()
-//                    showContactManualview()
-//                }
-//            }
 
             layoutSort.addRipple()
 
@@ -126,13 +113,24 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
+        val startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    showSnackBar(
+                        result.data?.getStringExtra("snackbarMessage") ?: "",
+                        result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
+                            ?: R.color.snackbar_default
+                    )
+                }
+            }
         binding.addContactButton.setOnClickListener {
-            startActivity(Intent(this, AddContactActivity::class.java))
+            startForResult.launch(Intent(this, AddContactActivity::class.java))
         }
 
         DovesRecyclerViewPaginator(
             recyclerView = binding.koboldContactContent.recyclerViewContact,
-            isLoading = { true },
+            isLoading = { !binding.addContactButton.isVisible },
             loadMore = {
                 callAPISearch(it + 1, "", sortingType)
             },
@@ -140,6 +138,7 @@ class ContactListActivity : DashboardThemeActivity() {
         ).run {
             threshold = 3
         }
+        binding.koboldContactContent.recyclerViewContact.vertical()
 
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
@@ -163,7 +162,7 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactManualview() {
-        startActivity(Intent(this@ContactListActivity,AddContactActivity ::class.java))
+        startActivity(Intent(this@ContactListActivity, AddContactActivity::class.java))
     }
 
     private fun checkContactImportView() {
@@ -190,7 +189,8 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun callAPISearch(page: Int = 1, valueToSearch: String, sorting: String) {
-        contactViewModel?.getPaginated(page, 10, sorting, valueToSearch,
+        val pageSize = 10
+        contactViewModel?.getPaginated(page, pageSize, sorting, valueToSearch,
             onLoading = {
                 showLoading(it)
             },
@@ -199,17 +199,22 @@ class ContactListActivity : DashboardThemeActivity() {
                 if (page <= 1) {
                     contactsList.clear()
                 }
-
                 if (it.data.contents.isNotEmpty()) {
                     contactEmpty = false
                     contactsList.addAll(it.data.contents)
                     bindAdapterContact(contactsList)
                     binding.koboldContactContent.koboldContactListEmptyLayout.visibility = View.GONE
                     binding.koboldContactContent.koboldContactListLayout.visibility = View.VISIBLE
+                    binding.addContactButton.visibility = View.VISIBLE
+
                 } else {
                     binding.koboldContactContent.koboldContactListEmptyLayout.visibility = View.VISIBLE
                     binding.koboldContactContent.koboldContactListLayout.visibility = View.GONE
+                    binding.addContactButton.visibility = View.GONE
                     contactEmpty = true
+                }
+                if(it.data.contents.size < pageSize){
+                    isLast.set(true)
                 }
             },
             onError = {

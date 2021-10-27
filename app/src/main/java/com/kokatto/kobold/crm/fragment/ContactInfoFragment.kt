@@ -69,12 +69,18 @@ class ContactInfoFragment(val contact: ContactModel?) : Fragment() {
 
         binding.switchHasDebt.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.layoutDebtAmount.isVisible = isChecked
-            if (isChecked.not())
+            if (isChecked.not()) {
+                binding.textDebAmount.setText("0")
                 postSaveDebt("0")
+            }
         }
 
+        var timer = Timer()
+
         binding.textDebAmount.doAfterTextChanged {
-            val timer = Timer()
+            timer.cancel()
+            timer = Timer()
+
             timer.schedule(
                 object : TimerTask() {
                     override fun run() {

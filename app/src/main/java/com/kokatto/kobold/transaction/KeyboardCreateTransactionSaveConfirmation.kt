@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.RadioButton
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import com.kokatto.kobold.R
@@ -47,7 +46,7 @@ class KeyboardCreateTransactionSaveConfirmation : LinearLayout {
         }
         dontShowAgainButton?.isSelected = false
         dontShowAgainButton?.setOnCheckedChangeListener { buttonView, isChecked ->
-            AppPersistence.showContactUpdateMessage = isChecked
+            AppPersistence.showContactUpdateMessage = isChecked.not()
         }
     }
 
@@ -70,14 +69,15 @@ class KeyboardCreateTransactionSaveConfirmation : LinearLayout {
                     fullscreenLoading?.isVisible = false
                 },
                 onError = {
-                    fullscreenLoading?.isVisible = false}
+                    fullscreenLoading?.isVisible = false
+                }
             )
         }
         florisboard?.inputFeedbackManager?.keyPress()
         florisboard?.textInputManager?.activeEditorInstance?.commitText(
             createTransactionChat(florisboard.createTransactionModel)
         )
-        showSnackBar("Transaksi baru berhasil dibuat dan terpasang di chat.")
+        showSnackBar(context.getString(R.string.keyboard_new_transaction_created))
         florisboard?.setActiveInput(R.id.text_input)
     }
 }
