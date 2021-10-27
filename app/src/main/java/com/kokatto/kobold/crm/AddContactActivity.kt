@@ -28,6 +28,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding = ActivityAddContactBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
+        isSaveButtonValid()
 //        buat mastiin kalo datalist yang dibuat kosong
         dataList.clear()
         dataList.add(ContactChannelModel())
@@ -58,8 +59,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-//                    showToast("Berhasil")
-//                    showSnackBar("Berhasil menambah kontak.")
                     intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
                     intent.putExtra("snackbarBackground", R.color.snackbar_default)
                     setResult(RESULT_OK, intent)
@@ -67,8 +66,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
                     finish()
                 },
                 onError = {
-//                    showToast("Gagal")
-//                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
                     intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
                     intent.putExtra("snackbarBackground", R.color.snackbar_error)
                     setResult(RESULT_OK, intent)
@@ -140,16 +137,18 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             dataList.removeAt(index)
 
 //            adapter.notifyItemRemoved(index)
-        } else if (dataList.isEmpty()) {
-            dataList.add(ContactChannelModel())
-
-//            adapter.notifyItemInserted(0)
         } else {
             if (data.type == "WhatsApp" && data.account == "")
                 data.account = uiBinding.edittextAddContactPhone.text.toString()
             dataList[index] = data
 
 //            adapter.notifyItemChanged(index)
+        }
+
+        if (dataList.isEmpty()) {
+            dataList.add(ContactChannelModel())
+
+//            adapter.notifyItemInserted(0)
         }
 
         uiBinding.addContactRecyclerView.post {
@@ -162,8 +161,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     }
 
     fun isSaveButtonValid(): Boolean {
-        var isInputValid =
-            contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
+        var isInputValid = contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
 
         if (isInputValid)
             uiBinding.submitButton.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button))

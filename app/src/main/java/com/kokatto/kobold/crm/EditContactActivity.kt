@@ -33,7 +33,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         uiBinding = ActivityAddContactBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-
+        isSaveButtonValid()
 //        buat mastiin kalo datalist yang dibuat kosong
         dataList.clear()
         dataList.add(ContactChannelModel())
@@ -65,10 +65,14 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
                     id = it,
                     request = contactRequest,
                     onSuccess = {
-                        showSnackBar("Kontak berhasil diubah.")
+                        intent.putExtra("snackbarMessage", "Kontak berhasil diubah.")
+                        intent.putExtra("snackbarBackground", R.color.snackbar_default)
+                        setResult(RESULT_OK, intent)
                     },
                     onError = {
-                        showSnackBar("Kontak gagal diubah, silakan coba lagi.", R.color.snackbar_error)
+                        intent.putExtra("snackbarMessage", "Kontak gagal diubah, silakan coba lagi.")
+                        intent.putExtra("snackbarBackground", R.color.snackbar_error)
+                        setResult(RESULT_OK, intent)
                     }
                 )
             }
@@ -137,14 +141,21 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     override fun onDataChange(data: ContactChannelModel?, index: Int) {
         if (data == null) {
             dataList.removeAt(index)
+
+//            adapter.notifyItemRemoved(index)
         } else {
-            if (data.type == "WhatsApp")
+            if (data.type == "WhatsApp" && data.account == "")
                 data.account = uiBinding.edittextAddContactPhone.text.toString()
-                dataList[index] = data
+            dataList[index] = data
+
+//            adapter.notifyItemChanged(index)
         }
 
-        if (dataList.isEmpty())
+        if (dataList.isEmpty()) {
             dataList.add(ContactChannelModel())
+
+//            adapter.notifyItemInserted(0)
+        }
 
         uiBinding.addContactRecyclerView.post {
             adapter.notifyDataSetChanged()

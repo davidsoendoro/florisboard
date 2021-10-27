@@ -125,7 +125,19 @@ class ContactListActivity : DashboardThemeActivity() {
                 }
             }
         binding.addContactButton.setOnClickListener {
-            startForResult.launch(Intent(this, AddContactActivity::class.java))
+            //startForResult.launch(Intent(this, AddContactActivity::class.java))
+            val dialogContactMenu = DialogContactMenu().newInstance()
+            dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
+
+            dialogContactMenu.onImportClick = {
+                dialogContactMenu.dismiss()
+                checkContactImportView()
+            }
+
+            dialogContactMenu.onManualClick = {
+                dialogContactMenu.dismiss()
+                showContactManualview()
+            }
         }
 
         DovesRecyclerViewPaginator(

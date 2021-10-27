@@ -61,13 +61,13 @@ class AddContactRecyclerAdapter(
             channelEditText.setText(data.type)
             idEdittext.setText(data.account)
 
-            if (itemCount > 1) count = 1
-
-            if (index == 0 && data.type == "" && itemCount == 1 && count == 0) {
-                deleteButton.visibility = View.GONE
-            } else {
-                deleteButton.visibility = View.VISIBLE
-            }
+//            if (itemCount > 1) count = 1
+//
+//            if (index == 0 && data.type == "" && itemCount == 1 && count == 0) {
+//                deleteButton.visibility = View.GONE
+//            } else {
+//                deleteButton.visibility = View.VISIBLE
+//            }
 
             constructChannel(channelEditText!!, data.asset)
 
@@ -94,22 +94,10 @@ class AddContactRecyclerAdapter(
 
             deleteButton.setOnClickListener {
                 idEdittext.text.clear()
-
-//                channelEditText.text?.clear()
-//                channelEditText.setCompoundDrawablesWithIntrinsicBounds(
-//                    null,
-//                    null,
-//                    ContextCompat.getDrawable(channelEditText.context, R.drawable.ic_subdued),
-//                    null
-//                )
-//                listener.onDataChange(
-//                    ContactChannelModel("", "", "", ""),
-//                    index
-//                )
-
-                if (itemCount == 1 && count == 1) {
-                    count = 0
-                }
+//
+//                if (itemCount == 1 && count == 1) {
+//                    count = 0
+//                }
 
                 listener.onDataChange(null, index)
             }
@@ -152,26 +140,6 @@ class AddContactRecyclerAdapter(
                     )
                 }
             }
-
-//            var timer = Timer()
-//            idEdittext.doAfterTextChanged {
-//                timer.cancel()
-//                timer = Timer()
-//
-//                timer.schedule(object : TimerTask() {
-//                    override fun run() {
-//                        data.account = it.toString()
-//                        listener.onDataChange(
-//                            data, index
-//                        )
-//                    }
-//                },
-//                    if (it!!.length <= 40)
-//                        UNDER_40_DELAY
-//                    else
-//                        OVER_40_DELAY
-//                )
-//            }
         }
     }
 
@@ -181,10 +149,10 @@ class AddContactRecyclerAdapter(
 
     private fun constructChannel(editText: EditText, assetUrl: String) {
         if (assetUrl == "")
-            editText.setCompoundDrawables(
+            editText.setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
-                editText.context.resources.getDrawable(R.drawable.ic_subdued, null),
+                editText.context.getDrawable(R.drawable.ic_subdued),
                 null
             )
         else
