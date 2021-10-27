@@ -29,7 +29,7 @@ class AddContactRecyclerAdapter(
     RecyclerView.Adapter<AddContactRecyclerAdapter.DataViewHolder>() {
 
     private var spinnerChannelSelector: SpinnerChannelSelector? = SpinnerChannelSelector()
-    private var count: Int = 0
+//    private var count: Int = 0
 
     companion object {
         fun AddContactRecyclerAdapter.getData(): ArrayList<ContactChannelModel> {
@@ -62,12 +62,12 @@ class AddContactRecyclerAdapter(
             idEdittext.setText(data.account)
 
 //            if (itemCount > 1) count = 1
-//
-//            if (index == 0 && data.type == "" && itemCount == 1 && count == 0) {
-//                deleteButton.visibility = View.GONE
-//            } else {
-//                deleteButton.visibility = View.VISIBLE
-//            }
+
+            if (index == 0 && data.type == "") {
+                deleteButton.visibility = View.GONE
+            } else {
+                deleteButton.visibility = View.VISIBLE
+            }
 
             constructChannel(channelEditText!!, data.asset)
 
@@ -94,7 +94,19 @@ class AddContactRecyclerAdapter(
 
             deleteButton.setOnClickListener {
                 idEdittext.text.clear()
-//
+
+//                channelEditText.text?.clear()
+//                channelEditText.setCompoundDrawablesWithIntrinsicBounds(
+//                    null,
+//                    null,
+//                    ContextCompat.getDrawable(channelEditText.context, R.drawable.ic_subdued),
+//                    null
+//                )
+//                listener.onDataChange(
+//                    ContactChannelModel("", "", "", ""),
+//                    index
+//                )
+
 //                if (itemCount == 1 && count == 1) {
 //                    count = 0
 //                }
