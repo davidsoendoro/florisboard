@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -19,9 +17,9 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.basemodel.PropertiesModel
-import com.kokatto.kobold.crm.AddContactActivity
 import com.kokatto.kobold.dashboardcreatetransaction.spinner.SpinnerChannelSelector
 import dev.patrickgold.florisboard.util.getActivity
+import java.util.*
 
 
 class AddContactRecyclerAdapter(
@@ -92,6 +90,7 @@ class AddContactRecyclerAdapter(
             else if (data.type == "Bukalapak Chat") idEdittextTitle.text = "Akun Bukalapak"
             else if (data.type == "Tokopedia Chat") idEdittextTitle.text = "Akun Tokopedia"
             else if (data.type == "Shopee Chat") idEdittextTitle.text = "Akun Shopee"
+            else idEdittextTitle.text = "Nomor WhatsApp/ ID"
 
             deleteButton.setOnClickListener {
                 idEdittext.text.clear()
@@ -138,19 +137,41 @@ class AddContactRecyclerAdapter(
                     }
 
                     listener.onDataChange(
-                        ContactChannelModel(it.assetDesc, idEdittext.text.toString(), it.assetUrl),
+                        ContactChannelModel(it.assetDesc, "", it.assetUrl),
                         index
                     )
                 }
             }
 
-            idEdittext.setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus.not() && v == idEdittext && data.account != idEdittext.text.toString()) {
+            idEdittext.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus.not()) {
                     data.account = idEdittext.text.toString()
 
-                    listener.onDataChange(data, index)
+                    listener.onDataChange(
+                        ContactChannelModel(data.type, idEdittext.text.toString(), data.asset), index
+                    )
                 }
             }
+
+//            var timer = Timer()
+//            idEdittext.doAfterTextChanged {
+//                timer.cancel()
+//                timer = Timer()
+//
+//                timer.schedule(object : TimerTask() {
+//                    override fun run() {
+//                        data.account = it.toString()
+//                        listener.onDataChange(
+//                            data, index
+//                        )
+//                    }
+//                },
+//                    if (it!!.length <= 40)
+//                        UNDER_40_DELAY
+//                    else
+//                        OVER_40_DELAY
+//                )
+//            }
         }
     }
 
@@ -159,28 +180,40 @@ class AddContactRecyclerAdapter(
     }
 
     private fun constructChannel(editText: EditText, assetUrl: String) {
-        Glide.with(editText.context).load(assetUrl).apply(RequestOptions().fitCenter()).into(
-            object : CustomTarget<Drawable>(50, 50) {
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    editText.setCompoundDrawablesWithIntrinsicBounds(
-                        placeholder, null,
-                        editText.context.resources.getDrawable(R.drawable.ic_subdued, null), null
-                    )
-                    editText.compoundDrawablePadding = 12
-                }
+        if (assetUrl == "")
+            editText.setCompoundDrawables(
+                null,
+                null,
+                editText.context.resources.getDrawable(R.drawable.ic_subdued, null),
+                null
+            )
+        else
+            Glide.with(editText.context).load(assetUrl).apply(RequestOptions().fitCenter()).into(
+                object : CustomTarget<Drawable>(50, 50) {
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        editText.setCompoundDrawablesWithIntrinsicBounds(
+                            placeholder,
+                            null,
+                            editText.context.resources.getDrawable(R.drawable.ic_subdued, null),
+                            null
+                        )
+                        editText.compoundDrawablePadding = 12
+                    }
 
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    editText.setCompoundDrawablesWithIntrinsicBounds(
-                        resource, null,
-                        editText.context.resources.getDrawable(R.drawable.ic_subdued, null), null
-                    )
-                    editText.compoundDrawablePadding = 12
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        editText.setCompoundDrawablesWithIntrinsicBounds(
+                            resource,
+                            null,
+                            editText.context.resources.getDrawable(R.drawable.ic_subdued, null),
+                            null
+                        )
+                        editText.compoundDrawablePadding = 12
+                    }
                 }
-            }
-        )
+            )
     }
 }
 

@@ -7,8 +7,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
@@ -19,7 +17,6 @@ import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.showSnackBar
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 
 class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -48,6 +45,8 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         uiBinding.titleText.text = "Edit kontak"
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
+            uiBinding.addContactManualLayout.clearFocus()
+
             dataList.add(ContactChannelModel())
             adapter.notifyDataSetChanged()
         }
@@ -57,10 +56,12 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         }
 
         uiBinding.submitButton.setOnClickListener {
+            uiBinding.addContactManualLayout.clearFocus()
+
             contactRequest.channels.clear()
-            contactRequest.channels.addAll(dataList)
+            contactRequest.channels.addAll(dataList.filter { it.type != "" && it.account != "" })
             intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let { it ->
-                contactViewModel?.update(
+                contactViewModel.update(
                     id = it,
                     request = contactRequest,
                     onSuccess = {
@@ -194,17 +195,19 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     override fun onResume() {
         super.onResume()
         intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let {
-            contactViewModel?.findById(
+            contactViewModel.findById(
                 id = it,
                 onSuccess = {
                     //on data success loaded from backend
                     uiBinding.edittextAddContactName.setText(
                         if (it.name.isNullOrEmpty()) "-"
-                        else it.name)
+                        else it.name
+                    )
 
                     uiBinding.edittextAddContactPhone.setText(
                         if (it.phoneNumber.isNullOrEmpty()) "-"
-                        else it.phoneNumber)
+                        else it.phoneNumber
+                    )
 
                     uiBinding.edittextAddContactEmail.setText(
                         if (it.email.isNullOrEmpty()) "-"

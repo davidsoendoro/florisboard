@@ -1,32 +1,18 @@
 package com.kokatto.kobold.crm
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
-import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter.Companion.getData
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
-import timber.log.Timber
-import java.lang.Exception
-import com.kokatto.kobold.extension.showToast
-import com.kokatto.kobold.registration.RegistrationActivity
-import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
-import kotlinx.serialization.json.JsonNull.content
-import android.R.string
-import android.view.View
-import com.google.android.material.snackbar.Snackbar
-import com.kokatto.kobold.extension.showSnackBar
-import dev.patrickgold.florisboard.util.getActivity
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -51,6 +37,8 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 //        recyclerView.setHasFixedSize(true)
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
+            uiBinding.addContactManualLayout.clearFocus()
+
             dataList.add(ContactChannelModel())
             adapter.notifyDataSetChanged()
         }
@@ -61,19 +49,31 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
 
         uiBinding.submitButton.setOnClickListener {
+            uiBinding.addContactManualLayout.clearFocus()
+
+//            Log.e("hehe", dataList.filter { it.type != "" && it.account != "" }.toString())
+
             contactRequest.channels.clear()
-            contactRequest.channels.addAll(dataList)
-            contactRequest.channels.addAll(adapter.getData())
+            contactRequest.channels.addAll(dataList.filter { it.type != "" && it.account != "" })
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-                    showToast("Berhasil")
-                    showSnackBar("Berhasil menambah kontak.")
+//                    showToast("Berhasil")
+//                    showSnackBar("Berhasil menambah kontak.")
+                    intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
+                    intent.putExtra("snackbarBackground", R.color.snackbar_default)
+                    setResult(RESULT_OK, intent)
+
                     finish()
                 },
                 onError = {
-                    showToast("Gagal")
-                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
+//                    showToast("Gagal")
+//                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
+                    intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
+                    intent.putExtra("snackbarBackground", R.color.snackbar_error)
+                    setResult(RESULT_OK, intent)
+
+                    finish()
                 }
             )
         }
@@ -138,14 +138,19 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     override fun onDataChange(data: ContactChannelModel?, index: Int) {
         if (data == null) {
             dataList.removeAt(index)
+
+//            adapter.notifyItemRemoved(index)
+        } else if (dataList.isEmpty()) {
+            dataList.add(ContactChannelModel())
+
+//            adapter.notifyItemInserted(0)
         } else {
-            if (data.type == "WhatsApp")
+            if (data.type == "WhatsApp" && data.account == "")
                 data.account = uiBinding.edittextAddContactPhone.text.toString()
             dataList[index] = data
-        }
 
-        if (dataList.isEmpty())
-            dataList.add(ContactChannelModel())
+//            adapter.notifyItemChanged(index)
+        }
 
         uiBinding.addContactRecyclerView.post {
             adapter.notifyDataSetChanged()
