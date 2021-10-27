@@ -16,6 +16,17 @@ import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter.Companion.getDat
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
 import com.kokatto.kobold.extension.vertical
+import timber.log.Timber
+import java.lang.Exception
+import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.registration.RegistrationActivity
+import com.kokatto.kobold.registration.spinner.DialogBusinessFieldSelector
+import kotlinx.serialization.json.JsonNull.content
+import android.R.string
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
+import com.kokatto.kobold.extension.showSnackBar
+import dev.patrickgold.florisboard.util.getActivity
 
 
 class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItemClickListener {
@@ -31,8 +42,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding = ActivityAddContactBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-        isSaveButtonValid()
-
 //        buat mastiin kalo datalist yang dibuat kosong
         dataList.clear()
         dataList.add(ContactChannelModel())
@@ -43,7 +52,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             dataList.add(ContactChannelModel())
-            //adapter.notifyItemChanged(count)
             adapter.notifyDataSetChanged()
         }
 
@@ -55,22 +63,24 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding.submitButton.setOnClickListener {
             contactRequest.channels.clear()
             contactRequest.channels.addAll(dataList)
-
             contactRequest.channels.addAll(adapter.getData())
-            Log.e("dataList", adapter.getData().toString())
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-                    Toast.makeText(this, "Berhasil menambah kontak.", Toast.LENGTH_LONG).show()
+                    showToast("Berhasil")
+                    showSnackBar("Berhasil menambah kontak.")
+                    finish()
                 },
                 onError = {
-                    Toast.makeText(this, "Kontak gagal ditambahkan, silakan coba lagi.", Toast.LENGTH_LONG).show()
+                    showToast("Gagal")
+                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
                 }
             )
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                isSaveButtonValid()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -78,6 +88,11 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 contactRequest.name = s.toString()
+                if (s.toString().length > 100) {
+                    uiBinding.edittextAddContactNameError.visibility = View.VISIBLE
+                } else {
+                    uiBinding.edittextAddContactNameError.visibility = View.GONE
+                }
             }
         })
 
@@ -132,14 +147,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         if (dataList.isEmpty())
             dataList.add(ContactChannelModel())
 
-//        dataList
-
-//        GlobalScope.launch {
-//            suspend {
-//                adapter.notifyDataSetChanged()
-//            }.invoke()
-//        }
-
         uiBinding.addContactRecyclerView.post {
             adapter.notifyDataSetChanged()
         }
@@ -147,11 +154,11 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
     override fun onBackPressed() {
         createConfirmationDialog()
-//        super.onBackPressed()
     }
 
     fun isSaveButtonValid(): Boolean {
-        var isInputValid = contactRequest.phoneNumber != ""
+        var isInputValid =
+            contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
 
         if (isInputValid)
             uiBinding.submitButton.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button))
@@ -178,7 +185,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
 
         discardButton?.setOnClickListener {
             bottomDialog.dismiss()
-            startActivity(Intent(this@AddContactActivity, ContactListActivity::class.java))
             finish()
         }
 
