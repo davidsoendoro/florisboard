@@ -1,5 +1,6 @@
 package com.kokatto.kobold.transaction.recycleradapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.kokatto.kobold.extension.addRipple
 
 class BuyerNameRecyclerAdapter(
     val dataList: ArrayList<ContactModel> = arrayListOf(),
+    val context: Context
 ) : RecyclerView.Adapter<BuyerNameRecyclerAdapter.ViewHolder>() {
 
     var onItemClick: ((item: ContactModel) -> Unit)? = null
@@ -36,6 +38,11 @@ class BuyerNameRecyclerAdapter(
 
             layout_row_item.setOnClickListener {
                 onItemClick?.invoke(data)
+            }
+            if(data.isFromBackend){
+                layout_row_item.setBackgroundColor(context.getColor(R.color.kobold_yellow_fff2e0))
+            } else {
+                layout_row_item.setBackgroundColor(context.getColor(R.color.colorWhite))
             }
 
             layout_row_item.addRipple()
