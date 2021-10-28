@@ -736,7 +736,8 @@ class InputActivity : DashboardThemeActivity() {
     }
 
     private fun initiateAutocompleteAdapter(contactList: ArrayList<ContactModel>) {
-        contactAutocompleteAdapter = ContactAutocompleteAdapter(this, contactList)
+        contactAutocompleteAdapter =
+            ContactAutocompleteAdapter(this, contactList.distinctBy { it.name }.distinctBy { it.phoneNumber })
         editTextBuyer?.setAdapter(contactAutocompleteAdapter)
         editTextBuyer?.setOnItemClickListener { adapterView, view, i, l ->
             try {
