@@ -27,7 +27,9 @@ import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showSnackBarWithButton
 import com.kokatto.kobold.extension.vertical
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactListActivity : DashboardThemeActivity() {
@@ -43,6 +45,7 @@ class ContactListActivity : DashboardThemeActivity() {
     private var spinnerContactSort: DialogContactSort? = DialogContactSort()
     private var selectedSort: ContactSortEnum = ContactSortEnum.NEWEST
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var startForResult: ActivityResultLauncher<Intent>? = null
 
     private val isLast = AtomicBoolean(false)
 
@@ -113,19 +116,74 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
-        val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result: ActivityResult ->
+            if (result.resultCode == ActivityConstantCode.RESULT_ADD_CONTACT_SUCCESS) {
+                val snackbarResponse: String = result.data?.getStringExtra("snackbarResponse") ?: ""
+                val dataResponse: ContactModel? =
+                    result.data?.getParcelableExtra<ContactModel>(ActivityConstantCode.EXTRA_DATA)
+                Timber.d("dataResponse: $dataResponse")
+                if (snackbarResponse == "false") {
                     showSnackBar(
                         result.data?.getStringExtra("snackbarMessage") ?: "",
                         result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
                             ?: R.color.snackbar_default
                     )
+                } else {
+                    showSnackBarWithButton(
+                        result.data?.getStringExtra("snackbarMessage") ?: "",
+                        result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
+                            ?: R.color.snackbar_default,
+                        "Lihat",
+                    ) {
+                        if (it) {
+                            val intent = Intent(this, ContactInfoActivity::class.java)
+                            intent.putExtra(ActivityConstantCode.EXTRA_DATA, dataResponse)
+                            startActivity(intent)
+                        }
+                    }
                 }
+            } else if (result.resultCode == ActivityConstantCode.RESULT_OPEN_EDIT) {
+                val id: String? = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
+                Timber.d("dataResponsID: $id")
+                val intent = Intent(this, EditContactActivity::class.java)
+                intent.putExtra(ActivityConstantCode.EXTRA_DATA, id)
+                startForResult?.launch(intent)
+            } else if (result.resultCode == ActivityConstantCode.RESULT_ADD_CONTACT_FAILED) {
+                showSnackBar(
+                    result.data?.getStringExtra("snackbarMessage") ?: "",
+                    result.data?.getIntExtra("snackbarBackground", R.color.snackbar_error)
+                        ?: R.color.snackbar_error
+                )
+            } else if (result.resultCode == ActivityConstantCode.RESULT_EDIT_CONTACT_SUCCESS) {
+                showSnackBar(
+                    result.data?.getStringExtra("snackbarMessage") ?: "",
+                    result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
+                        ?: R.color.snackbar_default
+                )
+            } else if (result.resultCode == ActivityConstantCode.RESULT_EDIT_CONTACT_FAILED) {
+                showSnackBar(
+                    result.data?.getStringExtra("snackbarMessage") ?: "",
+                    result.data?.getIntExtra("snackbarBackground", R.color.snackbar_error)
+                        ?: R.color.snackbar_error
+                )
+            } else {
             }
+        }
+
         binding.addContactButton.setOnClickListener {
-            startForResult.launch(Intent(this, AddContactActivity::class.java))
+            val dialogContactMenu = DialogContactMenu().newInstance()
+            dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
+
+            dialogContactMenu.onImportClick = {
+                dialogContactMenu.dismiss()
+                checkContactImportView()
+            }
+
+            dialogContactMenu.onManualClick = {
+                dialogContactMenu.dismiss()
+                showContactManualview()
+            }
         }
 
         DovesRecyclerViewPaginator(
@@ -153,6 +211,7 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
+
 //        callAPISearch(1, "", sortingType)
     }
 
@@ -162,7 +221,8 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactManualview() {
-        startActivity(Intent(this@ContactListActivity, AddContactActivity::class.java))
+        val intent = Intent(this@ContactListActivity, AddContactActivity::class.java)
+        startForResult?.launch(intent)
     }
 
     private fun checkContactImportView() {
@@ -213,7 +273,7 @@ class ContactListActivity : DashboardThemeActivity() {
                     binding.addContactButton.visibility = View.GONE
                     contactEmpty = true
                 }
-                if(it.data.contents.size < pageSize){
+                if (it.data.contents.size < pageSize) {
                     isLast.set(true)
                 }
             },
@@ -233,7 +293,7 @@ class ContactListActivity : DashboardThemeActivity() {
         recyclerAdapter?.onItemClick = {
             val intent = Intent(this, ContactInfoActivity::class.java)
             intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
-            startActivity(intent)
+            startForResult?.launch(intent)
         }
     }
 

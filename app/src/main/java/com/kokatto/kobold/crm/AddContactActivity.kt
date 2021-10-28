@@ -1,5 +1,6 @@
 package com.kokatto.kobold.crm
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,10 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
+import com.kokatto.kobold.api.model.basemodel.ContactModel
+import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 
 
@@ -28,13 +34,12 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding = ActivityAddContactBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-//        buat mastiin kalo datalist yang dibuat kosong
+        isSaveButtonValid()
         dataList.clear()
         dataList.add(ContactChannelModel())
 
         uiBinding.addContactRecyclerView.adapter = adapter
         uiBinding.addContactRecyclerView.vertical()
-//        recyclerView.setHasFixedSize(true)
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             uiBinding.addContactManualLayout.clearFocus()
@@ -44,35 +49,37 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
 
         uiBinding.backButton.setOnClickListener {
-//            ini panggil onBackPressed aja supaya bisa antisipasi user pencet tombol di atas atau pencet back dari hp mereka
             onBackPressed()
         }
 
         uiBinding.submitButton.setOnClickListener {
             uiBinding.addContactManualLayout.clearFocus()
 
-//            Log.e("hehe", dataList.filter { it.type != "" && it.account != "" }.toString())
-
             contactRequest.channels.clear()
             contactRequest.channels.addAll(dataList.filter { it.type != "" && it.account != "" })
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-//                    showToast("Berhasil")
-//                    showSnackBar("Berhasil menambah kontak.")
-                    intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
-                    intent.putExtra("snackbarBackground", R.color.snackbar_default)
-                    setResult(RESULT_OK, intent)
-
+                    val response: Boolean = it.isProfileUpdated
+                    val intentResult = Intent()
+                    if (response == false){
+                        intentResult.putExtra("snackbarMessage", "Berhasil menambah kontak.")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intentResult.putExtra("snackbarResponse", "false")
+                    }else{
+                        intentResult.putExtra("snackbarMessage", "Kontak sudah pernah disimpan sebelumnya")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intentResult.putExtra("snackbarResponse", "true")
+                        intentResult.putExtra(ActivityConstantCode.EXTRA_DATA, it.contact)
+                    }
+                    setResult(ActivityConstantCode.RESULT_ADD_CONTACT_SUCCESS, intentResult)
                     finish()
                 },
                 onError = {
-//                    showToast("Gagal")
-//                    showSnackBar("Kontak gagal ditambahkan, silakan coba lagi.", R.color.snackbar_error)
-                    intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
-                    intent.putExtra("snackbarBackground", R.color.snackbar_error)
-                    setResult(RESULT_OK, intent)
-
+                    val intentResult = Intent()
+                    intentResult.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
+                    intentResult.putExtra("snackbarBackground", R.color.snackbar_error)
+                    setResult(ActivityConstantCode.RESULT_ADD_CONTACT_FAILED, intentResult)
                     finish()
                 }
             )
@@ -143,8 +150,9 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
                     adapter.notifyItemChanged(0)
                 } else {
                     dataList.removeAt(index)
-
-                    adapter.notifyItemRemoved(index)
+                    //adapter.notifyItemChanged(index)
+                    adapter.notifyDataSetChanged()
+                    //adapter.notifyItemRemoved(index)
                 }
             } else {
                 if (data.type == "WhatsApp" && data.account == "")
@@ -169,8 +177,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
     }
 
     fun isSaveButtonValid(): Boolean {
-        var isInputValid =
-            contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
+        var isInputValid = contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
 
         if (isInputValid)
             uiBinding.submitButton.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button))
