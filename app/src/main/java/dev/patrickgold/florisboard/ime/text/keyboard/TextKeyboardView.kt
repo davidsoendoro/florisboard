@@ -57,7 +57,7 @@ import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 @Suppress("UNUSED_PARAMETER")
-class TextKeyboardView : KeyboardView, SwipeGesture.Listener, GlideTypingGesture.Listener, CoroutineScope {
+open class TextKeyboardView : KeyboardView, SwipeGesture.Listener, GlideTypingGesture.Listener, CoroutineScope {
     override val coroutineContext: CoroutineContext = MainScope().coroutineContext
 
     private var computedKeyboard: TextKeyboard? = null
@@ -181,7 +181,7 @@ class TextKeyboardView : KeyboardView, SwipeGesture.Listener, GlideTypingGesture
         externalComputingEvaluator = evaluator
     }
 
-    fun setComputedKeyboard(keyboard: TextKeyboard) {
+    open fun setComputedKeyboard(keyboard: TextKeyboard) {
         flogInfo(LogTopic.TEXT_KEYBOARD_VIEW) { keyboard.mode.toString() }
         val renderViewDiff = keyboard.keyCount - childCount
         if (renderViewDiff > 0) {
