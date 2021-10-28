@@ -35,13 +35,11 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             setContentView(root)
         }
         isSaveButtonValid()
-//        buat mastiin kalo datalist yang dibuat kosong
         dataList.clear()
         dataList.add(ContactChannelModel())
 
         uiBinding.addContactRecyclerView.adapter = adapter
         uiBinding.addContactRecyclerView.vertical()
-//        recyclerView.setHasFixedSize(true)
 
         uiBinding.koboltAddContactAddChannelText.setOnClickListener {
             uiBinding.addContactManualLayout.clearFocus()
@@ -51,7 +49,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         }
 
         uiBinding.backButton.setOnClickListener {
-//            ini panggil onBackPressed aja supaya bisa antisipasi user pencet tombol di atas atau pencet back dari hp mereka
             onBackPressed()
         }
 
@@ -64,8 +61,6 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
                 request = contactRequest,
                 onSuccess = {
                     val response: Boolean = it.isProfileUpdated
-                        //showToast(it.toString())
-//                    showToast(it.contact.toString())
                     val intentResult = Intent()
                     if (response == false){
                         intentResult.putExtra("snackbarMessage", "Berhasil menambah kontak.")

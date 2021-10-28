@@ -17,7 +17,6 @@ import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
 import com.kokatto.kobold.api.model.basemodel.ContactModel
-import com.kokatto.kobold.api.model.response.GetContactResponse
 import com.kokatto.kobold.component.DashboardThemeActivity
 import com.kokatto.kobold.component.DovesRecyclerViewPaginator
 import com.kokatto.kobold.constant.ActivityConstantCode
@@ -25,14 +24,11 @@ import com.kokatto.kobold.constant.ContactSortEnum
 import com.kokatto.kobold.crm.adapter.ContactListRecyclerAdapter
 import com.kokatto.kobold.crm.dialog.DialogContactSort
 import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
-import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showSnackBarWithButton
-import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
-import retrofit2.Response
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -50,7 +46,6 @@ class ContactListActivity : DashboardThemeActivity() {
     private var selectedSort: ContactSortEnum = ContactSortEnum.NEWEST
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
     private var startForResult: ActivityResultLauncher<Intent>? = null
-    private var startResult: ActivityResultLauncher<Intent>? = null
 
     private val isLast = AtomicBoolean(false)
 
@@ -121,89 +116,59 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
-//        startResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-//        { result: ActivityResult ->
-//            if(result.resultCode == ActivityConstantCode.RESULT_OPEN_EDIT){
-//                val id: String? = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
-//                //Timber.d("dataResponsID: $id")
-//                val intent = Intent(this, EditContactActivity::class.java)
-//                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, id)
-//                    startForResult?.launch(intent)
-//
-//                if (result.resultCode == Activity.RESULT_OK) {
-//                    val snackbarResponse: String = result.data?.getStringExtra("snackbarResponse") ?: ""
-//                    val dataResponse: ContactModel? =  result.data?.getParcelableExtra<ContactModel>(ActivityConstantCode.EXTRA_DATA)
-//                    Timber.d("dataResponse: $dataResponse")
-//                    showSnackBar(
-//                        result.data?.getStringExtra("snackbarMessage") ?: "",
-//                        result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
-//                            ?: R.color.snackbar_default
-//                    )
-//                }
-//                else{
-//                    showSnackBar(
-//                        result.data?.getStringExtra("snackbarMessage") ?: "",
-//                        result.data?.getIntExtra("snackbarBackground", R.color.snackbar_error)
-//                            ?: R.color.snackbar_error
-//                    )
-//                }
-//            }
-//        }
-
         startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
         { result: ActivityResult ->
             if (result.resultCode == ActivityConstantCode.RESULT_ADD_CONTACT_SUCCESS) {
                 val snackbarResponse: String = result.data?.getStringExtra("snackbarResponse") ?: ""
-                val dataResponse: ContactModel? =  result.data?.getParcelableExtra<ContactModel>(ActivityConstantCode.EXTRA_DATA)
+                val dataResponse: ContactModel? =
+                    result.data?.getParcelableExtra<ContactModel>(ActivityConstantCode.EXTRA_DATA)
                 Timber.d("dataResponse: $dataResponse")
-                if(snackbarResponse == "false")
-                {
+                if (snackbarResponse == "false") {
                     showSnackBar(
                         result.data?.getStringExtra("snackbarMessage") ?: "",
                         result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
                             ?: R.color.snackbar_default
                     )
-                }else{
+                } else {
                     showSnackBarWithButton(
                         result.data?.getStringExtra("snackbarMessage") ?: "",
                         result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
                             ?: R.color.snackbar_default,
                         "Lihat",
-                        ){
-                        if(it){
+                    ) {
+                        if (it) {
                             val intent = Intent(this, ContactInfoActivity::class.java)
                             intent.putExtra(ActivityConstantCode.EXTRA_DATA, dataResponse)
                             startActivity(intent)
                         }
                     }
                 }
-            }
-            else if(result.resultCode == ActivityConstantCode.RESULT_OPEN_EDIT){
+            } else if (result.resultCode == ActivityConstantCode.RESULT_OPEN_EDIT) {
                 val id: String? = result.data?.getStringExtra(ActivityConstantCode.EXTRA_DATA)
                 Timber.d("dataResponsID: $id")
                 val intent = Intent(this, EditContactActivity::class.java)
-                    intent.putExtra(ActivityConstantCode.EXTRA_DATA, id)
-                    startForResult?.launch(intent)
-            }
-            else if(result.resultCode == ActivityConstantCode.RESULT_ADD_CONTACT_FAILED){
+                intent.putExtra(ActivityConstantCode.EXTRA_DATA, id)
+                startForResult?.launch(intent)
+            } else if (result.resultCode == ActivityConstantCode.RESULT_ADD_CONTACT_FAILED) {
                 showSnackBar(
                     result.data?.getStringExtra("snackbarMessage") ?: "",
                     result.data?.getIntExtra("snackbarBackground", R.color.snackbar_error)
                         ?: R.color.snackbar_error
                 )
-            }else if(result.resultCode == ActivityConstantCode.RESULT_EDIT_CONTACT_SUCCESS){
+            } else if (result.resultCode == ActivityConstantCode.RESULT_EDIT_CONTACT_SUCCESS) {
                 showSnackBar(
                     result.data?.getStringExtra("snackbarMessage") ?: "",
                     result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
                         ?: R.color.snackbar_default
                 )
-            }else if(result.resultCode == ActivityConstantCode.RESULT_EDIT_CONTACT_FAILED){
+            } else if (result.resultCode == ActivityConstantCode.RESULT_EDIT_CONTACT_FAILED) {
                 showSnackBar(
                     result.data?.getStringExtra("snackbarMessage") ?: "",
                     result.data?.getIntExtra("snackbarBackground", R.color.snackbar_error)
                         ?: R.color.snackbar_error
                 )
-            }else{}
+            } else {
+            }
         }
 
         binding.addContactButton.setOnClickListener {
@@ -308,7 +273,7 @@ class ContactListActivity : DashboardThemeActivity() {
                     binding.addContactButton.visibility = View.GONE
                     contactEmpty = true
                 }
-                if(it.data.contents.size < pageSize){
+                if (it.data.contents.size < pageSize) {
                     isLast.set(true)
                 }
             },

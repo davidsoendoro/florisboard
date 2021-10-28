@@ -73,7 +73,7 @@ class ContactInfoActivity : DashboardThemeActivity() {
         binding.textEdit.setOnClickListener {
             val intent = Intent()
             intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentContact!!._id)
-            setResult(ActivityConstantCode.RESULT_OPEN_EDIT,intent)
+            setResult(ActivityConstantCode.RESULT_OPEN_EDIT, intent)
             finish()
         }
 
