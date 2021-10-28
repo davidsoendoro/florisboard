@@ -66,6 +66,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
                     val response: Boolean = it.isProfileUpdated
                     //showToast(it.isProfileUpdated.toString())
 
+
                     if (response == false){
                         intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
                         intent.putExtra("snackbarBackground", R.color.snackbar_default)
