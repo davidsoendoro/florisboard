@@ -7,5 +7,4 @@ data class GetContactResponse(
     val statusCode: Int,
     val statusMessage: String,
 )
-//ResponseAddContactModel
 

@@ -2,6 +2,7 @@ package com.kokatto.kobold.crm
 
 import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.model.basemodel.ContactModel
+import com.kokatto.kobold.api.model.basemodel.ResponseContactModel
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostUpdateContactByTransactionIdRequest
@@ -48,12 +49,11 @@ class ContactViewModel {
 
     fun create(
         request: PostContactRequest,
-        onSuccess: (ContactModel) -> Unit,
+        onSuccess: (ResponseContactModel) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
             val response = Network.contactApi.postCreate(request)
-
             response.onSuccess {
                 onSuccess.invoke(this.data.data)
             }.onError {

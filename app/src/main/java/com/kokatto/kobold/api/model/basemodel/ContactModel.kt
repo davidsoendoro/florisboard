@@ -19,7 +19,6 @@ data class ContactModel(
     var lastTransaction: Long? = null,
     var channels: List<ContactChannelModel> = listOf(),
     var shippingAddress: List<ContactAddressModel> = listOf(),
-    var isProfileUpdated: Boolean = false,
     var isFromBackend: Boolean = false
 ) : Parcelable
 

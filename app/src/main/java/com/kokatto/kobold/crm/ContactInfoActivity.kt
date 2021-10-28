@@ -1,9 +1,13 @@
 package com.kokatto.kobold.crm
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kokatto.kobold.R
@@ -16,14 +20,15 @@ import com.kokatto.kobold.crm.fragment.ContactTransactionFragment
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityContactInfoBinding
 import com.kokatto.kobold.extension.addRipple
+import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.utility.ThirdAppUtility
+import timber.log.Timber
 
 class ContactInfoActivity : DashboardThemeActivity() {
     private lateinit var binding: ActivityContactInfoBinding
     private lateinit var adapter: CommonViewPagerAdapter
 
     private var currentContact: ContactModel? = null
-    //private var showContact: ResponseAddContactModel? = null
     private val tabTexts = mutableListOf("Transaksi", "Info Kontak")
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -66,9 +71,10 @@ class ContactInfoActivity : DashboardThemeActivity() {
         }
 
         binding.textEdit.setOnClickListener {
-            val intent = Intent(this, EditContactActivity::class.java)
+            val intent = Intent()
             intent.putExtra(ActivityConstantCode.EXTRA_DATA, currentContact!!._id)
-            startActivity(intent)
+            setResult(ActivityConstantCode.RESULT_OPEN_EDIT,intent)
+            finish()
         }
 
         binding.layoutSms.setOnClickListener {

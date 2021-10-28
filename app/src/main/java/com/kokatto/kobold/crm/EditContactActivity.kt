@@ -27,7 +27,6 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     var contactRequest: PostContactRequest = PostContactRequest()
     val contactViewModel = ContactViewModel()
     var contactModel = ContactModel()
-    var responseContactModel = ResponseAddContactModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,21 +66,23 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
                     id = it,
                     request = contactRequest,
                     onSuccess = {
-                        intent.putExtra("snackbarMessage", "Kontak berhasil diubah.")
-                        intent.putExtra("snackbarBackground", R.color.snackbar_default)
-                        setResult(RESULT_OK, intent)
+                        val intentResult = Intent()
+                        intentResult.putExtra("snackbarMessage", "Kontak berhasil diubah.")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intentResult.putExtra("snackbarResult","RESULT_OK")
+                        setResult(ActivityConstantCode.RESULT_EDIT_CONTACT_SUCCESS, intentResult)
+                        finish()
                     },
                     onError = {
-                        intent.putExtra("snackbarMessage", "Kontak gagal diubah, silakan coba lagi.")
-                        intent.putExtra("snackbarBackground", R.color.snackbar_error)
-                        setResult(RESULT_OK, intent)
+                        val intentResult = Intent()
+                        intentResult.putExtra("snackbarMessage", "Kontak gagal diubah, silakan coba lagi.")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_error)
+                        intentResult.putExtra("snackbarResult","RESULT_CANCELED")
+                        setResult(ActivityConstantCode.RESULT_EDIT_CONTACT_FAILED, intentResult)
+                        finish()
                     }
                 )
             }
-            val i = Intent(this@EditContactActivity, ContactListActivity::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(i)
-            finish()
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
@@ -148,8 +149,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
                     adapter.notifyItemChanged(0)
                 } else {
                     dataList.removeAt(index)
-
-                    adapter.notifyItemRemoved(index)
+                    adapter.notifyDataSetChanged()
+                    //adapter.notifyItemChanged(index)
+//                    adapter.notifyItemRemoved(index)
                 }
             } else {
                 if (data.type == "WhatsApp" && data.account == "")

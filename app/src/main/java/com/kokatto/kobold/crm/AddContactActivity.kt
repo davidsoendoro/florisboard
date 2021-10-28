@@ -64,26 +64,27 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
                 request = contactRequest,
                 onSuccess = {
                     val response: Boolean = it.isProfileUpdated
-                    //showToast(it.isProfileUpdated.toString())
-
-
+                        //showToast(it.toString())
+//                    showToast(it.contact.toString())
+                    val intentResult = Intent()
                     if (response == false){
-                        intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
-                        intent.putExtra("snackbarBackground", R.color.snackbar_default)
-                        intent.putExtra("snackbarResponse", "false")
+                        intentResult.putExtra("snackbarMessage", "Berhasil menambah kontak.")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intentResult.putExtra("snackbarResponse", "false")
                     }else{
-                        intent.putExtra("snackbarMessage", "Kontak sudah pernah disimpan sebelumnya")
-                        intent.putExtra("snackbarBackground", R.color.snackbar_default)
-                        intent.putExtra("snackbarResponse", "true")
-                        intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
+                        intentResult.putExtra("snackbarMessage", "Kontak sudah pernah disimpan sebelumnya")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intentResult.putExtra("snackbarResponse", "true")
+                        intentResult.putExtra(ActivityConstantCode.EXTRA_DATA, it.contact)
                     }
-                    setResult(RESULT_OK, intent)
+                    setResult(ActivityConstantCode.RESULT_ADD_CONTACT_SUCCESS, intentResult)
                     finish()
                 },
                 onError = {
-                    intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
-                    intent.putExtra("snackbarBackground", R.color.snackbar_error)
-                    setResult(RESULT_OK, intent)
+                    val intentResult = Intent()
+                    intentResult.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
+                    intentResult.putExtra("snackbarBackground", R.color.snackbar_error)
+                    setResult(ActivityConstantCode.RESULT_ADD_CONTACT_FAILED, intentResult)
                     finish()
                 }
             )
@@ -154,8 +155,9 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
                     adapter.notifyItemChanged(0)
                 } else {
                     dataList.removeAt(index)
-
-                    adapter.notifyItemRemoved(index)
+                    //adapter.notifyItemChanged(index)
+                    adapter.notifyDataSetChanged()
+                    //adapter.notifyItemRemoved(index)
                 }
             } else {
                 if (data.type == "WhatsApp" && data.account == "")
