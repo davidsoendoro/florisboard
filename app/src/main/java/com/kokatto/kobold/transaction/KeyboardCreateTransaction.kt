@@ -1,6 +1,8 @@
 package com.kokatto.kobold.transaction
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -12,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -32,6 +35,7 @@ import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetAdapter
 import com.kokatto.kobold.editor.SpinnerEditorWithAssetItem
 import com.kokatto.kobold.extension.findKoboldEditTextId
+import com.kokatto.kobold.extension.findTextViewId
 import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.removeThousandSeparatedString
 import com.kokatto.kobold.extension.showSnackBar
@@ -62,6 +66,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
     private var koboldExpandView: TextView? = null
     private var buyerNameText: KoboldEditText? = null
+    private var imporKontakButton: TextView? = null
     private var chooseChannelText: KoboldEditText? = null
 
     private var layoutEmpty: LinearLayout? = null
@@ -109,6 +114,7 @@ class KeyboardCreateTransaction : ConstraintLayout {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         buyerNameText = findKoboldEditTextId(R.id.kobold_transaction_buyer_name)
+        imporKontakButton = findTextViewId(R.id.impor_kontak_button)
         chooseChannelText = findKoboldEditTextId(R.id.kobold_transaction_choose_channel)
         phoneNumberText = findKoboldEditTextId(R.id.kobold_transaction_phone_number)
         addressText = findKoboldEditTextId(R.id.kobold_transaction_receiver_address)
@@ -417,8 +423,26 @@ class KeyboardCreateTransaction : ConstraintLayout {
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-
         if (changedView == this && visibility == View.VISIBLE) {
+
+            imporKontakButton?.isVisible = true
+            val contactpermission =
+                ContextCompat.checkSelfPermission(imporKontakButton!!.context, Manifest.permission.READ_CONTACTS)
+            when (contactpermission) {
+                PackageManager.PERMISSION_GRANTED -> {
+                    imporKontakButton?.isVisible = false
+                }
+                else -> {
+                    imporKontakButton?.isVisible = true
+                    imporKontakButton?.setOnClickListener {
+                        florisboard?.inputFeedbackManager?.keyPress()
+
+                        florisboard?.launchExpandCreateTransactionView(
+                            transactionModel
+                        )
+                    }
+                }
+            }
 
             pickChannelOptions.clear()
             transactionViewModel?.getStandardListProperties(
