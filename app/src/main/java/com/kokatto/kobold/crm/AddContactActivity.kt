@@ -1,5 +1,6 @@
 package com.kokatto.kobold.crm
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,10 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
+import com.kokatto.kobold.api.model.basemodel.ContactModel
+import com.kokatto.kobold.api.model.basemodel.MerchantModel
 import com.kokatto.kobold.api.model.request.PostContactRequest
+import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
+import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
+import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 
 
@@ -52,24 +58,31 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding.submitButton.setOnClickListener {
             uiBinding.addContactManualLayout.clearFocus()
 
-//            Log.e("hehe", dataList.filter { it.type != "" && it.account != "" }.toString())
-
             contactRequest.channels.clear()
             contactRequest.channels.addAll(dataList.filter { it.type != "" && it.account != "" })
             contactViewModel.create(
                 request = contactRequest,
                 onSuccess = {
-                    intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
-                    intent.putExtra("snackbarBackground", R.color.snackbar_default)
-                    setResult(RESULT_OK, intent)
+                    val response: Boolean = it.isProfileUpdated
+                    //showToast(it.isProfileUpdated.toString())
 
+                    if (response == false){
+                        intent.putExtra("snackbarMessage", "Berhasil menambah kontak.")
+                        intent.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intent.putExtra("snackbarResponse", "false")
+                    }else{
+                        intent.putExtra("snackbarMessage", "Kontak sudah pernah disimpan sebelumnya")
+                        intent.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intent.putExtra("snackbarResponse", "true")
+                        intent.putExtra(ActivityConstantCode.EXTRA_DATA, it)
+                    }
+                    setResult(RESULT_OK, intent)
                     finish()
                 },
                 onError = {
                     intent.putExtra("snackbarMessage", "Kontak gagal ditambahkan, silakan coba lagi.")
                     intent.putExtra("snackbarBackground", R.color.snackbar_error)
                     setResult(RESULT_OK, intent)
-
                     finish()
                 }
             )

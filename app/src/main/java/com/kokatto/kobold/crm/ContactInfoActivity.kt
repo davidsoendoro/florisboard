@@ -23,6 +23,7 @@ class ContactInfoActivity : DashboardThemeActivity() {
     private lateinit var adapter: CommonViewPagerAdapter
 
     private var currentContact: ContactModel? = null
+    //private var showContact: ResponseAddContactModel? = null
     private val tabTexts = mutableListOf("Transaksi", "Info Kontak")
 
     @RequiresApi(Build.VERSION_CODES.M)

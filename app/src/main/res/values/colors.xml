@@ -103,4 +103,5 @@
 
     <color name="kobold_yellow_fff2e0">#FFF2E0</color>
     <color name="primary_05">#DBE8FD</color>
+    <color name="toast_button_blue">#8BADF0</color>
 </resources>

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
@@ -26,6 +27,7 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     var contactRequest: PostContactRequest = PostContactRequest()
     val contactViewModel = ContactViewModel()
     var contactModel = ContactModel()
+    var responseContactModel = ResponseAddContactModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,27 +141,32 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     }
 
     override fun onDataChange(data: ContactChannelModel?, index: Int) {
-        if (data == null) {
-            dataList.removeAt(index)
+        try {
+            if (data == null) {
+                if (dataList.size <= 1) {
+                    dataList[0] = ContactChannelModel()
+                    adapter.notifyItemChanged(0)
+                } else {
+                    dataList.removeAt(index)
 
-//            adapter.notifyItemRemoved(index)
-        } else {
-            if (data.type == "WhatsApp" && data.account == "")
-                data.account = uiBinding.edittextAddContactPhone.text.toString()
-            dataList[index] = data
+                    adapter.notifyItemRemoved(index)
+                }
+            } else {
+                if (data.type == "WhatsApp" && data.account == "")
+                    data.account = uiBinding.edittextAddContactPhone.text.toString()
 
-//            adapter.notifyItemChanged(index)
+                dataList[index] = data
+
+                adapter.notifyItemChanged(index)
+            }
+
+        } catch (e: Exception) {
+//            adapter.notifyDataSetChanged()
+
         }
-
-        if (dataList.isEmpty()) {
-            dataList.add(ContactChannelModel())
-
-//            adapter.notifyItemInserted(0)
-        }
-
-        uiBinding.addContactRecyclerView.post {
-            adapter.notifyDataSetChanged()
-        }
+//        uiBinding.addContactRecyclerView.post {
+////            adapter.notifyDataSetChanged()
+//        }
     }
 
     override fun onBackPressed() {
@@ -208,6 +215,11 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let {
             contactViewModel.findById(
                 id = it,
+                onLoading = {
+                    //on data is loading
+                    uiBinding.fullscreenLoading.isVisible = it
+                    uiBinding.scrollView.isVisible = it.not()
+                },
                 onSuccess = {
                     //on data success loaded from backend
                     uiBinding.edittextAddContactName.setText(
@@ -228,7 +240,8 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
                         if (it.address.isNullOrEmpty()) "-"
                         else it.address)
 
-                    contactModel = it
+//                    responseContactModel = it
+                    contactModel=it
 
                     if(it.channels.isNullOrEmpty()) {
                         dataList.clear()

@@ -27,7 +27,9 @@ import com.kokatto.kobold.crm.dialog.DialogLoadingSmall
 import com.kokatto.kobold.databinding.ActivityContactBinding
 import com.kokatto.kobold.extension.addRipple
 import com.kokatto.kobold.extension.showSnackBar
+import com.kokatto.kobold.extension.showSnackBarWithButton
 import com.kokatto.kobold.extension.vertical
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactListActivity : DashboardThemeActivity() {
@@ -43,6 +45,7 @@ class ContactListActivity : DashboardThemeActivity() {
     private var spinnerContactSort: DialogContactSort? = DialogContactSort()
     private var selectedSort: ContactSortEnum = ContactSortEnum.NEWEST
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var startForResult: ActivityResultLauncher<Intent>? = null
 
     private val isLast = AtomicBoolean(false)
 
@@ -113,19 +116,41 @@ class ContactListActivity : DashboardThemeActivity() {
             }
         }
 
-        val startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val snackbarResponse: String = result.data?.getStringExtra("snackbarResponse") ?: ""
+                //val dataResponse: ContactModel? =  intent.getParcelableExtra<ContactModel>(ActivityConstantCode.EXTRA_DATA)
+                val dataResponse: ContactModel? =  intent.getParcelableExtra<ContactModel>(ActivityConstantCode.EXTRA_DATA)
+                Timber.d("dataResponse: $dataResponse")
+                //ResponseAdd
+                //showToast(dataResponse.toString())
+                if(snackbarResponse == "false")
+                {
                     showSnackBar(
                         result.data?.getStringExtra("snackbarMessage") ?: "",
                         result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
                             ?: R.color.snackbar_default
                     )
+                }else{
+                    showSnackBarWithButton(
+                        result.data?.getStringExtra("snackbarMessage") ?: "",
+                        result.data?.getIntExtra("snackbarBackground", R.color.snackbar_default)
+                            ?: R.color.snackbar_default,
+                        "Lihat",
+                        ){
+                        if(it){
+                            val intent = Intent(this, ContactInfoActivity::class.java)
+                            intent.putExtra(ActivityConstantCode.EXTRA_DATA, dataResponse)
+                            startActivity(intent)
+                        }
+                    }
                 }
+
             }
+        }
+
         binding.addContactButton.setOnClickListener {
-            //startForResult.launch(Intent(this, AddContactActivity::class.java))
             val dialogContactMenu = DialogContactMenu().newInstance()
             dialogContactMenu.show(supportFragmentManager, dialogContactMenu.TAG)
 
@@ -174,7 +199,8 @@ class ContactListActivity : DashboardThemeActivity() {
     }
 
     private fun showContactManualview() {
-        startActivity(Intent(this@ContactListActivity, AddContactActivity::class.java))
+        val intent = Intent(this@ContactListActivity, AddContactActivity::class.java)
+        startForResult?.launch(intent)
     }
 
     private fun checkContactImportView() {

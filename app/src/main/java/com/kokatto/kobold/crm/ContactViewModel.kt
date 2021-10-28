@@ -48,13 +48,14 @@ class ContactViewModel {
 
     fun create(
         request: PostContactRequest,
-        onSuccess: (String) -> Unit,
+        onSuccess: (ContactModel) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
             val response = Network.contactApi.postCreate(request)
+
             response.onSuccess {
-                onSuccess.invoke(this.data.statusMessage)
+                onSuccess.invoke(this.data.data)
             }.onError {
                 onError.invoke(this.message())
             }.onException {
@@ -106,17 +107,22 @@ class ContactViewModel {
 
     fun findById(
         id: String,
+        onLoading: (Boolean) -> Unit,
         onSuccess: (ContactModel) -> Unit,
         onError: (String) -> Unit
     ) {
         scope.launch {
+            onLoading.invoke(true)
             val response = Network.contactApi.findContactById(id)
 
             response.onSuccess {
+                onLoading.invoke(false)
                 onSuccess.invoke(this.data.data)
             }.onError {
+                onLoading.invoke(false)
                 onError.invoke(this.message())
             }.onException {
+                onLoading.invoke(false)
                 onError.invoke(this.message())
             }
         }

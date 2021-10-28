@@ -307,7 +307,7 @@ interface ContactApi {
     @RequiredAuth
     @POST(contactUrl + "create")
     suspend fun postCreate(
-        @Body request: PostContactRequest): ApiResponse<BaseResponse>
+        @Body request: PostContactRequest): ApiResponse<GetContactResponse>
 
 
     @RequiredAuth

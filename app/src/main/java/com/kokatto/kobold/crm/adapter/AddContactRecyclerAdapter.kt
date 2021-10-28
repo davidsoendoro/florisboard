@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -63,9 +64,9 @@ class AddContactRecyclerAdapter(
 
 //            if (itemCount > 1) count = 1
 
-            if (index == 0 && data.type == "") {
+            if (index == 0 && data.type == "" && itemCount==1) {
                 deleteButton.visibility = View.GONE
-            } else {
+            } else{
                 deleteButton.visibility = View.VISIBLE
             }
 
