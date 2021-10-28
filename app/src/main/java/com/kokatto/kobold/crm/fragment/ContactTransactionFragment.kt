@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.impl.DashboardSessionExpiredEventHandler
 import com.kokatto.kobold.api.impl.ErrorResponseValidator
@@ -23,8 +22,8 @@ import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.dashboardcreatetransaction.TransactionViewModel
 import com.kokatto.kobold.dashboardcreatetransaction.recycleradapter.TransactionHomeRecyclerAdapter
 import com.kokatto.kobold.databinding.FragmentContactTransactionBinding
+import com.kokatto.kobold.extension.horizontal
 import com.kokatto.kobold.extension.showSnackBar
-import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ContactTransactionFragment(val contact: ContactModel?) : Fragment(), TransactionHomeRecyclerAdapter.OnClick {
@@ -152,7 +151,7 @@ class ContactTransactionFragment(val contact: ContactModel?) : Fragment(), Trans
     }
 
     private fun bindAdapterContact(list: ArrayList<TransactionModel>) {
-        recyclerAdapter = TransactionHomeRecyclerAdapter(list, this)
+        recyclerAdapter = TransactionHomeRecyclerAdapter(list, this, true)
         binding.recyclerView.adapter = recyclerAdapter
         recyclerAdapter!!.notifyDataSetChanged()
     }
@@ -176,8 +175,7 @@ class ContactTransactionFragment(val contact: ContactModel?) : Fragment(), Trans
         selectedFilter = TransactionFilterEnum.ALL
 
         recyclerFilterAdapter = TransactionFilterRecycleAdapter(selectedFilter, filters)
-        binding.recyclerViewFilter.layoutManager =
-            LinearLayoutManager(binding.recyclerViewFilter.context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewFilter.horizontal()
         binding.recyclerViewFilter.adapter = recyclerFilterAdapter
 
         recyclerFilterAdapter!!.onItemClick = {

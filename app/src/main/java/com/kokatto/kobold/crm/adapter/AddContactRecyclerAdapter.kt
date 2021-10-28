@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -29,7 +30,7 @@ class AddContactRecyclerAdapter(
     RecyclerView.Adapter<AddContactRecyclerAdapter.DataViewHolder>() {
 
     private var spinnerChannelSelector: SpinnerChannelSelector? = SpinnerChannelSelector()
-    private var count: Int = 0
+//    private var count: Int = 0
 
     companion object {
         fun AddContactRecyclerAdapter.getData(): ArrayList<ContactChannelModel> {
@@ -61,11 +62,11 @@ class AddContactRecyclerAdapter(
             channelEditText.setText(data.type)
             idEdittext.setText(data.account)
 
-            if (itemCount > 1) count = 1
+//            if (itemCount > 1) count = 1
 
-            if (index == 0 && data.type == "" && itemCount == 1 && count == 0) {
+            if (index == 0 && data.type == "" && itemCount==1) {
                 deleteButton.visibility = View.GONE
-            } else {
+            } else{
                 deleteButton.visibility = View.VISIBLE
             }
 
@@ -107,9 +108,9 @@ class AddContactRecyclerAdapter(
 //                    index
 //                )
 
-                if (itemCount == 1 && count == 1) {
-                    count = 0
-                }
+//                if (itemCount == 1 && count == 1) {
+//                    count = 0
+//                }
 
                 listener.onDataChange(null, index)
             }
@@ -152,26 +153,6 @@ class AddContactRecyclerAdapter(
                     )
                 }
             }
-
-//            var timer = Timer()
-//            idEdittext.doAfterTextChanged {
-//                timer.cancel()
-//                timer = Timer()
-//
-//                timer.schedule(object : TimerTask() {
-//                    override fun run() {
-//                        data.account = it.toString()
-//                        listener.onDataChange(
-//                            data, index
-//                        )
-//                    }
-//                },
-//                    if (it!!.length <= 40)
-//                        UNDER_40_DELAY
-//                    else
-//                        OVER_40_DELAY
-//                )
-//            }
         }
     }
 
@@ -181,10 +162,10 @@ class AddContactRecyclerAdapter(
 
     private fun constructChannel(editText: EditText, assetUrl: String) {
         if (assetUrl == "")
-            editText.setCompoundDrawables(
+            editText.setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
-                editText.context.resources.getDrawable(R.drawable.ic_subdued, null),
+                editText.context.getDrawable(R.drawable.ic_subdued),
                 null
             )
         else

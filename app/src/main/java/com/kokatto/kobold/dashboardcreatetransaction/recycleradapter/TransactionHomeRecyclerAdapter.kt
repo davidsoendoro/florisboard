@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kokatto.kobold.R
@@ -15,7 +16,8 @@ import com.kokatto.kobold.utility.CurrencyUtility
 
 class TransactionHomeRecyclerAdapter(
     val dataList: ArrayList<TransactionModel> = arrayListOf(),
-    val onClick: OnClick
+    val onClick: OnClick,
+    val isStatusVisible: Boolean = false
 ) : RecyclerView.Adapter<TransactionHomeRecyclerAdapter.ViewHolder>() {
 
     interface OnClick {
@@ -40,6 +42,7 @@ class TransactionHomeRecyclerAdapter(
         private val phoneText = item.findTextViewId(R.id.phone_text)
         private val priceText = item.findTextViewId(R.id.total_price_text)
         private val dateText = item.findTextViewId(R.id.date_text)
+        private val statusText = item.findTextViewId(R.id.status_text)
         private val deliveryFeeText = item.findTextViewId(R.id.deliveryfee_text)
         private val channelImg = item.findViewById<ImageView>(R.id.media_img)
         private val bankImg = item.findViewById<ImageView>(R.id.bank_img)
@@ -60,6 +63,19 @@ class TransactionHomeRecyclerAdapter(
             priceText.text = CurrencyUtility.currencyFormatter(data.price)
 
             dateText.text = data.createdAt.toStringDate("dd MMM yyyy, HH:mm") + " WIB"
+
+            statusText.isVisible = isStatusVisible
+            statusText.text =
+                if (data.latestStatus == "PENDING") {
+                    "Belum diproses"
+                } else if (data.latestStatus == "PAID") {
+                    "Dibayar"
+                } else if (data.latestStatus == "SENT") {
+                    "Dikirim"
+                } else {
+                    ""
+                }
+
             deliveryFeeText.text = "Ongkir " + CurrencyUtility.parseValueToRbAbreviation(data.deliveryFee)
 
 
@@ -77,7 +93,7 @@ class TransactionHomeRecyclerAdapter(
                     Glide.with(this.itemView.context)
                         .load(asset)
                         .into(it)
-                    bankImg?.visibility = View.VISIBLE
+                    bankImg.visibility = View.VISIBLE
                 }
             }
 
@@ -86,7 +102,7 @@ class TransactionHomeRecyclerAdapter(
                     Glide.with(this.itemView.context)
                         .load(asset)
                         .into(it)
-                    logisticImg?.visibility = View.VISIBLE
+                    logisticImg.visibility = View.VISIBLE
                 }
             }
 

@@ -7,15 +7,20 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.model.request.PageName
+import com.kokatto.kobold.api.model.request.PageVisitTrackerRequest
 import com.kokatto.kobold.component.CommonViewPagerAdapter
 import com.kokatto.kobold.constant.ActivityConstantCode
 import com.kokatto.kobold.crm.ContactListActivity
 import com.kokatto.kobold.dashboardcheckshippingcost.CheckShippingcost
 import com.kokatto.kobold.dashboardcreatetransaction.CreateTransactionActivity
 import com.kokatto.kobold.databinding.ActivityDashboardBinding
+import com.kokatto.kobold.persistance.AppPersistence
 import com.kokatto.kobold.setting.HelpActivity
 import com.kokatto.kobold.setting.SettingActivity
 import com.kokatto.kobold.template.TemplateActivity
+import com.kokatto.kobold.tracker.viewmodel.TrackerViewModel
+import com.kokatto.kobold.utility.DateUtility
 import dev.patrickgold.florisboard.settings.SettingsMainActivity
 import dev.patrickgold.florisboard.setup.SetupActivity
 import dev.patrickgold.florisboard.util.checkIfImeIsSelected
@@ -33,10 +38,17 @@ class DashboardActivity : AppCompatActivity(), DashboardActivityListener {
     private var onboardingCompleted = false
     private var keyboardActivated = false
     private var totalFragments = 0
-
+    private lateinit var trackerViewModel: TrackerViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Timber.d("[PERSISTENCE] Dashboard last tracked: ${AppPersistence.dashboardLastTracked}")
+        Timber.d("[PERSISTENCE] Current date from date util: ${DateUtility.getCurrentDate()}")
+        if(AppPersistence.dashboardLastTracked != DateUtility.getCurrentDate()){
+            trackerViewModel = TrackerViewModel()
+            trackerViewModel.postPageVisitTracker(PageVisitTrackerRequest(PageName.DASHBOARD_OPEN))
+            AppPersistence.dashboardLastTracked = DateUtility.getCurrentDate()
+        }
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewPager = findViewById(R.id.kobold_DashboardWelcomeViewPager)
