@@ -1,13 +1,25 @@
 package com.kokatto.kobold.extension
 
+import android.R.attr
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import com.google.android.material.button.MaterialButton
 import com.kokatto.kobold.R
 import com.kokatto.kobold.uicomponent.KoboldEditText
+import dev.patrickgold.florisboard.ime.core.DELAY
+import java.util.*
+import android.R.attr.editable
+
+import android.text.SpannableStringBuilder
+
+
+
 
 fun View.setMargins(
     left: Int? = null,
@@ -63,3 +75,35 @@ fun MaterialButton.koboldSetEnabled(enabled: Boolean) {
 
     this.isEnabled = enabled
 }
+
+fun EditText.setPhoneNumberWatcher(){
+    val watcher = object : TextWatcher {
+
+        override fun beforeTextChanged(
+            s: CharSequence, start: Int, count: Int,
+            after: Int
+        ) {
+        }
+
+        override fun onTextChanged(
+            s: CharSequence, start: Int, before: Int,
+            count: Int
+        ) {
+        }
+
+        override fun afterTextChanged(s: Editable) {
+            s.phoneFormatter()
+        }
+    }
+
+    this.addTextChangedListener(watcher)
+}
+
+fun Editable.phoneFormatter(){
+    if (this.toString().contains("-")) {
+        val ab: Editable = SpannableStringBuilder(this.toString().replace("-", "").replace("(", "").replace(")", ""))
+        this.replace(0, this.length, ab)
+    }
+}
+
+

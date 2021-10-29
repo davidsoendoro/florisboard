@@ -68,7 +68,7 @@ fun getContactList(context: Context): ArrayList<ContactModel> {
             }
         }
     } catch (e: SecurityException) {
-
+        Timber.d(e)
     }
     contactList.forEach {
         it.phoneNumber = it.phoneNumber.replace("-", "").replace("(", "").replace(")","")

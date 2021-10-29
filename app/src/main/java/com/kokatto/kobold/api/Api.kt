@@ -25,6 +25,7 @@ import com.kokatto.kobold.api.model.response.GetPaginatedContactResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginationDeliveryAddressResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
+import com.kokatto.kobold.api.model.response.GetResponseContactResponse
 import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
@@ -308,7 +309,7 @@ interface ContactApi {
     @RequiredAuth
     @POST(contactUrl + "create")
     suspend fun postCreate(
-        @Body request: PostContactRequest): ApiResponse<BaseResponse>
+        @Body request: PostContactRequest): ApiResponse<GetResponseContactResponse>
 
 
     @RequiredAuth

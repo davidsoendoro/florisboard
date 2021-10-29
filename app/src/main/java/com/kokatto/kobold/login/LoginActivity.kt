@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.kokatto.kobold.R
 import com.kokatto.kobold.component.DashboardThemeActivity
@@ -30,6 +29,11 @@ import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.login.slider.SliderAdapter
 import com.kokatto.kobold.persistance.AppPersistence
+import android.accounts.Account
+
+import android.accounts.AccountManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 
 class LoginActivity : DashboardThemeActivity() {
@@ -39,6 +43,7 @@ class LoginActivity : DashboardThemeActivity() {
     private lateinit var uiBinding: ActivityLoginBinding
     private var authenticationViewModel: AuthenticationViewModel? = AuthenticationViewModel()
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         uiBinding = ActivityLoginBinding.inflate(layoutInflater)
@@ -106,6 +111,7 @@ class LoginActivity : DashboardThemeActivity() {
         uiBinding.edittextPhone.doAfterTextChanged {
             uiBinding.edittextPhoneTrigger.text  = it
         }
+
     }
 
     private fun setupIndicator() {
@@ -168,7 +174,8 @@ class LoginActivity : DashboardThemeActivity() {
         uiBinding.edittextPhone.hideKeyboard()
 
         authenticationViewModel?.requestOTP(
-            phone,
+            phone = phone,
+            account = getAccount(),
             onSuccess = {
                 val intent = Intent(this, OtpActivity::class.java)
                 intent.putExtra(ActivityConstantCode.EXTRA_DATA, phone)
@@ -237,5 +244,21 @@ class LoginActivity : DashboardThemeActivity() {
     override fun onResume() {
         super.onResume()
         validateApplicationToken()
+    }
+
+    fun getAccount(): String {
+        val manager = getSystemService(ACCOUNT_SERVICE) as AccountManager
+        val list = manager.accounts
+        var gmail: String = "unknown"
+
+        for (account in list) {
+            if (account.type.equals("com.google", ignoreCase = true)) {
+                gmail = account.name
+                break
+            }
+        }
+
+        return gmail
+
     }
 }

@@ -2,6 +2,7 @@ package com.kokatto.kobold.extension
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -73,5 +74,21 @@ fun Fragment.showSnackBar(
 ) {
     val snackbar = Snackbar.make(this.requireView(), message, duration)
     snackbar.setBackgroundTint(resources.getColor(backgroundColor))
+    snackbar.show()
+}
+
+fun Activity.showSnackBarWithButton(
+    message: String = "",
+    backgroundColor: Int = R.color.snackbar_default,
+    buttonText: String,
+    duration: Int = Snackbar.LENGTH_LONG,
+    callback: (Boolean) -> Unit
+){
+    val snackbar = Snackbar.make(this.window.decorView, message, duration)
+    snackbar.setBackgroundTint(resources.getColor(backgroundColor))
+    snackbar.setAction(buttonText){
+        callback.invoke(true)
+    }
+    snackbar.setActionTextColor(resources.getColor(R.color.toast_button_blue))
     snackbar.show()
 }

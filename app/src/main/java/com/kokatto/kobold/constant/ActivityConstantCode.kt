@@ -28,6 +28,11 @@ class ActivityConstantCode {
         val RESULT_RECEIVER = 112
         val RESULT_FAILED_SAVE = 113
 
+        val RESULT_ADD_CONTACT_SUCCESS = 114
+        val RESULT_ADD_CONTACT_FAILED = 115
+        val RESULT_EDIT_CONTACT_SUCCESS = 116
+        val RESULT_EDIT_CONTACT_FAILED = 117
+
         // Kirim Nota
         val BELUM_ADA = "Belum ada"
         val WHATSAPP = "WhatsApp"
