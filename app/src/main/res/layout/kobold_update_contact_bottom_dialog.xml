@@ -6,15 +6,16 @@
     android:background="@color/background"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/kobold_margin_16px"
-    >
+    android:padding="@dimen/kobold_margin_16px">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update kontak?"
-        style="@style/kobold_primaryLabel24spBold"/>
+        android:textColor="@color/text_primary"
+        android:textSize="24sp"
+        app:fontFamily="@font/inter_bold" />
 
     <TextView
         android:id="@+id/content"
@@ -22,45 +23,52 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/create_transaction_save_confirmation_content"
-        android:textColor="@color/text_primary" />
+        android:textColor="@color/text_secondary"
+        app:fontFamily="@font/inter_regular" />
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/contact_bottom_dialog_submit_button"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/contact_bottom_dialog_submit_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/kobold_margin_12px"
-            style="@style/buttonStatus"
-            android:backgroundTint="@color/kobold_blue_button"
-            android:elevation="0dp"
-            android:text="Update kontak"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/kobold_margin_16px"
-            />
-        <Button
-            android:id="@+id/contact_bottom_dialog_cancel_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorWhite"
-            android:text="Tidak dulu"
-            android:textAllCaps="false"
-            android:textColor="@color/textColorDark"
-            android:textSize="@dimen/kobold_margin_16px"
-            app:elevation="0dp"
-            app:strokeColor="@color/primary_50"/>
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/contact_bottom_dialog_never_show_dialog_checkbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/kobold_margin_16px"
-            android:text="@string/kobold_never_show_this_message_again"
-            />
-    </LinearLayout>
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/primary_50"
+        android:elevation="0dp"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="@dimen/kobold_margin_12px"
+        android:text="Update kontak"
+        android:textAllCaps="false"
+        android:textColor="@color/textColor"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:elevation="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/contact_bottom_dialog_cancel_button"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:backgroundTint="@color/colorWhite"
+        android:elevation="0dp"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="@dimen/kobold_margin_12px"
+        android:text="Tidak dulu"
+        android:textAllCaps="false"
+        android:textColor="@color/textColorDark"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:elevation="0dp"
+        app:strokeColor="@color/primary_50"
+        app:strokeWidth="1dp" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/contact_bottom_dialog_never_show_dialog_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/kobold_margin_16px"
+        android:buttonTint="@color/primary_90"
+        android:text="@string/kobold_never_show_this_message_again"
+        app:fontFamily="@font/inter_regular" />
 
 </LinearLayout>

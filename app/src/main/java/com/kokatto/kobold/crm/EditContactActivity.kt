@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.material.card.MaterialCardView
 import com.kokatto.kobold.R
 import com.kokatto.kobold.api.model.basemodel.ContactChannelModel
@@ -35,14 +36,12 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         uiBinding = ActivityAddContactBinding.inflate(layoutInflater).apply {
             setContentView(root)
         }
-
-//        buat mastiin kalo datalist yang dibuat kosong
+        isSaveButtonValid()
         dataList.clear()
         dataList.add(ContactChannelModel())
 
         uiBinding.addContactRecyclerView.adapter = adapter
         uiBinding.addContactRecyclerView.vertical()
-//        recyclerView.setHasFixedSize(true)
 
         uiBinding.titleText.text = "Edit kontak"
 
@@ -67,17 +66,23 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
                     id = it,
                     request = contactRequest,
                     onSuccess = {
-                        showSnackBar("Kontak berhasil diubah.")
+                        val intentResult = Intent()
+                        intentResult.putExtra("snackbarMessage", "Kontak berhasil diubah.")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_default)
+                        intentResult.putExtra("snackbarResult", "RESULT_OK")
+                        setResult(ActivityConstantCode.RESULT_EDIT_CONTACT_SUCCESS, intentResult)
+                        finish()
                     },
                     onError = {
-                        showSnackBar("Kontak gagal diubah, silakan coba lagi.", R.color.snackbar_error)
+                        val intentResult = Intent()
+                        intentResult.putExtra("snackbarMessage", "Kontak gagal diubah, silakan coba lagi.")
+                        intentResult.putExtra("snackbarBackground", R.color.snackbar_error)
+                        intentResult.putExtra("snackbarResult", "RESULT_CANCELED")
+                        setResult(ActivityConstantCode.RESULT_EDIT_CONTACT_FAILED, intentResult)
+                        finish()
                     }
                 )
             }
-            val i = Intent(this@EditContactActivity, ContactListActivity::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(i)
-            finish()
         }
 
         uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
@@ -89,9 +94,9 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 contactRequest.name = s.toString()
-                if(s.toString().length > 100){
+                if (s.toString().length > 100) {
                     uiBinding.edittextAddContactNameError.visibility = View.VISIBLE
-                }else{
+                } else {
                     uiBinding.edittextAddContactNameError.visibility = View.GONE
                 }
             }
@@ -138,20 +143,33 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     }
 
     override fun onDataChange(data: ContactChannelModel?, index: Int) {
-        if (data == null) {
-            dataList.removeAt(index)
-        } else {
-            if (data.type == "WhatsApp")
-                data.account = uiBinding.edittextAddContactPhone.text.toString()
+        try {
+            if (data == null) {
+                if (dataList.size <= 1) {
+                    dataList[0] = ContactChannelModel()
+                    adapter.notifyItemChanged(0)
+                } else {
+                    dataList.removeAt(index)
+                    adapter.notifyDataSetChanged()
+                    //adapter.notifyItemChanged(index)
+//                    adapter.notifyItemRemoved(index)
+                }
+            } else {
+                if (data.type == "WhatsApp" && data.account == "")
+                    data.account = uiBinding.edittextAddContactPhone.text.toString()
+
                 dataList[index] = data
-        }
 
-        if (dataList.isEmpty())
-            dataList.add(ContactChannelModel())
+                adapter.notifyItemChanged(index)
+            }
 
-        uiBinding.addContactRecyclerView.post {
-            adapter.notifyDataSetChanged()
+        } catch (e: Exception) {
+//            adapter.notifyDataSetChanged()
+
         }
+//        uiBinding.addContactRecyclerView.post {
+////            adapter.notifyDataSetChanged()
+//        }
     }
 
     override fun onBackPressed() {
@@ -159,7 +177,8 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
     }
 
     fun isSaveButtonValid(): Boolean {
-        var isInputValid = contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
+        var isInputValid =
+            contactRequest.phoneNumber != "" && uiBinding.edittextAddContactNameError.visibility == View.GONE
 
         if (isInputValid)
             uiBinding.submitButton.setCardBackgroundColor(resources.getColor(R.color.kobold_blue_button))
@@ -200,8 +219,11 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
         intent.getStringExtra(ActivityConstantCode.EXTRA_DATA)?.let {
             contactViewModel.findById(
                 id = it,
+                onLoading = {
+                    uiBinding.fullscreenLoading.isVisible = it
+                    uiBinding.scrollView.isVisible = it.not()
+                },
                 onSuccess = {
-                    //on data success loaded from backend
                     uiBinding.edittextAddContactName.setText(
                         if (it.name.isNullOrEmpty()) "-"
                         else it.name
@@ -214,19 +236,21 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
                     uiBinding.edittextAddContactEmail.setText(
                         if (it.email.isNullOrEmpty()) "-"
-                        else it.email)
+                        else it.email
+                    )
 
                     uiBinding.edittextAddContactAddress.setText(
                         if (it.address.isNullOrEmpty()) "-"
-                        else it.address)
+                        else it.address
+                    )
 
                     contactModel = it
 
-                    if(it.channels.isNullOrEmpty()) {
+                    if (it.channels.isNullOrEmpty()) {
                         dataList.clear()
                         dataList.add(ContactChannelModel())
                         adapter.notifyDataSetChanged()
-                    }else{
+                    } else {
                         dataList.clear()
                         dataList.addAll(it.channels)
                         adapter.notifyDataSetChanged()
@@ -234,7 +258,6 @@ class EditContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnIte
 
                 },
                 onError = {
-                    //on data error when loading from backend
                     showSnackBar(it)
                 }
             )

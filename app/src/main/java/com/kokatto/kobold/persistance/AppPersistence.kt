@@ -26,6 +26,16 @@ object AppPersistence {
         set(value) {
             thePrivate["refreshToken"] = value
         }
+    var keyboardLastTracked: String?
+        get() = thePrivate["keyboardLastTracked"]
+        set(value) {
+            thePrivate["keyboardLastTracked"] = value
+        }
+    var dashboardLastTracked: String?
+        get() = thePrivate["dashboardLastTracked"]
+        set(value) {
+            thePrivate["dashboardLastTracked"] = value
+        }
     var showContactUpdateMessage: Boolean
         get() = thePrivate["hideContactUpdateMessage"] ?: true
         set(value) {

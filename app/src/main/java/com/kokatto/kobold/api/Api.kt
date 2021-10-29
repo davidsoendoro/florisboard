@@ -4,6 +4,7 @@ import com.kokatto.kobold.api.annotation.RequiredAuth
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.api.model.basemodel.BankModel
 import com.kokatto.kobold.api.model.basemodel.TransactionModel
+import com.kokatto.kobold.api.model.request.PageVisitTrackerRequest
 import com.kokatto.kobold.api.model.request.PostBulkContactRequest
 import com.kokatto.kobold.api.model.request.PostContactRequest
 import com.kokatto.kobold.api.model.request.PostCreateMerchantRequest
@@ -24,6 +25,7 @@ import com.kokatto.kobold.api.model.response.GetPaginatedContactResponse
 import com.kokatto.kobold.api.model.response.GetPaginationBankResponse
 import com.kokatto.kobold.api.model.response.GetPaginationDeliveryAddressResponse
 import com.kokatto.kobold.api.model.response.GetPaginationTransactionResponse
+import com.kokatto.kobold.api.model.response.GetResponseContactResponse
 import com.kokatto.kobold.api.model.response.GetStandardPropertiesResponse
 import com.kokatto.kobold.api.model.response.GetStandartListAutoTextResponse
 import com.kokatto.kobold.api.model.response.GetTransactionResponse
@@ -307,7 +309,7 @@ interface ContactApi {
     @RequiredAuth
     @POST(contactUrl + "create")
     suspend fun postCreate(
-        @Body request: PostContactRequest): ApiResponse<BaseResponse>
+        @Body request: PostContactRequest): ApiResponse<GetResponseContactResponse>
 
 
     @RequiredAuth
@@ -333,5 +335,16 @@ interface ContactApi {
     suspend fun postUpdateByTransactionId(
         @Path("id") contactId: String,
         @Body request: PostUpdateContactByTransactionIdRequest
+    ): ApiResponse<BaseResponse>
+}
+
+
+private const val trackerApi: String = "api/v1/tracker/"
+
+interface TrackerApi {
+    @RequiredAuth
+    @POST(trackerApi + "page-visitation")
+    suspend fun postPageVisitTracker(
+        @Body request: PageVisitTrackerRequest
     ): ApiResponse<BaseResponse>
 }
