@@ -146,7 +146,7 @@ class DashboardMasterProfitActivity : DashboardThemeActivity() {
         tutorialViewModel.updateTutorialProgress(code,
             onSuccess = {
                 refreshProgress()
-                showToast("Selamat Jadi Cuan diKonekin")
+                showToast("Selamat Jadi Cuan di Koala")
             },
             onError = {
                 if (ErrorResponseValidator.isSessionExpiredResponse(it))

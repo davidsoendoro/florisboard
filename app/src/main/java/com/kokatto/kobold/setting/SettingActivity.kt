@@ -177,10 +177,10 @@ class SettingActivity : AppCompatActivity() {
                 action = Intent.ACTION_SEND
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "Yuk cobain Konekin, fitur dari Aplikasi yang bikin jualan online jadi lebih gampang. " +
-                        "\n\nSalah satu fitur Konekin, Keyboard Jualan bisa bikin pesanan, cek ongkir sampai bikin invoice langsung dari aplikasi chat favorit kamu. " +
-                        "\n\nTemukan Konekin di Play Store! " +
-                        "\n\nKonekin.id"
+                    "Yuk cobain Koala, fitur dari Aplikasi yang bikin jualan online jadi lebih gampang. " +
+                        "\n\nSalah satu fitur Koala, Keyboard Jualan bisa bikin pesanan, cek ongkir sampai bikin invoice langsung dari aplikasi chat favorit kamu. " +
+                        "\n\nTemukan Koala di Play Store! " +
+                        "\n\nKoalaapp.id"
                 )
                 type = "text/plain"
             }

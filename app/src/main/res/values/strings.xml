@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Kobold</string>
+    <string name="app_name" translatable="false">Koala</string>
 
     <string name="key__phone_pause" comment="Label for the Pause key in the telephone keyboard layout">Pause</string>
     <string name="key__phone_wait" comment="Label for the Wait key in the telephone keyboard layout">Wait</string>
@@ -423,7 +423,7 @@
 
     <!-- About UI strings -->
     <string name="about__title" comment="Title of About activity">About</string>
-    <string name="about__app_icon_content_description" comment="Content description of app icon in About">App icon of Kobold</string>
+    <string name="about__app_icon_content_description" comment="Content description of app icon in About">App icon of Koala</string>
     <string name="about__view_licenses" comment="Label of View licenses button in About">Open source licenses</string>
     <string name="about__view_privacy_policy" comment="Label of View privacy policy button in About">Privacy policy</string>
     <string name="about__view_source_code" comment="Label of View source code button in About">Source code</string>
@@ -475,8 +475,8 @@
     <string name="setup__welcome__contribute" comment="Paragraph in Welcome fragment in Setup">One last thing before you start the setup - if you encounter any bugs/crashes/issues with Kobold or you have a feature request - head over to the GitHub repository linked below and file an issue. This helps in improving the experience for all users!</string>
     <string name="setup__welcome__outro" comment="Paragraph in Welcome fragment in Setup">To start the setup, click on <i>NEXT</i>.</string>
 
-    <string name="setup__enable_ime__title" comment="Title of Enable IME fragment in Setup">Enable Kobold</string>
-    <string name="setup__enable_ime__text_before_enabled" comment="Description of state in Enable IME fragment before user enabled">Android requires that every custom keyboard has to be manually enabled before you can use it. Click the button below to go to the <i>Language &amp; Input</i> settings, then make sure to check \'<i>Kobold</i>\'.</string>
+    <string name="setup__enable_ime__title" comment="Title of Enable IME fragment in Setup">Enable Koala</string>
+    <string name="setup__enable_ime__text_before_enabled" comment="Description of state in Enable IME fragment before user enabled">Android requires that every custom keyboard has to be manually enabled before you can use it. Click the button below to go to the <i>Language &amp; Input</i> settings, then make sure to check \'<i>Koala</i>\'.</string>
     <string name="setup__enable_ime__text_after_enabled" comment="Description of state in Enable IME fragment after user enabled">Kobold has been successfully enabled. To continue click <i>NEXT</i>!</string>
     <string name="setup__enable_ime__text_button_language_and_input" comment="Label of language and input button in Enable IME fragment">Open Language &amp; Input settings</string>
 
@@ -580,7 +580,7 @@
     <string name="kobold_template_dialog_exit_edit_action_confirm">Ya, tidak jadi</string>
     <string name="kobold_template_dialog_exit_edit_action_cancel">Nanti saja</string>
 
-    <string name="kobold_welcome_title">Selamat Datang di EazyKey</string>
+    <string name="kobold_welcome_title">Selamat Datang di Koala</string>
     <string name="kobold_welcome_desc">Jualan online di aplikasi chat favorit jadi gampang dan cepat</string>
     <string name="kobold_welcome_feature1_title">1 keyboard banyak kelebihan</string>
     <string name="kobold_welcome_feature1_desc">Buat transaksi, cek ongkir, ngetik balasan otomatis dan banyak lainnya di keyboard langsung.</string>
@@ -767,13 +767,13 @@
     <string name="kobold_shipping_empty_desc">Cari lokasi daerahmu agar ongkos kirim bisa di\nestimasi.</string>
 
 
-    <string name="kobold_intro_term">Dengan masuk dan daftar, kamu menyetujui <u>syarat dan \nketentuan</u> Konekin.</string>
-    <string name="kobold_into_slide1_title">Selamat Datang di Konekin!</string>
+    <string name="kobold_intro_term">Dengan masuk dan daftar, kamu menyetujui <u>syarat dan \nketentuan</u> Koala.</string>
+    <string name="kobold_into_slide1_title">Selamat Datang di Koala!</string>
     <string name="kobold_into_slide1_desc">Aplikasi gratis dengan segudang fitur \nyang bikin jualan online mu jadi lebih mudah.</string>
     <string name="kobold_into_slide2_title">Jualan Online langsung di chat</string>
     <string name="kobold_into_slide2_desc">Kelola pembeli, bikin transaksi, kirim resi \npembayaran bisa sambil ngobrol tanpa pindah \naplikasi.</string>
     <string name="kobold_into_slide3_title">Alat tempur jualan online untuk siapapun</string>
-    <string name="kobold_into_slide3_desc">Semua fitur di Konekin dirancang untuk \nmemudahkan jualan online siapa saja, \npedagang besar, warung, perintis, semuanya!</string>
+    <string name="kobold_into_slide3_desc">Semua fitur di Koala dirancang untuk \nmemudahkan jualan online siapa saja, \npedagang besar, warung, perintis, semuanya!</string>
 
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="kobold_dashboard_manage_sales">Kelola Jualan</string>
@@ -794,7 +794,7 @@
     <string name="kobold_dashboard_support_header">Ada yang mau ditanyakan?</string>
     <string name="kobold_help_center">Pusat Bantuan</string>
     <string name="kobold_contact_cs">Hubungi CS</string>
-    <string name="kobold_welcome_to_konekin">Selamat datang di Konekin</string>
+    <string name="kobold_welcome_to_konekin">Selamat datang di Koala</string>
     <string name="kobold_welcome_to_konekin_detail">Yuk jadi ahli cuan dengan pelajari semua fitur supaya jualanmu makin maksimal!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -831,7 +831,7 @@
     <string name="kobold_activate_magical_keyboard_header">Aktifin keyboard ajaib biar bisa nikmati jualan online, modal aplikasi chat aja.</string>
     <string name="kobold_dashboard_manage_transaction">Atur Transaksi</string>
     <string name="kobold_setting_share_title">Kasih tahu yang lain yuk!</string>
-    <string name="kobold_setting_share_detail">Share ke teman-teman yang lain kalau sekarang ada Konekin yang bikin jualan online jadi makin gampang.</string>
+    <string name="kobold_setting_share_detail">Share ke teman-teman yang lain kalau sekarang ada Koala yang bikin jualan online jadi makin gampang.</string>
     <string name="kobold_setting_store_number">0817214412314</string>
     <string name="kobold_setting_store_name">Buku Online Shop</string>
     <string name="kobold_setting_bank_account">Rekening Bank</string>
@@ -841,7 +841,7 @@
     <string name="kobold_setting_log_out">Keluar Aplikasi</string>
     <string name="kobold_setting_toolbar_title">Pengaturan</string>
     <string name="kobold_store_profile_toolbar_title">Profil Toko</string>
-    <string name="kobold_logout_confirm_title">Keluar dari Konekin?</string>
+    <string name="kobold_logout_confirm_title">Keluar dari Koala?</string>
     <string name="kobold_logout_confirm_desc">Kamu bisa masuk lagi kapan aja agar jualan onlinemu makin mudah.</string>
     <string name="kobold_transaction_exit_button_yes">Keluar dari aplikasi</string>
     <string name="kobold_transaction_exit_button_no">Nanti saja</string>
@@ -863,8 +863,8 @@
     <string name="kobold_add_contact">Tambah Kontak</string>
     <string name="kobold_menu_template_data_unavailable_title">Belum ada Template Chat</string>
     <string name="kobold_menu_template_data_unavailable_content">Daftar template pesan akan muncul di sini</string>
-    <string name="kobold_confirm_share_title">Konekin andalan penjual online!</string>
-    <string name="kobold_confirm_share_desc">Yuk beri tau yang lain kalau sekarang ada Konekin yang bisa bikin jualan jadi lebih gampang.</string>
+    <string name="kobold_confirm_share_title">Koala andalan penjual online!</string>
+    <string name="kobold_confirm_share_desc">Yuk beri tau yang lain kalau sekarang ada Koala yang bisa bikin jualan jadi lebih gampang.</string>
     <string name="kobold_confirm_share_btn">Bagikan</string>
     <string name="template_error_save_title">Terjadi kesalahan</string>
     <string name="template_error_save_desc">Sistem kami gagal memuat template yang \nsudah kamu simpan. Silakan coba lagi ya.</string>
