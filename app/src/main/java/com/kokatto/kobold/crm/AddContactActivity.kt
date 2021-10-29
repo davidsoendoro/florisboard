@@ -87,7 +87,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
             )
         }
 
-        uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatche r {
+        uiBinding.edittextAddContactName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 isSaveButtonValid()
             }
