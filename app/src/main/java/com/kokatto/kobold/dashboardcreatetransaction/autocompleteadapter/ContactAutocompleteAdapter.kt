@@ -75,11 +75,11 @@ class ContactAutocompleteAdapter(context: Context, contactList: List<ContactMode
         contact?.let {
             nameTextView.text = contact.name
             phoneTextView.text = contact.phoneNumber
-            if(it.isFromBackend){
-                view.setBackgroundColor(context.getColor(R.color.kobold_yellow_fff2e0))
-            } else {
-                view.setBackgroundColor(context.getColor(R.color.colorWhite))
-            }
+//            if(it.isFromBackend){
+//                view.setBackgroundColor(context.getColor(R.color.kobold_yellow_fff2e0))
+//            } else {
+            view.setBackgroundColor(context.getColor(R.color.colorWhite))
+//            }
         }
 
         return view

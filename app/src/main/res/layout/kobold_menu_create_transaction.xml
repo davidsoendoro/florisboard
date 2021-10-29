@@ -61,16 +61,35 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <com.kokatto.kobold.uicomponent.KoboldEditText
-                android:id="@+id/kobold_transaction_buyer_name"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="@dimen/kobold_margin_8px"
-                android:imeOptions="actionDone"
-                android:inputType="textCapSentences"
-                app:label="@string/kobold_transaction_buyer_name"
-                app:isAutofill="true"
-                app:maxAllowedCharacters="50" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/kobold_margin_8px">
+
+                <com.kokatto.kobold.uicomponent.KoboldEditText
+                    android:id="@+id/kobold_transaction_buyer_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    app:isAutofill="true"
+                    app:label="@string/kobold_transaction_buyer_name"
+                    app:maxAllowedCharacters="50" />
+
+                <TextView
+                    android:id="@+id/impor_kontak_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="12dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center"
+                    android:text="Impor kontak"
+                    android:textColor="@color/text_ink01"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/inter_bold" />
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -193,10 +212,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/kobold_item_42px"
-                android:textColor="@color/text_secondary"
                 android:gravity="center"
-                android:textSize="10sp"
-                android:text="Harga Barang dan Metode pembayaran wajib diisi." />
+                android:text="Harga Barang dan Metode pembayaran wajib diisi."
+                android:textColor="@color/text_secondary"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
