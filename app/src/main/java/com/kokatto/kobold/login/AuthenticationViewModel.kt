@@ -20,6 +20,7 @@ class AuthenticationViewModel {
     fun requestOTP(
         phone: String,
         media: String = "wa",
+        account: String = "unknown",
         onSuccess: (BaseResponse) -> Unit,
         onError: (String) -> Unit
     ) {
