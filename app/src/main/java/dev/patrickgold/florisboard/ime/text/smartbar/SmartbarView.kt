@@ -30,11 +30,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.kokatto.kobold.R
+import com.kokatto.kobold.api.Network
 import com.kokatto.kobold.api.model.basemodel.AutoTextModel
 import com.kokatto.kobold.databinding.SmartbarBinding
 import com.kokatto.kobold.extension.horizontal
 import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.template.recycleradapter.InlineChatTemplateRecyclerAdapter
+import com.skydoves.sandwich.onSuccess
 import dev.patrickgold.florisboard.debug.LogTopic
 import dev.patrickgold.florisboard.debug.flogDebug
 import dev.patrickgold.florisboard.debug.flogInfo
@@ -196,6 +198,27 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
 
     private fun getChatTemplateList(query: String): List<AutoTextModel>? {
         var chatTemplateList = AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList(query)
+
+        // Check if template list is empty - then try to get from server
+        chatTemplateList?.let { _chatTemplateList ->
+            mainScope.launch {
+                if (_chatTemplateList.isEmpty()) {
+                    val page = 0
+                    val pageSize = 10
+                    val search = ""
+                    val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize, search)
+                    response.onSuccess {
+                        val data = this.data
+                        data.data.contents.forEach { item ->
+                            AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
+                        }
+
+                        updateCandidateSuggestion(query)
+                    }
+                }
+            }
+        }
+
         if (chatTemplateList != null && chatTemplateList.size > 5) {
             chatTemplateList = chatTemplateList.subList(0, 5)
         }

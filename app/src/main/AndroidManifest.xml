@@ -223,9 +223,7 @@
             android:name=".setting.SettingProfilTokoActivity"
             android:exported="true" />
         <activity android:name=".setting.HelpActivity" />
-
         <activity android:name=".crm.AddContactActivity"/>
-
         <activity android:name=".crm.EditContactActivity"
             android:label="EditContact"/>
 

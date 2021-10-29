@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Filter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -45,6 +46,7 @@ import dev.patrickgold.florisboard.ime.core.DELAY
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
+import timber.log.Timber
 import java.util.*
 
 class KeyboardCreateTransaction : ConstraintLayout {
@@ -119,22 +121,6 @@ class KeyboardCreateTransaction : ConstraintLayout {
         shippingCostText = findKoboldEditTextId(R.id.kobold_transaction_shippingcost)
         backButton = findViewById(R.id.back_button)
         createTransactionButton = findViewById(R.id.create_transaction_button)
-
-        val keyboardViewFlipper =
-            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
-        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
-        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
-
-        recyclerAdapter = BuyerNameRecyclerAdapter(dataList)
-        recyclerView?.vertical()
-        recyclerView?.adapter = recyclerAdapter
-
-        recyclerAdapter?.onItemClick = {
-//            shippingCost.senderAddress = it
-            buyerNameText?.editText?.text = it.name
-            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
-            invalidateSaveButton()
-        }
 
         koboldExpandView = findViewById(R.id.kobold_createtransaction_expand_view)
         koboldExpandView?.setOnClickListener {
@@ -415,10 +401,39 @@ class KeyboardCreateTransaction : ConstraintLayout {
         shippingCostText?.editText?.text = ""
     }
 
+    fun prepareContactAutofill() {
+
+        val keyboardViewFlipper =
+            florisboard?.uiBinding?.mainViewFlipper?.findViewById<FlorisViewFlipper>(R.id.kobold_keyboard_flipper)
+        recyclerView = keyboardViewFlipper?.findViewById(R.id.autofill_options_recycler_view)
+        fullscreenLoading = keyboardViewFlipper?.findViewById(R.id.autofill_options_loader)
+
+        recyclerAdapter = BuyerNameRecyclerAdapter(dataList, context)
+        recyclerView?.vertical()
+        recyclerView?.adapter = recyclerAdapter
+
+        recyclerAdapter?.onItemClick = {
+//            shippingCost.senderAddress = it
+            buyerNameText?.editText?.text = it.name
+            addressText?.editText?.text = it.address
+            if(it.channels.isEmpty()){
+                chooseChannelText?.editText?.text = "WhatsApp"
+                phoneNumberText?.editText?.text = it.phoneNumber
+            } else {
+                chooseChannelText?.editText?.text = it.channels[0].type
+                phoneNumberText?.editText?.text = it.channels[0].account
+            }
+            florisboard?.setActiveInput(R.id.kobold_menu_create_transaction)
+            invalidateSaveButton()
+        }
+    }
+
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
 
         if (changedView == this && visibility == View.VISIBLE) {
+
+            prepareContactAutofill()
 
             pickChannelOptions.clear()
             transactionViewModel?.getStandardListProperties(
@@ -551,29 +566,30 @@ class KeyboardCreateTransaction : ConstraintLayout {
         if (previousSize > 0) {
             recyclerAdapter?.notifyItemRangeRemoved(0, previousSize)
         }
+        contactViewModel?.getPaginated(1,10, "", search, {}, {
+            val contacts = it.data.contents
+            contacts.map { contact ->
+                contact.isFromBackend = true
+            }
+            dataList.addAll(contacts)
+            Timber.d("Adding contacts: $contacts")
+            recyclerAdapter?.notifyItemInserted(dataList.size)
+        }, {
 
+        })
+
+        val contactList = getContactList(context)
         dataList.addAll(
-            getContactList(context)
-//                .filter {
-//                it.name.contains(search)
-//            }.distinctBy {
-//                it.name
-//            }.distinctBy {
-//                it.phoneNumber
-//            }
+            contactList
+                .filter {
+                it.name.contains(search)
+            }.distinctBy {
+                it.name
+            }.distinctBy {
+                it.phoneNumber
+            }
         )
         recyclerAdapter?.notifyItemInserted(dataList.size)
-
-        dataList.filter {
-            it.name.contains(buyerNameText?.editText?.text.toString())
-        }.distinctBy {
-            it.name
-        }.distinctBy {
-            it.phoneNumber
-        }.forEach {
-            Log.e("test", it.name)
-        }
-        recyclerAdapter?.notifyDataSetChanged()
     }
 
 //    @Deprecated("use transaction model instead")

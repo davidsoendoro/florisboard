@@ -23,7 +23,7 @@ abstract class AutoTextDatabase : RoomDatabase() {
         fun getInstance(context: Context): AutoTextDatabase? {
             if (INSTANCE == null) {
 //                synchronized(AutoTextDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                    INSTANCE = Room.databaseBuilder(context.applicationContext,
                         AutoTextDatabase::class.java, "autotext.db")
                         .allowMainThreadQueries()
                         .build()

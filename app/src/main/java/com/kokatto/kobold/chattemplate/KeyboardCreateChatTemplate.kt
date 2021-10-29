@@ -13,6 +13,7 @@ import com.kokatto.kobold.editor.SpinnerEditorItem
 import com.kokatto.kobold.extension.koboldSetEnabled
 import com.kokatto.kobold.extension.showSnackBar
 import com.kokatto.kobold.extension.showToast
+import com.kokatto.kobold.roomdb.AutoTextDatabase
 import com.kokatto.kobold.uicomponent.KoboldEditText
 import dev.patrickgold.florisboard.ime.core.FlorisBoard
 import dev.patrickgold.florisboard.ime.text.key.KeyCode
@@ -125,6 +126,8 @@ class KeyboardCreateChatTemplate : ConstraintLayout {
             chatTemplateViewModel?.createChatTemplate(
                 model,
                 onSuccess = {
+                    AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(model)
+
                     florisboard?.activeEditorInstance?.activeEditText = null
 
                     showSnackBar("Template berhasil dibuat.")

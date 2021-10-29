@@ -3,6 +3,7 @@ package com.kokatto.kobold.crm
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import com.kokatto.kobold.crm.adapter.AddContactRecyclerAdapter
 import com.kokatto.kobold.dashboardcreatetransaction.InputActivity
 import com.kokatto.kobold.databinding.ActivityAddContactBinding
 import com.kokatto.kobold.extension.createBottomSheetDialog
+import com.kokatto.kobold.extension.phoneFormatter
 import com.kokatto.kobold.extension.showToast
 import com.kokatto.kobold.extension.vertical
 
@@ -106,6 +108,7 @@ class AddContactActivity : AppCompatActivity(), AddContactRecyclerAdapter.OnItem
         uiBinding.edittextAddContactPhone.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 isSaveButtonValid()
+                s?.phoneFormatter()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
