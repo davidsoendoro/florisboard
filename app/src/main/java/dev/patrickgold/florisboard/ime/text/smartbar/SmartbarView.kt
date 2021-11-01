@@ -200,24 +200,24 @@ class SmartbarView : ConstraintLayout, KeyboardState.OnUpdateStateListener, Them
         var chatTemplateList = AutoTextDatabase.getInstance(context)?.autoTextDao()?.getAutoTextList(query)
 
         // Check if template list is empty - then try to get from server
-        chatTemplateList?.let { _chatTemplateList ->
-            mainScope.launch {
-                if (_chatTemplateList.isEmpty()) {
-                    val page = 0
-                    val pageSize = 10
-                    val search = ""
-                    val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize, search)
-                    response.onSuccess {
-                        val data = this.data
-                        data.data.contents.forEach { item ->
-                            AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
-                        }
-
-                        updateCandidateSuggestion(query)
-                    }
-                }
-            }
-        }
+//        chatTemplateList?.let { _chatTemplateList ->
+//            mainScope.launch {
+//                if (_chatTemplateList.isEmpty()) {
+//                    val page = 0
+//                    val pageSize = 10
+//                    val search = ""
+//                    val response = Network.chatTemplateApi.getPaginatedChatTemplateList(page, pageSize, search)
+//                    response.onSuccess {
+//                        val data = this.data
+//                        data.data.contents.forEach { item ->
+//                            AutoTextDatabase.getInstance(context)?.autoTextDao()?.insertAutoText(item)
+//                        }
+//
+//                        updateCandidateSuggestion(query)
+//                    }
+//                }
+//            }
+//        }
 
         if (chatTemplateList != null && chatTemplateList.size > 5) {
             chatTemplateList = chatTemplateList.subList(0, 5)
